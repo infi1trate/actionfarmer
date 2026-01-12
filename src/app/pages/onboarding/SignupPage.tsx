@@ -24,7 +24,7 @@ export function SignupPage() {
     await new Promise(resolve => setTimeout(resolve, 1000));
     
     setIsLoading(false);
-    navigate("/onboarding/setup");
+    navigate("/app");
   };
 
   const handleSignIn = () => {

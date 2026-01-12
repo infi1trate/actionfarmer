@@ -1,8 +1,9 @@
 export { AppLayout } from "./AppLayout";
 export { HomePage } from "./pages/HomePage";
-export { ActivityPage } from "./pages/ActivityPage";
-export { WalletPage } from "./pages/WalletPage";
-export { ProfilePage } from "./pages/ProfilePage";
+export { PlayPage } from "./pages/PlayPage";
+export { EarningsPage } from "./pages/EarningsPage";
+export { InsightsPage } from "./pages/InsightsPage";
+export { SettingsPage } from "./pages/SettingsPage";
 export { WelcomePage } from "./pages/onboarding/WelcomePage";
 export { SignupPage } from "./pages/onboarding/SignupPage";
 export { SigninPage } from "./pages/onboarding/SigninPage";

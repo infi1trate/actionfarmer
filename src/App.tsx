@@ -22,9 +22,10 @@ import Accessibility from "./pages/Accessibility";
 import {
   AppLayout,
   HomePage,
-  ActivityPage,
-  WalletPage,
-  ProfilePage,
+  PlayPage,
+  EarningsPage,
+  InsightsPage,
+  SettingsPage,
   WelcomePage,
   SignupPage,
   SigninPage,
@@ -54,9 +55,10 @@ const App = () => (
               {/* Main App */}
               <Route path="/app" element={<AppLayout />}>
                 <Route index element={<HomePage />} />
-                <Route path="activity" element={<ActivityPage />} />
-                <Route path="wallet" element={<WalletPage />} />
-                <Route path="profile" element={<ProfilePage />} />
+                <Route path="play" element={<PlayPage />} />
+                <Route path="earnings" element={<EarningsPage />} />
+                <Route path="insights" element={<InsightsPage />} />
+                <Route path="settings" element={<SettingsPage />} />
               </Route>
               
               {/* Design System Hub */}
