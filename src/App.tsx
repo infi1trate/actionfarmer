@@ -37,6 +37,7 @@ import {
   ZoneSelectionPage,
   ScheduleSelectionPage,
   ModeSelectionPage,
+  AmbientModePage,
 } from "./app";
 
 import {
@@ -71,6 +72,9 @@ const App = () => (
               <Route path="/onboarding/zones" element={<ZoneSelectionPage />} />
               <Route path="/onboarding/schedule" element={<ScheduleSelectionPage />} />
               <Route path="/onboarding/modes" element={<ModeSelectionPage />} />
+              
+              {/* Ambient Mode */}
+              <Route path="/ambient" element={<AmbientModePage />} />
               
               {/* Session Flow */}
               <Route path="/session/complete" element={<SessionCompletedPage />} />
