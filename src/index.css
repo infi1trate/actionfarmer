@@ -221,65 +221,65 @@
   }
 
   .dark {
-    /* === BRAND YELLOW === */
-    --brand-yellow: 48 96% 55%;
-    --brand-yellow-hover: 48 96% 62%;
-    --brand-yellow-active: 48 96% 50%;
-    --brand-yellow-soft: 48 40% 12%;
-    --brand-yellow-foreground: 30 20% 8%;
+    /* === BRAND YELLOW (vibrant in dark mode) === */
+    --brand-yellow: 48 100% 58%;
+    --brand-yellow-hover: 48 100% 65%;
+    --brand-yellow-active: 48 100% 52%;
+    --brand-yellow-soft: 48 50% 12%;
+    --brand-yellow-foreground: 30 25% 6%;
     
-    /* === NEUTRALS === */
-    --bg: 30 12% 7%;
-    --surface: 30 10% 10%;
-    --surface-2: 30 8% 13%;
-    --surface-3: 30 8% 16%;
-    --text: 40 15% 96%;
-    --text-2: 40 8% 65%;
-    --text-3: 40 5% 48%;
-    --border: 30 8% 18%;
-    --border-2: 30 8% 24%;
-    --overlay: 0 0% 0% / 0.75;
+    /* === NEUTRALS (deep, warm, not pure black) === */
+    --bg: 30 15% 6%;
+    --surface: 30 12% 9%;
+    --surface-2: 30 10% 12%;
+    --surface-3: 30 8% 15%;
+    --text: 40 20% 98%;
+    --text-2: 40 10% 70%;
+    --text-3: 40 6% 52%;
+    --border: 30 10% 16%;
+    --border-2: 30 10% 22%;
+    --overlay: 0 0% 0% / 0.8;
     
-    /* === ACCENTS - SUCCESS (Mint-leaning) === */
-    --success: 160 55% 48%;
-    --success-hover: 160 55% 55%;
-    --success-active: 160 55% 42%;
-    --success-soft: 160 35% 14%;
-    --success-foreground: 30 20% 8%;
-    --success-text: 160 50% 70%;
+    /* === ACCENTS - SUCCESS (Mint-leaning, high contrast) === */
+    --success: 160 60% 50%;
+    --success-hover: 160 60% 58%;
+    --success-active: 160 60% 44%;
+    --success-soft: 160 40% 12%;
+    --success-foreground: 30 25% 6%;
+    --success-text: 160 55% 65%;
     
-    /* === ACCENTS - INFO (Blue) === */
-    --info: 210 80% 60%;
-    --info-hover: 210 80% 68%;
-    --info-active: 210 80% 52%;
-    --info-soft: 210 45% 14%;
-    --info-foreground: 30 20% 8%;
-    --info-text: 210 75% 72%;
+    /* === ACCENTS - INFO (Blue, high contrast) === */
+    --info: 210 85% 62%;
+    --info-hover: 210 85% 70%;
+    --info-active: 210 85% 54%;
+    --info-soft: 210 50% 12%;
+    --info-foreground: 30 25% 6%;
+    --info-text: 210 80% 72%;
     
     /* === ACCENTS - WARNING (Amber/Orange) === */
-    --warning: 25 90% 55%;
-    --warning-hover: 25 90% 62%;
-    --warning-active: 25 90% 48%;
-    --warning-soft: 25 45% 14%;
-    --warning-foreground: 30 20% 8%;
-    --warning-text: 25 85% 68%;
+    --warning: 28 92% 58%;
+    --warning-hover: 28 92% 65%;
+    --warning-active: 28 92% 50%;
+    --warning-soft: 28 50% 12%;
+    --warning-foreground: 30 25% 6%;
+    --warning-text: 28 88% 68%;
     
-    /* === ACCENTS - DANGER (Coral/Red) === */
-    --danger: 4 75% 62%;
-    --danger-hover: 4 75% 70%;
-    --danger-active: 4 75% 55%;
-    --danger-soft: 4 45% 14%;
+    /* === ACCENTS - DANGER (Coral/Red, high contrast) === */
+    --danger: 4 80% 65%;
+    --danger-hover: 4 80% 72%;
+    --danger-active: 4 80% 58%;
+    --danger-soft: 4 50% 12%;
     --danger-foreground: 0 0% 100%;
-    --danger-text: 4 70% 75%;
+    --danger-text: 4 75% 75%;
     
     /* === STATE COLORS === */
-    --state-hover: 30 8% 16%;
-    --state-active: 30 10% 20%;
-    --state-disabled-bg: 30 6% 14%;
-    --state-disabled-text: 40 5% 38%;
-    --state-disabled-border: 30 6% 20%;
-    --state-focus-ring: 48 96% 55%;
-    --state-focus-ring-offset: 30 12% 7%;
+    --state-hover: 30 10% 14%;
+    --state-active: 30 12% 18%;
+    --state-disabled-bg: 30 8% 12%;
+    --state-disabled-text: 40 6% 40%;
+    --state-disabled-border: 30 8% 18%;
+    --state-focus-ring: 48 100% 58%;
+    --state-focus-ring-offset: 30 15% 6%;
     
     /* === SHADCN COMPATIBILITY === */
     --background: var(--bg);
@@ -287,7 +287,7 @@
     --card: var(--surface);
     --card-foreground: var(--text);
     --card-hover: var(--surface-2);
-    --popover: var(--surface);
+    --popover: var(--surface-2);
     --popover-foreground: var(--text);
     --primary: var(--brand-yellow);
     --primary-foreground: var(--brand-yellow-foreground);
@@ -302,13 +302,13 @@
     --input: var(--surface-2);
     --ring: var(--state-focus-ring);
     
-    /* === SHADOWS (dark mode) === */
-    --shadow-xs: 0 1px 2px 0 hsl(0 0% 0% / 0.15);
-    --shadow-sm: 0 1px 3px 0 hsl(0 0% 0% / 0.25), 0 1px 2px -1px hsl(0 0% 0% / 0.2);
-    --shadow: 0 4px 6px -1px hsl(0 0% 0% / 0.3), 0 2px 4px -2px hsl(0 0% 0% / 0.25);
-    --shadow-md: 0 10px 15px -3px hsl(0 0% 0% / 0.4), 0 4px 6px -4px hsl(0 0% 0% / 0.3);
-    --shadow-lg: 0 20px 25px -5px hsl(0 0% 0% / 0.5), 0 8px 10px -6px hsl(0 0% 0% / 0.4);
-    --shadow-glow: 0 0 24px hsl(48 96% 55% / 0.3);
+    /* === SHADOWS (dark mode - subtle glow) === */
+    --shadow-xs: 0 1px 2px 0 hsl(0 0% 0% / 0.2);
+    --shadow-sm: 0 1px 3px 0 hsl(0 0% 0% / 0.3), 0 1px 2px -1px hsl(0 0% 0% / 0.25);
+    --shadow: 0 4px 6px -1px hsl(0 0% 0% / 0.35), 0 2px 4px -2px hsl(0 0% 0% / 0.3);
+    --shadow-md: 0 10px 15px -3px hsl(0 0% 0% / 0.45), 0 4px 6px -4px hsl(0 0% 0% / 0.35);
+    --shadow-lg: 0 20px 25px -5px hsl(0 0% 0% / 0.55), 0 8px 10px -6px hsl(0 0% 0% / 0.45);
+    --shadow-glow: 0 0 28px hsl(48 100% 58% / 0.25);
     
     /* === SIDEBAR === */
     --sidebar-background: var(--surface);
@@ -331,7 +331,7 @@
     --surface-overlay: var(--surface-3);
     --foreground-secondary: var(--text-2);
     --foreground-muted: var(--text-3);
-    --foreground-inverted: 30 12% 7%;
+    --foreground-inverted: 30 15% 6%;
     --border-strong: var(--border-2);
     --border-focus: var(--state-focus-ring);
     --input-hover: var(--state-hover);
