@@ -28,7 +28,17 @@ import {
   Shield,
   Gift,
   Cpu,
-  MoreHorizontal
+  MoreHorizontal,
+  TrendingUp,
+  TrendingDown,
+  DollarSign,
+  Activity,
+  Clock,
+  Wifi,
+  WifiOff,
+  FileText,
+  Package,
+  Inbox
 } from "lucide-react";
 import { Button, ButtonGroup } from "@/components/ui/button";
 import { AlignLeft, AlignCenter, AlignRight, Grid, List, LayoutGrid } from "lucide-react";
@@ -64,6 +74,11 @@ import {
 } from "@/components/ui/side-sheet";
 import { Breadcrumbs } from "@/components/ui/breadcrumb";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { StatCard, StatCardCompact } from "@/components/ui/stat-card";
+import { List as ListContainer, ListRow, ListSectionHeader } from "@/components/ui/list-row";
+import { Divider } from "@/components/ui/divider";
+import { EmptyState, EmptyStateInline } from "@/components/ui/empty-state";
+import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell, TableEmpty } from "@/components/ui/table";
 
 const DesignSystem = () => {
   const [progressValue, setProgressValue] = useState(65);
@@ -1260,6 +1275,385 @@ const DesignSystem = () => {
                 </TabsList>
               </Tabs>
             </ComponentShowcase>
+          </div>
+        </section>
+
+        {/* Content Primitives Section */}
+        <section className="space-y-8">
+          <div>
+            <h2 className="font-display text-2xl font-bold mb-2">Content Primitives</h2>
+            <p className="text-muted-foreground">Building blocks for displaying content: cards, stats, lists, and tables.</p>
+          </div>
+
+          {/* StatCard */}
+          <div className="space-y-6">
+            <h3 className="font-display text-xl font-semibold">Stat Card</h3>
+            
+            <ComponentShowcase title="Standard Stat Cards" className="block">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <StatCard
+                  label="Total Earnings"
+                  value="$12,450"
+                  delta={{ value: "+12.5%", type: "increase", label: "vs last month" }}
+                  icon={DollarSign}
+                />
+                <StatCard
+                  label="Active Devices"
+                  value="24"
+                  delta={{ value: "+3", type: "increase", label: "this week" }}
+                  icon={Cpu}
+                  variant="brand"
+                />
+                <StatCard
+                  label="Uptime"
+                  value="99.8%"
+                  delta={{ value: "-0.2%", type: "decrease", label: "vs target" }}
+                  icon={Activity}
+                />
+                <StatCard
+                  label="Pending Rewards"
+                  value="$842"
+                  delta={{ value: "Processing", type: "neutral" }}
+                  icon={Clock}
+                />
+              </div>
+            </ComponentShowcase>
+
+            <ComponentShowcase title="Variants">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 w-full">
+                <StatCard label="Default" value="1,234" variant="default" />
+                <StatCard label="Elevated" value="5,678" variant="elevated" />
+                <StatCard label="Outlined" value="9,012" variant="outlined" />
+              </div>
+            </ComponentShowcase>
+
+            <ComponentShowcase title="Compact Stats">
+              <div className="flex flex-wrap gap-8">
+                <StatCardCompact label="Revenue" value="$8.2K" delta="+15%" deltaType="increase" />
+                <StatCardCompact label="Users" value="1.2K" delta="-3%" deltaType="decrease" />
+                <StatCardCompact label="Conversion" value="4.5%" delta="0%" deltaType="neutral" />
+              </div>
+            </ComponentShowcase>
+          </div>
+
+          {/* ListRow */}
+          <div className="space-y-6">
+            <h3 className="font-display text-xl font-semibold">List Row</h3>
+            
+            <ComponentShowcase title="Standard List" className="block p-0 overflow-hidden">
+              <ListContainer>
+                <ListRow
+                  icon={Cpu}
+                  iconBg="bg-brand-yellow-soft"
+                  title="Helium Miner Pro"
+                  subtitle="Online • 24h uptime"
+                  meta={<span className="text-sm font-semibold text-success">+$4.50</span>}
+                  showChevron
+                  onClick={() => {}}
+                />
+                <ListRow
+                  icon={Wallet}
+                  iconBg="bg-info-soft"
+                  title="DIMO Dongle"
+                  subtitle="Connected • 142 trips recorded"
+                  meta={<Badge variant="success-subtle" size="sm">Active</Badge>}
+                  showChevron
+                  onClick={() => {}}
+                />
+                <ListRow
+                  icon={BarChart3}
+                  iconBg="bg-success-soft"
+                  title="WeatherXM Station"
+                  subtitle="Last sync: 5 minutes ago"
+                  meta={<span className="text-xs text-muted-foreground">$12.30/day</span>}
+                  showChevron
+                  onClick={() => {}}
+                />
+              </ListContainer>
+            </ComponentShowcase>
+
+            <ComponentShowcase title="With Section Headers" className="block p-0 overflow-hidden">
+              <ListContainer>
+                <ListSectionHeader title="Active Devices" action={<Button variant="link" size="sm">View All</Button>} />
+                <ListRow
+                  icon={<Wifi className="w-5 h-5 text-success" />}
+                  title="Node #1"
+                  subtitle="192.168.1.100"
+                  meta={<Badge variant="success" size="sm">Online</Badge>}
+                />
+                <ListRow
+                  icon={<Wifi className="w-5 h-5 text-success" />}
+                  title="Node #2"
+                  subtitle="192.168.1.101"
+                  meta={<Badge variant="success" size="sm">Online</Badge>}
+                />
+                <ListSectionHeader title="Offline Devices" />
+                <ListRow
+                  icon={<WifiOff className="w-5 h-5 text-muted-foreground" />}
+                  title="Node #3"
+                  subtitle="Last seen: 2 hours ago"
+                  meta={<Badge variant="secondary" size="sm">Offline</Badge>}
+                  disabled
+                />
+              </ListContainer>
+            </ComponentShowcase>
+          </div>
+
+          {/* Divider */}
+          <div className="space-y-6">
+            <h3 className="font-display text-xl font-semibold">Divider</h3>
+            
+            <ComponentShowcase title="Variants" className="block">
+              <div className="space-y-6 w-full">
+                <div>
+                  <p className="text-xs text-muted-foreground mb-2">Default</p>
+                  <Divider />
+                </div>
+                <div>
+                  <p className="text-xs text-muted-foreground mb-2">Subtle</p>
+                  <Divider variant="subtle" />
+                </div>
+                <div>
+                  <p className="text-xs text-muted-foreground mb-2">Strong</p>
+                  <Divider variant="strong" />
+                </div>
+                <div>
+                  <p className="text-xs text-muted-foreground mb-2">Brand</p>
+                  <Divider variant="brand" />
+                </div>
+              </div>
+            </ComponentShowcase>
+
+            <ComponentShowcase title="With Label">
+              <div className="w-full">
+                <Divider label="Or continue with" spacing="default" />
+              </div>
+            </ComponentShowcase>
+
+            <ComponentShowcase title="Vertical">
+              <div className="flex items-center h-12 gap-4">
+                <span className="text-sm">Option A</span>
+                <Divider orientation="vertical" />
+                <span className="text-sm">Option B</span>
+                <Divider orientation="vertical" />
+                <span className="text-sm">Option C</span>
+              </div>
+            </ComponentShowcase>
+          </div>
+
+          {/* EmptyState */}
+          <div className="space-y-6">
+            <h3 className="font-display text-xl font-semibold">Empty State</h3>
+            
+            <ShowcaseGrid columns={2}>
+              <ComponentShowcase title="Default" className="block">
+                <Card variant="default" className="w-full">
+                  <EmptyState
+                    title="No devices yet"
+                    description="Connect your first DePIN device to start earning rewards."
+                    action={{ label: "Add Device", onClick: () => {} }}
+                    size="sm"
+                  />
+                </Card>
+              </ComponentShowcase>
+
+              <ComponentShowcase title="Search (No Results)" className="block">
+                <Card variant="default" className="w-full">
+                  <EmptyState
+                    variant="search"
+                    title="No results found"
+                    description="Try adjusting your search or filters to find what you're looking for."
+                    secondaryAction={{ label: "Clear filters", onClick: () => {} }}
+                    size="sm"
+                  />
+                </Card>
+              </ComponentShowcase>
+
+              <ComponentShowcase title="Error State" className="block">
+                <Card variant="default" className="w-full">
+                  <EmptyState
+                    variant="error"
+                    title="Something went wrong"
+                    description="We couldn't load your data. Please try again."
+                    action={{ label: "Retry", onClick: () => {} }}
+                    size="sm"
+                  />
+                </Card>
+              </ComponentShowcase>
+
+              <ComponentShowcase title="Offline" className="block">
+                <Card variant="default" className="w-full">
+                  <EmptyState
+                    variant="offline"
+                    title="You're offline"
+                    description="Check your internet connection and try again."
+                    action={{ label: "Retry", onClick: () => {} }}
+                    size="sm"
+                  />
+                </Card>
+              </ComponentShowcase>
+            </ShowcaseGrid>
+
+            <ComponentShowcase title="Inline Empty State" className="block">
+              <Card variant="default" className="w-full max-w-md">
+                <CardHeader>
+                  <CardTitle>Recent Transactions</CardTitle>
+                </CardHeader>
+                <CardContent className="p-0">
+                  <EmptyStateInline 
+                    message="No transactions yet" 
+                    action={{ label: "Make a deposit", onClick: () => {} }}
+                  />
+                </CardContent>
+              </Card>
+            </ComponentShowcase>
+          </div>
+
+          {/* Table */}
+          <div className="space-y-6">
+            <h3 className="font-display text-xl font-semibold">Table</h3>
+            
+            <ComponentShowcase title="Standard Table" className="block p-0 overflow-hidden">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Device</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead>Uptime</TableHead>
+                    <TableHead className="text-right">Earnings</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  <TableRow>
+                    <TableCell className="font-medium">Helium Miner #1</TableCell>
+                    <TableCell><Badge variant="success" size="sm">Online</Badge></TableCell>
+                    <TableCell>99.9%</TableCell>
+                    <TableCell className="text-right font-semibold">$124.50</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell className="font-medium">DIMO Dongle</TableCell>
+                    <TableCell><Badge variant="success" size="sm">Online</Badge></TableCell>
+                    <TableCell>98.2%</TableCell>
+                    <TableCell className="text-right font-semibold">$45.20</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell className="font-medium">WeatherXM</TableCell>
+                    <TableCell><Badge variant="warning" size="sm">Syncing</Badge></TableCell>
+                    <TableCell>95.1%</TableCell>
+                    <TableCell className="text-right font-semibold">$78.00</TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </ComponentShowcase>
+
+            <ComponentShowcase title="Zebra Striping" className="block p-0 overflow-hidden">
+              <Table zebra>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Transaction</TableHead>
+                    <TableHead>Date</TableHead>
+                    <TableHead>Type</TableHead>
+                    <TableHead className="text-right">Amount</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  <TableRow>
+                    <TableCell className="font-medium">Daily Reward</TableCell>
+                    <TableCell className="text-muted-foreground">Jan 12, 2025</TableCell>
+                    <TableCell><Badge variant="success-subtle" size="sm">Reward</Badge></TableCell>
+                    <TableCell className="text-right text-success font-semibold">+$12.50</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell className="font-medium">Withdrawal</TableCell>
+                    <TableCell className="text-muted-foreground">Jan 11, 2025</TableCell>
+                    <TableCell><Badge variant="secondary" size="sm">Transfer</Badge></TableCell>
+                    <TableCell className="text-right font-semibold">-$50.00</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell className="font-medium">Bonus</TableCell>
+                    <TableCell className="text-muted-foreground">Jan 10, 2025</TableCell>
+                    <TableCell><Badge variant="brand-subtle" size="sm">Bonus</Badge></TableCell>
+                    <TableCell className="text-right text-success font-semibold">+$25.00</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell className="font-medium">Daily Reward</TableCell>
+                    <TableCell className="text-muted-foreground">Jan 10, 2025</TableCell>
+                    <TableCell><Badge variant="success-subtle" size="sm">Reward</Badge></TableCell>
+                    <TableCell className="text-right text-success font-semibold">+$11.80</TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </ComponentShowcase>
+
+            <ComponentShowcase title="Clickable Rows" className="block p-0 overflow-hidden">
+              <Table size="sm">
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Name</TableHead>
+                    <TableHead>Network</TableHead>
+                    <TableHead>Location</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  <TableRow clickable onClick={() => {}}>
+                    <TableCell className="font-medium">Node Alpha</TableCell>
+                    <TableCell>Solana</TableCell>
+                    <TableCell className="text-muted-foreground">New York, US</TableCell>
+                  </TableRow>
+                  <TableRow clickable onClick={() => {}}>
+                    <TableCell className="font-medium">Node Beta</TableCell>
+                    <TableCell>Ethereum</TableCell>
+                    <TableCell className="text-muted-foreground">London, UK</TableCell>
+                  </TableRow>
+                  <TableRow clickable selected>
+                    <TableCell className="font-medium">Node Gamma</TableCell>
+                    <TableCell>Polygon</TableCell>
+                    <TableCell className="text-muted-foreground">Tokyo, JP</TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </ComponentShowcase>
+
+            <ComponentShowcase title="Empty Table" className="block p-0 overflow-hidden">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Device</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead>Earnings</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  <TableEmpty colSpan={3} message="No devices found" />
+                </TableBody>
+              </Table>
+            </ComponentShowcase>
+          </div>
+
+          {/* Card Variants Reminder */}
+          <div className="space-y-6">
+            <h3 className="font-display text-xl font-semibold">Card Variants</h3>
+            
+            <ShowcaseGrid columns={3}>
+              <Card variant="default">
+                <CardHeader>
+                  <CardTitle>Default</CardTitle>
+                  <CardDescription>Standard card style</CardDescription>
+                </CardHeader>
+              </Card>
+              <Card variant="elevated">
+                <CardHeader>
+                  <CardTitle>Elevated</CardTitle>
+                  <CardDescription>More prominent shadow</CardDescription>
+                </CardHeader>
+              </Card>
+              <Card variant="interactive" onClick={() => {}}>
+                <CardHeader>
+                  <CardTitle>Interactive</CardTitle>
+                  <CardDescription>Hover to see effect</CardDescription>
+                </CardHeader>
+              </Card>
+            </ShowcaseGrid>
           </div>
         </section>
 
