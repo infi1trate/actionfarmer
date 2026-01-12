@@ -6,13 +6,16 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "next-themes";
 import { ReducedMotionProvider } from "@/hooks/use-reduced-motion";
 import Index from "./pages/Index";
-import DesignSystem from "./pages/DesignSystem";
-import Brand from "./pages/Brand";
-import TokenReference from "./pages/TokenReference";
-import Typography from "./pages/Typography";
-import Layout from "./pages/Layout";
-import Accessibility from "./pages/Accessibility";
 import NotFound from "./pages/NotFound";
+
+// Design System Pages
+import DSOverview from "./pages/design-system/Overview";
+import DSBrand from "./pages/design-system/Brand";
+import DSTokens from "./pages/design-system/Tokens";
+import DSTypography from "./pages/design-system/Typography";
+import DSPatterns from "./pages/design-system/Patterns";
+import DesignSystem from "./pages/DesignSystem";
+import Accessibility from "./pages/Accessibility";
 
 const queryClient = new QueryClient();
 
@@ -26,12 +29,16 @@ const App = () => (
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Index />} />
-              <Route path="/design-system" element={<DesignSystem />} />
-              <Route path="/brand" element={<Brand />} />
-              <Route path="/tokens" element={<TokenReference />} />
-              <Route path="/typography" element={<Typography />} />
-              <Route path="/layout" element={<Layout />} />
-              <Route path="/accessibility" element={<Accessibility />} />
+              
+              {/* Design System Hub */}
+              <Route path="/design-system" element={<DSOverview />} />
+              <Route path="/design-system/brand" element={<DSBrand />} />
+              <Route path="/design-system/tokens" element={<DSTokens />} />
+              <Route path="/design-system/typography" element={<DSTypography />} />
+              <Route path="/design-system/components" element={<DesignSystem />} />
+              <Route path="/design-system/patterns" element={<DSPatterns />} />
+              <Route path="/design-system/accessibility" element={<Accessibility />} />
+              
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
