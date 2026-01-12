@@ -15,6 +15,7 @@ import DSTokens from "./pages/design-system/Tokens";
 import DSTypography from "./pages/design-system/Typography";
 import DSPatterns from "./pages/design-system/Patterns";
 import DSGuardrails from "./pages/design-system/Guardrails";
+import DSHandoff from "./pages/design-system/Handoff";
 import DesignSystem from "./pages/DesignSystem";
 import Accessibility from "./pages/Accessibility";
 
@@ -40,6 +41,7 @@ const App = () => (
               <Route path="/design-system/patterns" element={<DSPatterns />} />
               <Route path="/design-system/accessibility" element={<Accessibility />} />
               <Route path="/design-system/guardrails" element={<DSGuardrails />} />
+              <Route path="/design-system/handoff" element={<DSHandoff />} />
               
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
