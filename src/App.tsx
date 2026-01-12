@@ -38,6 +38,7 @@ import {
   ScheduleSelectionPage,
   ModeSelectionPage,
   AmbientModePage,
+  DailySummaryPage,
 } from "./app";
 
 import {
@@ -75,6 +76,7 @@ const App = () => (
               
               {/* Ambient Mode */}
               <Route path="/ambient" element={<AmbientModePage />} />
+              <Route path="/summary" element={<DailySummaryPage />} />
               
               {/* Session Flow */}
               <Route path="/session/complete" element={<SessionCompletedPage />} />
