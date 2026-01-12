@@ -43,6 +43,9 @@ import {
 import { Button, ButtonGroup } from "@/components/ui/button";
 import { AlignLeft, AlignCenter, AlignRight, Grid, List, LayoutGrid } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { Chip, ChipGroup } from "@/components/ui/chip";
+import { StatusPill, StatusDot } from "@/components/ui/status-pill";
+import { XPTag, StreakTag, LevelTag, PointsTag } from "@/components/ui/xp-tag";
 import { Input } from "@/components/ui/input";
 import { TextInput } from "@/components/ui/text-input";
 import { SearchInput } from "@/components/ui/search-input";
@@ -88,6 +91,8 @@ const DesignSystem = () => {
   const [multiplierValue, setMultiplierValue] = useState([1.5]);
   const [showPassword, setShowPassword] = useState(false);
   const [sideSheetOpen, setSideSheetOpen] = useState(false);
+  const [selectedChips, setSelectedChips] = useState<string[]>(["react"]);
+  const [chipList, setChipList] = useState(["Tag 1", "Tag 2", "Tag 3"]);
 
   // Demo data for navigation components
   const bottomTabs: TabItem[] = [
@@ -315,14 +320,14 @@ const DesignSystem = () => {
           </ComponentShowcase>
         </section>
 
-        {/* Badges */}
+        {/* Badges & Labels */}
         <section className="space-y-6">
           <div>
-            <h2 className="font-display text-2xl font-bold mb-2">Badges</h2>
-            <p className="text-muted-foreground">Status indicators and labels.</p>
+            <h2 className="font-display text-2xl font-bold mb-2">Badges & Labels</h2>
+            <p className="text-muted-foreground">Status indicators, selectable chips, and gamified labels.</p>
           </div>
 
-          <ComponentShowcase title="Standard Badges">
+          <ComponentShowcase title="Standard Badges" description="Basic badge variants for labeling content">
             <Badge>Default</Badge>
             <Badge variant="secondary">Secondary</Badge>
             <Badge variant="outline">Outline</Badge>
@@ -330,26 +335,208 @@ const DesignSystem = () => {
             <Badge variant="brand-subtle">Brand Subtle</Badge>
           </ComponentShowcase>
 
-          <ComponentShowcase title="Status Badges">
+          <ComponentShowcase title="Status Badges" description="Semantic colors for different states">
             <Badge variant="success">Success</Badge>
             <Badge variant="warning">Warning</Badge>
-            <Badge variant="destructive">Error</Badge>
+            <Badge variant="destructive">Danger</Badge>
             <Badge variant="info">Info</Badge>
           </ComponentShowcase>
 
-          <ComponentShowcase title="Subtle Status">
+          <ComponentShowcase title="Subtle Status" description="Softer variants with icons">
             <Badge variant="success-subtle"><Check className="w-3 h-3" /> Completed</Badge>
             <Badge variant="warning-subtle"><AlertTriangle className="w-3 h-3" /> Pending</Badge>
             <Badge variant="danger-subtle"><X className="w-3 h-3" /> Failed</Badge>
             <Badge variant="info-subtle"><Info className="w-3 h-3" /> Processing</Badge>
           </ComponentShowcase>
 
-          <ComponentShowcase title="Sizes">
+          <ComponentShowcase title="Badge Sizes">
             <Badge size="sm">Small</Badge>
             <Badge size="default">Default</Badge>
             <Badge size="lg">Large</Badge>
             <Badge size="pill">Pill</Badge>
             <Badge size="pill-lg">Pill Large</Badge>
+          </ComponentShowcase>
+        </section>
+
+        {/* Chips */}
+        <section className="space-y-6">
+          <div>
+            <h2 className="font-display text-2xl font-bold mb-2">Chips</h2>
+            <p className="text-muted-foreground">Selectable pills for filters, tags, and multi-select inputs.</p>
+          </div>
+
+          <ComponentShowcase title="Chip Variants" description="Different visual styles">
+            <Chip>Default</Chip>
+            <Chip variant="brand">Brand</Chip>
+            <Chip variant="success">Success</Chip>
+            <Chip variant="warning">Warning</Chip>
+            <Chip variant="danger">Danger</Chip>
+            <Chip variant="info">Info</Chip>
+          </ComponentShowcase>
+
+          <ComponentShowcase title="Selectable Chips" description="Toggle selection state">
+            <ChipGroup>
+              {["react", "typescript", "tailwind", "vite"].map((tech) => (
+                <Chip
+                  key={tech}
+                  variant="brand"
+                  selected={selectedChips.includes(tech)}
+                  onSelectedChange={(selected) => {
+                    setSelectedChips(prev => 
+                      selected ? [...prev, tech] : prev.filter(t => t !== tech)
+                    );
+                  }}
+                >
+                  {tech}
+                </Chip>
+              ))}
+            </ChipGroup>
+          </ComponentShowcase>
+
+          <ComponentShowcase title="Removable Chips" description="With close button for tag management">
+            <ChipGroup>
+              {chipList.map((tag) => (
+                <Chip
+                  key={tag}
+                  removable
+                  onRemove={() => setChipList(prev => prev.filter(t => t !== tag))}
+                >
+                  {tag}
+                </Chip>
+              ))}
+              <Chip
+                variant="brand"
+                leftIcon={<Plus className="w-3 h-3" />}
+                onClick={() => setChipList(prev => [...prev, `Tag ${prev.length + 1}`])}
+              >
+                Add
+              </Chip>
+            </ChipGroup>
+          </ComponentShowcase>
+
+          <ComponentShowcase title="Chip Sizes">
+            <Chip size="sm">Small</Chip>
+            <Chip size="default">Default</Chip>
+            <Chip size="lg">Large</Chip>
+          </ComponentShowcase>
+        </section>
+
+        {/* Status Pills */}
+        <section className="space-y-6">
+          <div>
+            <h2 className="font-display text-2xl font-bold mb-2">Status Pills</h2>
+            <p className="text-muted-foreground">Real-time status indicators for devices and connections.</p>
+          </div>
+
+          <ComponentShowcase title="Status Types" description="All available statuses with animated indicators">
+            <StatusPill status="online" />
+            <StatusPill status="offline" />
+            <StatusPill status="recording" />
+            <StatusPill status="earning" />
+            <StatusPill status="syncing" />
+            <StatusPill status="idle" />
+            <StatusPill status="error" />
+          </ComponentShowcase>
+
+          <ComponentShowcase title="Variant Styles" description="Minimal, subtle, and solid appearances">
+            <div className="flex flex-col gap-3 w-full">
+              <div className="flex items-center gap-4">
+                <span className="text-xs text-muted-foreground w-16">Minimal</span>
+                <StatusPill status="online" variant="minimal" />
+                <StatusPill status="earning" variant="minimal" />
+                <StatusPill status="recording" variant="minimal" />
+              </div>
+              <div className="flex items-center gap-4">
+                <span className="text-xs text-muted-foreground w-16">Subtle</span>
+                <StatusPill status="online" variant="subtle" />
+                <StatusPill status="earning" variant="subtle" />
+                <StatusPill status="recording" variant="subtle" />
+              </div>
+              <div className="flex items-center gap-4">
+                <span className="text-xs text-muted-foreground w-16">Solid</span>
+                <StatusPill status="online" variant="solid" />
+                <StatusPill status="earning" variant="solid" />
+                <StatusPill status="recording" variant="solid" />
+              </div>
+            </div>
+          </ComponentShowcase>
+
+          <ComponentShowcase title="Sizes">
+            <StatusPill status="online" size="sm" variant="subtle" />
+            <StatusPill status="online" size="default" variant="subtle" />
+            <StatusPill status="online" size="lg" variant="subtle" />
+          </ComponentShowcase>
+
+          <ComponentShowcase title="Status Dots" description="Compact indicators for tight spaces">
+            <div className="flex items-center gap-3">
+              <StatusDot status="online" />
+              <StatusDot status="offline" />
+              <StatusDot status="recording" />
+              <StatusDot status="earning" />
+              <StatusDot status="syncing" />
+            </div>
+          </ComponentShowcase>
+
+          <ComponentShowcase title="Custom Labels" description="Override default status text">
+            <StatusPill status="online" label="Connected" variant="subtle" />
+            <StatusPill status="earning" label="Mining +0.5/hr" variant="subtle" />
+            <StatusPill status="recording" label="Live" variant="solid" />
+          </ComponentShowcase>
+        </section>
+
+        {/* XP Tags */}
+        <section className="space-y-6">
+          <div>
+            <h2 className="font-display text-2xl font-bold mb-2">XP Tags & Gamification</h2>
+            <p className="text-muted-foreground">Gamified labels for rewards, levels, and achievements.</p>
+          </div>
+
+          <ComponentShowcase title="XP Tag Variants" description="Different reward tiers">
+            <XPTag value={1250} variant="gold" />
+            <XPTag value={500} variant="silver" />
+            <XPTag value={100} variant="bronze" />
+            <XPTag value={5000} variant="platinum" />
+          </ComponentShowcase>
+
+          <ComponentShowcase title="Appearance Styles" description="Minimal, badge, and pill appearances">
+            <XPTag value={1250} appearance="minimal" />
+            <XPTag value={1250} appearance="badge" />
+            <XPTag value={1250} appearance="pill" />
+          </ComponentShowcase>
+
+          <ComponentShowcase title="Sizes">
+            <XPTag value={100} size="xs" />
+            <XPTag value={100} size="sm" />
+            <XPTag value={100} size="default" />
+            <XPTag value={100} size="lg" />
+            <XPTag value={100} size="xl" />
+          </ComponentShowcase>
+
+          <ComponentShowcase title="Streak Tags" description="Day counter for engagement streaks">
+            <StreakTag days={1} appearance="badge" />
+            <StreakTag days={7} appearance="badge" />
+            <StreakTag days={30} appearance="badge" />
+            <StreakTag days={365} appearance="pill" size="lg" />
+          </ComponentShowcase>
+
+          <ComponentShowcase title="Level Tags" description="User level indicators">
+            <LevelTag level={1} appearance="badge" variant="silver" />
+            <LevelTag level={10} appearance="badge" variant="gold" />
+            <LevelTag level={50} appearance="badge" variant="platinum" />
+            <LevelTag level={99} appearance="pill" size="lg" />
+          </ComponentShowcase>
+
+          <ComponentShowcase title="Points Tags" description="Generic point counters">
+            <PointsTag points={250} unit="coins" appearance="badge" />
+            <PointsTag points={1500} unit="tokens" appearance="badge" variant="gold" />
+            <PointsTag points={999999} unit="pts" appearance="pill" />
+          </ComponentShowcase>
+
+          <ComponentShowcase title="Large Number Formatting" description="Automatic K/M formatting">
+            <XPTag value={999} />
+            <XPTag value={1000} />
+            <XPTag value={15000} />
+            <XPTag value={1500000} />
           </ComponentShowcase>
         </section>
 
