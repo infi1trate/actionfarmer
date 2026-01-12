@@ -1,5 +1,6 @@
 /**
  * DePIN Design System Tokens
+ * Yellow-Led Palette with Neutral Structure
  * 
  * Three-layer token architecture:
  * 1. Primitives - Raw values (colors, spacing, typography)
@@ -13,89 +14,89 @@ export const tokens = {
   // ============================================
   primitive: {
     color: {
-      // Neutrals
-      gray: {
-        50: "0 0% 98%",
-        100: "0 0% 96%",
-        200: "0 0% 90%",
-        300: "0 0% 83%",
-        400: "0 0% 64%",
-        500: "0 0% 45%",
-        600: "0 0% 32%",
-        700: "0 0% 25%",
-        800: "0 0% 15%",
-        900: "0 0% 9%",
-        950: "0 0% 4%",
+      // Warm Neutrals (slightly warm undertone)
+      neutral: {
+        50: "40 20% 99%",
+        100: "40 15% 97%",
+        200: "40 12% 95%",
+        300: "40 12% 90%",
+        400: "40 10% 85%",
+        500: "30 8% 65%",
+        600: "30 8% 50%",
+        700: "30 8% 35%",
+        800: "30 12% 18%",
+        900: "30 12% 11%",
+        950: "30 12% 7%",
       },
-      // Brand Yellow
+      // Brand Yellow - Energetic Modern Yellow
       yellow: {
-        50: "48 100% 96%",
-        100: "48 96% 89%",
-        200: "48 97% 77%",
-        300: "48 96% 65%",
-        400: "48 96% 53%",  // Primary
-        500: "43 96% 47%",
-        600: "37 92% 40%",
-        700: "32 81% 33%",
-        800: "28 73% 28%",
-        900: "24 63% 24%",
-        950: "21 63% 13%",
+        50: "48 100% 97%",
+        100: "48 100% 94%",
+        200: "48 98% 85%",
+        300: "48 97% 72%",
+        400: "48 96% 60%",
+        500: "48 96% 53%",  // Primary brand
+        600: "45 96% 48%",  // Hover
+        700: "42 94% 43%",  // Active
+        800: "38 90% 36%",
+        900: "35 85% 28%",
+        950: "32 80% 18%",
       },
-      // Success Green
-      green: {
-        50: "138 76% 97%",
-        100: "141 84% 93%",
-        200: "141 79% 85%",
-        300: "142 77% 73%",
-        400: "142 69% 58%",
-        500: "142 71% 45%",  // Primary
-        600: "142 76% 36%",
-        700: "142 72% 29%",
-        800: "143 64% 24%",
-        900: "144 61% 20%",
-        950: "145 80% 10%",
+      // Success - Mint-leaning Green (tasteful, not neon)
+      mint: {
+        50: "160 60% 96%",
+        100: "160 58% 92%",
+        200: "160 55% 82%",
+        300: "160 52% 68%",
+        400: "160 58% 52%",
+        500: "160 60% 42%",  // Primary
+        600: "160 62% 36%",  // Hover
+        700: "160 65% 30%",  // Active
+        800: "160 62% 24%",
+        900: "160 60% 18%",
+        950: "160 55% 10%",
       },
-      // Danger Red
-      red: {
-        50: "0 86% 97%",
-        100: "0 93% 94%",
-        200: "0 96% 89%",
-        300: "0 94% 82%",
-        400: "0 91% 71%",
-        500: "0 84% 60%",  // Primary
-        600: "0 72% 51%",
-        700: "0 74% 42%",
-        800: "0 70% 35%",
-        900: "0 63% 31%",
-        950: "0 75% 15%",
+      // Danger - Coral/Red (warm, not aggressive)
+      coral: {
+        50: "4 85% 97%",
+        100: "4 82% 94%",
+        200: "4 80% 86%",
+        300: "4 78% 74%",
+        400: "4 78% 66%",
+        500: "4 80% 58%",   // Primary
+        600: "4 78% 50%",   // Hover
+        700: "4 76% 44%",   // Active
+        800: "4 72% 36%",
+        900: "4 68% 28%",
+        950: "4 65% 16%",
       },
-      // Warning Amber
+      // Warning - Amber/Orange (distinct from brand yellow)
       amber: {
-        50: "48 100% 96%",
-        100: "48 96% 89%",
-        200: "48 97% 77%",
-        300: "46 97% 65%",
-        400: "43 96% 56%",
-        500: "38 92% 50%",  // Primary
-        600: "32 95% 44%",
-        700: "26 90% 37%",
-        800: "23 83% 31%",
-        900: "22 78% 26%",
-        950: "21 92% 14%",
+        50: "25 100% 96%",
+        100: "25 98% 92%",
+        200: "25 96% 82%",
+        300: "25 94% 70%",
+        400: "25 95% 60%",
+        500: "25 95% 53%",  // Primary
+        600: "22 95% 47%",  // Hover
+        700: "20 94% 42%",  // Active
+        800: "18 90% 35%",
+        900: "16 85% 28%",
+        950: "14 80% 16%",
       },
-      // Info Blue
+      // Info - Blue (clean, professional)
       blue: {
-        50: "214 100% 97%",
-        100: "214 95% 93%",
-        200: "213 97% 87%",
-        300: "212 96% 78%",
-        400: "213 94% 68%",
-        500: "217 91% 60%",  // Primary
-        600: "221 83% 53%",
-        700: "224 76% 48%",
-        800: "226 71% 40%",
-        900: "224 64% 33%",
-        950: "226 57% 21%",
+        50: "210 80% 97%",
+        100: "210 78% 94%",
+        200: "210 82% 86%",
+        300: "210 84% 74%",
+        400: "210 84% 65%",
+        500: "210 85% 55%",  // Primary
+        600: "210 85% 48%",  // Hover
+        700: "210 85% 42%",  // Active
+        800: "210 82% 35%",
+        900: "210 78% 28%",
+        950: "210 75% 18%",
       },
       // Pure
       white: "0 0% 100%",
@@ -141,9 +142,9 @@ export const tokens = {
     },
     radius: {
       none: "0",
-      sm: "0.375rem",    // 6px
+      sm: "0.375rem",    // 6px - soft-rounded
       md: "0.5rem",      // 8px
-      DEFAULT: "0.75rem", // 12px
+      DEFAULT: "0.75rem", // 12px - main rounded
       lg: "1rem",        // 16px
       xl: "1.25rem",     // 20px
       "2xl": "1.5rem",   // 24px
@@ -152,13 +153,14 @@ export const tokens = {
     },
     shadow: {
       none: "none",
-      xs: "0 1px 2px 0 rgb(0 0 0 / 0.05)",
-      sm: "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)",
-      md: "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)",
-      lg: "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)",
-      xl: "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)",
-      "2xl": "0 25px 50px -12px rgb(0 0 0 / 0.25)",
-      inner: "inset 0 2px 4px 0 rgb(0 0 0 / 0.05)",
+      xs: "0 1px 2px 0 hsl(30 15% 11% / 0.04)",
+      sm: "0 1px 3px 0 hsl(30 15% 11% / 0.06), 0 1px 2px -1px hsl(30 15% 11% / 0.06)",
+      md: "0 4px 6px -1px hsl(30 15% 11% / 0.08), 0 2px 4px -2px hsl(30 15% 11% / 0.06)",
+      lg: "0 10px 15px -3px hsl(30 15% 11% / 0.1), 0 4px 6px -4px hsl(30 15% 11% / 0.08)",
+      xl: "0 20px 25px -5px hsl(30 15% 11% / 0.1), 0 8px 10px -6px hsl(30 15% 11% / 0.08)",
+      "2xl": "0 25px 50px -12px hsl(30 15% 11% / 0.2)",
+      inner: "inset 0 2px 4px 0 hsl(30 15% 11% / 0.05)",
+      glow: "0 0 20px hsl(48 96% 53% / 0.35)",
     },
     font: {
       family: {
@@ -246,167 +248,137 @@ export const tokens = {
   // ============================================
   semantic: {
     light: {
-      // Backgrounds
-      bg: {
-        primary: "0 0% 100%",        // Main background
-        secondary: "0 0% 98%",       // Secondary background
-        tertiary: "0 0% 96%",        // Tertiary background
-        inverse: "0 0% 9%",          // Inverse background
-      },
-      // Surfaces
-      surface: {
-        DEFAULT: "0 0% 100%",        // Card background
-        raised: "0 0% 100%",         // Elevated surface
-        overlay: "0 0% 100%",        // Modal/popover bg
-        sunken: "0 0% 96%",          // Inset surface
-      },
-      // Text
-      text: {
-        primary: "0 0% 9%",          // Primary text
-        secondary: "0 0% 32%",       // Secondary text
-        tertiary: "0 0% 45%",        // Tertiary/muted text
-        inverse: "0 0% 98%",         // Text on dark bg
-        disabled: "0 0% 64%",        // Disabled text
-      },
-      // Borders
-      border: {
-        DEFAULT: "0 0% 90%",         // Default border
-        strong: "0 0% 83%",          // Strong border
-        subtle: "0 0% 96%",          // Subtle border
-        focus: "48 96% 53%",         // Focus ring
-      },
-      // Brand
+      // Brand Yellow
       brand: {
-        primary: "48 96% 53%",       // Primary brand
-        primaryHover: "43 96% 47%",  // Primary hover
-        primaryActive: "37 92% 40%", // Primary active
-        subtle: "48 100% 96%",       // Subtle brand bg
-        foreground: "0 0% 9%",       // Text on brand
+        yellow: "48 96% 53%",
+        yellowHover: "45 96% 48%",
+        yellowActive: "42 94% 43%",
+        yellowSoft: "48 100% 97%",
+        yellowForeground: "30 20% 11%",  // Dark text for accessibility
       },
-      // Status - Success
+      // Neutrals
+      bg: "40 20% 99%",
+      surface: "0 0% 100%",
+      surface2: "40 15% 97%",
+      surface3: "40 12% 95%",
+      text: "30 15% 11%",
+      text2: "30 8% 35%",
+      text3: "30 5% 50%",
+      border: "40 12% 90%",
+      border2: "40 10% 85%",
+      overlay: "30 20% 8% / 0.6",
+      // Status - Success (Mint)
       success: {
-        DEFAULT: "142 71% 45%",
-        hover: "142 76% 36%",
-        subtle: "138 76% 97%",
-        foreground: "0 0% 98%",
-        text: "142 72% 29%",
+        DEFAULT: "160 60% 42%",
+        hover: "160 62% 36%",
+        active: "160 65% 30%",
+        soft: "160 60% 96%",
+        foreground: "0 0% 100%",
+        text: "160 65% 28%",
       },
-      // Status - Danger
-      danger: {
-        DEFAULT: "0 84% 60%",
-        hover: "0 72% 51%",
-        subtle: "0 86% 97%",
-        foreground: "0 0% 98%",
-        text: "0 74% 42%",
-      },
-      // Status - Warning
-      warning: {
-        DEFAULT: "38 92% 50%",
-        hover: "32 95% 44%",
-        subtle: "48 100% 96%",
-        foreground: "0 0% 9%",
-        text: "26 90% 37%",
-      },
-      // Status - Info
+      // Status - Info (Blue)
       info: {
-        DEFAULT: "217 91% 60%",
-        hover: "221 83% 53%",
-        subtle: "214 100% 97%",
-        foreground: "0 0% 98%",
-        text: "224 76% 48%",
+        DEFAULT: "210 85% 55%",
+        hover: "210 85% 48%",
+        active: "210 85% 42%",
+        soft: "210 80% 97%",
+        foreground: "0 0% 100%",
+        text: "210 80% 35%",
       },
-      // Interactive
-      focus: {
-        ring: "48 96% 53%",
-        ringOffset: "0 0% 100%",
+      // Status - Warning (Amber)
+      warning: {
+        DEFAULT: "25 95% 53%",
+        hover: "22 95% 47%",
+        active: "20 94% 42%",
+        soft: "25 100% 96%",
+        foreground: "30 20% 11%",
+        text: "20 90% 32%",
       },
-      // Overlay
-      overlay: {
-        DEFAULT: "0 0% 0% / 0.5",
-        subtle: "0 0% 0% / 0.3",
-        heavy: "0 0% 0% / 0.7",
+      // Status - Danger (Coral)
+      danger: {
+        DEFAULT: "4 80% 58%",
+        hover: "4 78% 50%",
+        active: "4 76% 44%",
+        soft: "4 85% 97%",
+        foreground: "0 0% 100%",
+        text: "4 75% 38%",
+      },
+      // State Colors
+      state: {
+        hover: "40 10% 96%",
+        active: "40 12% 92%",
+        disabledBg: "40 8% 94%",
+        disabledText: "30 5% 60%",
+        disabledBorder: "40 8% 88%",
+        focusRing: "48 96% 53%",
+        focusRingOffset: "0 0% 100%",
       },
     },
     dark: {
-      // Backgrounds
-      bg: {
-        primary: "0 0% 4%",
-        secondary: "0 0% 7%",
-        tertiary: "0 0% 9%",
-        inverse: "0 0% 98%",
-      },
-      // Surfaces
-      surface: {
-        DEFAULT: "0 0% 7%",
-        raised: "0 0% 9%",
-        overlay: "0 0% 9%",
-        sunken: "0 0% 4%",
-      },
-      // Text
-      text: {
-        primary: "0 0% 98%",
-        secondary: "0 0% 64%",
-        tertiary: "0 0% 45%",
-        inverse: "0 0% 9%",
-        disabled: "0 0% 32%",
-      },
-      // Borders
-      border: {
-        DEFAULT: "0 0% 15%",
-        strong: "0 0% 25%",
-        subtle: "0 0% 9%",
-        focus: "48 96% 53%",
-      },
-      // Brand
+      // Brand Yellow (slightly brighter in dark)
       brand: {
-        primary: "48 96% 53%",
-        primaryHover: "48 96% 60%",
-        primaryActive: "48 96% 65%",
-        subtle: "48 50% 10%",
-        foreground: "0 0% 9%",
+        yellow: "48 96% 55%",
+        yellowHover: "48 96% 62%",
+        yellowActive: "48 96% 50%",
+        yellowSoft: "48 40% 12%",
+        yellowForeground: "30 20% 8%",
       },
-      // Status - Success
+      // Neutrals
+      bg: "30 12% 7%",
+      surface: "30 10% 10%",
+      surface2: "30 8% 13%",
+      surface3: "30 8% 16%",
+      text: "40 15% 96%",
+      text2: "40 8% 65%",
+      text3: "40 5% 48%",
+      border: "30 8% 18%",
+      border2: "30 8% 24%",
+      overlay: "0 0% 0% / 0.75",
+      // Status - Success (Mint)
       success: {
-        DEFAULT: "142 71% 45%",
-        hover: "142 69% 58%",
-        subtle: "142 40% 12%",
-        foreground: "0 0% 98%",
-        text: "142 77% 73%",
+        DEFAULT: "160 55% 48%",
+        hover: "160 55% 55%",
+        active: "160 55% 42%",
+        soft: "160 35% 14%",
+        foreground: "30 20% 8%",
+        text: "160 50% 70%",
       },
-      // Status - Danger
-      danger: {
-        DEFAULT: "0 84% 60%",
-        hover: "0 91% 71%",
-        subtle: "0 50% 12%",
-        foreground: "0 0% 98%",
-        text: "0 94% 82%",
-      },
-      // Status - Warning
-      warning: {
-        DEFAULT: "38 92% 50%",
-        hover: "43 96% 56%",
-        subtle: "38 50% 12%",
-        foreground: "0 0% 9%",
-        text: "46 97% 65%",
-      },
-      // Status - Info
+      // Status - Info (Blue)
       info: {
-        DEFAULT: "217 91% 60%",
-        hover: "213 94% 68%",
-        subtle: "217 50% 12%",
-        foreground: "0 0% 98%",
-        text: "212 96% 78%",
+        DEFAULT: "210 80% 60%",
+        hover: "210 80% 68%",
+        active: "210 80% 52%",
+        soft: "210 45% 14%",
+        foreground: "30 20% 8%",
+        text: "210 75% 72%",
       },
-      // Interactive
-      focus: {
-        ring: "48 96% 53%",
-        ringOffset: "0 0% 4%",
+      // Status - Warning (Amber)
+      warning: {
+        DEFAULT: "25 90% 55%",
+        hover: "25 90% 62%",
+        active: "25 90% 48%",
+        soft: "25 45% 14%",
+        foreground: "30 20% 8%",
+        text: "25 85% 68%",
       },
-      // Overlay
-      overlay: {
-        DEFAULT: "0 0% 0% / 0.7",
-        subtle: "0 0% 0% / 0.5",
-        heavy: "0 0% 0% / 0.85",
+      // Status - Danger (Coral)
+      danger: {
+        DEFAULT: "4 75% 62%",
+        hover: "4 75% 70%",
+        active: "4 75% 55%",
+        soft: "4 45% 14%",
+        foreground: "0 0% 100%",
+        text: "4 70% 75%",
+      },
+      // State Colors
+      state: {
+        hover: "30 8% 16%",
+        active: "30 10% 20%",
+        disabledBg: "30 6% 14%",
+        disabledText: "40 5% 38%",
+        disabledBorder: "30 6% 20%",
+        focusRing: "48 96% 55%",
+        focusRingOffset: "30 12% 7%",
       },
     },
   },
@@ -416,78 +388,76 @@ export const tokens = {
   // ============================================
   component: {
     button: {
-      radius: "var(--radius-md)",
+      radius: "var(--radius)",
+      // Brand button uses yellow for action + highlights
+      brand: {
+        bg: "var(--brand-yellow)",
+        bgHover: "var(--brand-yellow-hover)",
+        bgActive: "var(--brand-yellow-active)",
+        text: "var(--brand-yellow-foreground)",
+      },
       // Sizes
       height: {
-        xs: "var(--space-7)",    // 28px
-        sm: "var(--space-8)",    // 32px
-        md: "var(--space-10)",   // 40px
-        lg: "var(--space-11)",   // 44px
-        xl: "var(--space-12)",   // 48px
+        xs: "1.75rem",    // 28px
+        sm: "2rem",       // 32px
+        md: "2.5rem",     // 40px
+        lg: "2.75rem",    // 44px
+        xl: "3rem",       // 48px
       },
       padding: {
-        xs: "var(--space-2) var(--space-2-5)",
-        sm: "var(--space-2) var(--space-3)",
-        md: "var(--space-2) var(--space-4)",
-        lg: "var(--space-2-5) var(--space-5)",
-        xl: "var(--space-3) var(--space-6)",
+        xs: "0.5rem 0.625rem",
+        sm: "0.5rem 0.75rem",
+        md: "0.5rem 1rem",
+        lg: "0.625rem 1.25rem",
+        xl: "0.75rem 1.5rem",
       },
       fontSize: {
-        xs: "var(--text-xs)",
-        sm: "var(--text-sm)",
-        md: "var(--text-sm)",
-        lg: "var(--text-base)",
-        xl: "var(--text-lg)",
-      },
-      iconSize: {
-        xs: "var(--space-3-5)",
-        sm: "var(--space-4)",
-        md: "var(--space-4)",
-        lg: "var(--space-5)",
-        xl: "var(--space-6)",
+        xs: "0.75rem",
+        sm: "0.875rem",
+        md: "0.875rem",
+        lg: "1rem",
+        xl: "1.125rem",
       },
     },
     input: {
-      radius: "var(--radius-md)",
+      radius: "var(--radius)",
+      bg: "var(--surface-2)",
+      bgHover: "var(--state-hover)",
+      bgFocus: "var(--surface)",
+      border: "var(--border)",
+      borderFocus: "var(--state-focus-ring)",
       height: {
-        sm: "var(--space-8)",
-        md: "var(--space-10)",
-        lg: "var(--space-11)",
-        xl: "var(--space-12)",
+        sm: "2rem",
+        md: "2.5rem",
+        lg: "2.75rem",
+        xl: "3rem",
       },
-      padding: {
-        sm: "var(--space-2) var(--space-2-5)",
-        md: "var(--space-2) var(--space-3)",
-        lg: "var(--space-3) var(--space-4)",
-        xl: "var(--space-3-5) var(--space-5)",
-      },
-      fontSize: {
-        sm: "var(--text-sm)",
-        md: "var(--text-sm)",
-        lg: "var(--text-base)",
-        xl: "var(--text-lg)",
-      },
-      borderWidth: "1px",
     },
     card: {
       radius: "var(--radius-lg)",
-      padding: {
-        sm: "var(--space-4)",
-        md: "var(--space-6)",
-        lg: "var(--space-8)",
-      },
+      bg: "var(--surface)",
+      bgHover: "var(--surface-2)",
+      border: "var(--border)",
       shadow: "var(--shadow-sm)",
-      borderWidth: "1px",
+      padding: {
+        sm: "1rem",
+        md: "1.5rem",
+        lg: "2rem",
+      },
     },
     nav: {
-      height: "var(--space-16)",  // 64px
-      itemPadding: "var(--space-2) var(--space-4)",
-      itemRadius: "var(--radius-md)",
-      itemGap: "var(--space-1)",
+      height: "4rem",  // 64px
+      bg: "var(--surface)",
+      border: "var(--border)",
+      itemPadding: "0.5rem 1rem",
+      itemRadius: "var(--radius)",
     },
     modal: {
       radius: "var(--radius-xl)",
-      padding: "var(--space-6)",
+      bg: "var(--surface)",
+      overlay: "var(--overlay)",
+      shadow: "var(--shadow-xl)",
+      padding: "1.5rem",
       maxWidth: {
         sm: "24rem",
         md: "28rem",
@@ -495,47 +465,68 @@ export const tokens = {
         xl: "36rem",
         full: "100%",
       },
-      shadow: "var(--shadow-xl)",
     },
     toast: {
       radius: "var(--radius-lg)",
-      padding: "var(--space-4)",
-      minWidth: "20rem",
-      maxWidth: "26rem",
+      padding: "1rem 1.25rem",
       shadow: "var(--shadow-lg)",
-      gap: "var(--space-3)",
+      // Use soft backgrounds for status toasts
+      success: {
+        bg: "var(--success-soft)",
+        border: "var(--success)",
+        text: "var(--success-text)",
+      },
+      info: {
+        bg: "var(--info-soft)",
+        border: "var(--info)",
+        text: "var(--info-text)",
+      },
+      warning: {
+        bg: "var(--warning-soft)",
+        border: "var(--warning)",
+        text: "var(--warning-text)",
+      },
+      danger: {
+        bg: "var(--danger-soft)",
+        border: "var(--danger)",
+        text: "var(--danger-text)",
+      },
     },
     badge: {
-      radius: {
-        default: "var(--radius-md)",
-        pill: "var(--radius-full)",
-      },
+      radius: "var(--radius-full)",
       padding: {
-        sm: "var(--space-0-5) var(--space-1-5)",
-        md: "var(--space-1) var(--space-2-5)",
-        lg: "var(--space-1-5) var(--space-3)",
+        sm: "0.125rem 0.5rem",
+        md: "0.25rem 0.75rem",
+        lg: "0.375rem 1rem",
       },
       fontSize: {
-        sm: "var(--text-xs)",
-        md: "var(--text-xs)",
-        lg: "var(--text-sm)",
+        sm: "0.625rem",
+        md: "0.75rem",
+        lg: "0.875rem",
       },
     },
     progress: {
       radius: "var(--radius-full)",
       height: {
-        sm: "var(--space-1)",
-        md: "var(--space-2)",
-        lg: "var(--space-3)",
-        xl: "var(--space-4)",
+        sm: "0.25rem",
+        md: "0.5rem",
+        lg: "0.75rem",
+        xl: "1rem",
       },
+      // Brand yellow for progress indication
+      indicator: "var(--brand-yellow)",
+      track: "var(--surface-3)",
     },
     table: {
-      radius: "var(--radius-lg)",
-      cellPadding: "var(--space-3) var(--space-4)",
-      headerPadding: "var(--space-3) var(--space-4)",
-      rowGap: "0",
-      borderWidth: "1px",
+      headerBg: "var(--surface-2)",
+      rowBg: "var(--surface)",
+      rowBgHover: "var(--state-hover)",
+      rowBgAlt: "var(--surface-2)",
+      border: "var(--border)",
+      padding: {
+        cell: "0.75rem 1rem",
+        cellCompact: "0.5rem 0.75rem",
+      },
     },
   },
 } as const;
