@@ -15,22 +15,22 @@ export function WelcomePage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <div className="min-h-screen flex flex-col bg-background safe-area-inset">
       {/* Main content */}
-      <main className="flex-1 flex flex-col items-center justify-center px-8 pb-24">
-        {/* Logo/Brand placeholder */}
-        <div className="w-20 h-20 rounded-2xl bg-brand-yellow flex items-center justify-center mb-8">
-          <span className="text-3xl font-display font-bold text-brand-yellow-foreground">M</span>
+      <main className="flex-1 flex flex-col items-center justify-center px-6 pb-32">
+        {/* Logo/Brand */}
+        <div className="w-24 h-24 rounded-3xl bg-brand-yellow flex items-center justify-center mb-8">
+          <span className="text-4xl font-display font-bold text-brand-yellow-foreground">M</span>
         </div>
 
         {/* Title */}
-        <h1 className="text-4xl font-display font-bold text-center text-foreground mb-3">
+        <h1 className="text-4xl font-display font-bold text-center text-foreground mb-4">
           MoveAI
         </h1>
 
-        {/* Tagline */}
-        <p className="text-center text-muted-foreground text-lg max-w-sm leading-relaxed">
-          Move better. Earn rewards.
+        {/* Tagline - calm, friendly */}
+        <p className="text-center text-muted-foreground text-lg max-w-xs leading-relaxed">
+          Your personal movement companion. Feel better every day.
         </p>
       </main>
 

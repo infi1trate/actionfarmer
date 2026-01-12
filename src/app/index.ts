@@ -7,4 +7,4 @@ export { SettingsPage } from "./pages/SettingsPage";
 export { WelcomePage } from "./pages/onboarding/WelcomePage";
 export { SignupPage } from "./pages/onboarding/SignupPage";
 export { SigninPage } from "./pages/onboarding/SigninPage";
-export { DeviceSetupPage } from "./pages/onboarding/DeviceSetupPage";
+export { SuccessPage } from "./pages/onboarding/SuccessPage";

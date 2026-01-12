@@ -29,7 +29,7 @@ import {
   WelcomePage,
   SignupPage,
   SigninPage,
-  DeviceSetupPage,
+  SuccessPage,
 } from "./app";
 
 const queryClient = new QueryClient();
@@ -50,7 +50,7 @@ const App = () => (
               <Route path="/onboarding" element={<WelcomePage />} />
               <Route path="/onboarding/signup" element={<SignupPage />} />
               <Route path="/onboarding/signin" element={<SigninPage />} />
-              <Route path="/onboarding/setup" element={<DeviceSetupPage />} />
+              <Route path="/onboarding/success" element={<SuccessPage />} />
               
               {/* Main App */}
               <Route path="/app" element={<AppLayout />}>
