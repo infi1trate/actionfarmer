@@ -16,7 +16,8 @@ import {
   ArrowRight,
   Loader2
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button, ButtonGroup } from "@/components/ui/button";
+import { AlignLeft, AlignCenter, AlignRight, Grid, List, LayoutGrid } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
@@ -149,47 +150,85 @@ const DesignSystem = () => {
             <p className="text-muted-foreground">Multiple variants and sizes for every use case.</p>
           </div>
 
-          <ComponentShowcase title="Brand Variants" description="Primary action buttons">
-            <Button variant="brand">Get Started</Button>
-            <Button variant="brand-outline">Learn More</Button>
-            <Button variant="brand-ghost">View Details</Button>
-            <Button variant="soft">Soft Action</Button>
+          <ComponentShowcase title="Primary Variants" description="Primary action buttons">
+            <Button variant="primary">Primary</Button>
+            <Button variant="outline-primary">Outline Primary</Button>
+            <Button variant="soft">Soft</Button>
+            <Button variant="brand">Brand (Glow)</Button>
           </ComponentShowcase>
 
           <ComponentShowcase title="Standard Variants">
-            <Button variant="default">Default</Button>
+            <Button variant="primary">Primary</Button>
             <Button variant="secondary">Secondary</Button>
             <Button variant="outline">Outline</Button>
             <Button variant="ghost">Ghost</Button>
-            <Button variant="link">Link</Button>
+            <Button variant="link">Link Style</Button>
           </ComponentShowcase>
 
           <ComponentShowcase title="Status Variants">
             <Button variant="success"><Check className="w-4 h-4" /> Success</Button>
             <Button variant="warning"><AlertTriangle className="w-4 h-4" /> Warning</Button>
             <Button variant="destructive"><X className="w-4 h-4" /> Danger</Button>
+            <Button variant="info"><Info className="w-4 h-4" /> Info</Button>
           </ComponentShowcase>
 
           <ComponentShowcase title="Sizes">
-            <Button variant="brand" size="xs">Extra Small</Button>
-            <Button variant="brand" size="sm">Small</Button>
-            <Button variant="brand" size="default">Default</Button>
-            <Button variant="brand" size="lg">Large</Button>
-            <Button variant="brand" size="xl">Extra Large</Button>
+            <Button variant="primary" size="sm">Small</Button>
+            <Button variant="primary" size="default">Default</Button>
+            <Button variant="primary" size="lg">Large</Button>
+            <Button variant="primary" size="xl">Extra Large</Button>
           </ComponentShowcase>
 
-          <ComponentShowcase title="Icon Buttons">
-            <Button variant="brand" size="icon-sm"><Plus /></Button>
-            <Button variant="brand" size="icon"><Star /></Button>
-            <Button variant="brand" size="icon-lg"><Settings /></Button>
+          <ComponentShowcase title="Icon Buttons (Square)">
+            <Button variant="primary" size="icon-sm"><Plus /></Button>
+            <Button variant="primary" size="icon"><Star /></Button>
+            <Button variant="primary" size="icon-lg"><Settings /></Button>
             <Button variant="secondary" size="icon"><Bell /></Button>
             <Button variant="outline" size="icon"><User /></Button>
           </ComponentShowcase>
 
-          <ComponentShowcase title="With Icons">
-            <Button variant="brand"><Zap className="w-4 h-4" /> Boost Now</Button>
-            <Button variant="secondary">Next <ArrowRight className="w-4 h-4" /></Button>
-            <Button variant="outline" disabled><Loader2 className="w-4 h-4 animate-spin" /> Loading...</Button>
+          <ComponentShowcase title="Icon Buttons (Circular)">
+            <Button variant="primary" size="icon-circle-sm"><Plus /></Button>
+            <Button variant="primary" size="icon-circle"><Star /></Button>
+            <Button variant="primary" size="icon-circle-lg"><Heart /></Button>
+            <Button variant="ghost" size="icon-circle"><Settings /></Button>
+          </ComponentShowcase>
+
+          <ComponentShowcase title="With Left/Right Icons">
+            <Button variant="primary" leftIcon={<Zap className="w-4 h-4" />}>Boost Now</Button>
+            <Button variant="secondary" rightIcon={<ArrowRight className="w-4 h-4" />}>Next</Button>
+            <Button variant="outline" leftIcon={<Search className="w-4 h-4" />} rightIcon={<ChevronRight className="w-4 h-4" />}>Search</Button>
+          </ComponentShowcase>
+
+          <ComponentShowcase title="Loading State">
+            <Button variant="primary" loading>Loading</Button>
+            <Button variant="secondary" loading>Processing</Button>
+            <Button variant="destructive" loading>Deleting</Button>
+          </ComponentShowcase>
+
+          <ComponentShowcase title="Disabled State">
+            <Button variant="primary" disabled>Primary</Button>
+            <Button variant="secondary" disabled>Secondary</Button>
+            <Button variant="outline" disabled>Outline</Button>
+            <Button variant="ghost" disabled>Ghost</Button>
+          </ComponentShowcase>
+
+          <ComponentShowcase title="Button Group (Segmented Control)">
+            <ButtonGroup>
+              <Button variant="secondary" size="sm"><AlignLeft className="w-4 h-4" /></Button>
+              <Button variant="secondary" size="sm"><AlignCenter className="w-4 h-4" /></Button>
+              <Button variant="secondary" size="sm"><AlignRight className="w-4 h-4" /></Button>
+            </ButtonGroup>
+            <ButtonGroup>
+              <Button variant="primary" size="sm">Day</Button>
+              <Button variant="secondary" size="sm">Week</Button>
+              <Button variant="secondary" size="sm">Month</Button>
+            </ButtonGroup>
+            <ButtonGroup>
+              <Button variant="secondary" size="icon-sm"><Grid className="w-4 h-4" /></Button>
+              <Button variant="primary" size="icon-sm"><LayoutGrid className="w-4 h-4" /></Button>
+              <Button variant="secondary" size="icon-sm"><List className="w-4 h-4" /></Button>
+            </ButtonGroup>
           </ComponentShowcase>
         </section>
 
