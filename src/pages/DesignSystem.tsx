@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { 
   Zap, 
   Check, 
@@ -26,16 +26,7 @@ import { ComponentShowcase, ShowcaseGrid } from "@/components/design-system/Comp
 import { ThemeToggle } from "@/components/design-system/ThemeToggle";
 
 const DesignSystem = () => {
-  const [theme, setTheme] = useState<"light" | "dark">("light");
   const [progressValue, setProgressValue] = useState(65);
-
-  useEffect(() => {
-    document.documentElement.classList.toggle("dark", theme === "dark");
-  }, [theme]);
-
-  const toggleTheme = () => {
-    setTheme((prev) => (prev === "light" ? "dark" : "light"));
-  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -51,7 +42,7 @@ const DesignSystem = () => {
               <p className="text-xs text-muted-foreground">v1.0.0</p>
             </div>
           </div>
-          <ThemeToggle theme={theme} onToggle={toggleTheme} />
+          <ThemeToggle />
         </div>
       </header>
 
