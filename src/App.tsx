@@ -39,6 +39,12 @@ import {
   ModeSelectionPage,
 } from "./app";
 
+import {
+  SessionCompletedPage,
+  SessionAnnotationPage,
+  UploadConfirmationPage,
+} from "./app/pages/session";
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -65,6 +71,11 @@ const App = () => (
               <Route path="/onboarding/zones" element={<ZoneSelectionPage />} />
               <Route path="/onboarding/schedule" element={<ScheduleSelectionPage />} />
               <Route path="/onboarding/modes" element={<ModeSelectionPage />} />
+              
+              {/* Session Flow */}
+              <Route path="/session/complete" element={<SessionCompletedPage />} />
+              <Route path="/session/annotate" element={<SessionAnnotationPage />} />
+              <Route path="/session/confirm" element={<UploadConfirmationPage />} />
               
               {/* Main App */}
               <Route path="/app" element={<AppLayout />}>
