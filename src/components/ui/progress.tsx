@@ -8,8 +8,9 @@ const progressVariants = cva(
   {
     variants: {
       size: {
-        default: "h-3",
+        xs: "h-1",
         sm: "h-2",
+        default: "h-3",
         lg: "h-4",
         xl: "h-5",
       },

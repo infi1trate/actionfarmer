@@ -58,6 +58,11 @@ import { Switch, ToggleSwitch } from "@/components/ui/switch";
 import { Slider, LabeledSlider } from "@/components/ui/slider";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import { ProgressRing } from "@/components/ui/progress-ring";
+import { StreakIndicator, StreakBadge } from "@/components/ui/streak-indicator";
+import { XPCountUp, XPCountUpInline } from "@/components/ui/xp-count-up";
+import { RewardToast, RewardToastContainer } from "@/components/ui/reward-toast";
+import { MissionCard, MissionCardCompact } from "@/components/ui/mission-card";
 import { TokenSection, ColorSwatch, ColorRow } from "@/components/design-system/TokenSection";
 import { ComponentShowcase, ShowcaseGrid } from "@/components/design-system/ComponentShowcase";
 import { ThemeToggle } from "@/components/design-system/ThemeToggle";
@@ -93,6 +98,8 @@ const DesignSystem = () => {
   const [sideSheetOpen, setSideSheetOpen] = useState(false);
   const [selectedChips, setSelectedChips] = useState<string[]>(["react"]);
   const [chipList, setChipList] = useState(["Tag 1", "Tag 2", "Tag 3"]);
+  const [xpValue, setXpValue] = useState(1250);
+  const [showRewardToast, setShowRewardToast] = useState(false);
 
   // Demo data for navigation components
   const bottomTabs: TabItem[] = [
@@ -1840,6 +1847,312 @@ const DesignSystem = () => {
                   <CardDescription>Hover to see effect</CardDescription>
                 </CardHeader>
               </Card>
+            </ShowcaseGrid>
+          </div>
+        </section>
+
+        {/* Progress & Rewards */}
+        <section className="space-y-8">
+          <div>
+            <h2 className="font-display text-2xl font-bold mb-2">Progress & Rewards</h2>
+            <p className="text-muted-foreground">Gamification components with tasteful motion and reduced-motion support.</p>
+          </div>
+
+          {/* Progress Bar */}
+          <div className="space-y-6">
+            <h3 className="font-display text-xl font-semibold">Progress Bar</h3>
+            
+            <ComponentShowcase title="Sizes" description="From thin to thick">
+              <div className="w-full max-w-md space-y-4">
+                <div>
+                  <p className="text-xs text-muted-foreground mb-2">Extra Small (xs)</p>
+                  <Progress value={75} size="xs" />
+                </div>
+                <div>
+                  <p className="text-xs text-muted-foreground mb-2">Small (sm)</p>
+                  <Progress value={75} size="sm" />
+                </div>
+                <div>
+                  <p className="text-xs text-muted-foreground mb-2">Default</p>
+                  <Progress value={75} size="default" />
+                </div>
+                <div>
+                  <p className="text-xs text-muted-foreground mb-2">Large (lg)</p>
+                  <Progress value={75} size="lg" />
+                </div>
+                <div>
+                  <p className="text-xs text-muted-foreground mb-2">Extra Large (xl)</p>
+                  <Progress value={75} size="xl" />
+                </div>
+              </div>
+            </ComponentShowcase>
+
+            <ComponentShowcase title="Variants" description="Status colors">
+              <div className="w-full max-w-md space-y-3">
+                <Progress value={65} variant="default" />
+                <Progress value={65} variant="brand" />
+                <Progress value={65} variant="success" />
+                <Progress value={65} variant="warning" />
+                <Progress value={65} variant="danger" />
+                <Progress value={65} variant="info" />
+                <Progress value={65} variant="gradient" />
+              </div>
+            </ComponentShowcase>
+
+            <ComponentShowcase title="With Value Label">
+              <div className="w-full max-w-md pt-6">
+                <Progress value={progressValue} variant="brand" showValue />
+              </div>
+            </ComponentShowcase>
+          </div>
+
+          {/* Progress Ring */}
+          <div className="space-y-6">
+            <h3 className="font-display text-xl font-semibold">Progress Ring</h3>
+            
+            <ComponentShowcase title="Sizes">
+              <ProgressRing value={65} size="sm" showValue />
+              <ProgressRing value={65} size="default" showValue />
+              <ProgressRing value={65} size="lg" showValue />
+              <ProgressRing value={65} size="xl" showValue />
+            </ComponentShowcase>
+
+            <ComponentShowcase title="Variants">
+              <ProgressRing value={75} variant="default" showValue />
+              <ProgressRing value={75} variant="brand" showValue />
+              <ProgressRing value={75} variant="success" showValue />
+              <ProgressRing value={75} variant="warning" showValue />
+              <ProgressRing value={75} variant="danger" showValue />
+              <ProgressRing value={75} variant="info" showValue />
+            </ComponentShowcase>
+
+            <ComponentShowcase title="With Label">
+              <ProgressRing value={85} variant="brand" size="lg" showValue label="Complete" />
+              <ProgressRing value={42} variant="success" size="lg" showValue label="Synced" />
+              <ProgressRing value={7} max={10} variant="info" size="lg" showValue label="Level 7" />
+            </ComponentShowcase>
+          </div>
+
+          {/* Streak Indicator */}
+          <div className="space-y-6">
+            <h3 className="font-display text-xl font-semibold">Streak Indicator</h3>
+            
+            <ComponentShowcase title="Variants" description="Tasteful streak displays">
+              <StreakIndicator count={12} variant="fire" />
+              <StreakIndicator count={7} variant="electric" />
+              <StreakIndicator count={30} variant="gold" />
+              <StreakIndicator count={5} variant="default" />
+            </ComponentShowcase>
+
+            <ComponentShowcase title="Sizes">
+              <StreakIndicator count={12} size="sm" />
+              <StreakIndicator count={12} size="default" />
+              <StreakIndicator count={12} size="lg" />
+              <StreakIndicator count={12} size="xl" />
+            </ComponentShowcase>
+
+            <ComponentShowcase title="With Label">
+              <StreakIndicator count={12} label="day streak" />
+              <StreakIndicator count={7} variant="electric" label="sessions" />
+              <StreakIndicator count={30} variant="gold" label="days" milestone />
+            </ComponentShowcase>
+
+            <ComponentShowcase title="Streak Badges" description="Compact badge style">
+              <StreakBadge count={5} variant="fire" size="sm" />
+              <StreakBadge count={12} variant="fire" />
+              <StreakBadge count={30} variant="gold" size="lg" />
+              <StreakBadge count={7} variant="electric" />
+            </ComponentShowcase>
+          </div>
+
+          {/* XP Count Up */}
+          <div className="space-y-6">
+            <h3 className="font-display text-xl font-semibold">XP Count Up</h3>
+            
+            <ComponentShowcase title="Animated Counter" description="Click to add XP">
+              <div className="flex flex-col items-center gap-4">
+                <XPCountUp value={xpValue} variant="brand" size="lg" />
+                <Button 
+                  variant="primary" 
+                  size="sm"
+                  onClick={() => setXpValue(prev => prev + Math.floor(Math.random() * 500) + 100)}
+                >
+                  <Plus className="w-4 h-4 mr-1" /> Add XP
+                </Button>
+              </div>
+            </ComponentShowcase>
+
+            <ComponentShowcase title="Sizes">
+              <XPCountUp value={1250} size="sm" />
+              <XPCountUp value={1250} size="default" />
+              <XPCountUp value={1250} size="lg" />
+              <XPCountUp value={1250} size="xl" />
+            </ComponentShowcase>
+
+            <ComponentShowcase title="Variants">
+              <XPCountUp value={2500} variant="default" />
+              <XPCountUp value={2500} variant="brand" />
+              <XPCountUp value={2500} variant="success" />
+              <XPCountUp value={2500} variant="gradient" />
+            </ComponentShowcase>
+
+            <ComponentShowcase title="Custom Labels">
+              <XPCountUp value={156.50} prefix="$" suffix="" />
+              <XPCountUp value={42} suffix="pts" />
+              <XPCountUp value={1000} suffix="tokens" variant="brand" />
+            </ComponentShowcase>
+
+            <ComponentShowcase title="Inline Variant">
+              <p className="text-sm">
+                You've earned <XPCountUpInline value={350} /> today!
+              </p>
+            </ComponentShowcase>
+          </div>
+
+          {/* Reward Toast */}
+          <div className="space-y-6">
+            <h3 className="font-display text-xl font-semibold">Reward Toast</h3>
+            
+            <ComponentShowcase title="Variants" className="block">
+              <div className="space-y-3 max-w-sm">
+                <RewardToast 
+                  variant="brand"
+                  title="Daily Bonus!"
+                  description="Keep up the great work"
+                  value="50 XP"
+                  icon="sparkles"
+                />
+                <RewardToast 
+                  variant="success"
+                  title="Mission Complete"
+                  description="Earned your first reward"
+                  value="100"
+                  icon="trophy"
+                />
+                <RewardToast 
+                  variant="gold"
+                  title="Achievement Unlocked"
+                  description="You're on fire!"
+                  value="500 XP"
+                  icon="star"
+                />
+                <RewardToast 
+                  variant="celebration"
+                  title="Level Up!"
+                  description="You reached level 5"
+                  icon="zap"
+                />
+              </div>
+            </ComponentShowcase>
+
+            <ComponentShowcase title="Interactive Demo">
+              <div className="flex flex-col items-center gap-4">
+                <Button 
+                  variant="brand" 
+                  onClick={() => setShowRewardToast(true)}
+                >
+                  <Gift className="w-4 h-4 mr-2" /> Show Reward Toast
+                </Button>
+                {showRewardToast && (
+                  <div className="w-full max-w-sm">
+                    <RewardToast 
+                      variant="celebration"
+                      title="Bonus Earned!"
+                      description="You've unlocked a special reward"
+                      value="250"
+                      icon="gift"
+                      onDismiss={() => setShowRewardToast(false)}
+                    />
+                  </div>
+                )}
+              </div>
+            </ComponentShowcase>
+          </div>
+
+          {/* Mission Card */}
+          <div className="space-y-6">
+            <h3 className="font-display text-xl font-semibold">Mission Card</h3>
+            
+            <ShowcaseGrid columns={2}>
+              <ComponentShowcase title="Active Mission" className="block">
+                <MissionCard
+                  title="Complete 5 Daily Check-ins"
+                  description="Check in every day to build your streak"
+                  progress={3}
+                  progressMax={5}
+                  reward={100}
+                  ctaLabel="Check In"
+                  onCtaClick={() => {}}
+                />
+              </ComponentShowcase>
+
+              <ComponentShowcase title="Highlighted" className="block">
+                <MissionCard
+                  variant="highlighted"
+                  title="First Device Setup"
+                  description="Connect your first DePIN device to earn bonus XP"
+                  icon="zap"
+                  reward={500}
+                  ctaLabel="Get Started"
+                  onCtaClick={() => {}}
+                />
+              </ComponentShowcase>
+
+              <ComponentShowcase title="Near Completion" className="block">
+                <MissionCard
+                  title="Refer 3 Friends"
+                  description="Invite friends and earn together"
+                  progress={2}
+                  progressMax={3}
+                  reward={250}
+                  timeRemaining="2 days left"
+                  ctaLabel="Invite"
+                  onCtaClick={() => {}}
+                />
+              </ComponentShowcase>
+
+              <ComponentShowcase title="Completed" className="block">
+                <MissionCard
+                  title="Complete Profile"
+                  description="Fill out your profile information"
+                  progress={5}
+                  progressMax={5}
+                  reward={50}
+                  completed
+                  onCtaClick={() => {}}
+                />
+              </ComponentShowcase>
+
+              <ComponentShowcase title="Locked" className="block">
+                <MissionCard
+                  title="Premium Challenge"
+                  description="Unlock exclusive rewards"
+                  locked
+                  reward={1000}
+                />
+              </ComponentShowcase>
+
+              <ComponentShowcase title="Compact Variant" className="block">
+                <div className="space-y-2">
+                  <MissionCardCompact 
+                    title="Daily Login" 
+                    progress={1} 
+                    progressMax={1}
+                    reward={10}
+                    completed
+                  />
+                  <MissionCardCompact 
+                    title="Sync Device Data" 
+                    progress={3} 
+                    progressMax={5}
+                    reward={25}
+                  />
+                  <MissionCardCompact 
+                    title="Join Community" 
+                    reward={50}
+                  />
+                </div>
+              </ComponentShowcase>
             </ShowcaseGrid>
           </div>
         </section>
