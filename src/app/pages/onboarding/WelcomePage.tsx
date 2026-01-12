@@ -7,7 +7,7 @@ export function WelcomePage() {
   const navigate = useNavigate();
 
   const handleGetStarted = () => {
-    navigate("/onboarding/signup");
+    navigate("/onboarding/explain");
   };
 
   const handleSignIn = () => {
