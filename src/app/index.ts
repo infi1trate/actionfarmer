@@ -11,3 +11,6 @@ export { SuccessPage } from "./pages/onboarding/SuccessPage";
 export { OnboardingExplainPage } from "./pages/onboarding/OnboardingExplainPage";
 export { OnboardingPrivacyPage } from "./pages/onboarding/OnboardingPrivacyPage";
 export { OnboardingConsentPage } from "./pages/onboarding/OnboardingConsentPage";
+export { CameraPlacementPage } from "./pages/onboarding/CameraPlacementPage";
+export { ZoneSelectionPage } from "./pages/onboarding/ZoneSelectionPage";
+export { ScheduleSelectionPage } from "./pages/onboarding/ScheduleSelectionPage";

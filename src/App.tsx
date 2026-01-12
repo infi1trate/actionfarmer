@@ -33,6 +33,9 @@ import {
   OnboardingExplainPage,
   OnboardingPrivacyPage,
   OnboardingConsentPage,
+  CameraPlacementPage,
+  ZoneSelectionPage,
+  ScheduleSelectionPage,
 } from "./app";
 
 const queryClient = new QueryClient();
@@ -57,6 +60,9 @@ const App = () => (
               <Route path="/onboarding/signup" element={<SignupPage />} />
               <Route path="/onboarding/signin" element={<SigninPage />} />
               <Route path="/onboarding/success" element={<SuccessPage />} />
+              <Route path="/onboarding/camera" element={<CameraPlacementPage />} />
+              <Route path="/onboarding/zones" element={<ZoneSelectionPage />} />
+              <Route path="/onboarding/schedule" element={<ScheduleSelectionPage />} />
               
               {/* Main App */}
               <Route path="/app" element={<AppLayout />}>
