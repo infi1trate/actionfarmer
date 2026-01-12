@@ -87,6 +87,41 @@ import { List as ListContainer, ListRow, ListSectionHeader } from "@/components/
 import { Divider } from "@/components/ui/divider";
 import { EmptyState, EmptyStateInline } from "@/components/ui/empty-state";
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell, TableEmpty } from "@/components/ui/table";
+import { 
+  Dialog, 
+  DialogTrigger, 
+  DialogContent, 
+  DialogHeader, 
+  DialogBody, 
+  DialogFooter, 
+  DialogTitle, 
+  DialogDescription 
+} from "@/components/ui/dialog";
+import {
+  BottomSheet,
+  BottomSheetTrigger,
+  BottomSheetContent,
+  BottomSheetHeader,
+  BottomSheetBody,
+  BottomSheetFooter,
+  BottomSheetTitle,
+  BottomSheetDescription,
+} from "@/components/ui/bottom-sheet";
+import { AlertBanner, AlertStickyBanner } from "@/components/ui/alert-banner";
+import { 
+  ConfirmDialog,
+  ConfirmDialogTrigger,
+  ConfirmDialogContent,
+  ConfirmDialogHeader,
+  ConfirmDialogFooter,
+  ConfirmDialogTitle,
+  ConfirmDialogDescription,
+  ConfirmDialogAction,
+  ConfirmDialogCancel,
+  ConfirmDialogIcon,
+  ConfirmDialogSimple,
+} from "@/components/ui/confirm-dialog";
+import { useToast } from "@/hooks/use-toast";
 
 const DesignSystem = () => {
   const [progressValue, setProgressValue] = useState(65);
@@ -100,6 +135,8 @@ const DesignSystem = () => {
   const [chipList, setChipList] = useState(["Tag 1", "Tag 2", "Tag 3"]);
   const [xpValue, setXpValue] = useState(1250);
   const [showRewardToast, setShowRewardToast] = useState(false);
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+  const { toast } = useToast();
 
   // Demo data for navigation components
   const bottomTabs: TabItem[] = [
@@ -2154,6 +2191,369 @@ const DesignSystem = () => {
                 </div>
               </ComponentShowcase>
             </ShowcaseGrid>
+          </div>
+        </section>
+
+        {/* Overlays */}
+        <section className="space-y-8">
+          <div>
+            <h2 className="font-display text-2xl font-bold mb-2">Overlays</h2>
+            <p className="text-muted-foreground">Modal dialogs, bottom sheets, toasts, and alert banners with semantic overlay backgrounds.</p>
+          </div>
+
+          {/* Modal Dialog */}
+          <div className="space-y-6">
+            <h3 className="font-display text-xl font-semibold">Modal Dialog</h3>
+            
+            <ComponentShowcase title="Sizes" description="Small, default, large, and extra large">
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button variant="outline" size="sm">Small Modal</Button>
+                </DialogTrigger>
+                <DialogContent size="sm">
+                  <DialogHeader>
+                    <DialogTitle>Small Dialog</DialogTitle>
+                    <DialogDescription>A compact modal for simple actions.</DialogDescription>
+                  </DialogHeader>
+                  <DialogBody>
+                    <p className="text-sm text-muted-foreground">This is a small dialog perfect for quick confirmations or minimal content.</p>
+                  </DialogBody>
+                  <DialogFooter>
+                    <Button variant="ghost">Cancel</Button>
+                    <Button variant="primary">Confirm</Button>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
+
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button variant="outline">Default Modal</Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Edit Profile</DialogTitle>
+                    <DialogDescription>Make changes to your profile here. Click save when you're done.</DialogDescription>
+                  </DialogHeader>
+                  <DialogBody>
+                    <div className="space-y-4">
+                      <FormField label="Display Name">
+                        <TextInput placeholder="Enter your name" />
+                      </FormField>
+                      <FormField label="Username">
+                        <TextInput placeholder="@username" />
+                      </FormField>
+                    </div>
+                  </DialogBody>
+                  <DialogFooter>
+                    <Button variant="ghost">Cancel</Button>
+                    <Button variant="primary">Save Changes</Button>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
+
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button variant="outline" size="lg">Large Modal</Button>
+                </DialogTrigger>
+                <DialogContent size="lg">
+                  <DialogHeader>
+                    <DialogTitle>Device Settings</DialogTitle>
+                    <DialogDescription>Configure your DePIN device settings and preferences.</DialogDescription>
+                  </DialogHeader>
+                  <DialogBody>
+                    <div className="space-y-4">
+                      <Card variant="default">
+                        <CardContent className="pt-4">
+                          <div className="flex items-center justify-between">
+                            <div>
+                              <p className="font-medium">Auto-sync</p>
+                              <p className="text-sm text-muted-foreground">Automatically sync device data</p>
+                            </div>
+                            <Switch />
+                          </div>
+                        </CardContent>
+                      </Card>
+                      <Card variant="default">
+                        <CardContent className="pt-4">
+                          <div className="flex items-center justify-between">
+                            <div>
+                              <p className="font-medium">Notifications</p>
+                              <p className="text-sm text-muted-foreground">Receive earnings alerts</p>
+                            </div>
+                            <Switch defaultChecked />
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </div>
+                  </DialogBody>
+                  <DialogFooter>
+                    <Button variant="ghost">Cancel</Button>
+                    <Button variant="primary">Save Settings</Button>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
+            </ComponentShowcase>
+          </div>
+
+          {/* Bottom Sheet */}
+          <div className="space-y-6">
+            <h3 className="font-display text-xl font-semibold">Bottom Sheet</h3>
+            
+            <ComponentShowcase title="Mobile Bottom Sheet" description="Swipe-to-dismiss drawer for mobile interfaces">
+              <BottomSheet>
+                <BottomSheetTrigger asChild>
+                  <Button variant="outline">Open Bottom Sheet</Button>
+                </BottomSheetTrigger>
+                <BottomSheetContent>
+                  <BottomSheetHeader>
+                    <BottomSheetTitle>Select Action</BottomSheetTitle>
+                    <BottomSheetDescription>Choose an action for your device</BottomSheetDescription>
+                  </BottomSheetHeader>
+                  <BottomSheetBody>
+                    <div className="space-y-2">
+                      <ListRow 
+                        icon={Settings} 
+                        title="Device Settings" 
+                        subtitle="Configure your device"
+                      />
+                      <ListRow 
+                        icon={Activity} 
+                        title="View Activity" 
+                        subtitle="See recent earnings"
+                      />
+                      <ListRow 
+                        icon={Wifi} 
+                        title="Connection Status" 
+                        subtitle="Check network connectivity"
+                      />
+                    </div>
+                  </BottomSheetBody>
+                  <BottomSheetFooter>
+                    <Button variant="primary" className="w-full">Done</Button>
+                  </BottomSheetFooter>
+                </BottomSheetContent>
+              </BottomSheet>
+
+              <BottomSheet>
+                <BottomSheetTrigger asChild>
+                  <Button variant="secondary">Large Sheet</Button>
+                </BottomSheetTrigger>
+                <BottomSheetContent size="lg">
+                  <BottomSheetHeader>
+                    <BottomSheetTitle>Transaction History</BottomSheetTitle>
+                    <BottomSheetDescription>Your recent earnings and withdrawals</BottomSheetDescription>
+                  </BottomSheetHeader>
+                  <BottomSheetBody>
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between py-3 border-b border-border">
+                        <div>
+                          <p className="font-medium">Daily Reward</p>
+                          <p className="text-xs text-muted-foreground">Jan 12, 2025</p>
+                        </div>
+                        <span className="text-success font-semibold">+$12.50</span>
+                      </div>
+                      <div className="flex items-center justify-between py-3 border-b border-border">
+                        <div>
+                          <p className="font-medium">Bonus</p>
+                          <p className="text-xs text-muted-foreground">Jan 11, 2025</p>
+                        </div>
+                        <span className="text-success font-semibold">+$25.00</span>
+                      </div>
+                      <div className="flex items-center justify-between py-3 border-b border-border">
+                        <div>
+                          <p className="font-medium">Withdrawal</p>
+                          <p className="text-xs text-muted-foreground">Jan 10, 2025</p>
+                        </div>
+                        <span className="font-semibold">-$50.00</span>
+                      </div>
+                    </div>
+                  </BottomSheetBody>
+                </BottomSheetContent>
+              </BottomSheet>
+            </ComponentShowcase>
+          </div>
+
+          {/* Toast System */}
+          <div className="space-y-6">
+            <h3 className="font-display text-xl font-semibold">Toast System</h3>
+            
+            <ComponentShowcase title="Toast Variants" description="Click to trigger different toast types">
+              <Button 
+                variant="outline"
+                onClick={() => toast({
+                  title: "Default Toast",
+                  description: "This is a default notification",
+                })}
+              >
+                Default
+              </Button>
+              <Button 
+                variant="success"
+                onClick={() => toast({
+                  variant: "success",
+                  title: "Success!",
+                  description: "Your changes have been saved",
+                })}
+              >
+                Success
+              </Button>
+              <Button 
+                variant="info"
+                onClick={() => toast({
+                  variant: "info",
+                  title: "Did you know?",
+                  description: "You can earn more by staying online",
+                })}
+              >
+                Info
+              </Button>
+              <Button 
+                variant="warning"
+                onClick={() => toast({
+                  variant: "warning",
+                  title: "Warning",
+                  description: "Your device is running low on storage",
+                })}
+              >
+                Warning
+              </Button>
+              <Button 
+                variant="destructive"
+                onClick={() => toast({
+                  variant: "destructive",
+                  title: "Error",
+                  description: "Failed to connect to the network",
+                })}
+              >
+                Danger
+              </Button>
+              <Button 
+                variant="brand"
+                onClick={() => toast({
+                  variant: "reward",
+                  title: "Reward Earned!",
+                  description: "You just earned 50 XP",
+                })}
+              >
+                Reward
+              </Button>
+            </ComponentShowcase>
+          </div>
+
+          {/* Alert Banner */}
+          <div className="space-y-6">
+            <h3 className="font-display text-xl font-semibold">Alert Banner</h3>
+            
+            <ComponentShowcase title="Variants" className="block">
+              <div className="space-y-3 max-w-xl">
+                <AlertBanner variant="info" title="New Feature Available">
+                  Check out our latest device monitoring tools.
+                </AlertBanner>
+                <AlertBanner variant="success" title="Connection Established">
+                  Your device is now synced and earning rewards.
+                </AlertBanner>
+                <AlertBanner variant="warning" title="Maintenance Scheduled">
+                  The network will undergo maintenance on Jan 15.
+                </AlertBanner>
+                <AlertBanner variant="danger" title="Device Offline">
+                  Your Helium miner has been offline for 2 hours.
+                </AlertBanner>
+                <AlertBanner variant="brand" title="Special Offer">
+                  Earn 2x rewards this weekend!
+                </AlertBanner>
+              </div>
+            </ComponentShowcase>
+
+            <ComponentShowcase title="Dismissible" className="block">
+              <div className="space-y-3 max-w-xl">
+                <AlertBanner 
+                  variant="info" 
+                  dismissible
+                  title="Pro Tip"
+                >
+                  You can dismiss this banner by clicking the X button.
+                </AlertBanner>
+              </div>
+            </ComponentShowcase>
+
+            <ComponentShowcase title="With Action" className="block">
+              <div className="max-w-xl">
+                <AlertBanner 
+                  variant="warning" 
+                  title="Update Available"
+                  action={
+                    <Button size="sm" variant="warning">Update Now</Button>
+                  }
+                >
+                  A new firmware version is available for your device.
+                </AlertBanner>
+              </div>
+            </ComponentShowcase>
+
+            <ComponentShowcase title="Sticky Banner" className="block">
+              <div className="space-y-2">
+                <AlertStickyBanner variant="brand">
+                  🎉 Limited time: Earn 3x rewards on all connected devices!
+                </AlertStickyBanner>
+                <AlertStickyBanner variant="warning">
+                  ⚠️ Scheduled maintenance tonight at 2:00 AM UTC
+                </AlertStickyBanner>
+                <AlertStickyBanner variant="danger" dismissible>
+                  Network issues detected in your region
+                </AlertStickyBanner>
+              </div>
+            </ComponentShowcase>
+          </div>
+
+          {/* Confirm Dialog */}
+          <div className="space-y-6">
+            <h3 className="font-display text-xl font-semibold">Confirm Dialog</h3>
+            
+            <ComponentShowcase title="Destructive Confirmation" description="For dangerous actions like delete">
+              <ConfirmDialogSimple
+                trigger={<Button variant="destructive">Delete Device</Button>}
+                title="Delete Device?"
+                description="This action cannot be undone. This will permanently delete your device and remove all associated data."
+                confirmLabel="Delete"
+                variant="destructive"
+                icon="delete"
+                onConfirm={() => toast({ variant: "success", title: "Device deleted" })}
+              />
+
+              <ConfirmDialogSimple
+                trigger={<Button variant="outline">Log Out</Button>}
+                title="Log out?"
+                description="You'll need to sign in again to access your account."
+                confirmLabel="Log Out"
+                variant="warning"
+                icon="logout"
+                onConfirm={() => toast({ title: "Logged out successfully" })}
+              />
+
+              <ConfirmDialog open={showConfirmDialog} onOpenChange={setShowConfirmDialog}>
+                <ConfirmDialogTrigger asChild>
+                  <Button variant="secondary">Custom Dialog</Button>
+                </ConfirmDialogTrigger>
+                <ConfirmDialogContent>
+                  <ConfirmDialogHeader>
+                    <ConfirmDialogIcon variant="warning" icon="security" />
+                    <ConfirmDialogTitle>Reset Security Settings?</ConfirmDialogTitle>
+                    <ConfirmDialogDescription className="mt-2">
+                      This will reset all your security preferences including 2FA. You'll need to set them up again.
+                    </ConfirmDialogDescription>
+                  </ConfirmDialogHeader>
+                  <ConfirmDialogFooter className="mt-4">
+                    <ConfirmDialogCancel>Keep Settings</ConfirmDialogCancel>
+                    <ConfirmDialogAction 
+                      variant="warning"
+                      onClick={() => toast({ variant: "warning", title: "Settings reset" })}
+                    >
+                      Reset Settings
+                    </ConfirmDialogAction>
+                  </ConfirmDialogFooter>
+                </ConfirmDialogContent>
+              </ConfirmDialog>
+            </ComponentShowcase>
           </div>
         </section>
 
