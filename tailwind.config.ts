@@ -17,6 +17,23 @@ export default {
       },
     },
     extend: {
+      // 8px grid spacing scale
+      spacing: {
+        "0": "0",
+        "0.5": "var(--space-0-5)",  // 2px
+        "1": "var(--space-1)",      // 4px
+        "2": "var(--space-2)",      // 8px - base
+        "3": "var(--space-3)",      // 12px
+        "4": "var(--space-4)",      // 16px
+        "5": "var(--space-5)",      // 20px
+        "6": "var(--space-6)",      // 24px
+        "8": "var(--space-8)",      // 32px
+        "10": "var(--space-10)",    // 40px
+        "12": "var(--space-12)",    // 48px
+        "16": "var(--space-16)",    // 64px
+        "20": "var(--space-20)",    // 80px
+        "24": "var(--space-24)",    // 96px
+      },
       fontFamily: {
         display: ["Barlow Condensed", "ui-sans-serif", "system-ui", "sans-serif"],
         body: ["Inter", "Source Sans 3", "ui-sans-serif", "system-ui", "sans-serif"],
@@ -180,13 +197,17 @@ export default {
         },
       },
       borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
-        xl: "var(--radius-xl)",
-        "2xl": "calc(var(--radius-xl) + 0.5rem)",
+        xs: "var(--radius-xs)",   // 8px
+        sm: "var(--radius-sm)",   // 12px
+        DEFAULT: "var(--radius)", // 16px
+        md: "var(--radius)",      // 16px
+        lg: "var(--radius-lg)",   // 20px
+        xl: "var(--radius-xl)",   // 24px
+        "2xl": "var(--radius-2xl)", // 32px
+        full: "var(--radius-full)",
       },
       boxShadow: {
+        xs: "var(--shadow-xs)",
         sm: "var(--shadow-sm)",
         DEFAULT: "var(--shadow)",
         md: "var(--shadow-md)",

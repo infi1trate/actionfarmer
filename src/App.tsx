@@ -9,6 +9,7 @@ import DesignSystem from "./pages/DesignSystem";
 import Brand from "./pages/Brand";
 import TokenReference from "./pages/TokenReference";
 import Typography from "./pages/Typography";
+import Layout from "./pages/Layout";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -26,6 +27,7 @@ const App = () => (
             <Route path="/brand" element={<Brand />} />
             <Route path="/tokens" element={<TokenReference />} />
             <Route path="/typography" element={<Typography />} />
+            <Route path="/layout" element={<Layout />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
