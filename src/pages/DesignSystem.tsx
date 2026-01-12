@@ -18,7 +18,17 @@ import {
   Mail,
   Lock,
   Eye,
-  EyeOff
+  EyeOff,
+  Home,
+  Wallet,
+  BarChart3,
+  Menu,
+  HelpCircle,
+  LogOut,
+  Shield,
+  Gift,
+  Cpu,
+  MoreHorizontal
 } from "lucide-react";
 import { Button, ButtonGroup } from "@/components/ui/button";
 import { AlignLeft, AlignCenter, AlignRight, Grid, List, LayoutGrid } from "lucide-react";
@@ -38,6 +48,22 @@ import { Progress } from "@/components/ui/progress";
 import { TokenSection, ColorSwatch, ColorRow } from "@/components/design-system/TokenSection";
 import { ComponentShowcase, ShowcaseGrid } from "@/components/design-system/ComponentShowcase";
 import { ThemeToggle } from "@/components/design-system/ThemeToggle";
+import { TopAppBar, TopAppBarCompact } from "@/components/ui/top-app-bar";
+import { BottomTabBar, type TabItem } from "@/components/ui/bottom-tab-bar";
+import { 
+  SideSheet, 
+  SideSheetTrigger, 
+  SideSheetContent, 
+  SideSheetHeader, 
+  SideSheetTitle, 
+  SideSheetDescription,
+  SideSheetNav,
+  SideSheetNavSection,
+  SideSheetFooter,
+  type NavItem
+} from "@/components/ui/side-sheet";
+import { Breadcrumbs } from "@/components/ui/breadcrumb";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 
 const DesignSystem = () => {
   const [progressValue, setProgressValue] = useState(65);
@@ -46,6 +72,30 @@ const DesignSystem = () => {
   const [sliderValue, setSliderValue] = useState([50]);
   const [multiplierValue, setMultiplierValue] = useState([1.5]);
   const [showPassword, setShowPassword] = useState(false);
+  const [sideSheetOpen, setSideSheetOpen] = useState(false);
+
+  // Demo data for navigation components
+  const bottomTabs: TabItem[] = [
+    { icon: Home, label: "Home", href: "/" },
+    { icon: Wallet, label: "Wallet", href: "/wallet" },
+    { icon: Cpu, label: "Devices", href: "/devices", badge: 3 },
+    { icon: BarChart3, label: "Stats", href: "/stats" },
+    { icon: User, label: "Profile", href: "/profile" },
+  ];
+
+  const sideNavItems: NavItem[] = [
+    { icon: Home, label: "Dashboard", href: "/" },
+    { icon: Wallet, label: "Wallet", href: "/wallet" },
+    { icon: Cpu, label: "My Devices", href: "/devices", badge: 3 },
+    { icon: BarChart3, label: "Analytics", href: "/stats" },
+    { icon: Gift, label: "Rewards", href: "/rewards" },
+  ];
+
+  const sideNavSecondary: NavItem[] = [
+    { icon: Settings, label: "Settings", href: "/settings" },
+    { icon: Shield, label: "Security", href: "/security" },
+    { icon: HelpCircle, label: "Help & Support", href: "/help" },
+  ];
 
   return (
     <div className="min-h-screen bg-background">
@@ -958,6 +1008,258 @@ const DesignSystem = () => {
                 <Button variant="brand" className="flex-1">Save Device</Button>
               </CardFooter>
             </Card>
+          </div>
+        </section>
+
+        {/* Navigation Section */}
+        <section className="space-y-8">
+          <div>
+            <h2 className="font-display text-2xl font-bold mb-2">Navigation</h2>
+            <p className="text-muted-foreground">Crisp, Robinhood-clean navigation components with yellow as the active indicator.</p>
+          </div>
+
+          {/* TopAppBar */}
+          <div className="space-y-6">
+            <h3 className="font-display text-xl font-semibold">Top App Bar</h3>
+            
+            <ComponentShowcase title="Standard App Bar" className="block p-0 overflow-hidden">
+              <div className="border border-border rounded-xl overflow-hidden">
+                <TopAppBar
+                  title="Dashboard"
+                  subtitle="Welcome back, Alex"
+                  rightActions={
+                    <>
+                      <Button variant="ghost" size="icon"><Bell className="w-5 h-5" /></Button>
+                      <Button variant="ghost" size="icon"><Settings className="w-5 h-5" /></Button>
+                    </>
+                  }
+                  sticky={false}
+                  className="relative"
+                />
+                <div className="h-20 bg-surface-2 flex items-center justify-center text-muted-foreground text-sm">
+                  Page content
+                </div>
+              </div>
+            </ComponentShowcase>
+
+            <ComponentShowcase title="With Back Button" className="block p-0 overflow-hidden">
+              <div className="border border-border rounded-xl overflow-hidden">
+                <TopAppBar
+                  title="Device Details"
+                  showBack
+                  rightActions={
+                    <Button variant="ghost" size="icon"><MoreHorizontal className="w-5 h-5" /></Button>
+                  }
+                  sticky={false}
+                  className="relative"
+                />
+                <div className="h-20 bg-surface-2 flex items-center justify-center text-muted-foreground text-sm">
+                  Page content
+                </div>
+              </div>
+            </ComponentShowcase>
+
+            <ComponentShowcase title="Compact Variant" className="block p-0 overflow-hidden">
+              <div className="border border-border rounded-xl overflow-hidden">
+                <TopAppBarCompact
+                  title="Edit Settings"
+                  rightAction={<Button variant="primary" size="sm">Save</Button>}
+                />
+                <div className="h-20 bg-surface-2 flex items-center justify-center text-muted-foreground text-sm">
+                  Page content
+                </div>
+              </div>
+            </ComponentShowcase>
+          </div>
+
+          {/* BottomTabBar */}
+          <div className="space-y-6">
+            <h3 className="font-display text-xl font-semibold">Bottom Tab Bar</h3>
+            
+            <ComponentShowcase title="Mobile Navigation" description="Fixed to bottom on mobile devices" className="block p-0 overflow-hidden">
+              <div className="border border-border rounded-xl overflow-hidden relative h-72">
+                <div className="h-full bg-surface-2 flex items-center justify-center text-muted-foreground text-sm">
+                  App content area
+                </div>
+                <div className="absolute bottom-0 left-0 right-0 border-t border-border bg-surface">
+                  <div className="flex items-center justify-around h-16">
+                    {bottomTabs.map((tab, index) => {
+                      const Icon = tab.icon;
+                      const isActive = index === 0;
+                      return (
+                        <div
+                          key={tab.href}
+                          className="flex flex-col items-center justify-center gap-1 flex-1 h-full relative"
+                        >
+                          {isActive && (
+                            <span className="absolute top-0 left-1/2 -translate-x-1/2 w-8 h-0.5 bg-brand-yellow rounded-full" />
+                          )}
+                          <div className="relative">
+                            <Icon className={`w-6 h-6 ${isActive ? "text-foreground" : "text-muted-foreground"}`} strokeWidth={isActive ? 2.5 : 2} />
+                            {tab.badge && (
+                              <span className="absolute -top-1 -right-1 min-w-[16px] h-4 px-1 flex items-center justify-center text-[10px] font-bold text-white bg-danger rounded-full">
+                                {tab.badge}
+                              </span>
+                            )}
+                          </div>
+                          <span className={`text-[11px] font-medium ${isActive ? "text-foreground" : "text-muted-foreground"}`}>
+                            {tab.label}
+                          </span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+            </ComponentShowcase>
+          </div>
+
+          {/* SideSheet / Drawer */}
+          <div className="space-y-6">
+            <h3 className="font-display text-xl font-semibold">Side Sheet / Drawer</h3>
+            
+            <ComponentShowcase title="Navigation Drawer">
+              <SideSheet open={sideSheetOpen} onOpenChange={setSideSheetOpen}>
+                <SideSheetTrigger asChild>
+                  <Button variant="secondary" leftIcon={<Menu className="w-4 h-4" />}>
+                    Open Navigation Drawer
+                  </Button>
+                </SideSheetTrigger>
+                <SideSheetContent side="left" className="flex flex-col">
+                  <SideSheetHeader>
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-xl bg-brand-yellow flex items-center justify-center">
+                        <Zap className="w-5 h-5 text-brand-yellow-foreground" />
+                      </div>
+                      <div>
+                        <SideSheetTitle>DePIN App</SideSheetTitle>
+                        <SideSheetDescription>v1.0.0</SideSheetDescription>
+                      </div>
+                    </div>
+                  </SideSheetHeader>
+                  
+                  <div className="flex-1 overflow-auto">
+                    <SideSheetNavSection title="Main">
+                      <SideSheetNav items={sideNavItems} onItemClick={() => setSideSheetOpen(false)} />
+                    </SideSheetNavSection>
+                    
+                    <SideSheetNavSection title="Account">
+                      <SideSheetNav items={sideNavSecondary} onItemClick={() => setSideSheetOpen(false)} />
+                    </SideSheetNavSection>
+                  </div>
+                  
+                  <SideSheetFooter>
+                    <Button variant="ghost" className="w-full justify-start text-muted-foreground" leftIcon={<LogOut className="w-4 h-4" />}>
+                      Sign Out
+                    </Button>
+                  </SideSheetFooter>
+                </SideSheetContent>
+              </SideSheet>
+            </ComponentShowcase>
+          </div>
+
+          {/* Breadcrumbs */}
+          <div className="space-y-6">
+            <h3 className="font-display text-xl font-semibold">Breadcrumbs</h3>
+            
+            <ComponentShowcase title="Standard Breadcrumbs">
+              <Breadcrumbs 
+                items={[
+                  { label: "Devices", href: "/devices" },
+                  { label: "Helium Miner", href: "/devices/helium" },
+                  { label: "Settings" },
+                ]} 
+              />
+            </ComponentShowcase>
+
+            <ComponentShowcase title="With Home Icon">
+              <Breadcrumbs 
+                showHome
+                items={[
+                  { label: "Dashboard", href: "/" },
+                  { label: "Analytics", href: "/analytics" },
+                  { label: "Revenue Report" },
+                ]} 
+              />
+            </ComponentShowcase>
+
+            <ComponentShowcase title="Truncated (Long Path)">
+              <Breadcrumbs 
+                showHome
+                maxItems={3}
+                items={[
+                  { label: "Projects", href: "/projects" },
+                  { label: "DePIN App", href: "/projects/depin" },
+                  { label: "Components", href: "/projects/depin/components" },
+                  { label: "Navigation", href: "/projects/depin/components/nav" },
+                  { label: "Breadcrumbs" },
+                ]} 
+              />
+            </ComponentShowcase>
+          </div>
+
+          {/* Tabs */}
+          <div className="space-y-6">
+            <h3 className="font-display text-xl font-semibold">Tabs</h3>
+            
+            <ComponentShowcase title="Primary Tabs (Segmented)" className="block">
+              <Tabs defaultValue="overview" className="w-full max-w-md">
+                <TabsList variant="primary" fullWidth>
+                  <TabsTrigger value="overview" variant="primary" fullWidth>Overview</TabsTrigger>
+                  <TabsTrigger value="analytics" variant="primary" fullWidth>Analytics</TabsTrigger>
+                  <TabsTrigger value="reports" variant="primary" fullWidth>Reports</TabsTrigger>
+                </TabsList>
+                <TabsContent value="overview" className="p-4 bg-surface-2 rounded-lg mt-4">
+                  <p className="text-sm text-muted-foreground">Overview content goes here.</p>
+                </TabsContent>
+                <TabsContent value="analytics">
+                  <p className="text-sm text-muted-foreground">Analytics content goes here.</p>
+                </TabsContent>
+                <TabsContent value="reports">
+                  <p className="text-sm text-muted-foreground">Reports content goes here.</p>
+                </TabsContent>
+              </Tabs>
+            </ComponentShowcase>
+
+            <ComponentShowcase title="Secondary Tabs (Underline)" className="block">
+              <Tabs defaultValue="all" className="w-full">
+                <TabsList variant="secondary">
+                  <TabsTrigger value="all" variant="secondary">All Devices</TabsTrigger>
+                  <TabsTrigger value="active" variant="secondary">Active</TabsTrigger>
+                  <TabsTrigger value="offline" variant="secondary" badge={2}>Offline</TabsTrigger>
+                  <TabsTrigger value="pending" variant="secondary">Pending</TabsTrigger>
+                </TabsList>
+                <TabsContent value="all" className="p-4">
+                  <p className="text-sm text-muted-foreground">Showing all devices.</p>
+                </TabsContent>
+              </Tabs>
+            </ComponentShowcase>
+
+            <ComponentShowcase title="Pill Tabs" className="block">
+              <Tabs defaultValue="1d" className="w-full">
+                <TabsList variant="pills">
+                  <TabsTrigger value="1d" variant="pills">1D</TabsTrigger>
+                  <TabsTrigger value="1w" variant="pills">1W</TabsTrigger>
+                  <TabsTrigger value="1m" variant="pills">1M</TabsTrigger>
+                  <TabsTrigger value="3m" variant="pills">3M</TabsTrigger>
+                  <TabsTrigger value="1y" variant="pills">1Y</TabsTrigger>
+                  <TabsTrigger value="all" variant="pills">All</TabsTrigger>
+                </TabsList>
+                <TabsContent value="1d" className="p-4">
+                  <p className="text-sm text-muted-foreground">Showing 1 day data.</p>
+                </TabsContent>
+              </Tabs>
+            </ComponentShowcase>
+
+            <ComponentShowcase title="With Icons & Badges">
+              <Tabs defaultValue="home" className="w-full max-w-lg">
+                <TabsList variant="primary">
+                  <TabsTrigger value="home" variant="primary" icon={<Home className="w-4 h-4" />}>Home</TabsTrigger>
+                  <TabsTrigger value="notifications" variant="primary" icon={<Bell className="w-4 h-4" />} badge={5}>Notifications</TabsTrigger>
+                  <TabsTrigger value="settings" variant="primary" icon={<Settings className="w-4 h-4" />}>Settings</TabsTrigger>
+                </TabsList>
+              </Tabs>
+            </ComponentShowcase>
           </div>
         </section>
 
