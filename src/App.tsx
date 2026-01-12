@@ -30,6 +30,9 @@ import {
   SignupPage,
   SigninPage,
   SuccessPage,
+  OnboardingExplainPage,
+  OnboardingPrivacyPage,
+  OnboardingConsentPage,
 } from "./app";
 
 const queryClient = new QueryClient();
@@ -48,6 +51,9 @@ const App = () => (
               
               {/* Onboarding Flow */}
               <Route path="/onboarding" element={<WelcomePage />} />
+              <Route path="/onboarding/explain" element={<OnboardingExplainPage />} />
+              <Route path="/onboarding/privacy" element={<OnboardingPrivacyPage />} />
+              <Route path="/onboarding/consent" element={<OnboardingConsentPage />} />
               <Route path="/onboarding/signup" element={<SignupPage />} />
               <Route path="/onboarding/signin" element={<SigninPage />} />
               <Route path="/onboarding/success" element={<SuccessPage />} />

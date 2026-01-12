@@ -8,3 +8,6 @@ export { WelcomePage } from "./pages/onboarding/WelcomePage";
 export { SignupPage } from "./pages/onboarding/SignupPage";
 export { SigninPage } from "./pages/onboarding/SigninPage";
 export { SuccessPage } from "./pages/onboarding/SuccessPage";
+export { OnboardingExplainPage } from "./pages/onboarding/OnboardingExplainPage";
+export { OnboardingPrivacyPage } from "./pages/onboarding/OnboardingPrivacyPage";
+export { OnboardingConsentPage } from "./pages/onboarding/OnboardingConsentPage";
