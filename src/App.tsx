@@ -7,6 +7,7 @@ import { ThemeProvider } from "next-themes";
 import Index from "./pages/Index";
 import DesignSystem from "./pages/DesignSystem";
 import Brand from "./pages/Brand";
+import TokenReference from "./pages/TokenReference";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -22,6 +23,7 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/design-system" element={<DesignSystem />} />
             <Route path="/brand" element={<Brand />} />
+            <Route path="/tokens" element={<TokenReference />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
