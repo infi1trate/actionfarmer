@@ -28,6 +28,7 @@ const navItems = [
   { title: "Patterns", href: "/design-system/patterns", icon: LayoutTemplate },
   { title: "Accessibility", href: "/design-system/accessibility", icon: Accessibility },
   { title: "Guardrails", href: "/design-system/guardrails", icon: Palette },
+  { title: "Handoff", href: "/design-system/handoff", icon: Component },
 ];
 
 interface DesignSystemLayoutProps {
