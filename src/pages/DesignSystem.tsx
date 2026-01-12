@@ -65,7 +65,7 @@ import { RewardToast, RewardToastContainer } from "@/components/ui/reward-toast"
 import { MissionCard, MissionCardCompact } from "@/components/ui/mission-card";
 import { TokenSection, ColorSwatch, ColorRow } from "@/components/design-system/TokenSection";
 import { ComponentShowcase, ShowcaseGrid } from "@/components/design-system/ComponentShowcase";
-import { ThemeToggle } from "@/components/design-system/ThemeToggle";
+import { ThemeToggle, ThemeToggleSimple, ThemeToggleSegmented } from "@/components/design-system/ThemeToggle";
 import { TopAppBar, TopAppBarCompact } from "@/components/ui/top-app-bar";
 import { BottomTabBar, type TabItem } from "@/components/ui/bottom-tab-bar";
 import { 
@@ -194,6 +194,90 @@ const DesignSystem = () => {
           <p className="text-lg text-muted-foreground max-w-2xl">
             A complete design system for DePIN consumer apps. Inspired by Duolingo, Robinhood, and Snapchat — playful yet professional.
           </p>
+        </section>
+
+        {/* Theme */}
+        <section className="space-y-8">
+          <div>
+            <h2 className="font-display text-2xl font-bold mb-2">Theme</h2>
+            <p className="text-muted-foreground">Light and dark themes with seamless transitions. Yellow remains the brand highlight in both.</p>
+          </div>
+
+          <ComponentShowcase title="Theme Toggle Variants" description="Different toggle styles for various contexts">
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-muted-foreground">Dropdown:</span>
+              <ThemeToggle />
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-muted-foreground">Simple:</span>
+              <ThemeToggleSimple />
+            </div>
+          </ComponentShowcase>
+
+          <ComponentShowcase title="Segmented Toggle" description="For settings pages or prominent placement">
+            <ThemeToggleSegmented />
+          </ComponentShowcase>
+
+          <ShowcaseGrid columns={2}>
+            <ComponentShowcase title="Light Theme Preview" className="block">
+              <div className="rounded-xl border border-border overflow-hidden">
+                <div className="bg-[hsl(40_20%_99%)] p-4 space-y-3">
+                  <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 rounded-lg bg-[hsl(48_96%_53%)] flex items-center justify-center">
+                      <Zap className="w-4 h-4 text-[hsl(30_20%_11%)]" />
+                    </div>
+                    <span className="font-semibold text-[hsl(30_15%_11%)]">Light Mode</span>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="h-2 rounded-full bg-[hsl(40_12%_90%)] w-full" />
+                    <div className="h-2 rounded-full bg-[hsl(40_12%_90%)] w-3/4" />
+                  </div>
+                  <div className="flex gap-2">
+                    <div className="px-3 py-1.5 rounded-lg bg-[hsl(48_96%_53%)] text-[hsl(30_20%_11%)] text-xs font-medium">Primary</div>
+                    <div className="px-3 py-1.5 rounded-lg bg-[hsl(40_15%_97%)] text-[hsl(30_15%_11%)] text-xs font-medium border border-[hsl(40_12%_90%)]">Secondary</div>
+                  </div>
+                </div>
+              </div>
+            </ComponentShowcase>
+
+            <ComponentShowcase title="Dark Theme Preview" className="block">
+              <div className="rounded-xl border border-border overflow-hidden">
+                <div className="bg-[hsl(30_15%_6%)] p-4 space-y-3">
+                  <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 rounded-lg bg-[hsl(48_100%_58%)] flex items-center justify-center">
+                      <Zap className="w-4 h-4 text-[hsl(30_25%_6%)]" />
+                    </div>
+                    <span className="font-semibold text-[hsl(40_20%_98%)]">Dark Mode</span>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="h-2 rounded-full bg-[hsl(30_10%_16%)] w-full" />
+                    <div className="h-2 rounded-full bg-[hsl(30_10%_16%)] w-3/4" />
+                  </div>
+                  <div className="flex gap-2">
+                    <div className="px-3 py-1.5 rounded-lg bg-[hsl(48_100%_58%)] text-[hsl(30_25%_6%)] text-xs font-medium">Primary</div>
+                    <div className="px-3 py-1.5 rounded-lg bg-[hsl(30_10%_12%)] text-[hsl(40_20%_98%)] text-xs font-medium border border-[hsl(30_10%_16%)]">Secondary</div>
+                  </div>
+                </div>
+              </div>
+            </ComponentShowcase>
+          </ShowcaseGrid>
+
+          <ComponentShowcase title="Theme-Aware Components" description="All components automatically adapt to the current theme">
+            <Card className="w-64">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-base">Device Status</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-muted-foreground">Uptime</span>
+                  <Badge variant="success">99.9%</Badge>
+                </div>
+                <Progress value={75} variant="brand" size="sm" />
+              </CardContent>
+            </Card>
+            <Button variant="brand">Brand Action</Button>
+            <Button variant="outline">Outline</Button>
+          </ComponentShowcase>
         </section>
 
         {/* Color Tokens */}
