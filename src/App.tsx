@@ -8,6 +8,7 @@ import Index from "./pages/Index";
 import DesignSystem from "./pages/DesignSystem";
 import Brand from "./pages/Brand";
 import TokenReference from "./pages/TokenReference";
+import Typography from "./pages/Typography";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -24,6 +25,7 @@ const App = () => (
             <Route path="/design-system" element={<DesignSystem />} />
             <Route path="/brand" element={<Brand />} />
             <Route path="/tokens" element={<TokenReference />} />
+            <Route path="/typography" element={<Typography />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

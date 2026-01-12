@@ -19,7 +19,26 @@ export default {
     extend: {
       fontFamily: {
         display: ["Barlow Condensed", "ui-sans-serif", "system-ui", "sans-serif"],
-        body: ["Nunito", "ui-sans-serif", "system-ui", "sans-serif"],
+        body: ["Inter", "Source Sans 3", "ui-sans-serif", "system-ui", "sans-serif"],
+        mono: ["ui-monospace", "SF Mono", "Cascadia Code", "Consolas", "monospace"],
+      },
+      fontSize: {
+        display: ["var(--text-display)", { lineHeight: "var(--leading-display)", letterSpacing: "var(--tracking-display)" }],
+        h1: ["var(--text-h1)", { lineHeight: "var(--leading-h1)", letterSpacing: "var(--tracking-h1)" }],
+        h2: ["var(--text-h2)", { lineHeight: "var(--leading-h2)", letterSpacing: "var(--tracking-h2)" }],
+        h3: ["var(--text-h3)", { lineHeight: "var(--leading-h3)", letterSpacing: "var(--tracking-h3)" }],
+        "body-lg": ["var(--text-body-lg)", { lineHeight: "var(--leading-body-lg)", letterSpacing: "var(--tracking-body)" }],
+        body: ["var(--text-body)", { lineHeight: "var(--leading-body)", letterSpacing: "var(--tracking-body)" }],
+        "body-sm": ["var(--text-body-sm)", { lineHeight: "var(--leading-body-sm)", letterSpacing: "var(--tracking-body)" }],
+        label: ["var(--text-label)", { lineHeight: "var(--leading-label)", letterSpacing: "var(--tracking-label)" }],
+        caption: ["var(--text-caption)", { lineHeight: "var(--leading-caption)", letterSpacing: "var(--tracking-caption)" }],
+        "mono-sm": ["var(--text-mono)", { lineHeight: "var(--leading-mono)", letterSpacing: "var(--tracking-mono)" }],
+      },
+      fontWeight: {
+        regular: "400",
+        medium: "500",
+        semibold: "600",
+        bold: "700",
       },
       colors: {
         // Brand Yellow
