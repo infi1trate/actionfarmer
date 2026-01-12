@@ -122,6 +122,10 @@ import {
   ConfirmDialogSimple,
 } from "@/components/ui/confirm-dialog";
 import { useToast } from "@/hooks/use-toast";
+import { Sparkline, SparklineTrend } from "@/components/ui/sparkline";
+import { MiniBar, MiniBarLabeled, MiniBarHorizontal } from "@/components/ui/mini-bar";
+import { KPIBlock, KPIRow, KPIInline } from "@/components/ui/kpi-block";
+import { SimpleLineChart, SimpleChartContainer, MultiLineChart } from "@/components/ui/simple-line-chart";
 
 const DesignSystem = () => {
   const [progressValue, setProgressValue] = useState(65);
@@ -2553,6 +2557,256 @@ const DesignSystem = () => {
                   </ConfirmDialogFooter>
                 </ConfirmDialogContent>
               </ConfirmDialog>
+            </ComponentShowcase>
+          </div>
+        </section>
+
+        {/* Data Visualization */}
+        <section className="space-y-8">
+          <div>
+            <h2 className="font-display text-2xl font-bold mb-2">Data Visualization</h2>
+            <p className="text-muted-foreground">Lightweight, friendly fintech charts for DePIN apps. Yellow highlights, minimal axes.</p>
+          </div>
+
+          {/* Sparkline */}
+          <div className="space-y-6">
+            <h3 className="font-display text-xl font-semibold">Sparkline</h3>
+            
+            <ComponentShowcase title="Sizes" description="Tiny inline line charts">
+              <Sparkline data={[10, 25, 15, 35, 28, 40, 38]} size="xs" />
+              <Sparkline data={[10, 25, 15, 35, 28, 40, 38]} size="sm" />
+              <Sparkline data={[10, 25, 15, 35, 28, 40, 38]} size="default" />
+              <Sparkline data={[10, 25, 15, 35, 28, 40, 38]} size="lg" />
+              <Sparkline data={[10, 25, 15, 35, 28, 40, 38]} size="xl" />
+            </ComponentShowcase>
+
+            <ComponentShowcase title="Variants">
+              <Sparkline data={[10, 25, 15, 35, 28, 40, 38]} variant="brand" />
+              <Sparkline data={[10, 25, 15, 35, 28, 40, 38]} variant="success" />
+              <Sparkline data={[40, 35, 28, 15, 25, 10, 8]} variant="danger" />
+              <Sparkline data={[10, 25, 15, 35, 28, 40, 38]} variant="warning" />
+            </ComponentShowcase>
+
+            <ComponentShowcase title="With Trend Data">
+              <SparklineTrend 
+                data={[100, 120, 115, 140, 135, 160, 175]} 
+                label="Earnings" 
+                value="$175" 
+                delta={12.5} 
+              />
+              <SparklineTrend 
+                data={[100, 95, 85, 90, 75, 70, 65]} 
+                label="Uptime" 
+                value="65%" 
+                delta={-8.2} 
+              />
+            </ComponentShowcase>
+
+            <ComponentShowcase title="Straight Lines">
+              <Sparkline data={[10, 25, 15, 35, 28, 40, 38]} curved={false} variant="brand" />
+              <Sparkline data={[10, 25, 15, 35, 28, 40, 38]} curved={false} filled variant="success" />
+            </ComponentShowcase>
+          </div>
+
+          {/* MiniBar */}
+          <div className="space-y-6">
+            <h3 className="font-display text-xl font-semibold">MiniBar</h3>
+            
+            <ComponentShowcase title="Sizes">
+              <MiniBar data={[3, 7, 5, 9, 6, 8]} size="xs" />
+              <MiniBar data={[3, 7, 5, 9, 6, 8]} size="sm" />
+              <MiniBar data={[3, 7, 5, 9, 6, 8]} size="default" />
+              <MiniBar data={[3, 7, 5, 9, 6, 8]} size="lg" />
+              <MiniBar data={[3, 7, 5, 9, 6, 8]} size="xl" />
+            </ComponentShowcase>
+
+            <ComponentShowcase title="Variants">
+              <MiniBar data={[3, 7, 5, 9, 6, 8]} variant="brand" />
+              <MiniBar data={[3, 7, 5, 9, 6, 8]} variant="success" />
+              <MiniBar data={[3, 7, 5, 9, 6, 8]} variant="warning" />
+              <MiniBar data={[3, 7, 5, 9, 6, 8]} variant="danger" />
+            </ComponentShowcase>
+
+            <ComponentShowcase title="With Labels">
+              <MiniBarLabeled data={[3, 7, 5, 9, 6, 8]} label="This Week" value="8 hrs" />
+              <MiniBarLabeled data={[5, 4, 6, 3, 7, 9, 8]} label="Daily Avg" value="$12.50" />
+            </ComponentShowcase>
+
+            <ComponentShowcase title="Horizontal Progress Style">
+              <div className="w-48 space-y-3">
+                <MiniBarHorizontal value={75} variant="brand" showValue />
+                <MiniBarHorizontal value={45} variant="success" showValue />
+                <MiniBarHorizontal value={25} variant="warning" showValue />
+              </div>
+            </ComponentShowcase>
+          </div>
+
+          {/* KPI Block */}
+          <div className="space-y-6">
+            <h3 className="font-display text-xl font-semibold">KPI Block</h3>
+            
+            <ComponentShowcase title="Sizes">
+              <KPIBlock label="Earnings" value="$124.50" delta={12.5} size="sm" />
+              <KPIBlock label="Earnings" value="$124.50" delta={12.5} size="default" />
+              <KPIBlock label="Earnings" value="$124.50" delta={12.5} size="lg" />
+            </ComponentShowcase>
+
+            <ComponentShowcase title="Alignments">
+              <KPIBlock label="Left Aligned" value="$124.50" delta={12.5} align="left" />
+              <KPIBlock label="Center Aligned" value="$124.50" delta={12.5} align="center" />
+              <KPIBlock label="Right Aligned" value="$124.50" delta={12.5} align="right" />
+            </ComponentShowcase>
+
+            <ComponentShowcase title="Trend Directions">
+              <KPIBlock label="Revenue" value="$5,240" delta={23.4} />
+              <KPIBlock label="Expenses" value="$1,420" delta={-8.2} />
+              <KPIBlock label="Balance" value="$3,820" delta={0} />
+            </ComponentShowcase>
+
+            <ComponentShowcase title="With Prefix/Suffix">
+              <KPIBlock label="Total Earned" value="1,250" prefix="$" delta={15.2} />
+              <KPIBlock label="Uptime" value="99.9" suffix="%" delta={0.1} />
+              <KPIBlock label="Devices" value="12" suffix="active" />
+            </ComponentShowcase>
+
+            <ComponentShowcase title="KPI Row" className="block">
+              <Card className="p-4">
+                <KPIRow>
+                  <KPIBlock label="Total Earnings" value="$1,247.50" delta={18.2} />
+                  <KPIBlock label="Active Devices" value="12" delta={2} deltaLabel="new" />
+                  <KPIBlock label="Avg. Uptime" value="99.2%" delta={0.3} />
+                  <KPIBlock label="Pending" value="$45.00" />
+                </KPIRow>
+              </Card>
+            </ComponentShowcase>
+
+            <ComponentShowcase title="Inline KPI">
+              <KPIInline label="Balance:" value="$1,247.50" delta={12.5} />
+              <KPIInline label="Devices:" value="12" />
+            </ComponentShowcase>
+
+            <ComponentShowcase title="Loading State">
+              <KPIBlock label="Earnings" value="" delta={0} loading />
+            </ComponentShowcase>
+          </div>
+
+          {/* SimpleLineChart */}
+          <div className="space-y-6">
+            <h3 className="font-display text-xl font-semibold">Simple Line Chart</h3>
+            
+            <ComponentShowcase title="Basic Chart" className="block">
+              <SimpleChartContainer 
+                title="Weekly Earnings" 
+                subtitle="Last 7 days performance"
+                action={<Badge variant="success-subtle">+18.2%</Badge>}
+              >
+                <SimpleLineChart
+                  data={[
+                    { name: "Mon", value: 12 },
+                    { name: "Tue", value: 18 },
+                    { name: "Wed", value: 15 },
+                    { name: "Thu", value: 22 },
+                    { name: "Fri", value: 28 },
+                    { name: "Sat", value: 25 },
+                    { name: "Sun", value: 32 },
+                  ]}
+                  dataKey="value"
+                  variant="brand"
+                />
+              </SimpleChartContainer>
+            </ComponentShowcase>
+
+            <ShowcaseGrid columns={2}>
+              <ComponentShowcase title="Success Variant" className="block">
+                <SimpleLineChart
+                  data={[
+                    { name: "W1", value: 45 },
+                    { name: "W2", value: 52 },
+                    { name: "W3", value: 48 },
+                    { name: "W4", value: 61 },
+                  ]}
+                  dataKey="value"
+                  variant="success"
+                  size="sm"
+                />
+              </ComponentShowcase>
+
+              <ComponentShowcase title="Warning Variant" className="block">
+                <SimpleLineChart
+                  data={[
+                    { name: "W1", value: 80 },
+                    { name: "W2", value: 75 },
+                    { name: "W3", value: 68 },
+                    { name: "W4", value: 62 },
+                  ]}
+                  dataKey="value"
+                  variant="warning"
+                  size="sm"
+                />
+              </ComponentShowcase>
+            </ShowcaseGrid>
+
+            <ComponentShowcase title="With Grid & Y-Axis" className="block">
+              <SimpleChartContainer title="Device Uptime" subtitle="Percentage over time">
+                <SimpleLineChart
+                  data={[
+                    { name: "Jan", value: 98.5 },
+                    { name: "Feb", value: 99.1 },
+                    { name: "Mar", value: 98.8 },
+                    { name: "Apr", value: 99.5 },
+                    { name: "May", value: 99.8 },
+                    { name: "Jun", value: 99.2 },
+                  ]}
+                  dataKey="value"
+                  variant="success"
+                  showGrid
+                  showYAxis
+                  referenceValue={99}
+                />
+              </SimpleChartContainer>
+            </ComponentShowcase>
+
+            <ComponentShowcase title="Unfilled (Line Only)" className="block">
+              <SimpleLineChart
+                data={[
+                  { name: "Mon", value: 12 },
+                  { name: "Tue", value: 18 },
+                  { name: "Wed", value: 15 },
+                  { name: "Thu", value: 22 },
+                  { name: "Fri", value: 28 },
+                  { name: "Sat", value: 25 },
+                  { name: "Sun", value: 32 },
+                ]}
+                dataKey="value"
+                variant="brand"
+                filled={false}
+                size="sm"
+              />
+            </ComponentShowcase>
+
+            <ComponentShowcase title="Multi-Line Chart" className="block">
+              <SimpleChartContainer 
+                title="Network Comparison" 
+                subtitle="Earnings by device type"
+              >
+                <MultiLineChart
+                  data={[
+                    { name: "Mon", helium: 12, dimo: 8, weather: 5 },
+                    { name: "Tue", helium: 18, dimo: 10, weather: 7 },
+                    { name: "Wed", helium: 15, dimo: 12, weather: 6 },
+                    { name: "Thu", helium: 22, dimo: 14, weather: 9 },
+                    { name: "Fri", helium: 28, dimo: 16, weather: 11 },
+                    { name: "Sat", helium: 25, dimo: 15, weather: 10 },
+                    { name: "Sun", helium: 32, dimo: 18, weather: 12 },
+                  ]}
+                  lines={[
+                    { dataKey: "helium", variant: "brand", name: "Helium" },
+                    { dataKey: "dimo", variant: "success", name: "DIMO" },
+                    { dataKey: "weather", variant: "default", name: "Weather" },
+                  ]}
+                  showGrid
+                />
+              </SimpleChartContainer>
             </ComponentShowcase>
           </div>
         </section>
