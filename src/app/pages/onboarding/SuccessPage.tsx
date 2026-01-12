@@ -8,7 +8,7 @@ export function SuccessPage() {
   const navigate = useNavigate();
 
   const handleContinue = () => {
-    navigate("/app");
+    navigate("/onboarding/camera");
   };
 
   return (
