@@ -2,10 +2,9 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ThemeProvider } from "next-themes";
 import { ReducedMotionProvider } from "@/hooks/use-reduced-motion";
-import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 
 // Design System Pages
@@ -19,6 +18,19 @@ import DSHandoff from "./pages/design-system/Handoff";
 import DesignSystem from "./pages/DesignSystem";
 import Accessibility from "./pages/Accessibility";
 
+// App Pages
+import {
+  AppLayout,
+  HomePage,
+  ActivityPage,
+  WalletPage,
+  ProfilePage,
+  WelcomePage,
+  SignupPage,
+  SigninPage,
+  DeviceSetupPage,
+} from "./app";
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -30,7 +42,22 @@ const App = () => (
           <Sonner />
           <BrowserRouter>
             <Routes>
-              <Route path="/" element={<Index />} />
+              {/* Redirect root to onboarding */}
+              <Route path="/" element={<Navigate to="/onboarding" replace />} />
+              
+              {/* Onboarding Flow */}
+              <Route path="/onboarding" element={<WelcomePage />} />
+              <Route path="/onboarding/signup" element={<SignupPage />} />
+              <Route path="/onboarding/signin" element={<SigninPage />} />
+              <Route path="/onboarding/setup" element={<DeviceSetupPage />} />
+              
+              {/* Main App */}
+              <Route path="/app" element={<AppLayout />}>
+                <Route index element={<HomePage />} />
+                <Route path="activity" element={<ActivityPage />} />
+                <Route path="wallet" element={<WalletPage />} />
+                <Route path="profile" element={<ProfilePage />} />
+              </Route>
               
               {/* Design System Hub */}
               <Route path="/design-system" element={<DSOverview />} />
