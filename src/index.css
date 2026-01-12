@@ -5,82 +5,92 @@
 @tailwind utilities;
 
 /* ============================================
-   DEPIN DESIGN SYSTEM - Token Foundation
+   DEPIN DESIGN SYSTEM - Yellow-Led Palette
    "Duolingo meets Robinhood meets Snapchat"
    ============================================ */
 
 @layer base {
   :root {
-    /* === BRAND COLORS === */
-    --brand-primary: 45 100% 50%;
-    --brand-primary-hover: 45 100% 45%;
-    --brand-primary-active: 45 100% 40%;
-    --brand-primary-subtle: 45 100% 95%;
-    --brand-primary-foreground: 0 0% 10%;
+    /* === BRAND YELLOW === */
+    --brand-yellow: 48 96% 53%;
+    --brand-yellow-hover: 45 96% 48%;
+    --brand-yellow-active: 42 94% 43%;
+    --brand-yellow-soft: 48 100% 97%;
+    --brand-yellow-foreground: 30 20% 11%;
     
-    /* === SEMANTIC BACKGROUNDS === */
-    --background: 40 20% 99%;
-    --background-subtle: 40 15% 96%;
+    /* === NEUTRALS === */
+    --bg: 40 20% 99%;
     --surface: 0 0% 100%;
-    --surface-raised: 0 0% 100%;
-    --surface-overlay: 0 0% 100%;
+    --surface-2: 40 15% 97%;
+    --surface-3: 40 12% 95%;
+    --text: 30 15% 11%;
+    --text-2: 30 8% 35%;
+    --text-3: 30 5% 50%;
+    --border: 40 12% 90%;
+    --border-2: 40 10% 85%;
+    --overlay: 30 20% 8% / 0.6;
     
-    /* === SEMANTIC TEXT === */
-    --foreground: 30 10% 12%;
-    --foreground-secondary: 30 5% 40%;
-    --foreground-muted: 30 5% 55%;
-    --foreground-inverted: 0 0% 100%;
-    
-    /* === SEMANTIC BORDERS === */
-    --border: 40 10% 90%;
-    --border-strong: 40 10% 80%;
-    --border-focus: 45 100% 50%;
-    
-    /* === INTERACTIVE STATES === */
-    --input: 40 15% 96%;
-    --input-hover: 40 10% 92%;
-    --ring: 45 100% 50%;
-    --ring-offset: 0 0% 100%;
-    
-    /* === STATUS COLORS === */
-    --success: 152 70% 42%;
-    --success-subtle: 152 70% 95%;
+    /* === ACCENTS - SUCCESS (Mint-leaning) === */
+    --success: 160 60% 42%;
+    --success-hover: 160 62% 36%;
+    --success-active: 160 65% 30%;
+    --success-soft: 160 60% 96%;
     --success-foreground: 0 0% 100%;
+    --success-text: 160 65% 28%;
     
-    --danger: 0 75% 55%;
-    --danger-subtle: 0 75% 96%;
-    --danger-foreground: 0 0% 100%;
-    
-    --warning: 32 95% 52%;
-    --warning-subtle: 32 95% 95%;
-    --warning-foreground: 0 0% 10%;
-    
-    --info: 200 85% 50%;
-    --info-subtle: 200 85% 95%;
+    /* === ACCENTS - INFO (Blue) === */
+    --info: 210 85% 55%;
+    --info-hover: 210 85% 48%;
+    --info-active: 210 85% 42%;
+    --info-soft: 210 80% 97%;
     --info-foreground: 0 0% 100%;
+    --info-text: 210 80% 35%;
     
-    /* === COMPONENT TOKENS === */
-    --card: 0 0% 100%;
-    --card-foreground: 30 10% 12%;
-    --card-hover: 40 20% 98%;
+    /* === ACCENTS - WARNING (Amber/Orange - distinct from yellow) === */
+    --warning: 25 95% 53%;
+    --warning-hover: 22 95% 47%;
+    --warning-active: 20 94% 42%;
+    --warning-soft: 25 100% 96%;
+    --warning-foreground: 30 20% 11%;
+    --warning-text: 20 90% 32%;
     
-    --popover: 0 0% 100%;
-    --popover-foreground: 30 10% 12%;
+    /* === ACCENTS - DANGER (Coral/Red) === */
+    --danger: 4 80% 58%;
+    --danger-hover: 4 78% 50%;
+    --danger-active: 4 76% 44%;
+    --danger-soft: 4 85% 97%;
+    --danger-foreground: 0 0% 100%;
+    --danger-text: 4 75% 38%;
     
-    --primary: 45 100% 50%;
-    --primary-foreground: 0 0% 10%;
+    /* === STATE COLORS === */
+    --state-hover: 40 10% 96%;
+    --state-active: 40 12% 92%;
+    --state-disabled-bg: 40 8% 94%;
+    --state-disabled-text: 30 5% 60%;
+    --state-disabled-border: 40 8% 88%;
+    --state-focus-ring: 48 96% 53%;
+    --state-focus-ring-offset: 0 0% 100%;
     
-    --secondary: 40 15% 94%;
-    --secondary-foreground: 30 10% 20%;
-    
-    --muted: 40 10% 94%;
-    --muted-foreground: 30 5% 45%;
-    
-    --accent: 180 60% 45%;
-    --accent-foreground: 0 0% 100%;
-    
-    --destructive: 0 75% 55%;
-    --destructive-foreground: 0 0% 100%;
+    /* === SHADCN COMPATIBILITY === */
+    --background: var(--bg);
+    --foreground: var(--text);
+    --card: var(--surface);
+    --card-foreground: var(--text);
+    --card-hover: var(--surface-2);
+    --popover: var(--surface);
+    --popover-foreground: var(--text);
+    --primary: var(--brand-yellow);
+    --primary-foreground: var(--brand-yellow-foreground);
+    --secondary: var(--surface-2);
+    --secondary-foreground: var(--text);
+    --muted: var(--surface-3);
+    --muted-foreground: var(--text-3);
+    --accent: var(--brand-yellow-soft);
+    --accent-foreground: var(--text);
+    --destructive: var(--danger);
+    --destructive-foreground: var(--danger-foreground);
+    --input: var(--surface-2);
+    --ring: var(--state-focus-ring);
     
     /* === LAYOUT === */
     --radius: 0.75rem;
@@ -90,111 +100,155 @@
     --radius-full: 9999px;
     
     /* === SHADOWS === */
-    --shadow-sm: 0 1px 2px 0 hsl(30 10% 12% / 0.04);
-    --shadow: 0 2px 8px -2px hsl(30 10% 12% / 0.08), 0 4px 16px -4px hsl(30 10% 12% / 0.06);
-    --shadow-md: 0 4px 12px -4px hsl(30 10% 12% / 0.1), 0 8px 24px -8px hsl(30 10% 12% / 0.08);
-    --shadow-lg: 0 8px 24px -8px hsl(30 10% 12% / 0.12), 0 16px 48px -16px hsl(30 10% 12% / 0.1);
-    --shadow-glow: 0 0 20px hsl(45 100% 50% / 0.3);
+    --shadow-sm: 0 1px 2px 0 hsl(30 15% 11% / 0.04);
+    --shadow: 0 2px 8px -2px hsl(30 15% 11% / 0.08), 0 4px 16px -4px hsl(30 15% 11% / 0.06);
+    --shadow-md: 0 4px 12px -4px hsl(30 15% 11% / 0.1), 0 8px 24px -8px hsl(30 15% 11% / 0.08);
+    --shadow-lg: 0 8px 24px -8px hsl(30 15% 11% / 0.12), 0 16px 48px -16px hsl(30 15% 11% / 0.1);
+    --shadow-glow: 0 0 20px hsl(48 96% 53% / 0.35);
     
     /* === SIDEBAR === */
-    --sidebar-background: 40 15% 98%;
-    --sidebar-foreground: 30 10% 20%;
-    --sidebar-primary: 45 100% 50%;
-    --sidebar-primary-foreground: 0 0% 10%;
-    --sidebar-accent: 40 20% 94%;
-    --sidebar-accent-foreground: 30 10% 20%;
-    --sidebar-border: 40 10% 90%;
-    --sidebar-ring: 45 100% 50%;
+    --sidebar-background: var(--surface);
+    --sidebar-foreground: var(--text);
+    --sidebar-primary: var(--brand-yellow);
+    --sidebar-primary-foreground: var(--brand-yellow-foreground);
+    --sidebar-accent: var(--surface-2);
+    --sidebar-accent-foreground: var(--text);
+    --sidebar-border: var(--border);
+    --sidebar-ring: var(--state-focus-ring);
+    
+    /* === LEGACY COMPAT === */
+    --brand-primary: var(--brand-yellow);
+    --brand-primary-hover: var(--brand-yellow-hover);
+    --brand-primary-active: var(--brand-yellow-active);
+    --brand-primary-subtle: var(--brand-yellow-soft);
+    --brand-primary-foreground: var(--brand-yellow-foreground);
+    --background-subtle: var(--surface-2);
+    --surface-raised: var(--surface);
+    --surface-overlay: var(--surface);
+    --foreground-secondary: var(--text-2);
+    --foreground-muted: var(--text-3);
+    --foreground-inverted: 0 0% 100%;
+    --border-strong: var(--border-2);
+    --border-focus: var(--state-focus-ring);
+    --input-hover: var(--state-hover);
+    --ring-offset: var(--state-focus-ring-offset);
   }
 
   .dark {
-    /* === BRAND COLORS === */
-    --brand-primary: 45 100% 55%;
-    --brand-primary-hover: 45 100% 60%;
-    --brand-primary-active: 45 100% 50%;
-    --brand-primary-subtle: 45 50% 15%;
-    --brand-primary-foreground: 0 0% 8%;
+    /* === BRAND YELLOW === */
+    --brand-yellow: 48 96% 55%;
+    --brand-yellow-hover: 48 96% 62%;
+    --brand-yellow-active: 48 96% 50%;
+    --brand-yellow-soft: 48 40% 12%;
+    --brand-yellow-foreground: 30 20% 8%;
     
-    /* === SEMANTIC BACKGROUNDS === */
-    --background: 30 10% 8%;
-    --background-subtle: 30 8% 12%;
-    --surface: 30 8% 11%;
-    --surface-raised: 30 8% 14%;
-    --surface-overlay: 30 8% 16%;
+    /* === NEUTRALS === */
+    --bg: 30 12% 7%;
+    --surface: 30 10% 10%;
+    --surface-2: 30 8% 13%;
+    --surface-3: 30 8% 16%;
+    --text: 40 15% 96%;
+    --text-2: 40 8% 65%;
+    --text-3: 40 5% 48%;
+    --border: 30 8% 18%;
+    --border-2: 30 8% 24%;
+    --overlay: 0 0% 0% / 0.75;
     
-    /* === SEMANTIC TEXT === */
-    --foreground: 40 15% 95%;
-    --foreground-secondary: 40 10% 70%;
-    --foreground-muted: 40 8% 50%;
-    --foreground-inverted: 0 0% 8%;
+    /* === ACCENTS - SUCCESS (Mint-leaning) === */
+    --success: 160 55% 48%;
+    --success-hover: 160 55% 55%;
+    --success-active: 160 55% 42%;
+    --success-soft: 160 35% 14%;
+    --success-foreground: 30 20% 8%;
+    --success-text: 160 50% 70%;
     
-    /* === SEMANTIC BORDERS === */
-    --border: 30 8% 20%;
-    --border-strong: 30 8% 30%;
-    --border-focus: 45 100% 55%;
+    /* === ACCENTS - INFO (Blue) === */
+    --info: 210 80% 60%;
+    --info-hover: 210 80% 68%;
+    --info-active: 210 80% 52%;
+    --info-soft: 210 45% 14%;
+    --info-foreground: 30 20% 8%;
+    --info-text: 210 75% 72%;
     
-    /* === INTERACTIVE STATES === */
-    --input: 30 8% 14%;
-    --input-hover: 30 8% 18%;
-    --ring: 45 100% 55%;
-    --ring-offset: 30 10% 8%;
+    /* === ACCENTS - WARNING (Amber/Orange) === */
+    --warning: 25 90% 55%;
+    --warning-hover: 25 90% 62%;
+    --warning-active: 25 90% 48%;
+    --warning-soft: 25 45% 14%;
+    --warning-foreground: 30 20% 8%;
+    --warning-text: 25 85% 68%;
     
-    /* === STATUS COLORS === */
-    --success: 152 70% 50%;
-    --success-subtle: 152 50% 15%;
-    --success-foreground: 0 0% 8%;
-    
-    --danger: 0 75% 60%;
-    --danger-subtle: 0 50% 15%;
+    /* === ACCENTS - DANGER (Coral/Red) === */
+    --danger: 4 75% 62%;
+    --danger-hover: 4 75% 70%;
+    --danger-active: 4 75% 55%;
+    --danger-soft: 4 45% 14%;
     --danger-foreground: 0 0% 100%;
+    --danger-text: 4 70% 75%;
     
-    --warning: 32 95% 55%;
-    --warning-subtle: 32 50% 15%;
-    --warning-foreground: 0 0% 8%;
+    /* === STATE COLORS === */
+    --state-hover: 30 8% 16%;
+    --state-active: 30 10% 20%;
+    --state-disabled-bg: 30 6% 14%;
+    --state-disabled-text: 40 5% 38%;
+    --state-disabled-border: 30 6% 20%;
+    --state-focus-ring: 48 96% 55%;
+    --state-focus-ring-offset: 30 12% 7%;
     
-    --info: 200 85% 55%;
-    --info-subtle: 200 50% 15%;
-    --info-foreground: 0 0% 8%;
-    
-    /* === COMPONENT TOKENS === */
-    --card: 30 8% 11%;
-    --card-foreground: 40 15% 95%;
-    --card-hover: 30 8% 14%;
-    
-    --popover: 30 8% 11%;
-    --popover-foreground: 40 15% 95%;
-    
-    --primary: 45 100% 55%;
-    --primary-foreground: 0 0% 8%;
-    
-    --secondary: 30 8% 18%;
-    --secondary-foreground: 40 15% 90%;
-    
-    --muted: 30 8% 18%;
-    --muted-foreground: 40 8% 55%;
-    
-    --accent: 180 60% 50%;
-    --accent-foreground: 0 0% 8%;
-    
-    --destructive: 0 75% 55%;
-    --destructive-foreground: 0 0% 100%;
+    /* === SHADCN COMPATIBILITY === */
+    --background: var(--bg);
+    --foreground: var(--text);
+    --card: var(--surface);
+    --card-foreground: var(--text);
+    --card-hover: var(--surface-2);
+    --popover: var(--surface);
+    --popover-foreground: var(--text);
+    --primary: var(--brand-yellow);
+    --primary-foreground: var(--brand-yellow-foreground);
+    --secondary: var(--surface-2);
+    --secondary-foreground: var(--text);
+    --muted: var(--surface-3);
+    --muted-foreground: var(--text-3);
+    --accent: var(--brand-yellow-soft);
+    --accent-foreground: var(--text);
+    --destructive: var(--danger);
+    --destructive-foreground: var(--danger-foreground);
+    --input: var(--surface-2);
+    --ring: var(--state-focus-ring);
     
     /* === SHADOWS === */
-    --shadow-sm: 0 1px 2px 0 hsl(0 0% 0% / 0.2);
-    --shadow: 0 2px 8px -2px hsl(0 0% 0% / 0.3), 0 4px 16px -4px hsl(0 0% 0% / 0.2);
-    --shadow-md: 0 4px 12px -4px hsl(0 0% 0% / 0.4), 0 8px 24px -8px hsl(0 0% 0% / 0.3);
-    --shadow-lg: 0 8px 24px -8px hsl(0 0% 0% / 0.5), 0 16px 48px -16px hsl(0 0% 0% / 0.4);
-    --shadow-glow: 0 0 24px hsl(45 100% 55% / 0.25);
+    --shadow-sm: 0 1px 2px 0 hsl(0 0% 0% / 0.25);
+    --shadow: 0 2px 8px -2px hsl(0 0% 0% / 0.35), 0 4px 16px -4px hsl(0 0% 0% / 0.25);
+    --shadow-md: 0 4px 12px -4px hsl(0 0% 0% / 0.45), 0 8px 24px -8px hsl(0 0% 0% / 0.35);
+    --shadow-lg: 0 8px 24px -8px hsl(0 0% 0% / 0.55), 0 16px 48px -16px hsl(0 0% 0% / 0.45);
+    --shadow-glow: 0 0 24px hsl(48 96% 55% / 0.3);
     
     /* === SIDEBAR === */
-    --sidebar-background: 30 8% 10%;
-    --sidebar-foreground: 40 15% 90%;
-    --sidebar-primary: 45 100% 55%;
-    --sidebar-primary-foreground: 0 0% 8%;
-    --sidebar-accent: 30 8% 16%;
-    --sidebar-accent-foreground: 40 15% 90%;
-    --sidebar-border: 30 8% 18%;
-    --sidebar-ring: 45 100% 55%;
+    --sidebar-background: var(--surface);
+    --sidebar-foreground: var(--text);
+    --sidebar-primary: var(--brand-yellow);
+    --sidebar-primary-foreground: var(--brand-yellow-foreground);
+    --sidebar-accent: var(--surface-2);
+    --sidebar-accent-foreground: var(--text);
+    --sidebar-border: var(--border);
+    --sidebar-ring: var(--state-focus-ring);
+    
+    /* === LEGACY COMPAT === */
+    --brand-primary: var(--brand-yellow);
+    --brand-primary-hover: var(--brand-yellow-hover);
+    --brand-primary-active: var(--brand-yellow-active);
+    --brand-primary-subtle: var(--brand-yellow-soft);
+    --brand-primary-foreground: var(--brand-yellow-foreground);
+    --background-subtle: var(--surface-2);
+    --surface-raised: var(--surface-2);
+    --surface-overlay: var(--surface-3);
+    --foreground-secondary: var(--text-2);
+    --foreground-muted: var(--text-3);
+    --foreground-inverted: 30 12% 7%;
+    --border-strong: var(--border-2);
+    --border-focus: var(--state-focus-ring);
+    --input-hover: var(--state-hover);
+    --ring-offset: var(--state-focus-ring-offset);
   }
 }
 
@@ -238,11 +292,11 @@
   
   /* Surface utilities */
   .surface-raised {
-    @apply bg-surface-raised shadow-md;
+    @apply bg-surface shadow-md;
   }
   
   .surface-overlay {
-    @apply bg-surface-overlay shadow-lg;
+    @apply bg-surface shadow-lg;
   }
   
   /* Energy glow effect */
@@ -250,14 +304,19 @@
     box-shadow: var(--shadow-glow);
   }
   
-  /* Gradient text */
+  /* Gradient text - no purple */
   .text-gradient {
-    @apply bg-gradient-to-r from-brand-primary to-accent bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-brand-yellow to-warning bg-clip-text text-transparent;
   }
   
   /* Card hover effect */
   .card-interactive {
     @apply transition-all duration-200 hover:shadow-md hover:-translate-y-0.5;
+  }
+  
+  /* State utilities */
+  .state-disabled {
+    @apply bg-state-disabled-bg text-state-disabled-text border-state-disabled-border cursor-not-allowed opacity-70;
   }
 }
 
@@ -268,8 +327,8 @@
 }
 
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 0 0 hsl(var(--brand-primary) / 0.4); }
-  50% { box-shadow: 0 0 0 8px hsl(var(--brand-primary) / 0); }
+  0%, 100% { box-shadow: 0 0 0 0 hsl(var(--brand-yellow) / 0.4); }
+  50% { box-shadow: 0 0 0 8px hsl(var(--brand-yellow) / 0); }
 }
 
 @keyframes slide-up {
@@ -290,4 +349,10 @@
 @keyframes shimmer {
   0% { background-position: -200% 0; }
   100% { background-position: 200% 0; }
+}
+
+@keyframes press {
+  0% { transform: scale(1); }
+  50% { transform: scale(0.97); }
+  100% { transform: scale(1); }
 }

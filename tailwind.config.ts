@@ -22,54 +22,103 @@ export default {
         body: ["Nunito", "ui-sans-serif", "system-ui", "sans-serif"],
       },
       colors: {
-        // Brand
+        // Brand Yellow
         brand: {
-          primary: "hsl(var(--brand-primary))",
-          "primary-hover": "hsl(var(--brand-primary-hover))",
-          "primary-active": "hsl(var(--brand-primary-active))",
-          "primary-subtle": "hsl(var(--brand-primary-subtle))",
-          "primary-foreground": "hsl(var(--brand-primary-foreground))",
+          yellow: "hsl(var(--brand-yellow))",
+          "yellow-hover": "hsl(var(--brand-yellow-hover))",
+          "yellow-active": "hsl(var(--brand-yellow-active))",
+          "yellow-soft": "hsl(var(--brand-yellow-soft))",
+          "yellow-foreground": "hsl(var(--brand-yellow-foreground))",
+          // Legacy aliases
+          primary: "hsl(var(--brand-yellow))",
+          "primary-hover": "hsl(var(--brand-yellow-hover))",
+          "primary-active": "hsl(var(--brand-yellow-active))",
+          "primary-subtle": "hsl(var(--brand-yellow-soft))",
+          "primary-foreground": "hsl(var(--brand-yellow-foreground))",
         },
-        // Backgrounds
+        // Neutrals
+        bg: "hsl(var(--bg))",
+        surface: {
+          DEFAULT: "hsl(var(--surface))",
+          2: "hsl(var(--surface-2))",
+          3: "hsl(var(--surface-3))",
+          raised: "hsl(var(--surface-raised))",
+          overlay: "hsl(var(--surface-overlay))",
+        },
+        text: {
+          DEFAULT: "hsl(var(--text))",
+          2: "hsl(var(--text-2))",
+          3: "hsl(var(--text-3))",
+        },
+        border: {
+          DEFAULT: "hsl(var(--border))",
+          2: "hsl(var(--border-2))",
+          strong: "hsl(var(--border-strong))",
+          focus: "hsl(var(--border-focus))",
+        },
+        overlay: "hsl(var(--overlay))",
+        // Status - Success (Mint-leaning)
+        success: {
+          DEFAULT: "hsl(var(--success))",
+          hover: "hsl(var(--success-hover))",
+          active: "hsl(var(--success-active))",
+          soft: "hsl(var(--success-soft))",
+          foreground: "hsl(var(--success-foreground))",
+          text: "hsl(var(--success-text))",
+          subtle: "hsl(var(--success-soft))",
+        },
+        // Status - Info (Blue)
+        info: {
+          DEFAULT: "hsl(var(--info))",
+          hover: "hsl(var(--info-hover))",
+          active: "hsl(var(--info-active))",
+          soft: "hsl(var(--info-soft))",
+          foreground: "hsl(var(--info-foreground))",
+          text: "hsl(var(--info-text))",
+          subtle: "hsl(var(--info-soft))",
+        },
+        // Status - Warning (Amber/Orange)
+        warning: {
+          DEFAULT: "hsl(var(--warning))",
+          hover: "hsl(var(--warning-hover))",
+          active: "hsl(var(--warning-active))",
+          soft: "hsl(var(--warning-soft))",
+          foreground: "hsl(var(--warning-foreground))",
+          text: "hsl(var(--warning-text))",
+          subtle: "hsl(var(--warning-soft))",
+        },
+        // Status - Danger (Coral/Red)
+        danger: {
+          DEFAULT: "hsl(var(--danger))",
+          hover: "hsl(var(--danger-hover))",
+          active: "hsl(var(--danger-active))",
+          soft: "hsl(var(--danger-soft))",
+          foreground: "hsl(var(--danger-foreground))",
+          text: "hsl(var(--danger-text))",
+          subtle: "hsl(var(--danger-soft))",
+        },
+        // State Colors
+        state: {
+          hover: "hsl(var(--state-hover))",
+          active: "hsl(var(--state-active))",
+          "disabled-bg": "hsl(var(--state-disabled-bg))",
+          "disabled-text": "hsl(var(--state-disabled-text))",
+          "disabled-border": "hsl(var(--state-disabled-border))",
+          "focus-ring": "hsl(var(--state-focus-ring))",
+          "focus-ring-offset": "hsl(var(--state-focus-ring-offset))",
+        },
+        // Shadcn compatibility
         background: "hsl(var(--background))",
         "background-subtle": "hsl(var(--background-subtle))",
-        surface: "hsl(var(--surface))",
-        "surface-raised": "hsl(var(--surface-raised))",
-        "surface-overlay": "hsl(var(--surface-overlay))",
-        // Foregrounds
         foreground: "hsl(var(--foreground))",
         "foreground-secondary": "hsl(var(--foreground-secondary))",
         "foreground-muted": "hsl(var(--foreground-muted))",
         "foreground-inverted": "hsl(var(--foreground-inverted))",
-        // Borders
-        border: "hsl(var(--border))",
-        "border-strong": "hsl(var(--border-strong))",
-        "border-focus": "hsl(var(--border-focus))",
-        // Interactive
-        input: "hsl(var(--input))",
-        "input-hover": "hsl(var(--input-hover))",
+        input: {
+          DEFAULT: "hsl(var(--input))",
+          hover: "hsl(var(--input-hover))",
+        },
         ring: "hsl(var(--ring))",
-        // Status
-        success: {
-          DEFAULT: "hsl(var(--success))",
-          subtle: "hsl(var(--success-subtle))",
-          foreground: "hsl(var(--success-foreground))",
-        },
-        danger: {
-          DEFAULT: "hsl(var(--danger))",
-          subtle: "hsl(var(--danger-subtle))",
-          foreground: "hsl(var(--danger-foreground))",
-        },
-        warning: {
-          DEFAULT: "hsl(var(--warning))",
-          subtle: "hsl(var(--warning-subtle))",
-          foreground: "hsl(var(--warning-foreground))",
-        },
-        info: {
-          DEFAULT: "hsl(var(--info))",
-          subtle: "hsl(var(--info-subtle))",
-          foreground: "hsl(var(--info-foreground))",
-        },
         // Component tokens
         primary: {
           DEFAULT: "hsl(var(--primary))",
@@ -139,8 +188,8 @@ export default {
           "50%": { transform: "translateY(-4px)" },
         },
         "pulse-glow": {
-          "0%, 100%": { boxShadow: "0 0 0 0 hsl(var(--brand-primary) / 0.4)" },
-          "50%": { boxShadow: "0 0 0 8px hsl(var(--brand-primary) / 0)" },
+          "0%, 100%": { boxShadow: "0 0 0 0 hsl(var(--brand-yellow) / 0.4)" },
+          "50%": { boxShadow: "0 0 0 8px hsl(var(--brand-yellow) / 0)" },
         },
         "slide-up": {
           from: { transform: "translateY(8px)", opacity: "0" },
@@ -158,6 +207,11 @@ export default {
           "0%": { backgroundPosition: "-200% 0" },
           "100%": { backgroundPosition: "200% 0" },
         },
+        press: {
+          "0%": { transform: "scale(1)" },
+          "50%": { transform: "scale(0.97)" },
+          "100%": { transform: "scale(1)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -168,6 +222,7 @@ export default {
         "fade-in": "fade-in 0.2s ease-out",
         "scale-in": "scale-in 0.2s ease-out",
         shimmer: "shimmer 2s linear infinite",
+        press: "press 0.15s ease-out",
       },
     },
   },
