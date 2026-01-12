@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Zap, ArrowRight, Palette, Component, Moon, FileText } from "lucide-react";
+import { Zap, ArrowRight, Palette, Component, Moon, FileText, Accessibility } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
@@ -8,6 +8,11 @@ import { Card, CardContent } from "@/components/ui/card";
 const Index = () => {
   return (
     <div className="min-h-screen bg-background">
+      {/* Skip Link for Accessibility */}
+      <a href="#main-content" className="skip-link">
+        Skip to main content
+      </a>
+      
       {/* Hero Section */}
       <section className="relative overflow-hidden">
         {/* Background Pattern */}
@@ -54,8 +59,8 @@ const Index = () => {
       </section>
 
       {/* Features Grid */}
-      <section className="container py-16 md:py-24">
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <main id="main-content" className="container py-16 md:py-24">
+        <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-6">
           <Card variant="interactive">
             <CardContent className="pt-6">
               <div className="w-12 h-12 rounded-xl bg-brand-primary-subtle flex items-center justify-center mb-4">
@@ -92,6 +97,20 @@ const Index = () => {
             </CardContent>
           </Card>
 
+          <Link to="/accessibility">
+            <Card variant="interactive">
+              <CardContent className="pt-6">
+                <div className="w-12 h-12 rounded-xl bg-success-soft flex items-center justify-center mb-4">
+                  <Accessibility className="w-6 h-6 text-success" />
+                </div>
+                <h3 className="font-display text-lg font-bold mb-2">Accessibility</h3>
+                <p className="text-sm text-muted-foreground">
+                  WCAG AA compliant with focus rings, keyboard nav, and reduced motion.
+                </p>
+              </CardContent>
+            </Card>
+          </Link>
+
           <Card variant="interactive">
             <CardContent className="pt-6">
               <div className="w-12 h-12 rounded-xl bg-warning-subtle flex items-center justify-center mb-4">
@@ -104,7 +123,7 @@ const Index = () => {
             </CardContent>
           </Card>
         </div>
-      </section>
+      </main>
 
       {/* Color Preview */}
       <section className="container pb-16 md:pb-24">
