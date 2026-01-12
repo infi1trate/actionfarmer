@@ -187,16 +187,16 @@ export function ScheduleSelectionPage() {
           variant="primary" 
           size="lg" 
           className="w-full"
-          onClick={() => navigate("/app")}
+          onClick={() => navigate("/onboarding/modes")}
         >
-          Start Earning
+          Continue
           <ArrowRight className="w-5 h-5 ml-2" />
         </Button>
         <Button 
           variant="ghost" 
           size="lg" 
           className="w-full"
-          onClick={() => navigate("/app")}
+          onClick={() => navigate("/onboarding/modes")}
         >
           I'll set this up later
         </Button>
