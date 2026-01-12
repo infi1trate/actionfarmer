@@ -36,6 +36,7 @@ import {
   CameraPlacementPage,
   ZoneSelectionPage,
   ScheduleSelectionPage,
+  ModeSelectionPage,
 } from "./app";
 
 const queryClient = new QueryClient();
@@ -63,6 +64,7 @@ const App = () => (
               <Route path="/onboarding/camera" element={<CameraPlacementPage />} />
               <Route path="/onboarding/zones" element={<ZoneSelectionPage />} />
               <Route path="/onboarding/schedule" element={<ScheduleSelectionPage />} />
+              <Route path="/onboarding/modes" element={<ModeSelectionPage />} />
               
               {/* Main App */}
               <Route path="/app" element={<AppLayout />}>

@@ -14,3 +14,4 @@ export { OnboardingConsentPage } from "./pages/onboarding/OnboardingConsentPage"
 export { CameraPlacementPage } from "./pages/onboarding/CameraPlacementPage";
 export { ZoneSelectionPage } from "./pages/onboarding/ZoneSelectionPage";
 export { ScheduleSelectionPage } from "./pages/onboarding/ScheduleSelectionPage";
+export { ModeSelectionPage } from "./pages/onboarding/ModeSelectionPage";
