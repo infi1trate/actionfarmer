@@ -94,11 +94,23 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     disabled,
     ...props 
   }, ref) => {
-    const Comp = asChild ? Slot : "button";
     const isIconOnly = size?.toString().includes("icon");
     
+    // When asChild is true, we can't add extra elements, so render simply
+    if (asChild) {
+      return (
+        <Slot
+          className={cn(buttonVariants({ variant, size, className }))}
+          ref={ref}
+          {...props}
+        >
+          {children}
+        </Slot>
+      );
+    }
+    
     return (
-      <Comp
+      <button
         className={cn(
           buttonVariants({ variant, size, className }),
           loading && "relative text-transparent hover:text-transparent"
@@ -116,7 +128,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {!isIconOnly && <span className={loading ? "invisible" : ""}>{children}</span>}
         {isIconOnly && children}
         {!loading && rightIcon && <span className="inline-flex shrink-0">{rightIcon}</span>}
-      </Comp>
+      </button>
     );
   }
 );
