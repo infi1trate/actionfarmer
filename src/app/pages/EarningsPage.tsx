@@ -159,42 +159,25 @@ export function EarningsPage() {
         </div>
       </section>
 
-      {/* Projection - subtle, encouraging */}
-      <section className="relative rounded-2xl bg-gradient-to-r from-muted/50 to-muted/30 p-5 overflow-hidden">
-        <div className="absolute top-0 right-0 w-20 h-20 bg-primary/5 rounded-full blur-2xl" />
-        
-        <div className="relative flex items-center justify-between">
-          <div className="space-y-1">
-            <div className="flex items-center gap-2">
-              <TrendingUp className="h-4 w-4 text-primary" />
-              <span className="text-sm font-medium text-foreground">On pace for</span>
-            </div>
-            <p className="text-2xl font-bold text-foreground">~620 pts</p>
-            <p className="text-xs text-muted-foreground">this month at current activity</p>
-          </div>
-          
-          <div className="text-right">
-            <div className="text-xs text-muted-foreground mb-1">Current</div>
-            <div className="text-lg font-semibold text-foreground">487 pts</div>
-          </div>
+      {/* Projection - secondary, lighter */}
+      <div className="flex items-center justify-between px-1 py-2 text-muted-foreground">
+        <div className="flex items-center gap-2">
+          <TrendingUp className="h-3.5 w-3.5" />
+          <span className="text-xs">On pace for <span className="font-medium text-foreground/80">~620 pts</span> this month</span>
         </div>
-      </section>
+        <span className="text-xs tabular-nums">487 pts now</span>
+      </div>
 
-      {/* History - gentle nudge */}
+      {/* History - simple nav row */}
       <button 
         onClick={() => {}}
-        className="w-full flex items-center justify-between p-4 rounded-2xl bg-muted/20 hover:bg-muted/40 transition-colors group"
+        className="w-full flex items-center justify-between py-3 px-1 text-muted-foreground hover:text-foreground transition-colors group"
       >
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-muted/50 flex items-center justify-center group-hover:bg-muted transition-colors">
-            <Clock className="h-5 w-5 text-muted-foreground" />
-          </div>
-          <div className="text-left">
-            <p className="text-sm font-medium text-foreground">Full History</p>
-            <p className="text-xs text-muted-foreground">All contributions & earnings</p>
-          </div>
+        <div className="flex items-center gap-2">
+          <Clock className="h-4 w-4" />
+          <span className="text-sm">View Full History</span>
         </div>
-        <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:translate-x-0.5 transition-transform" />
+        <ChevronRight className="h-4 w-4 group-hover:translate-x-0.5 transition-transform" />
       </button>
 
       {/* Disclaimer - unobtrusive */}
