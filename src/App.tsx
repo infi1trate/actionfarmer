@@ -48,6 +48,14 @@ import {
   UploadConfirmationPage,
 } from "./app/pages/session";
 
+import {
+  ChallengeBriefPage,
+  ChallengeCountdownPage,
+  ChallengeActivePage,
+  ChallengeCompletedPage,
+  ChallengeAnnotationPage,
+} from "./app/pages/challenge";
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -81,6 +89,13 @@ const App = () => (
               
               {/* Play Mode */}
               <Route path="/play" element={<PlayModePage />} />
+              
+              {/* Challenge Flow */}
+              <Route path="/challenge/:id" element={<ChallengeBriefPage />} />
+              <Route path="/challenge/:id/countdown" element={<ChallengeCountdownPage />} />
+              <Route path="/challenge/:id/active" element={<ChallengeActivePage />} />
+              <Route path="/challenge/:id/complete" element={<ChallengeCompletedPage />} />
+              <Route path="/challenge/:id/annotate" element={<ChallengeAnnotationPage />} />
               
               {/* Session Flow */}
               <Route path="/session/complete" element={<SessionCompletedPage />} />
