@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+
 import {
   TrendingUp,
   Flame,
@@ -23,11 +23,11 @@ const streakData = {
   multiplier: 1.2,
 };
 
-const recentMilestones = [
-  { id: "1", label: "7-day streak unlocked", value: "+1.2x bonus", icon: Flame, recent: true },
-  { id: "2", label: "42 contributions this month", value: "487 pts", icon: Target, recent: false },
-  { id: "3", label: "8 challenges completed", value: "+156 pts", icon: Zap, recent: false },
-];
+const challengeStats = {
+  completed: 8,
+  bonusEarned: 156,
+  multiplierActive: true,
+};
 
 export function EarningsPage() {
   const navigate = useNavigate();
@@ -91,57 +91,71 @@ export function EarningsPage() {
         </div>
       </section>
 
-      {/* Momentum Indicators - flowing, not boxed */}
-      <section className="space-y-4">
-        <div className="flex items-center gap-2 px-1">
-          <Sparkles className="h-4 w-4 text-primary" />
-          <h2 className="text-sm font-semibold text-foreground">Your Momentum</h2>
-        </div>
-
-        <div className="space-y-2">
-          {recentMilestones.map((milestone, index) => {
-            const Icon = milestone.icon;
-            return (
-              <div 
-                key={milestone.id}
-                className={`
-                  flex items-center gap-4 p-4 rounded-2xl transition-all duration-200
-                  ${milestone.recent 
-                    ? 'bg-gradient-to-r from-orange-500/10 to-transparent border border-orange-500/20' 
-                    : 'bg-muted/30 hover:bg-muted/50'
-                  }
-                `}
-                style={{ 
-                  animationDelay: `${index * 50}ms`,
-                }}
-              >
-                <div className={`
-                  w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0
-                  ${milestone.recent 
-                    ? 'bg-orange-500/20' 
-                    : 'bg-muted'
-                  }
-                `}>
-                  <Icon className={`h-5 w-5 ${milestone.recent ? 'text-orange-500' : 'text-muted-foreground'}`} />
-                </div>
-                
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-foreground truncate">{milestone.label}</p>
-                </div>
-                
-                <div className="flex items-center gap-2">
-                  {milestone.recent && (
-                    <Badge className="text-[10px] bg-orange-500/10 text-orange-600 border-0 px-2">
-                      Active
-                    </Badge>
-                  )}
-                  <span className={`text-sm font-semibold ${milestone.recent ? 'text-orange-600' : 'text-foreground'}`}>
-                    {milestone.value}
-                  </span>
-                </div>
+      {/* Challenge Bonuses - compact visual summary */}
+      <section className="rounded-2xl bg-gradient-to-br from-amber-500/8 via-amber-500/4 to-transparent p-4">
+        <div className="flex items-center justify-between">
+          {/* Completed */}
+          <div className="flex flex-col items-center gap-2">
+            <div className="relative">
+              <div className="w-12 h-12 rounded-full bg-amber-500/15 flex items-center justify-center">
+                <Target className="h-5 w-5 text-amber-600" />
               </div>
-            );
-          })}
+              {challengeStats.completed >= 5 && (
+                <div className="absolute -top-0.5 -right-0.5 w-4 h-4 rounded-full bg-amber-500 flex items-center justify-center">
+                  <Sparkles className="h-2.5 w-2.5 text-white" />
+                </div>
+              )}
+            </div>
+            <div className="text-center">
+              <p className="text-lg font-bold text-foreground">{challengeStats.completed}</p>
+              <p className="text-[10px] text-muted-foreground font-medium">completed</p>
+            </div>
+          </div>
+
+          {/* Divider */}
+          <div className="h-16 w-px bg-border/50" />
+
+          {/* Bonus Earned */}
+          <div className="flex flex-col items-center gap-2">
+            <div className="w-12 h-12 rounded-full bg-emerald-500/15 flex items-center justify-center">
+              <Zap className="h-5 w-5 text-emerald-600" />
+            </div>
+            <div className="text-center">
+              <p className="text-lg font-bold text-foreground">+{challengeStats.bonusEarned}</p>
+              <p className="text-[10px] text-muted-foreground font-medium">bonus pts</p>
+            </div>
+          </div>
+
+          {/* Divider */}
+          <div className="h-16 w-px bg-border/50" />
+
+          {/* Multiplier Status */}
+          <div className="flex flex-col items-center gap-2">
+            <div className={`relative w-12 h-12 rounded-full flex items-center justify-center ${
+              challengeStats.multiplierActive 
+                ? 'bg-primary/15' 
+                : 'bg-muted/50'
+            }`}>
+              <Percent className={`h-5 w-5 ${
+                challengeStats.multiplierActive 
+                  ? 'text-primary' 
+                  : 'text-muted-foreground'
+              }`} />
+              {challengeStats.multiplierActive && (
+                <span className="absolute inset-0 rounded-full bg-primary/20 animate-pulse" />
+              )}
+            </div>
+            <div className="text-center">
+              <p className={`text-lg font-bold ${
+                challengeStats.multiplierActive 
+                  ? 'text-primary' 
+                  : 'text-muted-foreground'
+              }`}>
+                {challengeStats.multiplierActive ? 'ON' : 'OFF'}
+              </p>
+              <p className="text-[10px] text-muted-foreground font-medium">multiplier</p>
+            </div>
+          </div>
         </div>
       </section>
 
