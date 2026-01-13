@@ -5,16 +5,14 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
 import { 
   Camera,
   ChevronRight,
-  Zap,
-  Trophy,
-  TrendingUp,
-  Flame,
   Target,
-  Sparkles,
+  Flame,
+  TrendingUp,
+  TrendingDown,
+  Zap,
 } from "lucide-react";
 
 function getGreeting() {
@@ -31,17 +29,27 @@ export function HomePage() {
 
   // Mock user data
   const userName = "Alex";
-  
-  // Mock momentum stats
+
+  // Mock momentum data
   const momentum = {
-    weeklyStreak: 5,
-    totalXP: 2450,
-    weeklyGoal: 1000,
-    weeklyProgress: 680,
-    recentMilestone: "5-day streak!",
+    challengesThisWeek: 7,
+    rewardMultiplier: 1.5,
+    streakDays: 5,
+    streakTrend: "up" as const, // "up" | "down" | "stable"
+    vsLastWeek: 2, // positive = ahead, negative = behind
   };
 
-  const weeklyPercentage = Math.min((momentum.weeklyProgress / momentum.weeklyGoal) * 100, 100);
+  const getTrendNarrative = () => {
+    if (momentum.vsLastWeek > 0) {
+      return `You're ${momentum.vsLastWeek} challenges ahead of last week`;
+    } else if (momentum.vsLastWeek < 0) {
+      return `${Math.abs(momentum.vsLastWeek)} more to match last week`;
+    }
+    return "You're on pace with last week";
+  };
+
+  const TrendIcon = momentum.streakTrend === "up" ? TrendingUp : TrendingDown;
+  const trendColor = momentum.streakTrend === "up" ? "text-success" : "text-warning";
 
   return (
     <ContentSection className="space-y-6">
@@ -55,49 +63,50 @@ export function HomePage() {
         </p>
       </div>
 
-      {/* Momentum Indicators */}
-      <div className="grid grid-cols-2 gap-3">
-        <Card className="p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <Flame className="h-5 w-5 text-brand-orange" />
-            <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Streak</span>
-          </div>
-          <p className="text-2xl font-bold text-foreground">{momentum.weeklyStreak} days</p>
-          {momentum.recentMilestone && (
-            <Badge variant="secondary" className="mt-2 text-[10px] bg-brand-orange/10 text-brand-orange border-0">
-              <Sparkles className="h-3 w-3 mr-1" />
-              {momentum.recentMilestone}
+      {/* Rich Momentum Card */}
+      <Card className="p-5 bg-gradient-to-br from-primary/5 via-background to-brand-orange/5 border-primary/20 overflow-hidden relative">
+        {/* Subtle animated background element */}
+        <div className="absolute -right-8 -top-8 w-32 h-32 rounded-full bg-primary/5 blur-2xl" />
+        <div className="absolute -left-4 -bottom-4 w-24 h-24 rounded-full bg-brand-orange/5 blur-xl" />
+        
+        <div className="relative space-y-4">
+          {/* Header */}
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+                <Zap className="h-4 w-4 text-primary" />
+              </div>
+              <span className="text-sm font-semibold text-foreground">This Week's Momentum</span>
+            </div>
+            <Badge variant="brand" size="sm" className="font-bold">
+              {momentum.rewardMultiplier}x Multiplier
             </Badge>
-          )}
-        </Card>
-        <Card className="p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <TrendingUp className="h-5 w-5 text-success" />
-            <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Total XP</span>
           </div>
-          <p className="text-2xl font-bold text-foreground">{momentum.totalXP.toLocaleString()}</p>
-          <p className="text-xs text-muted-foreground mt-1">Lifetime earnings</p>
-        </Card>
-      </div>
 
-      {/* Weekly Goal Progress */}
-      <Card className="p-4">
-        <div className="flex items-center justify-between mb-3">
-          <div className="flex items-center gap-2">
-            <Trophy className="h-5 w-5 text-primary" />
-            <span className="text-sm font-medium text-foreground">Weekly Goal</span>
+          {/* Stats Row */}
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-1">
+              <p className="text-3xl font-bold text-foreground">{momentum.challengesThisWeek}</p>
+              <p className="text-xs text-muted-foreground">Challenges completed</p>
+            </div>
+            <div className="space-y-1">
+              <div className="flex items-center gap-1.5">
+                <Flame className="h-5 w-5 text-brand-orange" />
+                <p className="text-3xl font-bold text-foreground">{momentum.streakDays}</p>
+                <TrendIcon className={`h-4 w-4 ${trendColor}`} />
+              </div>
+              <p className="text-xs text-muted-foreground">Day streak</p>
+            </div>
           </div>
-          <span className="text-xs text-muted-foreground">
-            {momentum.weeklyProgress.toLocaleString()} / {momentum.weeklyGoal.toLocaleString()} XP
-          </span>
+
+          {/* Narrative Footer */}
+          <div className="pt-3 border-t border-border/50">
+            <p className="text-sm text-foreground font-medium flex items-center gap-2">
+              <TrendIcon className={`h-4 w-4 ${trendColor}`} />
+              {getTrendNarrative()}
+            </p>
+          </div>
         </div>
-        <Progress value={weeklyPercentage} className="h-2" />
-        <p className="text-xs text-muted-foreground mt-2">
-          {weeklyPercentage >= 100 
-            ? "Goal reached! Keep pushing for more." 
-            : `${Math.round(momentum.weeklyGoal - momentum.weeklyProgress)} XP to go`
-          }
-        </p>
       </Card>
 
       {/* Primary CTA - Go to Challenges */}
