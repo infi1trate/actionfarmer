@@ -9,16 +9,20 @@ import {
   Star,
   Home,
   Target,
-  User,
+  DollarSign,
+  BarChart3,
+  Settings,
   ChevronRight,
   Sparkles,
 } from "lucide-react";
 import type { TabItem } from "@/components/ui/bottom-tab-bar";
 
 const tabs: TabItem[] = [
-  { label: "Home", icon: Home, href: "/app" },
-  { label: "Challenges", icon: Target, href: "/challenges" },
-  { label: "Profile", icon: User, href: "/app/profile" },
+  { icon: Home, label: "Home", href: "/app" },
+  { icon: Target, label: "Challenges", href: "/challenges" },
+  { icon: DollarSign, label: "Earnings", href: "/app/earnings" },
+  { icon: BarChart3, label: "Insights", href: "/app/insights" },
+  { icon: Settings, label: "Settings", href: "/app/settings" },
 ];
 
 type Difficulty = "easy" | "medium" | "hard";
