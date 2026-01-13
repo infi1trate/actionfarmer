@@ -16,6 +16,18 @@ import {
 } from "lucide-react";
 import type { TabItem } from "@/components/ui/bottom-tab-bar";
 
+// Video imports
+import videoDishwasher from "@/assets/videos/challenge-dishwasher.mp4";
+import videoGroceries from "@/assets/videos/challenge-groceries.mp4";
+import videoLaundry from "@/assets/videos/challenge-laundry.mp4";
+import videoBed from "@/assets/videos/challenge-bed.mp4";
+import videoTable from "@/assets/videos/challenge-table.mp4";
+import videoBasket from "@/assets/videos/challenge-basket.mp4";
+import videoShelf from "@/assets/videos/challenge-shelf.mp4";
+import videoFragile from "@/assets/videos/challenge-fragile.mp4";
+import videoRecycling from "@/assets/videos/challenge-recycling.mp4";
+import videoMultitask from "@/assets/videos/challenge-multitask.mp4";
+
 const tabs: TabItem[] = [
   { icon: Home, label: "Home", href: "/app" },
   { icon: Target, label: "Challenges", href: "/challenges" },
@@ -35,11 +47,7 @@ interface Challenge {
   hasBonus: boolean;
   bonusLabel?: string;
   isWeeklyFeatured?: boolean;
-  scene: {
-    gradient: string;
-    icon: string;
-    accent: string;
-  };
+  video: string;
 }
 
 const challenges: Challenge[] = [
@@ -50,7 +58,7 @@ const challenges: Challenge[] = [
     duration: "5 min", 
     difficulty: "easy", 
     hasBonus: false,
-    scene: { gradient: "from-sky-500/20 via-blue-500/10 to-transparent", icon: "💧", accent: "bg-sky-500/20" }
+    video: videoDishwasher
   },
   { 
     id: "2", 
@@ -61,7 +69,7 @@ const challenges: Challenge[] = [
     hasBonus: true, 
     bonusLabel: "2x XP", 
     isWeeklyFeatured: true,
-    scene: { gradient: "from-emerald-500/20 via-green-500/10 to-transparent", icon: "🥬", accent: "bg-emerald-500/20" }
+    video: videoGroceries
   },
   { 
     id: "3", 
@@ -70,7 +78,7 @@ const challenges: Challenge[] = [
     duration: "10 min", 
     difficulty: "easy", 
     hasBonus: false,
-    scene: { gradient: "from-violet-500/20 via-purple-500/10 to-transparent", icon: "👕", accent: "bg-violet-500/20" }
+    video: videoLaundry
   },
   { 
     id: "4", 
@@ -79,7 +87,7 @@ const challenges: Challenge[] = [
     duration: "3 min", 
     difficulty: "easy", 
     hasBonus: false,
-    scene: { gradient: "from-amber-500/20 via-orange-500/10 to-transparent", icon: "🛏️", accent: "bg-amber-500/20" }
+    video: videoBed
   },
   { 
     id: "5", 
@@ -90,7 +98,7 @@ const challenges: Challenge[] = [
     hasBonus: true, 
     bonusLabel: "Featured", 
     isWeeklyFeatured: true,
-    scene: { gradient: "from-rose-500/20 via-pink-500/10 to-transparent", icon: "🍽️", accent: "bg-rose-500/20" }
+    video: videoTable
   },
   { 
     id: "6", 
@@ -99,7 +107,7 @@ const challenges: Challenge[] = [
     duration: "2 min", 
     difficulty: "medium", 
     hasBonus: false,
-    scene: { gradient: "from-teal-500/20 via-cyan-500/10 to-transparent", icon: "🧺", accent: "bg-teal-500/20" }
+    video: videoBasket
   },
   { 
     id: "7", 
@@ -108,7 +116,7 @@ const challenges: Challenge[] = [
     duration: "6 min", 
     difficulty: "medium", 
     hasBonus: false,
-    scene: { gradient: "from-indigo-500/20 via-blue-500/10 to-transparent", icon: "📚", accent: "bg-indigo-500/20" }
+    video: videoShelf
   },
   { 
     id: "8", 
@@ -119,7 +127,7 @@ const challenges: Challenge[] = [
     hasBonus: true, 
     bonusLabel: "Precision", 
     isWeeklyFeatured: true,
-    scene: { gradient: "from-fuchsia-500/20 via-pink-500/10 to-transparent", icon: "🏺", accent: "bg-fuchsia-500/20" }
+    video: videoFragile
   },
   { 
     id: "9", 
@@ -128,7 +136,7 @@ const challenges: Challenge[] = [
     duration: "5 min", 
     difficulty: "medium", 
     hasBonus: false,
-    scene: { gradient: "from-lime-500/20 via-green-500/10 to-transparent", icon: "♻️", accent: "bg-lime-500/20" }
+    video: videoRecycling
   },
   { 
     id: "10", 
@@ -138,14 +146,14 @@ const challenges: Challenge[] = [
     difficulty: "hard", 
     hasBonus: true, 
     bonusLabel: "Multi-Task",
-    scene: { gradient: "from-orange-500/20 via-red-500/10 to-transparent", icon: "⚡", accent: "bg-orange-500/20" }
+    video: videoMultitask
   },
 ];
 
 const difficultyConfig: Record<Difficulty, { label: string; className: string }> = {
-  easy: { label: "Easy", className: "bg-emerald-500/15 text-emerald-600 dark:text-emerald-400" },
-  medium: { label: "Medium", className: "bg-amber-500/15 text-amber-600 dark:text-amber-400" },
-  hard: { label: "Hard", className: "bg-rose-500/15 text-rose-600 dark:text-rose-400" },
+  easy: { label: "Easy", className: "bg-emerald-500/20 text-emerald-100 backdrop-blur-sm" },
+  medium: { label: "Medium", className: "bg-amber-500/20 text-amber-100 backdrop-blur-sm" },
+  hard: { label: "Hard", className: "bg-rose-500/20 text-rose-100 backdrop-blur-sm" },
 };
 
 interface SceneCardProps {
@@ -156,6 +164,7 @@ interface SceneCardProps {
 
 const SceneCard = ({ challenge, onClick, featured = false }: SceneCardProps) => {
   const diffConfig = difficultyConfig[challenge.difficulty];
+  const videoRef = React.useRef<HTMLVideoElement>(null);
   
   return (
     <button
@@ -165,43 +174,49 @@ const SceneCard = ({ challenge, onClick, featured = false }: SceneCardProps) => 
         transition-all duration-300 ease-out
         active:scale-[0.98]
         ${featured 
-          ? 'min-h-[180px] border-2 border-primary/30 bg-gradient-to-br from-primary/5 to-primary/10' 
-          : 'min-h-[140px] border border-border bg-card hover:border-primary/20'
+          ? 'min-h-[200px] ring-2 ring-primary/40 ring-offset-2 ring-offset-background' 
+          : 'min-h-[160px] border border-border/50'
         }
       `}
+      onMouseEnter={() => videoRef.current?.play()}
+      onMouseLeave={() => {
+        if (videoRef.current) {
+          videoRef.current.pause();
+          videoRef.current.currentTime = 0;
+        }
+      }}
     >
-      {/* Ambient gradient background */}
-      <div className={`
-        absolute inset-0 bg-gradient-to-br ${challenge.scene.gradient}
-        opacity-60 group-hover:opacity-80 transition-opacity duration-500
-      `} />
+      {/* Video background */}
+      <video
+        ref={videoRef}
+        src={challenge.video}
+        muted
+        loop
+        playsInline
+        autoPlay
+        className="absolute inset-0 w-full h-full object-cover scale-105 group-hover:scale-110 transition-transform duration-700"
+      />
       
-      {/* Subtle scene pattern overlay */}
-      <div className="absolute inset-0 opacity-[0.03] bg-[radial-gradient(circle_at_50%_50%,_hsl(var(--foreground))_1px,_transparent_1px)] bg-[length:24px_24px]" />
+      {/* Gradient overlays for text readability */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20" />
+      <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-transparent" />
       
-      {/* Large floating icon */}
-      <div className={`
-        absolute -right-4 -bottom-4 text-[80px] leading-none
-        opacity-20 group-hover:opacity-30 group-hover:scale-110
-        transition-all duration-500 ease-out
-        ${featured ? 'text-[100px] -right-2 -bottom-2' : ''}
-      `}>
-        {challenge.scene.icon}
-      </div>
+      {/* Subtle vignette */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_transparent_0%,_rgba(0,0,0,0.3)_100%)]" />
       
       {/* Content */}
-      <div className="relative z-10 p-5 h-full flex flex-col justify-between">
+      <div className="relative z-10 p-5 h-full flex flex-col justify-between min-h-[inherit]">
         <div className="space-y-2">
           {/* Top badges */}
           <div className="flex items-center gap-2 flex-wrap">
             {challenge.hasBonus && (
-              <Badge className="text-[10px] px-2 py-0.5 bg-primary text-primary-foreground border-0 shadow-sm">
+              <Badge className="text-[10px] px-2 py-0.5 bg-primary text-primary-foreground border-0 shadow-lg">
                 <Star className="h-2.5 w-2.5 mr-1 fill-current" />
                 {challenge.bonusLabel}
               </Badge>
             )}
             {featured && (
-              <Badge variant="outline" className="text-[10px] px-2 py-0.5 border-primary/40 text-primary">
+              <Badge className="text-[10px] px-2 py-0.5 bg-white/20 text-white border-0 backdrop-blur-sm">
                 <Sparkles className="h-2.5 w-2.5 mr-1" />
                 Featured
               </Badge>
@@ -210,22 +225,22 @@ const SceneCard = ({ challenge, onClick, featured = false }: SceneCardProps) => 
           
           {/* Title */}
           <h3 className={`
-            font-display font-bold text-foreground
-            ${featured ? 'text-xl' : 'text-lg'}
+            font-display font-bold text-white drop-shadow-lg
+            ${featured ? 'text-2xl' : 'text-xl'}
           `}>
             {challenge.name}
           </h3>
           
           {/* Description */}
-          <p className="text-sm text-muted-foreground line-clamp-2 max-w-[85%]">
+          <p className="text-sm text-white/80 line-clamp-2 max-w-[85%] drop-shadow">
             {challenge.description}
           </p>
         </div>
         
         {/* Bottom row - metadata + action */}
-        <div className="flex items-center justify-between mt-3">
+        <div className="flex items-center justify-between mt-4">
           <div className="flex items-center gap-2">
-            <div className="flex items-center gap-1.5 text-muted-foreground bg-background/50 backdrop-blur-sm px-2 py-1 rounded-lg">
+            <div className="flex items-center gap-1.5 text-white/90 bg-black/30 backdrop-blur-sm px-2.5 py-1 rounded-lg">
               <Clock className="h-3.5 w-3.5" />
               <span className="text-xs font-medium">{challenge.duration}</span>
             </div>
@@ -239,10 +254,10 @@ const SceneCard = ({ challenge, onClick, featured = false }: SceneCardProps) => 
           <div className={`
             flex items-center justify-center rounded-full
             bg-primary text-primary-foreground
-            shadow-md shadow-primary/25
-            group-hover:shadow-lg group-hover:shadow-primary/30
+            shadow-lg shadow-primary/40
+            group-hover:shadow-xl group-hover:shadow-primary/50
             group-hover:scale-110 transition-all duration-300
-            ${featured ? 'w-11 h-11' : 'w-9 h-9'}
+            ${featured ? 'w-12 h-12' : 'w-10 h-10'}
           `}>
             <Play className={`${featured ? 'h-5 w-5' : 'h-4 w-4'} fill-current ml-0.5`} />
           </div>
