@@ -51,18 +51,18 @@ const buttonVariants = cva(
       },
       size: {
         sm: "h-9 px-4 text-sm [&_svg]:size-4",
-        default: "h-11 px-5 text-sm [&_svg]:size-4",
-        md: "h-11 px-5 text-sm [&_svg]:size-4",
-        lg: "h-13 px-6 text-base [&_svg]:size-5",
+        default: "h-10 px-5 text-sm [&_svg]:size-4",
+        md: "h-10 px-5 text-sm [&_svg]:size-4",
+        lg: "h-12 px-6 text-base [&_svg]:size-5",
         xl: "h-14 px-8 text-lg font-bold [&_svg]:size-5",
         // Icon-only sizes
         "icon-sm": "h-9 w-9 p-0 rounded-xl [&_svg]:size-4",
-        icon: "h-11 w-11 p-0 rounded-xl [&_svg]:size-5",
-        "icon-lg": "h-13 w-13 p-0 rounded-xl [&_svg]:size-6",
+        icon: "h-10 w-10 p-0 rounded-xl [&_svg]:size-5",
+        "icon-lg": "h-12 w-12 p-0 rounded-xl [&_svg]:size-6",
         // Circular icon buttons
         "icon-circle-sm": "h-9 w-9 p-0 rounded-full [&_svg]:size-4",
-        "icon-circle": "h-11 w-11 p-0 rounded-full [&_svg]:size-5",
-        "icon-circle-lg": "h-13 w-13 p-0 rounded-full [&_svg]:size-6",
+        "icon-circle": "h-10 w-10 p-0 rounded-full [&_svg]:size-5",
+        "icon-circle-lg": "h-12 w-12 p-0 rounded-full [&_svg]:size-6",
       },
     },
     defaultVariants: {
