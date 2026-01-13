@@ -51,6 +51,8 @@ export function SettingsPage() {
   const [dataSharingResearch, setDataSharingResearch] = React.useState(false);
   const [dataSharingAnalytics, setDataSharingAnalytics] = React.useState(true);
   const [isPaused, setIsPaused] = React.useState(false);
+  // Ambient Capture is OFF by default - optional background feature
+  const [ambientCaptureEnabled, setAmbientCaptureEnabled] = React.useState(false);
 
   const handleSignOut = () => {
     navigate("/onboarding");
@@ -230,34 +232,38 @@ export function SettingsPage() {
           </Card>
         </SettingsGroup>
 
-        {/* Ambient Mode */}
-        <SettingsGroup label="Ambient Mode">
+        {/* Ambient Capture - Optional feature */}
+        <SettingsGroup label="Ambient Capture">
           <Card>
             <SettingsToggleRow
-              label="Enable Ambient Mode"
+              label="Enable Ambient Capture"
               icon={Camera}
               iconBg="bg-success/10"
-              description="Earn points passively in the background"
-              checked={dataSharingAnalytics}
-              onCheckedChange={setDataSharingAnalytics}
+              description="Earn extra points passively between challenges"
+              checked={ambientCaptureEnabled}
+              onCheckedChange={setAmbientCaptureEnabled}
             />
-            <Separator />
-            <SettingsLinkRow
-              label="Recording Schedule"
-              icon={Calendar}
-              iconBg="bg-brand-yellow/10"
-              description="Set active hours for Ambient Mode"
-              onClick={() => navigate("/onboarding/schedule-selection")}
-            />
-            <Separator />
-            <SettingsLinkRow
-              label="Quiet Hours"
-              icon={Clock}
-              iconBg="bg-muted"
-              description="Times when recording is paused"
-              value="10pm - 7am"
-              onClick={() => {}}
-            />
+            {ambientCaptureEnabled && (
+              <>
+                <Separator />
+                <SettingsLinkRow
+                  label="Recording Schedule"
+                  icon={Calendar}
+                  iconBg="bg-brand-yellow/10"
+                  description="Set active hours for ambient capture"
+                  onClick={() => navigate("/onboarding/schedule-selection")}
+                />
+                <Separator />
+                <SettingsLinkRow
+                  label="Quiet Hours"
+                  icon={Clock}
+                  iconBg="bg-muted"
+                  description="Times when capture is paused"
+                  value="10pm - 7am"
+                  onClick={() => {}}
+                />
+              </>
+            )}
           </Card>
         </SettingsGroup>
 

@@ -17,7 +17,9 @@ import {
 
 export function HomePage() {
   const navigate = useNavigate();
+  // Ambient Mode is OFF by default - optional background feature
   const [ambientEnabled, setAmbientEnabled] = React.useState(false);
+  const [ambientExpanded, setAmbientExpanded] = React.useState(false);
 
   // Mock stats
   const stats = {
@@ -83,45 +85,63 @@ export function HomePage() {
         </Card>
       </div>
 
-      {/* Ambient Mode Toggle */}
-      <div className="space-y-2">
-        <h2 className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Passive Earning</h2>
-        <Card className="p-4">
-          <div className="flex items-center gap-3">
-            <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
-              ambientEnabled ? 'bg-success/10' : 'bg-muted'
-            }`}>
-              <Camera className={`h-5 w-5 ${ambientEnabled ? 'text-success' : 'text-muted-foreground'}`} />
+      {/* Ambient Capture - Collapsed optional card */}
+      <Card 
+        className={`p-4 transition-all ${ambientEnabled ? 'border-success/30' : ''}`}
+        onClick={() => !ambientEnabled && setAmbientExpanded(!ambientExpanded)}
+      >
+        <div className="flex items-center gap-3">
+          <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
+            ambientEnabled ? 'bg-success/10' : 'bg-muted'
+          }`}>
+            <Camera className={`h-5 w-5 ${ambientEnabled ? 'text-success' : 'text-muted-foreground'}`} />
+          </div>
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-2">
+              <p className="text-sm font-medium text-foreground">Ambient Capture</p>
+              <Badge variant="secondary" className="text-[10px]">
+                Optional
+              </Badge>
+              {ambientEnabled && (
+                <Badge variant="secondary" className="text-[10px] bg-success/10 text-success border-0">
+                  On
+                </Badge>
+              )}
             </div>
-            <div className="flex-1">
-              <div className="flex items-center gap-2">
-                <p className="text-sm font-medium text-foreground">Ambient Mode</p>
-                {ambientEnabled && (
-                  <Badge variant="secondary" className="text-[10px] bg-success/10 text-success border-0">
-                    Active
-                  </Badge>
-                )}
-              </div>
-              <p className="text-xs text-muted-foreground">
-                {ambientEnabled ? "Quietly collecting in the background" : "Earn points passively while you go about your day"}
-              </p>
-            </div>
+            <p className="text-xs text-muted-foreground">
+              {ambientEnabled 
+                ? "Earning passively in the background" 
+                : "Earn extra points between challenges"
+              }
+            </p>
+          </div>
+          {!ambientEnabled && !ambientExpanded && (
+            <ChevronRight className="h-5 w-5 text-muted-foreground" />
+          )}
+          {(ambientEnabled || ambientExpanded) && (
             <Switch
               checked={ambientEnabled}
-              onCheckedChange={setAmbientEnabled}
+              onCheckedChange={(checked) => {
+                setAmbientEnabled(checked);
+                if (!checked) setAmbientExpanded(false);
+              }}
+              onClick={(e) => e.stopPropagation()}
             />
-          </div>
-          {ambientEnabled && (
-            <button 
-              onClick={() => navigate("/ambient")}
-              className="mt-3 text-xs text-primary hover:underline flex items-center gap-1"
-            >
-              Manage zones and schedule
-              <ChevronRight className="h-3 w-3" />
-            </button>
           )}
-        </Card>
-      </div>
+        </div>
+        {ambientEnabled && (
+          <button 
+            onClick={(e) => {
+              e.stopPropagation();
+              navigate("/ambient");
+            }}
+            className="mt-3 text-xs text-primary hover:underline flex items-center gap-1"
+          >
+            Manage zones and schedule
+            <ChevronRight className="h-3 w-3" />
+          </button>
+        )}
+      </Card>
 
       {/* Browse All */}
       <Card 
