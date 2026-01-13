@@ -12,24 +12,16 @@ import {
   Zap,
   Target,
   ArrowUpRight,
+  Trophy,
+  Percent,
 } from "lucide-react";
 
 // Placeholder data
 const streakData = {
   current: 7,
   best: 14,
-  lastActive: "Today",
+  multiplier: 1.2,
 };
-
-const weeklyProgress = [
-  { day: "M", active: true, bonus: false },
-  { day: "T", active: true, bonus: false },
-  { day: "W", active: true, bonus: false },
-  { day: "T", active: true, bonus: false },
-  { day: "F", active: true, bonus: false },
-  { day: "S", active: true, bonus: true },
-  { day: "S", active: true, bonus: true },
-];
 
 const recentMilestones = [
   { id: "1", label: "7-day streak unlocked", value: "+1.2x bonus", icon: Flame, recent: true },
@@ -41,19 +33,46 @@ export function EarningsPage() {
   const navigate = useNavigate();
 
   return (
-    <div className="p-4 space-y-8 pb-24">
-      {/* Hero: Momentum Focus */}
-      <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-primary/10 via-primary/5 to-transparent p-6">
-        {/* Background decoration */}
-        <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-0 w-24 h-24 bg-primary/10 rounded-full blur-2xl" />
+    <div className="p-4 space-y-6 pb-24">
+      {/* Momentum Strip - instant emotional feedback */}
+      <section className="flex items-stretch gap-2">
+        {/* Current Streak */}
+        <div className="flex-1 flex items-center gap-2.5 px-3 py-3 rounded-2xl bg-gradient-to-br from-orange-500/15 to-orange-500/5">
+          <Flame className="h-5 w-5 text-orange-500 flex-shrink-0" />
+          <div className="min-w-0">
+            <p className="text-lg font-bold text-foreground leading-none">{streakData.current}</p>
+            <p className="text-[10px] text-muted-foreground font-medium mt-0.5">day streak</p>
+          </div>
+        </div>
+
+        {/* Best Streak */}
+        <div className="flex-1 flex items-center gap-2.5 px-3 py-3 rounded-2xl bg-muted/40">
+          <Trophy className="h-5 w-5 text-amber-500 flex-shrink-0" />
+          <div className="min-w-0">
+            <p className="text-lg font-bold text-foreground leading-none">{streakData.best}</p>
+            <p className="text-[10px] text-muted-foreground font-medium mt-0.5">best</p>
+          </div>
+        </div>
+
+        {/* Multiplier */}
+        <div className="flex-1 flex items-center gap-2.5 px-3 py-3 rounded-2xl bg-gradient-to-br from-primary/15 to-primary/5">
+          <Percent className="h-5 w-5 text-primary flex-shrink-0" />
+          <div className="min-w-0">
+            <p className="text-lg font-bold text-foreground leading-none">{streakData.multiplier}x</p>
+            <p className="text-[10px] text-muted-foreground font-medium mt-0.5">bonus</p>
+          </div>
+        </div>
+      </section>
+
+      {/* Balance Section - cleaner */}
+      <section className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary/8 via-primary/4 to-transparent p-5">
+        <div className="absolute top-0 right-0 w-24 h-24 bg-primary/5 rounded-full blur-3xl" />
         
-        <div className="relative space-y-5">
-          {/* Balance - prominent but calm */}
+        <div className="relative space-y-4">
           <div className="space-y-1">
-            <p className="text-sm text-muted-foreground font-medium">Your Balance</p>
+            <p className="text-xs text-muted-foreground font-medium uppercase tracking-wide">Your Balance</p>
             <div className="flex items-baseline gap-3">
-              <span className="text-4xl font-bold tracking-tight text-foreground">$47.50</span>
+              <span className="text-3xl font-bold tracking-tight text-foreground">$47.50</span>
               <div className="flex items-center gap-1 text-emerald-600 bg-emerald-500/10 px-2 py-0.5 rounded-full">
                 <ArrowUpRight className="h-3 w-3" />
                 <span className="text-xs font-semibold">12%</span>
@@ -61,38 +80,6 @@ export function EarningsPage() {
             </div>
           </div>
 
-          {/* Streak visualization - the heartbeat */}
-          <div className="space-y-3">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Flame className="h-4 w-4 text-orange-500" />
-                <span className="text-sm font-medium text-foreground">{streakData.current} day streak</span>
-              </div>
-              <span className="text-xs text-muted-foreground">Best: {streakData.best} days</span>
-            </div>
-            
-            {/* Week progress bar */}
-            <div className="flex items-center gap-1.5">
-              {weeklyProgress.map((day, i) => (
-                <div key={i} className="flex-1 flex flex-col items-center gap-1">
-                  <div 
-                    className={`
-                      w-full h-8 rounded-lg transition-all duration-300
-                      ${day.active 
-                        ? day.bonus 
-                          ? 'bg-gradient-to-t from-orange-500 to-amber-400 shadow-sm shadow-orange-500/20' 
-                          : 'bg-primary/80'
-                        : 'bg-muted'
-                      }
-                    `}
-                  />
-                  <span className="text-[10px] text-muted-foreground font-medium">{day.day}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* CTA */}
           <Button 
             className="w-full" 
             size="lg"
