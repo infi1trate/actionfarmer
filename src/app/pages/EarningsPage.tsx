@@ -77,8 +77,8 @@ export function EarningsPage() {
         <Button 
           className="w-full mt-4" 
           onClick={() => navigate("/payout")}
+          leftIcon={<Wallet className="h-4 w-4" />}
         >
-          <Wallet className="h-4 w-4 mr-2" />
           Request Payout
         </Button>
       </Card>
