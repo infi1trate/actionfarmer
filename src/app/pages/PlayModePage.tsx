@@ -170,12 +170,12 @@ const SceneCard = ({ challenge, onClick, featured = false }: SceneCardProps) => 
     <button
       onClick={onClick}
       className={`
-        group relative w-full overflow-hidden rounded-2xl text-left
+        group relative w-full overflow-hidden text-left
         transition-all duration-300 ease-out
         active:scale-[0.98]
         ${featured 
-          ? 'min-h-[200px] ring-2 ring-primary/40 ring-offset-2 ring-offset-background' 
-          : 'min-h-[160px] border border-border/50'
+          ? 'min-h-[280px] rounded-3xl ring-1 ring-white/20 shadow-2xl shadow-black/40' 
+          : 'min-h-[160px] rounded-2xl border border-border/50'
         }
       `}
       onMouseEnter={() => videoRef.current?.play()}
@@ -194,58 +194,94 @@ const SceneCard = ({ challenge, onClick, featured = false }: SceneCardProps) => 
         loop
         playsInline
         autoPlay
-        className="absolute inset-0 w-full h-full object-cover scale-105 group-hover:scale-110 transition-transform duration-700"
+        className={`
+          absolute inset-0 w-full h-full object-cover 
+          group-hover:scale-105 transition-transform duration-700
+          ${featured ? 'scale-100' : 'scale-105'}
+        `}
       />
       
-      {/* Gradient overlays for text readability */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20" />
-      <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-transparent" />
+      {/* Gradient overlays - stronger for featured */}
+      <div className={`absolute inset-0 ${
+        featured 
+          ? 'bg-gradient-to-t from-black via-black/60 to-black/30' 
+          : 'bg-gradient-to-t from-black/80 via-black/40 to-black/20'
+      }`} />
+      <div className={`absolute inset-0 ${
+        featured 
+          ? 'bg-gradient-to-r from-black/70 via-black/20 to-transparent' 
+          : 'bg-gradient-to-r from-black/50 via-transparent to-transparent'
+      }`} />
       
       {/* Subtle vignette */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_transparent_0%,_rgba(0,0,0,0.3)_100%)]" />
       
+      {/* Floating bonus badge for featured */}
+      {featured && challenge.hasBonus && (
+        <div className="absolute top-4 right-4 z-20">
+          <div className="relative">
+            <div className="absolute inset-0 bg-primary/40 blur-xl rounded-full scale-150" />
+            <Badge className="relative text-xs px-3 py-1.5 bg-primary text-primary-foreground border-0 shadow-lg shadow-primary/50 font-semibold">
+              <Star className="h-3.5 w-3.5 mr-1.5 fill-current" />
+              {challenge.bonusLabel}
+            </Badge>
+          </div>
+        </div>
+      )}
+      
       {/* Content */}
-      <div className="relative z-10 p-5 h-full flex flex-col justify-between min-h-[inherit]">
-        <div className="space-y-2">
-          {/* Top badges */}
-          <div className="flex items-center gap-2 flex-wrap">
-            {challenge.hasBonus && (
+      <div className={`
+        relative z-10 h-full flex flex-col justify-end min-h-[inherit]
+        ${featured ? 'p-6' : 'p-5'}
+      `}>
+        <div className="space-y-3">
+          {/* Non-featured badges */}
+          {!featured && challenge.hasBonus && (
+            <div className="flex items-center gap-2 flex-wrap">
               <Badge className="text-[10px] px-2 py-0.5 bg-primary text-primary-foreground border-0 shadow-lg">
                 <Star className="h-2.5 w-2.5 mr-1 fill-current" />
                 {challenge.bonusLabel}
               </Badge>
-            )}
-            {featured && (
-              <Badge className="text-[10px] px-2 py-0.5 bg-white/20 text-white border-0 backdrop-blur-sm">
-                <Sparkles className="h-2.5 w-2.5 mr-1" />
-                Featured
-              </Badge>
-            )}
-          </div>
+            </div>
+          )}
+          
+          {/* Featured label for featured cards */}
+          {featured && (
+            <Badge className="text-[10px] px-2.5 py-1 bg-white/10 text-white border border-white/20 backdrop-blur-md w-fit">
+              <Sparkles className="h-3 w-3 mr-1.5" />
+              Weekly Spotlight
+            </Badge>
+          )}
           
           {/* Title */}
           <h3 className={`
-            font-display font-bold text-white drop-shadow-lg
-            ${featured ? 'text-2xl' : 'text-xl'}
+            font-display font-bold text-white drop-shadow-lg leading-tight
+            ${featured ? 'text-3xl' : 'text-xl'}
           `}>
             {challenge.name}
           </h3>
           
           {/* Description */}
-          <p className="text-sm text-white/80 line-clamp-2 max-w-[85%] drop-shadow">
+          <p className={`
+            text-white/80 drop-shadow
+            ${featured ? 'text-base line-clamp-2 max-w-[90%]' : 'text-sm line-clamp-2 max-w-[85%]'}
+          `}>
             {challenge.description}
           </p>
         </div>
         
         {/* Bottom row - metadata + action */}
-        <div className="flex items-center justify-between mt-4">
+        <div className={`flex items-center justify-between ${featured ? 'mt-6' : 'mt-4'}`}>
           <div className="flex items-center gap-2">
-            <div className="flex items-center gap-1.5 text-white/90 bg-black/30 backdrop-blur-sm px-2.5 py-1 rounded-lg">
-              <Clock className="h-3.5 w-3.5" />
-              <span className="text-xs font-medium">{challenge.duration}</span>
+            <div className={`
+              flex items-center gap-1.5 text-white/90 bg-black/30 backdrop-blur-sm rounded-lg
+              ${featured ? 'px-3 py-1.5' : 'px-2.5 py-1'}
+            `}>
+              <Clock className={featured ? 'h-4 w-4' : 'h-3.5 w-3.5'} />
+              <span className={`font-medium ${featured ? 'text-sm' : 'text-xs'}`}>{challenge.duration}</span>
             </div>
-            <Badge variant="secondary" className={`text-[10px] px-2 py-0.5 border-0 ${diffConfig.className}`}>
-              <Zap className="h-2.5 w-2.5 mr-0.5" />
+            <Badge variant="secondary" className={`border-0 ${diffConfig.className} ${featured ? 'text-xs px-2.5 py-1' : 'text-[10px] px-2 py-0.5'}`}>
+              <Zap className={featured ? 'h-3 w-3 mr-1' : 'h-2.5 w-2.5 mr-0.5'} />
               {diffConfig.label}
             </Badge>
           </div>
@@ -257,9 +293,9 @@ const SceneCard = ({ challenge, onClick, featured = false }: SceneCardProps) => 
             shadow-lg shadow-primary/40
             group-hover:shadow-xl group-hover:shadow-primary/50
             group-hover:scale-110 transition-all duration-300
-            ${featured ? 'w-12 h-12' : 'w-10 h-10'}
+            ${featured ? 'w-14 h-14' : 'w-10 h-10'}
           `}>
-            <Play className={`${featured ? 'h-5 w-5' : 'h-4 w-4'} fill-current ml-0.5`} />
+            <Play className={`${featured ? 'h-6 w-6' : 'h-4 w-4'} fill-current ml-0.5`} />
           </div>
         </div>
       </div>
