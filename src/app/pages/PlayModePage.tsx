@@ -35,16 +35,16 @@ interface Challenge {
 }
 
 const challenges: Challenge[] = [
-  { id: "1", name: "Kitchen Grab", description: "Pick up 5 kitchen items", duration: "2 min", difficulty: "easy", hasBonus: false },
-  { id: "2", name: "Desk Organizer", description: "Arrange items on your desk", duration: "3 min", difficulty: "easy", hasBonus: true, bonusLabel: "2x XP" },
-  { id: "3", name: "Quick Stack", description: "Stack 3 objects carefully", duration: "1 min", difficulty: "easy", hasBonus: false },
-  { id: "4", name: "Tool Swap", description: "Switch between 4 tools", duration: "4 min", difficulty: "medium", hasBonus: false },
-  { id: "5", name: "Precision Place", description: "Place items in marked zones", duration: "5 min", difficulty: "medium", hasBonus: true, bonusLabel: "Featured" },
-  { id: "6", name: "Speed Sort", description: "Sort items by category", duration: "3 min", difficulty: "medium", hasBonus: false },
-  { id: "7", name: "One-Handed", description: "Complete tasks single-handed", duration: "4 min", difficulty: "hard", hasBonus: false },
-  { id: "8", name: "Blindfold Reach", description: "Find objects without looking", duration: "2 min", difficulty: "hard", hasBonus: true, bonusLabel: "New" },
-  { id: "9", name: "Multi-Task", description: "Handle 3 items at once", duration: "5 min", difficulty: "hard", hasBonus: false },
-  { id: "10", name: "Mystery Box", description: "Random challenge surprise", duration: "? min", difficulty: "medium", hasBonus: true, bonusLabel: "Mystery" },
+  { id: "1", name: "Dishwasher Unload", description: "Unload a full dishwasher efficiently", duration: "5 min", difficulty: "easy", hasBonus: false },
+  { id: "2", name: "Grocery Unload", description: "Unpack groceries and organize in storage", duration: "8 min", difficulty: "medium", hasBonus: true, bonusLabel: "2x XP" },
+  { id: "3", name: "Fold Laundry", description: "Fold a load of clean laundry neatly", duration: "10 min", difficulty: "easy", hasBonus: false },
+  { id: "4", name: "Make Bed", description: "Make your bed with fresh or existing linens", duration: "3 min", difficulty: "easy", hasBonus: false },
+  { id: "5", name: "Reset Table", description: "Clear and reset a dining table", duration: "4 min", difficulty: "easy", hasBonus: true, bonusLabel: "Featured" },
+  { id: "6", name: "Carry Laundry Basket", description: "Transport laundry between rooms safely", duration: "2 min", difficulty: "medium", hasBonus: false },
+  { id: "7", name: "Organize Shelf", description: "Reorganize items on a cluttered shelf", duration: "6 min", difficulty: "medium", hasBonus: false },
+  { id: "8", name: "Handle Fragile Items", description: "Carefully move delicate glassware or ceramics", duration: "4 min", difficulty: "hard", hasBonus: true, bonusLabel: "Precision" },
+  { id: "9", name: "Trash & Recycling Sort", description: "Sort waste into proper bins", duration: "5 min", difficulty: "medium", hasBonus: false },
+  { id: "10", name: "Task Transitions", description: "Complete a sequence of quick household tasks", duration: "7 min", difficulty: "hard", hasBonus: true, bonusLabel: "Multi-Task" },
 ];
 
 const difficultyConfig: Record<Difficulty, { label: string; className: string }> = {
