@@ -18,6 +18,9 @@ import {
   Gift,
   Timer,
   Pause,
+  Users,
+  Trophy,
+  UserPlus,
 } from "lucide-react";
 
 function getGreeting() {
@@ -59,6 +62,28 @@ export function HomePage() {
   const TrendIcon = momentum.streakTrend === "up" ? TrendingUp : TrendingDown;
   const trendColor = momentum.streakTrend === "up" ? "text-success" : "text-warning";
 
+  // Mock activity feed data
+  const activityItems = [
+    { type: "challenge", text: "Someone completed Morning Routine", time: "2m ago" },
+    { type: "join", text: "A new member joined", time: "5m ago" },
+    { type: "challenge", text: "Someone completed Workspace Tour", time: "8m ago" },
+    { type: "challenge", text: "Someone hit a 7-day streak", time: "12m ago" },
+    { type: "join", text: "3 new members joined today", time: "1h ago" },
+  ];
+
+  const [currentActivityIndex, setCurrentActivityIndex] = React.useState(0);
+
+  // Rotate through activity items
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentActivityIndex((prev) => (prev + 1) % activityItems.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [activityItems.length]);
+
+  const currentActivity = activityItems[currentActivityIndex];
+  const ActivityIcon = currentActivity.type === "join" ? UserPlus : Trophy;
+
   return (
     <ContentSection className="space-y-6">
       {/* Greeting & Motivation */}
@@ -69,6 +94,19 @@ export function HomePage() {
         <p className="text-sm text-muted-foreground">
           You're on a roll — keep the momentum going.
         </p>
+      </div>
+
+      {/* Social Activity Ticker */}
+      <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-muted/30 overflow-hidden">
+        <div className="flex items-center justify-center w-5 h-5 rounded-full bg-primary/10 shrink-0">
+          <ActivityIcon className="h-3 w-3 text-primary" />
+        </div>
+        <p className="text-xs text-muted-foreground animate-fade-in truncate" key={currentActivityIndex}>
+          {currentActivity.text}
+        </p>
+        <span className="text-[10px] text-muted-foreground/60 shrink-0 ml-auto">
+          {currentActivity.time}
+        </span>
       </div>
 
       {/* Getting Started Panel - Only shown before first challenge */}
