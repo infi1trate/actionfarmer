@@ -45,8 +45,8 @@ export function UploadConfirmationPage() {
         </h1>
         <p className="text-muted-foreground text-center text-sm max-w-xs">
           {uploadComplete 
-            ? "Your session data has been securely uploaded. Thank you for contributing."
-            : "Securely transferring your session data..."
+            ? "Your challenge data has been securely uploaded. Thank you for contributing."
+            : "Securely transferring your data..."
           }
         </p>
 

@@ -55,7 +55,7 @@ export function SessionAnnotationPage() {
           Quick feedback
         </h1>
         <p className="text-muted-foreground text-center text-sm max-w-xs mx-auto">
-          Did anything happen during this session? Select all that apply.
+          Did anything happen during this challenge? Select all that apply.
         </p>
       </div>
 

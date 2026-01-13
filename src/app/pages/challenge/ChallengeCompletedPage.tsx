@@ -75,7 +75,7 @@ export const ChallengeCompletedPage = () => {
 
         {/* Data Notice */}
         <p className="mt-6 text-xs text-muted-foreground text-center max-w-xs animate-in fade-in duration-500 delay-500">
-          Your session data has been saved. Tap continue to add any notes.
+          Your challenge data has been saved. Tap continue to add any notes.
         </p>
       </main>
 

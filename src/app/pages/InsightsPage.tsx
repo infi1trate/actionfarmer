@@ -63,7 +63,7 @@ const insights: InsightCard[] = [
     category: "pattern",
     title: "Morning activity peak",
     observation: "You're often most active in the morning hours",
-    detail: "Your recorded sessions show a tendency toward completing tasks during earlier parts of the day.",
+    detail: "Your recorded activity shows a tendency toward completing tasks during earlier parts of the day.",
     icon: Clock,
   },
   {
@@ -71,7 +71,7 @@ const insights: InsightCard[] = [
     category: "pattern",
     title: "Steady improvement",
     observation: "Your familiarity with tasks is growing",
-    detail: "Over recent sessions, your movements show increasing comfort with repeated activities.",
+    detail: "Over recent challenges, your movements show increasing comfort with repeated activities.",
     icon: TrendingUp,
   },
 ];

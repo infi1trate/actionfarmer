@@ -99,7 +99,7 @@ export function SettingsPage() {
               label="Push Notifications"
               icon={Bell}
               iconBg="bg-brand-yellow/10"
-              description="Session reminders and earnings updates"
+              description="Challenge reminders and earnings updates"
               checked={notifications}
               onCheckedChange={setNotifications}
             />
@@ -150,7 +150,7 @@ export function SettingsPage() {
                     label="Delete All Data"
                     icon={Trash2}
                     iconBg="bg-danger/10"
-                    description="Permanently remove all recorded sessions"
+                    description="Permanently remove all recorded data"
                     danger
                     onClick={() => {}}
                   />
@@ -160,7 +160,7 @@ export function SettingsPage() {
                 <AlertDialogHeader>
                   <AlertDialogTitle>Delete all data?</AlertDialogTitle>
                   <AlertDialogDescription>
-                    This will permanently delete all your recorded sessions, insights, and activity history. This action cannot be undone.
+                    This will permanently delete all your recorded data, insights, and activity history. This action cannot be undone.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
