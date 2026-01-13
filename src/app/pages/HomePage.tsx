@@ -14,6 +14,8 @@ import {
   TrendingDown,
   Zap,
   Sparkles,
+  Star,
+  Clock,
 } from "lucide-react";
 
 function getGreeting() {
@@ -148,16 +150,75 @@ export function HomePage() {
       </Card>
       )}
 
-      {/* Primary CTA - Go to Challenges (only shown after first challenge) */}
-      {hasCompletedFirstChallenge && (
-        <Button 
-          className="w-full h-14 text-base"
-          onClick={() => navigate("/challenges")}
-          leftIcon={<Target className="h-5 w-5" />}
+      {/* Weekly Focus - 1-2 featured challenges */}
+      <div className="space-y-3">
+        <div className="flex items-center justify-between">
+          <h2 className="text-sm font-semibold text-foreground">Weekly Focus</h2>
+          <button 
+            onClick={() => navigate("/challenges")}
+            className="text-xs text-muted-foreground hover:text-foreground flex items-center gap-1 transition-colors"
+          >
+            See all
+            <ChevronRight className="h-3 w-3" />
+          </button>
+        </div>
+        
+        <p className="text-xs text-muted-foreground -mt-1">
+          Hand-picked challenges with bonus rewards this week
+        </p>
+
+        {/* Featured Challenge 1 */}
+        <Card 
+          className="p-4 cursor-pointer hover:border-primary/30 transition-colors"
+          onClick={() => navigate("/challenge/morning-routine/brief")}
         >
-          Start a Challenge
-        </Button>
-      )}
+          <div className="flex items-start gap-3">
+            <div className="w-10 h-10 rounded-lg bg-brand-orange/10 flex items-center justify-center shrink-0">
+              <Star className="h-5 w-5 text-brand-orange" />
+            </div>
+            <div className="flex-1 min-w-0 space-y-1">
+              <div className="flex items-center gap-2">
+                <h3 className="text-sm font-medium text-foreground">Morning Routine</h3>
+                <Badge variant="brand" size="sm">+50% XP</Badge>
+              </div>
+              <p className="text-xs text-muted-foreground line-clamp-2">
+                Capture your morning habits — featured for its calming, reflective nature.
+              </p>
+              <div className="flex items-center gap-2 pt-1">
+                <Clock className="h-3 w-3 text-muted-foreground" />
+                <span className="text-xs text-muted-foreground">5–10 min</span>
+              </div>
+            </div>
+            <ChevronRight className="h-5 w-5 text-muted-foreground shrink-0" />
+          </div>
+        </Card>
+
+        {/* Featured Challenge 2 */}
+        <Card 
+          className="p-4 cursor-pointer hover:border-primary/30 transition-colors"
+          onClick={() => navigate("/challenge/workspace-tour/brief")}
+        >
+          <div className="flex items-start gap-3">
+            <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+              <Star className="h-5 w-5 text-primary" />
+            </div>
+            <div className="flex-1 min-w-0 space-y-1">
+              <div className="flex items-center gap-2">
+                <h3 className="text-sm font-medium text-foreground">Workspace Tour</h3>
+                <Badge variant="secondary" size="sm">+25% XP</Badge>
+              </div>
+              <p className="text-xs text-muted-foreground line-clamp-2">
+                Show us where you work — great for new users learning how challenges flow.
+              </p>
+              <div className="flex items-center gap-2 pt-1">
+                <Clock className="h-3 w-3 text-muted-foreground" />
+                <span className="text-xs text-muted-foreground">3–5 min</span>
+              </div>
+            </div>
+            <ChevronRight className="h-5 w-5 text-muted-foreground shrink-0" />
+          </div>
+        </Card>
+      </div>
 
       {/* Ambient Capture - Optional collapsed card */}
       <Card 
