@@ -31,12 +31,12 @@ interface StreakData {
 
 // Placeholder data - no token prices, no promised returns
 const ambientEarnings: EarningItem[] = [
-  { id: "1", label: "This Week", value: "124 pts", subtext: "From 12 sessions", trend: "up" },
-  { id: "2", label: "Last Week", value: "98 pts", subtext: "From 9 sessions" },
-  { id: "3", label: "This Month", value: "487 pts", subtext: "From 42 sessions", trend: "up" },
+  { id: "1", label: "This Week", value: "124 pts", subtext: "From 12 contributions", trend: "up" },
+  { id: "2", label: "Last Week", value: "98 pts", subtext: "From 9 contributions" },
+  { id: "3", label: "This Month", value: "487 pts", subtext: "From 42 contributions", trend: "up" },
 ];
 
-const playModeBonuses: EarningItem[] = [
+const challengeBonuses: EarningItem[] = [
   { id: "1", label: "Challenges Completed", value: "8", subtext: "This month" },
   { id: "2", label: "Bonus Points Earned", value: "156 pts", subtext: "From bonuses", trend: "up" },
   { id: "3", label: "Featured Challenge", value: "2x", subtext: "Multiplier active" },
@@ -111,16 +111,16 @@ export function EarningsPage() {
         </Card>
       </section>
 
-      {/* Play Mode Bonuses */}
+      {/* Challenge Bonuses */}
       <section className="space-y-3">
         <div className="flex items-center gap-2 px-1">
           <Gamepad2 className="h-4 w-4 text-muted-foreground" />
           <h2 className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
-            Play Mode Bonuses
+            Challenge Bonuses
           </h2>
         </div>
         <Card className="divide-y divide-border">
-          {playModeBonuses.map((item) => (
+          {challengeBonuses.map((item) => (
             <div key={item.id} className="flex items-center justify-between p-4">
               <div className="space-y-0.5">
                 <p className="text-sm font-medium text-foreground">{item.label}</p>

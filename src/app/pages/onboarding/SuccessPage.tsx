@@ -50,8 +50,8 @@ export function SuccessPage() {
                 <span className="text-xs font-semibold text-brand-yellow-foreground">2</span>
               </div>
               <div>
-                <p className="text-sm font-medium">Start your first session</p>
-                <p className="text-xs text-muted-foreground">Try a quick movement check</p>
+                <p className="text-sm font-medium">Start your first challenge</p>
+                <p className="text-xs text-muted-foreground">Try a quick movement activity</p>
               </div>
             </div>
             
