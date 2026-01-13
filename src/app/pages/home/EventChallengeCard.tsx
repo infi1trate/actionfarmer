@@ -88,13 +88,13 @@ export function EventChallengeCard({ onNavigate }: EventChallengeCardProps) {
           {/* CTA that reveals pairing */}
           <div className="space-y-3">
             <Button 
-              variant="default"
+              variant="brand"
               size="lg"
               onClick={() => setShowPairing(!showPairing)}
-              className="w-full bg-gradient-to-r from-brand-orange to-brand-orange/90 hover:from-brand-orange/90 hover:to-brand-orange/80 shadow-lg shadow-brand-orange/25"
+              className="w-full"
+              leftIcon={<Users className="h-5 w-5" />}
               rightIcon={showPairing ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
             >
-              <Users className="h-4 w-4 mr-2" />
               Find a partner
             </Button>
 
