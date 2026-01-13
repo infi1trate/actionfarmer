@@ -87,53 +87,62 @@ export function HomePage() {
   const ActivityIcon = currentActivity.type === "join" ? UserPlus : Trophy;
 
   return (
-    <ContentSection className="space-y-6">
-      {/* Greeting & Motivation */}
-      <div className="space-y-1">
-        <h1 className="text-2xl font-bold text-foreground">
-          {getGreeting()}, {userName}
-        </h1>
-        <p className="text-sm text-muted-foreground">
-          You're on a roll — keep the momentum going.
-        </p>
-      </div>
+    <div className="min-h-screen">
+      {/* Hero Zone - Generous breathing room */}
+      <section className="px-5 pt-8 pb-10 bg-gradient-to-b from-primary/3 to-transparent">
+        <div className="space-y-4">
+          {/* Large editorial greeting */}
+          <div className="space-y-2">
+            <p className="text-xs font-medium text-primary uppercase tracking-widest">
+              {getGreeting()}
+            </p>
+            <h1 className="text-4xl font-bold text-foreground tracking-tight leading-[1.1]">
+              {userName}
+            </h1>
+          </div>
+          
+          {/* Motivational tagline */}
+          <p className="text-base text-muted-foreground max-w-[280px] leading-relaxed">
+            You're building something meaningful. Keep the momentum going.
+          </p>
 
-      {/* Social Activity Ticker */}
-      <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-muted/30 overflow-hidden">
-        <div className="flex items-center justify-center w-5 h-5 rounded-full bg-primary/10 shrink-0">
-          <ActivityIcon className="h-3 w-3 text-primary" />
+          {/* Social Activity Ticker - Inline, subtle */}
+          <div 
+            className="inline-flex items-center gap-2 text-xs text-muted-foreground/80"
+            key={currentActivityIndex}
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-success animate-pulse" />
+            <span className="animate-fade-in">{currentActivity.text}</span>
+            <span className="text-muted-foreground/40">·</span>
+            <span className="text-muted-foreground/50">{currentActivity.time}</span>
+          </div>
         </div>
-        <p className="text-xs text-muted-foreground animate-fade-in truncate" key={currentActivityIndex}>
-          {currentActivity.text}
-        </p>
-        <span className="text-[10px] text-muted-foreground/60 shrink-0 ml-auto">
-          {currentActivity.time}
-        </span>
-      </div>
+      </section>
 
-      {/* Getting Started Panel - Only shown before first challenge */}
+      {/* Getting Started - Full-bleed hero card for new users */}
       {!hasCompletedFirstChallenge && (
-        <Card className="p-5 border-primary/20 bg-gradient-to-br from-primary/5 to-transparent">
-          <div className="space-y-4">
-            <div className="flex items-start gap-3">
-              <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
-                <Sparkles className="h-5 w-5 text-primary" />
+        <section className="px-5 -mt-2 mb-8">
+          <div className="relative rounded-2xl overflow-hidden bg-gradient-to-br from-primary/10 via-primary/5 to-brand-orange/10 p-6 border border-primary/10">
+            {/* Decorative elements */}
+            <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4" />
+            <div className="absolute bottom-0 left-0 w-24 h-24 bg-brand-orange/10 rounded-full blur-2xl translate-y-1/2 -translate-x-1/4" />
+            
+            <div className="relative space-y-5">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 text-primary text-xs font-medium">
+                <Sparkles className="h-3.5 w-3.5" />
+                First challenge awaits
               </div>
-              <div className="space-y-1">
-                <h2 className="text-base font-semibold text-foreground">Ready to get started?</h2>
-                <p className="text-sm text-muted-foreground leading-relaxed">
+              
+              <div className="space-y-2">
+                <h2 className="text-xl font-bold text-foreground">Ready to get started?</h2>
+                <p className="text-sm text-muted-foreground leading-relaxed max-w-[300px]">
                   Challenges are quick activities where you capture real moments. 
-                  Each one takes just a few minutes and earns you rewards.
+                  Each one takes just a few minutes.
                 </p>
               </div>
-            </div>
-            
-            <div className="pl-[52px]">
-              <p className="text-xs text-muted-foreground mb-3">
-                We recommend starting with something simple — no pressure, just explore.
-              </p>
+              
               <Button 
-                className="w-full"
+                size="lg"
                 onClick={() => navigate("/challenges")}
                 leftIcon={<Target className="h-4 w-4" />}
               >
@@ -141,167 +150,170 @@ export function HomePage() {
               </Button>
             </div>
           </div>
-        </Card>
+        </section>
       )}
 
-      {/* Rich Momentum Card - Only shown after first challenge */}
+      {/* Momentum Zone - Bold numbers, editorial layout */}
       {hasCompletedFirstChallenge && (
-      <Card className="p-5 bg-gradient-to-br from-primary/5 via-background to-brand-orange/5 border-primary/20 overflow-hidden relative">
-        {/* Subtle animated background element */}
-        <div className="absolute -right-8 -top-8 w-32 h-32 rounded-full bg-primary/5 blur-2xl" />
-        <div className="absolute -left-4 -bottom-4 w-24 h-24 rounded-full bg-brand-orange/5 blur-xl" />
-        
-        <div className="relative space-y-4">
-          {/* Header */}
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
-                <Zap className="h-4 w-4 text-primary" />
-              </div>
-              <span className="text-sm font-semibold text-foreground">This Week's Momentum</span>
-            </div>
-            <Badge variant="brand" size="sm" className="font-bold">
-              {momentum.rewardMultiplier}x Multiplier
-            </Badge>
-          </div>
-
-          {/* Stats Row */}
+        <section className="px-5 mb-10">
           <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-1">
-              <p className="text-3xl font-bold text-foreground">{momentum.challengesThisWeek}</p>
-              <p className="text-xs text-muted-foreground">Challenges completed</p>
-            </div>
-            <div className="space-y-1">
-              <div className="flex items-center gap-1.5">
-                <Flame className="h-5 w-5 text-brand-orange" />
-                <p className="text-3xl font-bold text-foreground">{momentum.streakDays}</p>
-                <TrendIcon className={`h-4 w-4 ${trendColor}`} />
+            {/* Primary stat - larger */}
+            <div className="col-span-1 p-5 rounded-2xl bg-gradient-to-br from-primary/8 to-primary/3 border border-primary/10">
+              <div className="space-y-1">
+                <p className="text-5xl font-bold text-foreground tracking-tight">
+                  {momentum.challengesThisWeek}
+                </p>
+                <p className="text-xs text-muted-foreground font-medium">
+                  Challenges this week
+                </p>
               </div>
-              <p className="text-xs text-muted-foreground">Day streak</p>
-            </div>
-          </div>
-
-          {/* Narrative Footer */}
-          <div className="pt-3 border-t border-border/50">
-            <p className="text-sm text-foreground font-medium flex items-center gap-2">
-              <TrendIcon className={`h-4 w-4 ${trendColor}`} />
-              {getTrendNarrative()}
-            </p>
-          </div>
-        </div>
-      </Card>
-      )}
-
-      {/* Weekly Focus - 1-2 featured challenges */}
-      <div className="space-y-3">
-        <div className="flex items-center justify-between">
-          <h2 className="text-sm font-semibold text-foreground">Weekly Focus</h2>
-          <button 
-            onClick={() => navigate("/challenges")}
-            className="text-xs text-muted-foreground hover:text-foreground flex items-center gap-1 transition-colors"
-          >
-            See all
-            <ChevronRight className="h-3 w-3" />
-          </button>
-        </div>
-        
-        <p className="text-xs text-muted-foreground -mt-1">
-          Hand-picked challenges with bonus rewards this week
-        </p>
-
-        {/* Featured Challenge 1 */}
-        <Card 
-          className="p-4 cursor-pointer hover:border-primary/30 transition-colors"
-          onClick={() => navigate("/challenge/morning-routine/brief")}
-        >
-          <div className="flex items-start gap-3">
-            <div className="w-10 h-10 rounded-lg bg-brand-orange/10 flex items-center justify-center shrink-0">
-              <Star className="h-5 w-5 text-brand-orange" />
-            </div>
-            <div className="flex-1 min-w-0 space-y-1">
-              <div className="flex items-center gap-2">
-                <h3 className="text-sm font-medium text-foreground">Morning Routine</h3>
-                <Badge variant="brand" size="sm">+50% XP</Badge>
-              </div>
-              <p className="text-xs text-muted-foreground line-clamp-2">
-                Capture your morning habits — featured for its calming, reflective nature.
-              </p>
-              <div className="flex items-center gap-2 pt-1">
-                <Clock className="h-3 w-3 text-muted-foreground" />
-                <span className="text-xs text-muted-foreground">5–10 min</span>
-              </div>
-            </div>
-            <ChevronRight className="h-5 w-5 text-muted-foreground shrink-0" />
-          </div>
-        </Card>
-
-        {/* Featured Challenge 2 */}
-        <Card 
-          className="p-4 cursor-pointer hover:border-primary/30 transition-colors"
-          onClick={() => navigate("/challenge/workspace-tour/brief")}
-        >
-          <div className="flex items-start gap-3">
-            <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-              <Star className="h-5 w-5 text-primary" />
-            </div>
-            <div className="flex-1 min-w-0 space-y-1">
-              <div className="flex items-center gap-2">
-                <h3 className="text-sm font-medium text-foreground">Workspace Tour</h3>
-                <Badge variant="secondary" size="sm">+25% XP</Badge>
-              </div>
-              <p className="text-xs text-muted-foreground line-clamp-2">
-                Show us where you work — great for new users learning how challenges flow.
-              </p>
-              <div className="flex items-center gap-2 pt-1">
-                <Clock className="h-3 w-3 text-muted-foreground" />
-                <span className="text-xs text-muted-foreground">3–5 min</span>
-              </div>
-            </div>
-            <ChevronRight className="h-5 w-5 text-muted-foreground shrink-0" />
-          </div>
-        </Card>
-      </div>
-
-      {/* Social Challenge - One featured per week */}
-      <Card className="p-5 border-brand-orange/20 bg-gradient-to-br from-brand-orange/5 to-transparent overflow-hidden relative">
-        {/* Subtle gradient accent */}
-        <div className="absolute -right-6 -top-6 w-24 h-24 rounded-full bg-brand-orange/10 blur-2xl" />
-        
-        <div className="relative space-y-4">
-          {/* Header with weekly badge */}
-          <div className="flex items-start gap-3">
-            <div className="w-10 h-10 rounded-lg bg-brand-orange/10 flex items-center justify-center shrink-0">
-              <Users className="h-5 w-5 text-brand-orange" />
-            </div>
-            <div className="flex-1 min-w-0 space-y-1">
-              <div className="flex items-center gap-2 flex-wrap">
-                <h3 className="text-sm font-semibold text-foreground">Cook Together</h3>
-                <Badge variant="brand" size="sm">+100% XP</Badge>
-                <Badge variant="outline" size="sm" className="text-muted-foreground">This week only</Badge>
-              </div>
-              <p className="text-xs text-muted-foreground leading-relaxed">
-                Team up with a friend to cook the same recipe — both of you earn double rewards.
-              </p>
-            </div>
-          </div>
-
-          {/* Pairing info */}
-          <div className="pl-[52px] space-y-3">
-            <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/30">
-              <div className="flex items-center gap-2">
-                <QrCode className="h-4 w-4 text-muted-foreground" />
-                <span className="text-xs text-muted-foreground">QR code</span>
-              </div>
-              <span className="text-muted-foreground/40">or</span>
-              <div className="flex items-center gap-2">
-                <Smartphone className="h-4 w-4 text-muted-foreground" />
-                <span className="text-xs text-muted-foreground">Tap to pair (NFC)</span>
+              <div className="mt-4 flex items-center gap-1.5 text-xs">
+                <TrendIcon className={`h-3.5 w-3.5 ${trendColor}`} />
+                <span className={`font-medium ${trendColor}`}>
+                  {momentum.vsLastWeek > 0 ? `+${momentum.vsLastWeek}` : momentum.vsLastWeek} vs last week
+                </span>
               </div>
             </div>
             
-            <p className="text-xs text-muted-foreground">
-              Pair with another user to start. You're both in control — pause or leave anytime.
-            </p>
+            {/* Secondary stats - stacked */}
+            <div className="col-span-1 space-y-4">
+              <div className="p-4 rounded-2xl bg-muted/30 border border-border/50">
+                <div className="flex items-center gap-2">
+                  <Flame className="h-5 w-5 text-brand-orange" />
+                  <span className="text-2xl font-bold text-foreground">{momentum.streakDays}</span>
+                </div>
+                <p className="text-xs text-muted-foreground mt-1">Day streak</p>
+              </div>
+              
+              <div className="p-4 rounded-2xl bg-muted/30 border border-border/50">
+                <div className="flex items-center gap-2">
+                  <Zap className="h-5 w-5 text-primary" />
+                  <span className="text-2xl font-bold text-foreground">{momentum.rewardMultiplier}x</span>
+                </div>
+                <p className="text-xs text-muted-foreground mt-1">Multiplier</p>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Weekly Focus - Editorial section header */}
+      <section className="mb-10">
+        <div className="px-5 mb-5">
+          <div className="flex items-end justify-between">
+            <div className="space-y-1">
+              <p className="text-[10px] font-semibold text-primary uppercase tracking-widest">
+                Featured
+              </p>
+              <h2 className="text-lg font-bold text-foreground">Weekly Focus</h2>
+            </div>
+            <button 
+              onClick={() => navigate("/challenges")}
+              className="text-xs text-muted-foreground hover:text-foreground transition-colors pb-0.5"
+            >
+              View all →
+            </button>
+          </div>
+          <p className="text-sm text-muted-foreground mt-1">
+            Hand-picked with bonus rewards
+          </p>
+        </div>
+        
+        {/* Horizontal scroll for featured challenges */}
+        <div className="flex gap-4 overflow-x-auto px-5 pb-2 -mx-1 scrollbar-hide">
+          {/* Featured Challenge 1 - Larger hero card */}
+          <div 
+            className="shrink-0 w-[280px] cursor-pointer group"
+            onClick={() => navigate("/challenge/morning-routine/brief")}
+          >
+            <div className="aspect-[4/3] rounded-2xl bg-gradient-to-br from-brand-orange/15 via-brand-orange/8 to-transparent border border-brand-orange/20 p-5 flex flex-col justify-between group-hover:border-brand-orange/40 transition-colors">
+              <div className="flex items-start justify-between">
+                <div className="w-12 h-12 rounded-xl bg-brand-orange/20 flex items-center justify-center">
+                  <Star className="h-6 w-6 text-brand-orange" />
+                </div>
+                <Badge variant="brand" size="sm" className="font-bold">+50% XP</Badge>
+              </div>
+              <div className="space-y-2">
+                <h3 className="text-base font-semibold text-foreground">Morning Routine</h3>
+                <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">
+                  Capture your morning habits — calming and reflective.
+                </p>
+                <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                  <Clock className="h-3 w-3" />
+                  <span>5–10 min</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Featured Challenge 2 */}
+          <div 
+            className="shrink-0 w-[280px] cursor-pointer group"
+            onClick={() => navigate("/challenge/workspace-tour/brief")}
+          >
+            <div className="aspect-[4/3] rounded-2xl bg-gradient-to-br from-primary/10 via-primary/5 to-transparent border border-primary/20 p-5 flex flex-col justify-between group-hover:border-primary/40 transition-colors">
+              <div className="flex items-start justify-between">
+                <div className="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center">
+                  <Star className="h-6 w-6 text-primary" />
+                </div>
+                <Badge variant="secondary" size="sm">+25% XP</Badge>
+              </div>
+              <div className="space-y-2">
+                <h3 className="text-base font-semibold text-foreground">Workspace Tour</h3>
+                <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">
+                  Show us where you work — perfect for learning the flow.
+                </p>
+                <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                  <Clock className="h-3 w-3" />
+                  <span>3–5 min</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Social Challenge - Distinct visual zone */}
+      <section className="px-5 mb-10">
+        <div className="relative rounded-2xl overflow-hidden">
+          {/* Background texture */}
+          <div className="absolute inset-0 bg-gradient-to-br from-brand-orange/8 via-transparent to-primary/5" />
+          <div className="absolute top-0 right-0 w-40 h-40 bg-brand-orange/15 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4" />
+          
+          <div className="relative border border-brand-orange/15 rounded-2xl p-6 space-y-5">
+            {/* Section label */}
+            <div className="flex items-center justify-between">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-orange/10 text-brand-orange text-xs font-medium">
+                <Users className="h-3.5 w-3.5" />
+                Team Challenge
+              </div>
+              <Badge variant="outline" size="sm" className="text-muted-foreground border-border">
+                This week only
+              </Badge>
+            </div>
+            
+            <div className="space-y-2">
+              <div className="flex items-center gap-3">
+                <h3 className="text-xl font-bold text-foreground">Cook Together</h3>
+                <Badge variant="brand" size="sm" className="font-bold">+100% XP</Badge>
+              </div>
+              <p className="text-sm text-muted-foreground leading-relaxed max-w-[320px]">
+                Team up with a friend to cook the same recipe — both of you earn double rewards.
+              </p>
+            </div>
+
+            {/* Pairing methods - minimal */}
+            <div className="flex items-center gap-4 py-3 border-y border-border/50">
+              <div className="flex items-center gap-2 text-muted-foreground">
+                <QrCode className="h-4 w-4" />
+                <span className="text-xs">QR code</span>
+              </div>
+              <div className="w-px h-4 bg-border" />
+              <div className="flex items-center gap-2 text-muted-foreground">
+                <Smartphone className="h-4 w-4" />
+                <span className="text-xs">NFC tap</span>
+              </div>
+            </div>
 
             <Button 
               variant="outline"
@@ -313,22 +325,26 @@ export function HomePage() {
             </Button>
           </div>
         </div>
-      </Card>
+      </section>
 
-      {/* Reward Multiplier - Ambient Capture reframed */}
-      <Card className={`p-5 transition-all ${ambientEnabled ? 'border-success/30 bg-success/5' : ''}`}>
-        <div className="space-y-4">
-          {/* Header */}
-          <div className="flex items-start justify-between gap-3">
-            <div className="flex items-start gap-3">
-              <div className={`w-10 h-10 rounded-lg flex items-center justify-center shrink-0 ${
+      {/* Reward Multiplier - Quieter utility zone */}
+      <section className="px-5 pb-8">
+        <div className={`rounded-2xl p-5 transition-all ${
+          ambientEnabled 
+            ? 'bg-success/5 border border-success/20' 
+            : 'bg-muted/20 border border-border/50'
+        }`}>
+          <div className="space-y-4">
+            {/* Compact header */}
+            <div className="flex items-start gap-4">
+              <div className={`w-11 h-11 rounded-xl flex items-center justify-center shrink-0 ${
                 ambientEnabled ? 'bg-success/10' : 'bg-primary/10'
               }`}>
                 <Gift className={`h-5 w-5 ${ambientEnabled ? 'text-success' : 'text-primary'}`} />
               </div>
-              <div className="space-y-1">
+              <div className="flex-1 min-w-0 space-y-1">
                 <div className="flex items-center gap-2">
-                  <h3 className="text-sm font-semibold text-foreground">Boost your challenge rewards</h3>
+                  <h3 className="text-sm font-semibold text-foreground">Reward Multiplier</h3>
                   {ambientEnabled && (
                     <Badge variant="secondary" size="sm" className="bg-success/10 text-success border-0">
                       Active
@@ -337,80 +353,74 @@ export function HomePage() {
                 </div>
                 <p className="text-xs text-muted-foreground leading-relaxed">
                   {ambientEnabled 
-                    ? "Your next challenges earn bonus XP based on session length" 
-                    : "Unlock multipliers by running optional sessions in the background"
+                    ? "Your challenges earn bonus XP based on session length" 
+                    : "Unlock multipliers by running optional sessions"
                   }
                 </p>
               </div>
             </div>
-          </div>
 
-          {/* Multiplier Tiers */}
-          {!ambientEnabled && (
-            <div className="flex items-center gap-2 pl-[52px]">
-              <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md bg-muted/50">
-                <Timer className="h-3 w-3 text-muted-foreground" />
-                <span className="text-xs font-medium text-foreground">2h</span>
-                <span className="text-xs text-muted-foreground">→ 1.25x</span>
+            {/* Multiplier Tiers - Horizontal inline */}
+            {!ambientEnabled && (
+              <div className="flex items-center gap-2 overflow-x-auto pb-1">
+                <div className="shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-lg bg-background border border-border/50">
+                  <Timer className="h-3 w-3 text-muted-foreground" />
+                  <span className="text-xs font-medium text-foreground">2h</span>
+                  <span className="text-xs text-muted-foreground">→ 1.25x</span>
+                </div>
+                <div className="shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-lg bg-background border border-border/50">
+                  <Timer className="h-3 w-3 text-muted-foreground" />
+                  <span className="text-xs font-medium text-foreground">4h</span>
+                  <span className="text-xs text-muted-foreground">→ 1.5x</span>
+                </div>
+                <div className="shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-lg bg-primary/5 border border-primary/20">
+                  <Timer className="h-3 w-3 text-primary" />
+                  <span className="text-xs font-medium text-foreground">8h</span>
+                  <span className="text-xs text-primary font-medium">→ 2x</span>
+                </div>
               </div>
-              <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md bg-muted/50">
-                <Timer className="h-3 w-3 text-muted-foreground" />
-                <span className="text-xs font-medium text-foreground">4h</span>
-                <span className="text-xs text-muted-foreground">→ 1.5x</span>
-              </div>
-              <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md bg-primary/10">
-                <Timer className="h-3 w-3 text-primary" />
-                <span className="text-xs font-medium text-foreground">8h</span>
-                <span className="text-xs text-primary font-medium">→ 2x</span>
-              </div>
-            </div>
-          )}
+            )}
 
-          {/* Active State - Current Progress */}
-          {ambientEnabled && (
-            <div className="pl-[52px] space-y-3">
-              <div className="flex items-center gap-3">
-                <Badge variant="brand" size="sm" className="font-bold">1.5x Active</Badge>
-                <span className="text-xs text-muted-foreground">4h 23m session • Next tier at 8h</span>
+            {/* Active State */}
+            {ambientEnabled && (
+              <div className="flex items-center justify-between pt-1">
+                <div className="flex items-center gap-3">
+                  <Badge variant="brand" size="sm" className="font-bold">1.5x Active</Badge>
+                  <span className="text-xs text-muted-foreground">4h 23m • Next at 8h</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <button 
+                    onClick={() => navigate("/ambient")}
+                    className="text-xs text-primary hover:underline"
+                  >
+                    Adjust
+                  </button>
+                  <button 
+                    onClick={() => setAmbientEnabled(false)}
+                    className="text-xs text-muted-foreground hover:text-foreground flex items-center gap-1"
+                  >
+                    <Pause className="h-3 w-3" />
+                    Pause
+                  </button>
+                </div>
               </div>
-              <div className="flex items-center gap-2">
-                <button 
-                  onClick={() => navigate("/ambient")}
-                  className="text-xs text-primary hover:underline flex items-center gap-1"
-                >
-                  Adjust schedule
-                  <ChevronRight className="h-3 w-3" />
-                </button>
-                <span className="text-muted-foreground">•</span>
-                <button 
-                  onClick={() => setAmbientEnabled(false)}
-                  className="text-xs text-muted-foreground hover:text-foreground flex items-center gap-1"
-                >
-                  <Pause className="h-3 w-3" />
-                  Pause session
-                </button>
-              </div>
-            </div>
-          )}
+            )}
 
-          {/* CTA */}
-          {!ambientEnabled && (
-            <div className="pl-[52px]">
-              <p className="text-xs text-muted-foreground mb-3">
-                You control when sessions run — schedule them or pause anytime.
-              </p>
+            {/* CTA */}
+            {!ambientEnabled && (
               <Button 
-                variant="outline"
+                variant="ghost"
                 size="sm"
                 onClick={() => setAmbientEnabled(true)}
+                className="w-full justify-center"
                 leftIcon={<Gift className="h-4 w-4" />}
               >
                 Enable multiplier
               </Button>
-            </div>
-          )}
+            )}
+          </div>
         </div>
-      </Card>
-    </ContentSection>
+      </section>
+    </div>
   );
 }
