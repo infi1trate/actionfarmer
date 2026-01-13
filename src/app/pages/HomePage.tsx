@@ -6,7 +6,6 @@ import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
 import { 
-  Camera,
   ChevronRight,
   Target,
   Flame,
@@ -16,6 +15,9 @@ import {
   Sparkles,
   Star,
   Clock,
+  Gift,
+  Timer,
+  Pause,
 } from "lucide-react";
 
 function getGreeting() {
@@ -220,62 +222,101 @@ export function HomePage() {
         </Card>
       </div>
 
-      {/* Ambient Capture - Optional collapsed card */}
-      <Card 
-        className={`p-4 transition-all ${ambientEnabled ? 'border-success/30' : ''}`}
-        onClick={() => !ambientEnabled && setAmbientExpanded(!ambientExpanded)}
-      >
-        <div className="flex items-center gap-3">
-          <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
-            ambientEnabled ? 'bg-success/10' : 'bg-muted'
-          }`}>
-            <Camera className={`h-5 w-5 ${ambientEnabled ? 'text-success' : 'text-muted-foreground'}`} />
-          </div>
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-2">
-              <p className="text-sm font-medium text-foreground">Ambient Capture</p>
-              <Badge variant="secondary" className="text-[10px]">
-                Optional
-              </Badge>
-              {ambientEnabled && (
-                <Badge variant="secondary" className="text-[10px] bg-success/10 text-success border-0">
-                  On
-                </Badge>
-              )}
+      {/* Reward Multiplier - Ambient Capture reframed */}
+      <Card className={`p-5 transition-all ${ambientEnabled ? 'border-success/30 bg-success/5' : ''}`}>
+        <div className="space-y-4">
+          {/* Header */}
+          <div className="flex items-start justify-between gap-3">
+            <div className="flex items-start gap-3">
+              <div className={`w-10 h-10 rounded-lg flex items-center justify-center shrink-0 ${
+                ambientEnabled ? 'bg-success/10' : 'bg-primary/10'
+              }`}>
+                <Gift className={`h-5 w-5 ${ambientEnabled ? 'text-success' : 'text-primary'}`} />
+              </div>
+              <div className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <h3 className="text-sm font-semibold text-foreground">Boost your challenge rewards</h3>
+                  {ambientEnabled && (
+                    <Badge variant="secondary" size="sm" className="bg-success/10 text-success border-0">
+                      Active
+                    </Badge>
+                  )}
+                </div>
+                <p className="text-xs text-muted-foreground leading-relaxed">
+                  {ambientEnabled 
+                    ? "Your next challenges earn bonus XP based on session length" 
+                    : "Unlock multipliers by running optional sessions in the background"
+                  }
+                </p>
+              </div>
             </div>
-            <p className="text-xs text-muted-foreground">
-              {ambientEnabled 
-                ? "Earning passively in the background" 
-                : "Earn extra points between challenges"
-              }
-            </p>
           </div>
-          {!ambientEnabled && !ambientExpanded && (
-            <ChevronRight className="h-5 w-5 text-muted-foreground" />
+
+          {/* Multiplier Tiers */}
+          {!ambientEnabled && (
+            <div className="flex items-center gap-2 pl-[52px]">
+              <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md bg-muted/50">
+                <Timer className="h-3 w-3 text-muted-foreground" />
+                <span className="text-xs font-medium text-foreground">2h</span>
+                <span className="text-xs text-muted-foreground">→ 1.25x</span>
+              </div>
+              <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md bg-muted/50">
+                <Timer className="h-3 w-3 text-muted-foreground" />
+                <span className="text-xs font-medium text-foreground">4h</span>
+                <span className="text-xs text-muted-foreground">→ 1.5x</span>
+              </div>
+              <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md bg-primary/10">
+                <Timer className="h-3 w-3 text-primary" />
+                <span className="text-xs font-medium text-foreground">8h</span>
+                <span className="text-xs text-primary font-medium">→ 2x</span>
+              </div>
+            </div>
           )}
-          {(ambientEnabled || ambientExpanded) && (
-            <Switch
-              checked={ambientEnabled}
-              onCheckedChange={(checked) => {
-                setAmbientEnabled(checked);
-                if (!checked) setAmbientExpanded(false);
-              }}
-              onClick={(e) => e.stopPropagation()}
-            />
+
+          {/* Active State - Current Progress */}
+          {ambientEnabled && (
+            <div className="pl-[52px] space-y-3">
+              <div className="flex items-center gap-3">
+                <Badge variant="brand" size="sm" className="font-bold">1.5x Active</Badge>
+                <span className="text-xs text-muted-foreground">4h 23m session • Next tier at 8h</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <button 
+                  onClick={() => navigate("/ambient")}
+                  className="text-xs text-primary hover:underline flex items-center gap-1"
+                >
+                  Adjust schedule
+                  <ChevronRight className="h-3 w-3" />
+                </button>
+                <span className="text-muted-foreground">•</span>
+                <button 
+                  onClick={() => setAmbientEnabled(false)}
+                  className="text-xs text-muted-foreground hover:text-foreground flex items-center gap-1"
+                >
+                  <Pause className="h-3 w-3" />
+                  Pause session
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* CTA */}
+          {!ambientEnabled && (
+            <div className="pl-[52px]">
+              <p className="text-xs text-muted-foreground mb-3">
+                You control when sessions run — schedule them or pause anytime.
+              </p>
+              <Button 
+                variant="outline"
+                size="sm"
+                onClick={() => setAmbientEnabled(true)}
+                leftIcon={<Gift className="h-4 w-4" />}
+              >
+                Enable multiplier
+              </Button>
+            </div>
           )}
         </div>
-        {ambientEnabled && (
-          <button 
-            onClick={(e) => {
-              e.stopPropagation();
-              navigate("/ambient");
-            }}
-            className="mt-3 text-xs text-primary hover:underline flex items-center gap-1"
-          >
-            Manage zones and schedule
-            <ChevronRight className="h-3 w-3" />
-          </button>
-        )}
       </Card>
     </ContentSection>
   );
