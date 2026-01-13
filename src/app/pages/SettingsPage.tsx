@@ -230,9 +230,18 @@ export function SettingsPage() {
           </Card>
         </SettingsGroup>
 
-        {/* Schedules */}
-        <SettingsGroup label="Schedules">
+        {/* Ambient Mode */}
+        <SettingsGroup label="Ambient Mode">
           <Card>
+            <SettingsToggleRow
+              label="Enable Ambient Mode"
+              icon={Camera}
+              iconBg="bg-success/10"
+              description="Earn points passively in the background"
+              checked={dataSharingAnalytics}
+              onCheckedChange={setDataSharingAnalytics}
+            />
+            <Separator />
             <SettingsLinkRow
               label="Recording Schedule"
               icon={Calendar}

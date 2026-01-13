@@ -8,18 +8,17 @@ import {
   Zap,
   Star,
   Home,
-  Camera,
-  Gamepad2,
+  Target,
   User,
   ChevronRight,
+  Sparkles,
 } from "lucide-react";
 import type { TabItem } from "@/components/ui/bottom-tab-bar";
 
 const tabs: TabItem[] = [
   { label: "Home", icon: Home, href: "/app" },
-  { label: "Ambient", icon: Camera, href: "/ambient" },
-  { label: "Play", icon: Gamepad2, href: "/play" },
-  { label: "Profile", icon: User, href: "/profile" },
+  { label: "Challenges", icon: Target, href: "/challenges" },
+  { label: "Profile", icon: User, href: "/app/profile" },
 ];
 
 type Difficulty = "easy" | "medium" | "hard";
@@ -32,17 +31,18 @@ interface Challenge {
   difficulty: Difficulty;
   hasBonus: boolean;
   bonusLabel?: string;
+  isWeeklyFeatured?: boolean;
 }
 
 const challenges: Challenge[] = [
   { id: "1", name: "Dishwasher Unload", description: "Unload a full dishwasher efficiently", duration: "5 min", difficulty: "easy", hasBonus: false },
-  { id: "2", name: "Grocery Unload", description: "Unpack groceries and organize in storage", duration: "8 min", difficulty: "medium", hasBonus: true, bonusLabel: "2x XP" },
+  { id: "2", name: "Grocery Unload", description: "Unpack groceries and organize in storage", duration: "8 min", difficulty: "medium", hasBonus: true, bonusLabel: "2x XP", isWeeklyFeatured: true },
   { id: "3", name: "Fold Laundry", description: "Fold a load of clean laundry neatly", duration: "10 min", difficulty: "easy", hasBonus: false },
   { id: "4", name: "Make Bed", description: "Make your bed with fresh or existing linens", duration: "3 min", difficulty: "easy", hasBonus: false },
-  { id: "5", name: "Reset Table", description: "Clear and reset a dining table", duration: "4 min", difficulty: "easy", hasBonus: true, bonusLabel: "Featured" },
+  { id: "5", name: "Reset Table", description: "Clear and reset a dining table", duration: "4 min", difficulty: "easy", hasBonus: true, bonusLabel: "Featured", isWeeklyFeatured: true },
   { id: "6", name: "Carry Laundry Basket", description: "Transport laundry between rooms safely", duration: "2 min", difficulty: "medium", hasBonus: false },
   { id: "7", name: "Organize Shelf", description: "Reorganize items on a cluttered shelf", duration: "6 min", difficulty: "medium", hasBonus: false },
-  { id: "8", name: "Handle Fragile Items", description: "Carefully move delicate glassware or ceramics", duration: "4 min", difficulty: "hard", hasBonus: true, bonusLabel: "Precision" },
+  { id: "8", name: "Handle Fragile Items", description: "Carefully move delicate glassware or ceramics", duration: "4 min", difficulty: "hard", hasBonus: true, bonusLabel: "Precision", isWeeklyFeatured: true },
   { id: "9", name: "Trash & Recycling Sort", description: "Sort waste into proper bins", duration: "5 min", difficulty: "medium", hasBonus: false },
   { id: "10", name: "Task Transitions", description: "Complete a sequence of quick household tasks", duration: "7 min", difficulty: "hard", hasBonus: true, bonusLabel: "Multi-Task" },
 ];
@@ -68,7 +68,7 @@ const ChallengeCard = ({ challenge, onClick }: ChallengeCardProps) => {
     >
       <div className="flex items-start gap-3">
         <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
-          <Gamepad2 className="h-5 w-5 text-primary" />
+          <Target className="h-5 w-5 text-primary" />
         </div>
         
         <div className="flex-1 min-w-0 space-y-2">
@@ -104,57 +104,68 @@ const ChallengeCard = ({ challenge, onClick }: ChallengeCardProps) => {
   );
 };
 
-const PlayModePage = () => {
+const ChallengesPage = () => {
   const navigate = useNavigate();
 
   const handleChallengeClick = (challengeId: string) => {
     navigate(`/challenge/${challengeId}`);
   };
 
-  const featuredChallenge = challenges.find(c => c.bonusLabel === "Featured");
-  const otherChallenges = challenges.filter(c => c.bonusLabel !== "Featured");
+  const weeklyFeatured = challenges.filter(c => c.isWeeklyFeatured);
+  const allChallenges = challenges.filter(c => !c.isWeeklyFeatured);
 
   return (
     <MainAppShell
-      title="Play Mode"
+      title="Challenges"
       tabs={tabs}
     >
       <ContentSection className="space-y-6">
-        {/* Featured Challenge */}
-        {featuredChallenge && (
-          <div className="space-y-2">
-            <h2 className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Featured</h2>
-            <Card 
-              className="p-5 bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20 cursor-pointer hover:from-primary/10 hover:to-primary/15 transition-colors"
-              onClick={() => handleChallengeClick(featuredChallenge.id)}
-            >
-              <div className="flex items-center gap-4">
-                <div className="w-14 h-14 rounded-xl bg-primary/20 flex items-center justify-center">
-                  <Star className="h-7 w-7 text-primary" />
-                </div>
-                <div className="flex-1">
-                  <div className="flex items-center gap-2">
-                    <p className="font-medium text-foreground">{featuredChallenge.name}</p>
-                    <Badge className="text-[10px] bg-brand-yellow text-brand-yellow-foreground border-0">
-                      2x XP
-                    </Badge>
-                  </div>
-                  <p className="text-sm text-muted-foreground mt-0.5">{featuredChallenge.description}</p>
-                  <div className="flex items-center gap-3 mt-2">
-                    <div className="flex items-center gap-1 text-muted-foreground">
-                      <Clock className="h-3.5 w-3.5" />
-                      <span className="text-xs">{featuredChallenge.duration}</span>
-                    </div>
-                    <Badge variant="secondary" className={`text-xs border-0 ${difficultyConfig[featuredChallenge.difficulty].className}`}>
-                      {difficultyConfig[featuredChallenge.difficulty].label}
-                    </Badge>
-                  </div>
-                </div>
-                <ChevronRight className="h-5 w-5 text-muted-foreground" />
-              </div>
-            </Card>
+        {/* Weekly Featured Section */}
+        <div className="space-y-3">
+          <div className="flex items-center gap-2">
+            <Sparkles className="h-4 w-4 text-primary" />
+            <h2 className="text-xs font-medium text-muted-foreground uppercase tracking-wide">This Week's Featured</h2>
           </div>
-        )}
+          
+          <div className="space-y-2">
+            {weeklyFeatured.map((challenge) => (
+              <Card 
+                key={challenge.id}
+                className="p-4 bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20 cursor-pointer hover:from-primary/10 hover:to-primary/15 transition-colors active:scale-[0.98]"
+                onClick={() => handleChallengeClick(challenge.id)}
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center flex-shrink-0">
+                    <Star className="h-6 w-6 text-primary" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <p className="font-medium text-foreground">{challenge.name}</p>
+                      {challenge.hasBonus && (
+                        <Badge className="text-[10px] bg-brand-yellow text-brand-yellow-foreground border-0">
+                          <Star className="h-2.5 w-2.5 mr-0.5 fill-current" />
+                          {challenge.bonusLabel}
+                        </Badge>
+                      )}
+                    </div>
+                    <p className="text-xs text-muted-foreground mt-0.5 line-clamp-1">{challenge.description}</p>
+                    <div className="flex items-center gap-2 mt-1.5">
+                      <div className="flex items-center gap-1 text-muted-foreground">
+                        <Clock className="h-3 w-3" />
+                        <span className="text-xs">{challenge.duration}</span>
+                      </div>
+                      <Badge variant="secondary" className={`text-[10px] px-1.5 py-0 h-4 border-0 ${difficultyConfig[challenge.difficulty].className}`}>
+                        <Zap className="h-2.5 w-2.5 mr-0.5" />
+                        {difficultyConfig[challenge.difficulty].label}
+                      </Badge>
+                    </div>
+                  </div>
+                  <ChevronRight className="h-5 w-5 text-muted-foreground flex-shrink-0" />
+                </div>
+              </Card>
+            ))}
+          </div>
+        </div>
 
         {/* All Challenges */}
         <div className="space-y-3">
@@ -164,7 +175,7 @@ const PlayModePage = () => {
           </div>
           
           <div className="space-y-2">
-            {otherChallenges.map((challenge) => (
+            {allChallenges.map((challenge) => (
               <ChallengeCard 
                 key={challenge.id} 
                 challenge={challenge} 
@@ -177,7 +188,7 @@ const PlayModePage = () => {
         {/* Footer Note */}
         <Card className="p-4 bg-muted/20 border-0">
           <p className="text-xs text-muted-foreground text-center">
-            New challenges added weekly. Complete challenges to earn rewards.
+            New challenges added weekly. Recording happens automatically during each challenge.
           </p>
         </Card>
       </ContentSection>
@@ -185,4 +196,5 @@ const PlayModePage = () => {
   );
 };
 
-export default PlayModePage;
+export { ChallengesPage };
+export default ChallengesPage;

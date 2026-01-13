@@ -167,7 +167,7 @@ export const ChallengeBriefPage = () => {
       {/* Header */}
       <header className="flex items-center gap-3 p-4 border-b border-border">
         <button 
-          onClick={() => navigate("/play")}
+          onClick={() => navigate("/challenges")}
           className="p-2 -ml-2 hover:bg-muted rounded-lg transition-colors"
         >
           <ArrowLeft className="h-5 w-5 text-foreground" />

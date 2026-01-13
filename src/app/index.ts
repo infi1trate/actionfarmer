@@ -17,5 +17,5 @@ export { ScheduleSelectionPage } from "./pages/onboarding/ScheduleSelectionPage"
 export { ModeSelectionPage } from "./pages/onboarding/ModeSelectionPage";
 export { default as AmbientModePage } from "./pages/AmbientModePage";
 export { default as DailySummaryPage } from "./pages/DailySummaryPage";
-export { default as PlayModePage } from "./pages/PlayModePage";
+export { default as PlayModePage, ChallengesPage } from "./pages/PlayModePage";
 export { default as LeaderboardPage } from "./pages/LeaderboardPage";
