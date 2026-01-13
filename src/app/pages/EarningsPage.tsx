@@ -62,41 +62,52 @@ export function EarningsPage() {
   return (
     <div className="min-h-screen pb-28">
       {/* ========================================
-          SECTION 1: Momentum & Streak Status
+          SECTION 1: Momentum Status Header
           ======================================== */}
-      <section className="px-5 pt-5 pb-6 bg-background">
-        <div className="flex items-center gap-2 mb-4">
-          <Flame className="h-4 w-4 text-orange-500" />
-          <h2 className="text-sm font-semibold text-foreground">Your Momentum</h2>
-        </div>
-        
-        <div className="flex items-stretch gap-3">
-          {/* Current Streak */}
-          <div className="flex-1 flex flex-col items-center justify-center gap-1 px-3 py-4 rounded-2xl bg-gradient-to-br from-orange-500/12 to-orange-500/4">
-            <p className="text-2xl font-bold text-foreground">{streakData.current}</p>
-            <p className="text-[11px] text-muted-foreground font-medium">day streak</p>
-          </div>
-
-          {/* Best Streak */}
-          <div className="flex-1 flex flex-col items-center justify-center gap-1 px-3 py-4 rounded-2xl bg-muted/30">
-            <div className="flex items-center gap-1.5">
-              <Trophy className="h-3.5 w-3.5 text-amber-500" />
-              <p className="text-2xl font-bold text-foreground">{streakData.best}</p>
+      <header className="bg-gradient-to-b from-muted/40 to-background border-b border-border/30">
+        <div className="px-5 py-4">
+          <div className="flex items-center justify-between">
+            {/* Current Streak */}
+            <div className="flex items-center gap-2.5">
+              <div className="w-9 h-9 rounded-full bg-orange-500/15 flex items-center justify-center">
+                <Flame className="h-4.5 w-4.5 text-orange-500" />
+              </div>
+              <div>
+                <p className="text-lg font-bold text-foreground leading-tight">{streakData.current} days</p>
+                <p className="text-[11px] text-muted-foreground font-medium">Current streak</p>
+              </div>
             </div>
-            <p className="text-[11px] text-muted-foreground font-medium">personal best</p>
-          </div>
 
-          {/* Multiplier */}
-          <div className="flex-1 flex flex-col items-center justify-center gap-1 px-3 py-4 rounded-2xl bg-gradient-to-br from-primary/12 to-primary/4">
-            <p className="text-2xl font-bold text-primary">{streakData.multiplier}x</p>
-            <p className="text-[11px] text-muted-foreground font-medium">bonus active</p>
+            {/* Divider */}
+            <div className="h-10 w-px bg-border/50" />
+
+            {/* Best Streak */}
+            <div className="flex items-center gap-2.5">
+              <div className="w-9 h-9 rounded-full bg-amber-500/15 flex items-center justify-center">
+                <Trophy className="h-4.5 w-4.5 text-amber-500" />
+              </div>
+              <div>
+                <p className="text-lg font-bold text-foreground leading-tight">{streakData.best} days</p>
+                <p className="text-[11px] text-muted-foreground font-medium">Personal best</p>
+              </div>
+            </div>
+
+            {/* Divider */}
+            <div className="h-10 w-px bg-border/50" />
+
+            {/* Multiplier */}
+            <div className="flex items-center gap-2.5">
+              <div className="w-9 h-9 rounded-full bg-primary/15 flex items-center justify-center">
+                <Zap className="h-4.5 w-4.5 text-primary" />
+              </div>
+              <div>
+                <p className="text-lg font-bold text-primary leading-tight">{streakData.multiplier}x</p>
+                <p className="text-[11px] text-muted-foreground font-medium">Active bonus</p>
+              </div>
+            </div>
           </div>
         </div>
-        
-        <p className="text-xs text-muted-foreground mt-3 text-center">
-          Keep contributing daily to maintain your streak and earn bonus multipliers.
-        </p>
-      </section>
+      </header>
 
       {/* ========================================
           SECTION 2: Current Balance & Payout
