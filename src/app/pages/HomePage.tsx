@@ -1,27 +1,18 @@
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
-import { ContentSection } from "@/components/shells";
-import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
+import { ActivityTicker } from "@/components/ui/activity-ticker";
 import { EventChallengeCard } from "./home/EventChallengeCard";
 import { 
   ChevronRight,
   Target,
   Flame,
-  TrendingUp,
-  TrendingDown,
   Zap,
-  Sparkles,
   Star,
   Clock,
   Gift,
-  
   Pause,
-  Users,
-  Trophy,
-  UserPlus,
 } from "lucide-react";
 
 function getGreeting() {
@@ -51,39 +42,14 @@ export function HomePage() {
     vsLastWeek: 2, // positive = ahead, negative = behind
   };
 
-  const getTrendNarrative = () => {
-    if (momentum.vsLastWeek > 0) {
-      return `You're ${momentum.vsLastWeek} challenges ahead of last week`;
-    } else if (momentum.vsLastWeek < 0) {
-      return `${Math.abs(momentum.vsLastWeek)} more to match last week`;
-    }
-    return "You're on pace with last week";
-  };
-
-  const TrendIcon = momentum.streakTrend === "up" ? TrendingUp : TrendingDown;
-  const trendColor = momentum.streakTrend === "up" ? "text-success" : "text-warning";
-
-  // Mock activity feed data
+  // Activity feed data for the ticker (anonymous community activity)
   const activityItems = [
-    { type: "challenge", text: "Someone completed Morning Routine", time: "2m ago" },
-    { type: "join", text: "A new member joined", time: "5m ago" },
-    { type: "challenge", text: "Someone completed Workspace Tour", time: "8m ago" },
-    { type: "challenge", text: "Someone hit a 7-day streak", time: "12m ago" },
-    { type: "join", text: "3 new members joined today", time: "1h ago" },
+    { text: "Someone completed Morning Routine", time: "2m ago" },
+    { text: "A new member joined", time: "5m ago" },
+    { text: "Someone completed Workspace Tour", time: "8m ago" },
+    { text: "Someone hit a 7-day streak", time: "12m ago" },
+    { text: "3 new members joined today", time: "1h ago" },
   ];
-
-  const [currentActivityIndex, setCurrentActivityIndex] = React.useState(0);
-
-  // Rotate through activity items
-  React.useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentActivityIndex((prev) => (prev + 1) % activityItems.length);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, [activityItems.length]);
-
-  const currentActivity = activityItems[currentActivityIndex];
-  const ActivityIcon = currentActivity.type === "join" ? UserPlus : Trophy;
 
   // Get contextual momentum message
   const getMomentumMessage = () => {
@@ -147,16 +113,12 @@ export function HomePage() {
             </Button>
           </div>
 
-          {/* Social Activity Ticker - Subtle, grounding */}
-          <div 
-            className="flex items-center gap-2 text-xs text-muted-foreground/70 pt-4"
-            key={currentActivityIndex}
-          >
-            <span className="w-1.5 h-1.5 rounded-full bg-success/60 animate-pulse" />
-            <span className="animate-fade-in">{currentActivity.text}</span>
-            <span className="text-muted-foreground/30">·</span>
-            <span className="text-muted-foreground/40">{currentActivity.time}</span>
-          </div>
+          {/* Ambient Activity Ticker - Lightweight, fading, non-interactive */}
+          <ActivityTicker 
+            items={activityItems} 
+            interval={6000}
+            className="pt-6"
+          />
         </div>
       </section>
 
