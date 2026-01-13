@@ -1,7 +1,9 @@
 import * as React from "react";
+import { useNavigate } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { 
+import { Button } from "@/components/ui/button";
+import {
   Camera,
   Gamepad2,
   TrendingUp,
@@ -10,6 +12,7 @@ import {
   ChevronRight,
   Sparkles,
   Clock,
+  Wallet,
 } from "lucide-react";
 
 interface EarningItem {
@@ -52,14 +55,16 @@ const streakData: StreakData = {
 };
 
 export function EarningsPage() {
+  const navigate = useNavigate();
+
   return (
     <div className="p-4 space-y-6 pb-24">
-      {/* Summary Card */}
+      {/* Summary Card with Payout CTA */}
       <Card className="p-5 bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20">
         <div className="flex items-center justify-between">
           <div className="space-y-1">
-            <p className="text-sm text-muted-foreground">Total This Month</p>
-            <p className="text-3xl font-bold text-foreground">643 pts</p>
+            <p className="text-sm text-muted-foreground">Available Balance</p>
+            <p className="text-3xl font-bold text-foreground">$47.50</p>
             <div className="flex items-center gap-1.5 text-emerald-600">
               <TrendingUp className="h-3.5 w-3.5" />
               <span className="text-xs font-medium">12% from last month</span>
@@ -69,6 +74,13 @@ export function EarningsPage() {
             <Sparkles className="h-7 w-7 text-primary" />
           </div>
         </div>
+        <Button 
+          className="w-full mt-4" 
+          onClick={() => navigate("/payout")}
+        >
+          <Wallet className="h-4 w-4 mr-2" />
+          Request Payout
+        </Button>
       </Card>
 
       {/* Ambient Earnings */}
