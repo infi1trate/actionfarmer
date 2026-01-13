@@ -86,116 +86,80 @@ export function HomePage() {
   const currentActivity = activityItems[currentActivityIndex];
   const ActivityIcon = currentActivity.type === "join" ? UserPlus : Trophy;
 
+  // Get contextual momentum message
+  const getMomentumMessage = () => {
+    if (!hasCompletedFirstChallenge) {
+      return "Your first challenge is waiting. No pressure — take your time.";
+    }
+    if (momentum.streakDays > 0) {
+      return `${momentum.streakDays} days strong. You're doing great.`;
+    }
+    return "Ready when you are. One challenge at a time.";
+  };
+
   return (
     <div className="min-h-screen">
-      {/* Hero Zone - Generous breathing room */}
-      <section className="px-5 pt-8 pb-10 bg-gradient-to-b from-primary/3 to-transparent">
-        <div className="space-y-4">
-          {/* Large editorial greeting */}
-          <div className="space-y-2">
-            <p className="text-xs font-medium text-primary uppercase tracking-widest">
+      {/* Editorial Hero - Warm, human, breathing room */}
+      <section className="relative px-6 pt-12 pb-16 overflow-hidden">
+        {/* Subtle warm gradient background */}
+        <div className="absolute inset-0 bg-gradient-to-b from-brand-orange/4 via-primary/2 to-transparent pointer-events-none" />
+        <div className="absolute top-0 right-0 w-64 h-64 bg-brand-orange/6 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none" />
+        
+        <div className="relative space-y-8">
+          {/* Greeting - Large, warm, personal */}
+          <div className="space-y-3">
+            <p className="text-sm font-medium text-brand-orange tracking-wide">
               {getGreeting()}
             </p>
-            <h1 className="text-4xl font-bold text-foreground tracking-tight leading-[1.1]">
+            <h1 className="text-5xl font-bold text-foreground tracking-tight leading-[1.05]">
               {userName}
             </h1>
           </div>
           
-          {/* Motivational tagline */}
-          <p className="text-base text-muted-foreground max-w-[280px] leading-relaxed">
-            You're building something meaningful. Keep the momentum going.
-          </p>
+          {/* Momentum copy - Calm, confident */}
+          <div className="space-y-4 max-w-[320px]">
+            <p className="text-lg text-foreground/80 leading-relaxed font-medium">
+              {getMomentumMessage()}
+            </p>
+            
+            {/* Inline stats for returning users - no cards, just text */}
+            {hasCompletedFirstChallenge && (
+              <div className="flex items-center gap-6 text-sm text-muted-foreground">
+                <div className="flex items-center gap-2">
+                  <Flame className="h-4 w-4 text-brand-orange" />
+                  <span><span className="font-semibold text-foreground">{momentum.streakDays}</span> day streak</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Zap className="h-4 w-4 text-primary" />
+                  <span><span className="font-semibold text-foreground">{momentum.rewardMultiplier}x</span> bonus</span>
+                </div>
+              </div>
+            )}
+          </div>
 
-          {/* Social Activity Ticker - Inline, subtle */}
+          {/* Single primary CTA */}
+          <div className="pt-2">
+            <Button 
+              size="lg"
+              onClick={() => navigate("/challenges")}
+              className="shadow-lg shadow-primary/20"
+            >
+              Start today's challenge
+            </Button>
+          </div>
+
+          {/* Social Activity Ticker - Subtle, grounding */}
           <div 
-            className="inline-flex items-center gap-2 text-xs text-muted-foreground/80"
+            className="flex items-center gap-2 text-xs text-muted-foreground/70 pt-4"
             key={currentActivityIndex}
           >
-            <span className="w-1.5 h-1.5 rounded-full bg-success animate-pulse" />
+            <span className="w-1.5 h-1.5 rounded-full bg-success/60 animate-pulse" />
             <span className="animate-fade-in">{currentActivity.text}</span>
-            <span className="text-muted-foreground/40">·</span>
-            <span className="text-muted-foreground/50">{currentActivity.time}</span>
+            <span className="text-muted-foreground/30">·</span>
+            <span className="text-muted-foreground/40">{currentActivity.time}</span>
           </div>
         </div>
       </section>
-
-      {/* Getting Started - Full-bleed hero card for new users */}
-      {!hasCompletedFirstChallenge && (
-        <section className="px-5 -mt-2 mb-8">
-          <div className="relative rounded-2xl overflow-hidden bg-gradient-to-br from-primary/10 via-primary/5 to-brand-orange/10 p-6 border border-primary/10">
-            {/* Decorative elements */}
-            <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4" />
-            <div className="absolute bottom-0 left-0 w-24 h-24 bg-brand-orange/10 rounded-full blur-2xl translate-y-1/2 -translate-x-1/4" />
-            
-            <div className="relative space-y-5">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 text-primary text-xs font-medium">
-                <Sparkles className="h-3.5 w-3.5" />
-                First challenge awaits
-              </div>
-              
-              <div className="space-y-2">
-                <h2 className="text-xl font-bold text-foreground">Ready to get started?</h2>
-                <p className="text-sm text-muted-foreground leading-relaxed max-w-[300px]">
-                  Challenges are quick activities where you capture real moments. 
-                  Each one takes just a few minutes.
-                </p>
-              </div>
-              
-              <Button 
-                size="lg"
-                onClick={() => navigate("/challenges")}
-                leftIcon={<Target className="h-4 w-4" />}
-              >
-                Start first challenge
-              </Button>
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* Momentum Zone - Bold numbers, editorial layout */}
-      {hasCompletedFirstChallenge && (
-        <section className="px-5 mb-10">
-          <div className="grid grid-cols-2 gap-4">
-            {/* Primary stat - larger */}
-            <div className="col-span-1 p-5 rounded-2xl bg-gradient-to-br from-primary/8 to-primary/3 border border-primary/10">
-              <div className="space-y-1">
-                <p className="text-5xl font-bold text-foreground tracking-tight">
-                  {momentum.challengesThisWeek}
-                </p>
-                <p className="text-xs text-muted-foreground font-medium">
-                  Challenges this week
-                </p>
-              </div>
-              <div className="mt-4 flex items-center gap-1.5 text-xs">
-                <TrendIcon className={`h-3.5 w-3.5 ${trendColor}`} />
-                <span className={`font-medium ${trendColor}`}>
-                  {momentum.vsLastWeek > 0 ? `+${momentum.vsLastWeek}` : momentum.vsLastWeek} vs last week
-                </span>
-              </div>
-            </div>
-            
-            {/* Secondary stats - stacked */}
-            <div className="col-span-1 space-y-4">
-              <div className="p-4 rounded-2xl bg-muted/30 border border-border/50">
-                <div className="flex items-center gap-2">
-                  <Flame className="h-5 w-5 text-brand-orange" />
-                  <span className="text-2xl font-bold text-foreground">{momentum.streakDays}</span>
-                </div>
-                <p className="text-xs text-muted-foreground mt-1">Day streak</p>
-              </div>
-              
-              <div className="p-4 rounded-2xl bg-muted/30 border border-border/50">
-                <div className="flex items-center gap-2">
-                  <Zap className="h-5 w-5 text-primary" />
-                  <span className="text-2xl font-bold text-foreground">{momentum.rewardMultiplier}x</span>
-                </div>
-                <p className="text-xs text-muted-foreground mt-1">Multiplier</p>
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
 
       {/* Weekly Focus - Editorial section header */}
       <section className="mb-10">
