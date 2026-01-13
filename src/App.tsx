@@ -36,7 +36,6 @@ import {
   CameraPlacementPage,
   ZoneSelectionPage,
   ScheduleSelectionPage,
-  ModeSelectionPage,
   AmbientModePage,
   DailySummaryPage,
   PlayModePage,
@@ -87,7 +86,6 @@ const App = () => (
               <Route path="/onboarding/camera" element={<CameraPlacementPage />} />
               <Route path="/onboarding/zones" element={<ZoneSelectionPage />} />
               <Route path="/onboarding/schedule" element={<ScheduleSelectionPage />} />
-              <Route path="/onboarding/modes" element={<ModeSelectionPage />} />
               
               {/* Ambient Mode */}
               <Route path="/ambient" element={<AmbientModePage />} />

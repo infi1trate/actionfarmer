@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowRight, Smartphone, Activity, TrendingUp } from "lucide-react";
+import { ArrowRight, Zap, Video, Settings2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export function OnboardingExplainPage() {
@@ -8,19 +8,19 @@ export function OnboardingExplainPage() {
 
   const features = [
     {
-      icon: Smartphone,
-      title: "Use your phone naturally",
-      description: "Just keep your phone with you as you go about your day."
+      icon: Zap,
+      title: "Complete fun challenges",
+      description: "Browse and start movement challenges anytime. Each one takes just a few minutes."
     },
     {
-      icon: Activity,
-      title: "We learn from movement",
-      description: "Your motion patterns help improve how devices understand people."
+      icon: Video,
+      title: "Recording happens automatically",
+      description: "When you start a challenge, we capture motion data. When you finish, it stops. Simple."
     },
     {
-      icon: TrendingUp,
-      title: "Earn as you move",
-      description: "Get rewarded for the time your phone contributes."
+      icon: Settings2,
+      title: "Ambient Capture is optional",
+      description: "Want to contribute in the background? Enable Ambient Capture later in Settings."
     }
   ];
 
@@ -41,7 +41,7 @@ export function OnboardingExplainPage() {
           How MoveAI works
         </h1>
         <p className="text-muted-foreground text-lg mb-10">
-          A simple way to contribute and earn.
+          Jump into challenges, earn rewards. No setup required.
         </p>
 
         <div className="space-y-6">
