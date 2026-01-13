@@ -73,52 +73,72 @@ const AmbientModePage = () => {
       }
     >
       <ContentSection className="space-y-6">
-        {/* Status Banner */}
-        <Card className="p-4 bg-muted/30 border-0">
-          <div className="flex items-center gap-3">
-            <div className={`w-2.5 h-2.5 rounded-full ${isPaused ? 'bg-muted-foreground' : 'bg-emerald-500 animate-pulse'}`} />
-            <div className="flex-1">
-              <p className="text-sm font-medium text-foreground">
-                {isPaused ? "Paused" : "Quietly collecting"}
-              </p>
-              <p className="text-xs text-muted-foreground">
-                {isPaused 
-                  ? "Resume when you're ready" 
-                  : `${activeZones.length} zone${activeZones.length !== 1 ? 's' : ''} active`
-                }
-              </p>
-            </div>
-            {!isPaused && (
-              <Badge variant="secondary" className="text-xs">
-                Live
-              </Badge>
-            )}
-          </div>
-        </Card>
-
-        {/* Today's Summary */}
-        <div className="grid grid-cols-2 gap-3">
-          <Card className="p-4 space-y-2">
-            <div className="flex items-center gap-2 text-muted-foreground">
-              <Clock className="h-4 w-4" />
-              <span className="text-xs">Time Active</span>
-            </div>
-            <p className="text-2xl font-semibold text-foreground">
-              {hours}h {minutes}m
-            </p>
-            <p className="text-xs text-muted-foreground">Today</p>
-          </Card>
+        {/* Live Streaming Value Zone */}
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-500/8 via-emerald-500/4 to-transparent p-5">
+          {/* Animated pulse ring when active */}
+          {!isPaused && (
+            <>
+              <div className="absolute top-4 right-4 w-3 h-3">
+                <span className="absolute inset-0 rounded-full bg-emerald-500 animate-ping opacity-40" />
+                <span className="absolute inset-0 rounded-full bg-emerald-500" />
+              </div>
+              <div className="absolute -bottom-12 -right-12 w-40 h-40 bg-emerald-500/5 rounded-full blur-3xl animate-pulse" />
+            </>
+          )}
           
-          <Card className="p-4 space-y-2">
-            <div className="flex items-center gap-2 text-muted-foreground">
-              <Wallet className="h-4 w-4" />
-              <span className="text-xs">Earnings</span>
+          <div className="relative space-y-4">
+            {/* Status indicator */}
+            <div className="flex items-center gap-2">
+              <div className={`
+                px-3 py-1 rounded-full text-xs font-medium flex items-center gap-1.5
+                ${isPaused 
+                  ? 'bg-muted text-muted-foreground' 
+                  : 'bg-emerald-500/15 text-emerald-600'
+                }
+              `}>
+                <span className={`w-1.5 h-1.5 rounded-full ${isPaused ? 'bg-muted-foreground' : 'bg-emerald-500'}`} />
+                {isPaused ? 'Paused' : 'Active'}
+              </div>
+              <span className="text-xs text-muted-foreground">
+                {activeZones.length} zone{activeZones.length !== 1 ? 's' : ''} contributing
+              </span>
             </div>
-            <p className="text-2xl font-semibold text-foreground">
-              ${totalEarningsToday.toFixed(2)}
-            </p>
-            <p className="text-xs text-muted-foreground">Today</p>
-          </Card>
+
+            {/* Main value display */}
+            <div className="space-y-1">
+              <div className="flex items-baseline gap-2">
+                <span className={`
+                  text-3xl font-bold tracking-tight transition-colors
+                  ${isPaused ? 'text-muted-foreground' : 'text-foreground'}
+                `}>
+                  +{Math.round(totalEarningsToday * 1000)} pts
+                </span>
+                <span className="text-sm text-muted-foreground">today so far</span>
+              </div>
+              
+              {/* Streaming indicator */}
+              {!isPaused && (
+                <div className="flex items-center gap-2 text-xs text-emerald-600">
+                  <span className="inline-flex gap-0.5">
+                    <span className="w-1 h-3 bg-emerald-500/60 rounded-full animate-pulse" style={{ animationDelay: '0ms' }} />
+                    <span className="w-1 h-4 bg-emerald-500/80 rounded-full animate-pulse" style={{ animationDelay: '150ms' }} />
+                    <span className="w-1 h-2 bg-emerald-500/40 rounded-full animate-pulse" style={{ animationDelay: '300ms' }} />
+                  </span>
+                  <span>Quietly streaming</span>
+                </div>
+              )}
+            </div>
+
+            {/* Time active - subtle */}
+            <div className="flex items-center gap-4 pt-2 border-t border-border/30">
+              <div className="flex items-center gap-2">
+                <Clock className="h-3.5 w-3.5 text-muted-foreground" />
+                <span className="text-sm text-muted-foreground">
+                  {hours}h {minutes}m active today
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Active Zones */}
