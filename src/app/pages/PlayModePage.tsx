@@ -108,8 +108,7 @@ const PlayModePage = () => {
   const navigate = useNavigate();
 
   const handleChallengeClick = (challengeId: string) => {
-    // Placeholder - would navigate to challenge detail
-    console.log("Challenge clicked:", challengeId);
+    navigate(`/challenge/${challengeId}`);
   };
 
   const featuredChallenge = challenges.find(c => c.bonusLabel === "Featured");
