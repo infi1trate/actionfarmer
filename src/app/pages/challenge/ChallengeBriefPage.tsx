@@ -29,16 +29,120 @@ interface Challenge {
 
 // Shared challenge data - in a real app, this would come from an API/store
 export const challengeData: Record<string, Challenge> = {
-  "1": { id: "1", name: "Kitchen Grab", description: "Pick up 5 kitchen items", duration: "2 min", durationSeconds: 120, difficulty: "easy", hasBonus: false, objectives: ["Pick up 5 different kitchen items", "Place them on the counter", "Return to starting position"], tips: ["Start with items closest to you", "Use both hands efficiently"] },
-  "2": { id: "2", name: "Desk Organizer", description: "Arrange items on your desk", duration: "3 min", durationSeconds: 180, difficulty: "easy", hasBonus: true, bonusLabel: "2x XP", objectives: ["Clear your desk surface", "Organize items by category", "Create a clean workspace"], tips: ["Group similar items together", "Keep frequently used items within reach"] },
-  "3": { id: "3", name: "Quick Stack", description: "Stack 3 objects carefully", duration: "1 min", durationSeconds: 60, difficulty: "easy", hasBonus: false, objectives: ["Find 3 stackable objects", "Stack them vertically", "Keep the stack balanced for 5 seconds"], tips: ["Start with the largest item at the bottom", "Move slowly and deliberately"] },
-  "4": { id: "4", name: "Tool Swap", description: "Switch between 4 tools", duration: "4 min", durationSeconds: 240, difficulty: "medium", hasBonus: false, objectives: ["Select 4 different tools", "Use each tool briefly", "Switch between them smoothly"], tips: ["Lay out tools in advance", "Practice the sequence mentally first"] },
-  "5": { id: "5", name: "Precision Place", description: "Place items in marked zones", duration: "5 min", durationSeconds: 300, difficulty: "medium", hasBonus: true, bonusLabel: "Featured", objectives: ["Identify the target zones", "Place items precisely", "Minimize adjustments"], tips: ["Take your time with placement", "Use visual guides"] },
-  "6": { id: "6", name: "Speed Sort", description: "Sort items by category", duration: "3 min", durationSeconds: 180, difficulty: "medium", hasBonus: false, objectives: ["Gather mixed items", "Create category groups", "Sort all items correctly"], tips: ["Decide categories first", "Work quickly but accurately"] },
-  "7": { id: "7", name: "One-Handed", description: "Complete tasks single-handed", duration: "4 min", durationSeconds: 240, difficulty: "hard", hasBonus: false, objectives: ["Choose your dominant hand", "Complete 3 simple tasks", "Don't use your other hand"], tips: ["Start with easier tasks", "Plan your movements"] },
-  "8": { id: "8", name: "Blindfold Reach", description: "Find objects without looking", duration: "2 min", durationSeconds: 120, difficulty: "hard", hasBonus: true, bonusLabel: "New", objectives: ["Close your eyes", "Locate 3 familiar objects", "Pick them up safely"], tips: ["Know your space well", "Move slowly and carefully"] },
-  "9": { id: "9", name: "Multi-Task", description: "Handle 3 items at once", duration: "5 min", durationSeconds: 300, difficulty: "hard", hasBonus: false, objectives: ["Pick up 3 items simultaneously", "Transport them together", "Place them in designated spots"], tips: ["Choose items that fit together", "Plan your grip"] },
-  "10": { id: "10", name: "Mystery Box", description: "Random challenge surprise", duration: "3 min", durationSeconds: 180, difficulty: "medium", hasBonus: true, bonusLabel: "Mystery", objectives: ["Open the mystery challenge", "Complete the revealed task", "Adapt to the surprise"], tips: ["Stay flexible", "Expect the unexpected"] },
+  "1": { 
+    id: "1", 
+    name: "Dishwasher Unload", 
+    description: "Unload a full dishwasher efficiently", 
+    duration: "5 min", 
+    durationSeconds: 300, 
+    difficulty: "easy", 
+    hasBonus: false, 
+    objectives: ["Remove all dishes from the dishwasher", "Place items in their proper cabinets", "Close all cabinet doors when done"], 
+    tips: ["Start with the bottom rack", "Group similar items together before putting away"] 
+  },
+  "2": { 
+    id: "2", 
+    name: "Grocery Unload", 
+    description: "Unpack groceries and organize in storage", 
+    duration: "8 min", 
+    durationSeconds: 480, 
+    difficulty: "medium", 
+    hasBonus: true, 
+    bonusLabel: "2x XP", 
+    objectives: ["Unload all grocery bags", "Sort items by storage location", "Put refrigerated items away first"], 
+    tips: ["Prioritize cold and frozen items", "Break down boxes for recycling"] 
+  },
+  "3": { 
+    id: "3", 
+    name: "Fold Laundry", 
+    description: "Fold a load of clean laundry neatly", 
+    duration: "10 min", 
+    durationSeconds: 600, 
+    difficulty: "easy", 
+    hasBonus: false, 
+    objectives: ["Fold all items from the laundry basket", "Stack items by category", "Place folded items in designated spots"], 
+    tips: ["Fold on a flat surface", "Group matching socks as you go"] 
+  },
+  "4": { 
+    id: "4", 
+    name: "Make Bed", 
+    description: "Make your bed with fresh or existing linens", 
+    duration: "3 min", 
+    durationSeconds: 180, 
+    difficulty: "easy", 
+    hasBonus: false, 
+    objectives: ["Straighten the fitted sheet", "Arrange top sheet and blankets", "Fluff and place pillows neatly"], 
+    tips: ["Work from one side to the other", "Smooth wrinkles as you go"] 
+  },
+  "5": { 
+    id: "5", 
+    name: "Reset Table", 
+    description: "Clear and reset a dining table", 
+    duration: "4 min", 
+    durationSeconds: 240, 
+    difficulty: "easy", 
+    hasBonus: true, 
+    bonusLabel: "Featured", 
+    objectives: ["Clear all items from the table", "Wipe down the surface", "Set places for the next meal"], 
+    tips: ["Stack plates carefully for transport", "Use a tray for multiple items"] 
+  },
+  "6": { 
+    id: "6", 
+    name: "Carry Laundry Basket", 
+    description: "Transport laundry between rooms safely", 
+    duration: "2 min", 
+    durationSeconds: 120, 
+    difficulty: "medium", 
+    hasBonus: false, 
+    objectives: ["Lift the basket with proper form", "Navigate through doorways", "Set down basket gently at destination"], 
+    tips: ["Bend at the knees, not the waist", "Keep the load close to your body"] 
+  },
+  "7": { 
+    id: "7", 
+    name: "Organize Shelf", 
+    description: "Reorganize items on a cluttered shelf", 
+    duration: "6 min", 
+    durationSeconds: 360, 
+    difficulty: "medium", 
+    hasBonus: false, 
+    objectives: ["Remove all items from the shelf", "Group similar items together", "Arrange items by size or frequency of use"], 
+    tips: ["Dust the shelf while it's empty", "Place frequently used items at eye level"] 
+  },
+  "8": { 
+    id: "8", 
+    name: "Handle Fragile Items", 
+    description: "Carefully move delicate glassware or ceramics", 
+    duration: "4 min", 
+    durationSeconds: 240, 
+    difficulty: "hard", 
+    hasBonus: true, 
+    bonusLabel: "Precision", 
+    objectives: ["Select 5 fragile items to relocate", "Move each item one at a time", "Place items securely in new location"], 
+    tips: ["Use both hands for stability", "Clear the path before moving items"] 
+  },
+  "9": { 
+    id: "9", 
+    name: "Trash & Recycling Sort", 
+    description: "Sort waste into proper bins", 
+    duration: "5 min", 
+    durationSeconds: 300, 
+    difficulty: "medium", 
+    hasBonus: false, 
+    objectives: ["Gather items to be disposed", "Sort into trash, recycling, and compost", "Take bins out if full"], 
+    tips: ["Rinse containers before recycling", "Break down cardboard boxes flat"] 
+  },
+  "10": { 
+    id: "10", 
+    name: "Task Transitions", 
+    description: "Complete a sequence of quick household tasks", 
+    duration: "7 min", 
+    durationSeconds: 420, 
+    difficulty: "hard", 
+    hasBonus: true, 
+    bonusLabel: "Multi-Task", 
+    objectives: ["Complete 3 different mini-tasks", "Transition smoothly between each", "Finish all tasks within the time limit"], 
+    tips: ["Plan your route through the house", "Keep momentum between tasks"] 
+  },
 };
 
 const difficultyConfig: Record<Difficulty, { label: string; className: string }> = {
