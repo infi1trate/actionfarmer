@@ -57,6 +57,11 @@ import {
   ChallengeAnnotationPage,
 } from "./app/pages/challenge";
 
+import {
+  PayoutPage,
+  PayoutConfirmationPage,
+} from "./app/pages/payout";
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -103,6 +108,10 @@ const App = () => (
               <Route path="/session/complete" element={<SessionCompletedPage />} />
               <Route path="/session/annotate" element={<SessionAnnotationPage />} />
               <Route path="/session/confirm" element={<UploadConfirmationPage />} />
+              
+              {/* Payout Flow */}
+              <Route path="/payout" element={<PayoutPage />} />
+              <Route path="/payout/confirmation" element={<PayoutConfirmationPage />} />
               
               {/* Main App */}
               <Route path="/app" element={<AppLayout />}>
