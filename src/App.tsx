@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ThemeProvider } from "next-themes";
 import { ReducedMotionProvider } from "@/hooks/use-reduced-motion";
+import { ChallengeTransitionProvider } from "@/contexts/ChallengeTransitionContext";
 import NotFound from "./pages/NotFound";
 
 // Design System Pages
@@ -67,74 +68,76 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
       <ReducedMotionProvider>
-        <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <Routes>
-              {/* Redirect root to onboarding */}
-              <Route path="/" element={<Navigate to="/onboarding" replace />} />
-              
-              {/* Onboarding Flow */}
-              <Route path="/onboarding" element={<WelcomePage />} />
-              <Route path="/onboarding/explain" element={<OnboardingExplainPage />} />
-              <Route path="/onboarding/privacy" element={<OnboardingPrivacyPage />} />
-              <Route path="/onboarding/consent" element={<OnboardingConsentPage />} />
-              <Route path="/onboarding/signup" element={<SignupPage />} />
-              <Route path="/onboarding/signin" element={<SigninPage />} />
-              <Route path="/onboarding/success" element={<SuccessPage />} />
-              <Route path="/onboarding/camera" element={<CameraPlacementPage />} />
-              <Route path="/onboarding/zones" element={<ZoneSelectionPage />} />
-              <Route path="/onboarding/schedule" element={<ScheduleSelectionPage />} />
-              
-              {/* Ambient Mode */}
-              <Route path="/ambient" element={<AmbientModePage />} />
-              <Route path="/summary" element={<DailySummaryPage />} />
-              
-              {/* Challenges */}
-              <Route path="/challenges" element={<PlayModePage />} />
-              <Route path="/leaderboard" element={<LeaderboardPage />} />
-              
-              {/* Challenge Flow */}
-              <Route path="/challenge/:id" element={<ChallengeBriefPage />} />
-              <Route path="/challenge/:id/countdown" element={<ChallengeCountdownPage />} />
-              <Route path="/challenge/:id/active" element={<ChallengeActivePage />} />
-              <Route path="/challenge/:id/complete" element={<ChallengeCompletedPage />} />
-              <Route path="/challenge/:id/annotate" element={<ChallengeAnnotationPage />} />
-              
-              {/* Session Flow */}
-              <Route path="/session/complete" element={<SessionCompletedPage />} />
-              <Route path="/session/annotate" element={<SessionAnnotationPage />} />
-              <Route path="/session/confirm" element={<UploadConfirmationPage />} />
-              
-              {/* Payout Flow */}
-              <Route path="/payout" element={<PayoutPage />} />
-              <Route path="/payout/confirmation" element={<PayoutConfirmationPage />} />
-              
-              {/* Main App */}
-              <Route path="/app" element={<AppLayout />}>
-                <Route index element={<HomePage />} />
-                <Route path="earnings" element={<EarningsPage />} />
-                <Route path="insights" element={<InsightsPage />} />
-                <Route path="settings" element={<SettingsPage />} />
-              </Route>
-              
-              {/* Design System Hub */}
-              <Route path="/design-system" element={<DSOverview />} />
-              <Route path="/design-system/brand" element={<DSBrand />} />
-              <Route path="/design-system/tokens" element={<DSTokens />} />
-              <Route path="/design-system/typography" element={<DSTypography />} />
-              <Route path="/design-system/components" element={<DesignSystem />} />
-              <Route path="/design-system/patterns" element={<DSPatterns />} />
-              <Route path="/design-system/accessibility" element={<Accessibility />} />
-              <Route path="/design-system/guardrails" element={<DSGuardrails />} />
-              <Route path="/design-system/handoff" element={<DSHandoff />} />
-              
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </BrowserRouter>
-        </TooltipProvider>
+        <ChallengeTransitionProvider>
+          <TooltipProvider>
+            <Toaster />
+            <Sonner />
+            <BrowserRouter>
+              <Routes>
+                {/* Redirect root to onboarding */}
+                <Route path="/" element={<Navigate to="/onboarding" replace />} />
+                
+                {/* Onboarding Flow */}
+                <Route path="/onboarding" element={<WelcomePage />} />
+                <Route path="/onboarding/explain" element={<OnboardingExplainPage />} />
+                <Route path="/onboarding/privacy" element={<OnboardingPrivacyPage />} />
+                <Route path="/onboarding/consent" element={<OnboardingConsentPage />} />
+                <Route path="/onboarding/signup" element={<SignupPage />} />
+                <Route path="/onboarding/signin" element={<SigninPage />} />
+                <Route path="/onboarding/success" element={<SuccessPage />} />
+                <Route path="/onboarding/camera" element={<CameraPlacementPage />} />
+                <Route path="/onboarding/zones" element={<ZoneSelectionPage />} />
+                <Route path="/onboarding/schedule" element={<ScheduleSelectionPage />} />
+                
+                {/* Ambient Mode */}
+                <Route path="/ambient" element={<AmbientModePage />} />
+                <Route path="/summary" element={<DailySummaryPage />} />
+                
+                {/* Challenges */}
+                <Route path="/challenges" element={<PlayModePage />} />
+                <Route path="/leaderboard" element={<LeaderboardPage />} />
+                
+                {/* Challenge Flow */}
+                <Route path="/challenge/:id" element={<ChallengeBriefPage />} />
+                <Route path="/challenge/:id/countdown" element={<ChallengeCountdownPage />} />
+                <Route path="/challenge/:id/active" element={<ChallengeActivePage />} />
+                <Route path="/challenge/:id/complete" element={<ChallengeCompletedPage />} />
+                <Route path="/challenge/:id/annotate" element={<ChallengeAnnotationPage />} />
+                
+                {/* Session Flow */}
+                <Route path="/session/complete" element={<SessionCompletedPage />} />
+                <Route path="/session/annotate" element={<SessionAnnotationPage />} />
+                <Route path="/session/confirm" element={<UploadConfirmationPage />} />
+                
+                {/* Payout Flow */}
+                <Route path="/payout" element={<PayoutPage />} />
+                <Route path="/payout/confirmation" element={<PayoutConfirmationPage />} />
+                
+                {/* Main App */}
+                <Route path="/app" element={<AppLayout />}>
+                  <Route index element={<HomePage />} />
+                  <Route path="earnings" element={<EarningsPage />} />
+                  <Route path="insights" element={<InsightsPage />} />
+                  <Route path="settings" element={<SettingsPage />} />
+                </Route>
+                
+                {/* Design System Hub */}
+                <Route path="/design-system" element={<DSOverview />} />
+                <Route path="/design-system/brand" element={<DSBrand />} />
+                <Route path="/design-system/tokens" element={<DSTokens />} />
+                <Route path="/design-system/typography" element={<DSTypography />} />
+                <Route path="/design-system/components" element={<DesignSystem />} />
+                <Route path="/design-system/patterns" element={<DSPatterns />} />
+                <Route path="/design-system/accessibility" element={<Accessibility />} />
+                <Route path="/design-system/guardrails" element={<DSGuardrails />} />
+                <Route path="/design-system/handoff" element={<DSHandoff />} />
+                
+                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </BrowserRouter>
+          </TooltipProvider>
+        </ChallengeTransitionProvider>
       </ReducedMotionProvider>
     </ThemeProvider>
   </QueryClientProvider>
