@@ -5,64 +5,64 @@ import { Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap flex-nowrap font-body font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 select-none",
+  "inline-flex flex-row items-center justify-center gap-2.5 whitespace-nowrap flex-nowrap font-body font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 select-none",
   {
     variants: {
       variant: {
-        // Primary - Yellow brand action
+        // Primary - Yellow brand action with skeuomorphic depth
         primary:
-          "bg-brand-yellow text-brand-yellow-foreground hover:bg-brand-yellow-hover active:bg-brand-yellow-active shadow-sm hover:shadow-md active:shadow-sm rounded-lg",
-        // Secondary - Neutral surface
+          "bg-gradient-to-b from-brand-yellow to-brand-yellow-hover text-brand-yellow-foreground shadow-[0_1px_0_0_rgba(255,255,255,0.2)_inset,0_-1px_0_0_rgba(0,0,0,0.1)_inset,0_4px_12px_-4px_rgba(0,0,0,0.25)] hover:shadow-[0_1px_0_0_rgba(255,255,255,0.2)_inset,0_-1px_0_0_rgba(0,0,0,0.1)_inset,0_6px_16px_-4px_rgba(0,0,0,0.3)] active:shadow-[0_1px_0_0_rgba(0,0,0,0.1)_inset] active:translate-y-px rounded-xl",
+        // Secondary - Neutral surface with subtle depth
         secondary:
-          "bg-surface-2 text-text hover:bg-surface-3 active:bg-state-active border border-border rounded-lg",
-        // Ghost - Transparent
+          "bg-gradient-to-b from-surface-2 to-surface-3 text-text border border-border/60 shadow-[0_1px_0_0_rgba(255,255,255,0.05)_inset,0_2px_8px_-4px_rgba(0,0,0,0.15)] hover:shadow-[0_1px_0_0_rgba(255,255,255,0.05)_inset,0_4px_12px_-4px_rgba(0,0,0,0.2)] active:shadow-[0_1px_0_0_rgba(0,0,0,0.05)_inset] active:translate-y-px rounded-xl",
+        // Ghost - Transparent with hover feedback
         ghost:
-          "bg-transparent text-text hover:bg-surface-2 active:bg-surface-3 rounded-lg",
-        // Destructive - Danger
+          "bg-transparent text-text hover:bg-surface-2 active:bg-surface-3 rounded-xl",
+        // Destructive - Danger with depth
         destructive:
-          "bg-danger text-danger-foreground hover:bg-danger-hover active:bg-danger-active shadow-sm rounded-lg",
+          "bg-gradient-to-b from-danger to-danger-hover text-danger-foreground shadow-[0_1px_0_0_rgba(255,255,255,0.15)_inset,0_-1px_0_0_rgba(0,0,0,0.1)_inset,0_4px_12px_-4px_rgba(239,68,68,0.35)] hover:shadow-[0_1px_0_0_rgba(255,255,255,0.15)_inset,0_6px_16px_-4px_rgba(239,68,68,0.4)] active:shadow-[0_1px_0_0_rgba(0,0,0,0.1)_inset] active:translate-y-px rounded-xl",
         // Link - Text only
         link:
           "text-brand-yellow underline-offset-4 hover:underline bg-transparent p-0 h-auto font-medium",
-        // Outline variants
+        // Outline variants with depth
         outline:
-          "border-2 border-border bg-transparent text-text hover:bg-surface-2 active:bg-surface-3 rounded-lg",
+          "border-2 border-border bg-gradient-to-b from-background to-muted/30 text-text shadow-[0_1px_0_0_rgba(255,255,255,0.05)_inset,0_2px_6px_-4px_rgba(0,0,0,0.1)] hover:shadow-[0_1px_0_0_rgba(255,255,255,0.05)_inset,0_4px_10px_-4px_rgba(0,0,0,0.15)] hover:bg-surface-2 active:translate-y-px rounded-xl",
         "outline-primary":
-          "border-2 border-brand-yellow text-brand-yellow bg-transparent hover:bg-brand-yellow-soft active:bg-brand-yellow/20 rounded-lg",
+          "border-2 border-brand-yellow text-brand-yellow bg-gradient-to-b from-brand-yellow/5 to-brand-yellow/10 shadow-[0_2px_8px_-4px_rgba(234,179,8,0.2)] hover:from-brand-yellow/10 hover:to-brand-yellow/15 hover:shadow-[0_4px_12px_-4px_rgba(234,179,8,0.3)] active:translate-y-px rounded-xl",
         "outline-destructive":
-          "border-2 border-danger text-danger bg-transparent hover:bg-danger-soft active:bg-danger/20 rounded-lg",
+          "border-2 border-danger text-danger bg-gradient-to-b from-danger/5 to-danger/10 shadow-[0_2px_8px_-4px_rgba(239,68,68,0.2)] hover:from-danger/10 hover:to-danger/15 hover:shadow-[0_4px_12px_-4px_rgba(239,68,68,0.3)] active:translate-y-px rounded-xl",
         // Soft/subtle variants
         soft:
-          "bg-brand-yellow-soft text-text hover:bg-brand-yellow/20 active:bg-brand-yellow/30 rounded-lg",
+          "bg-gradient-to-b from-brand-yellow-soft to-brand-yellow/15 text-text shadow-[0_1px_0_0_rgba(255,255,255,0.1)_inset] hover:from-brand-yellow/20 hover:to-brand-yellow/25 active:translate-y-px rounded-xl",
         "soft-destructive":
-          "bg-danger-soft text-danger-text hover:bg-danger/20 active:bg-danger/30 rounded-lg",
-        // Status variants
+          "bg-gradient-to-b from-danger-soft to-danger/15 text-danger-text shadow-[0_1px_0_0_rgba(255,255,255,0.1)_inset] hover:from-danger/20 hover:to-danger/25 active:translate-y-px rounded-xl",
+        // Status variants with depth
         success:
-          "bg-success text-success-foreground hover:bg-success-hover active:bg-success-active shadow-sm rounded-lg",
+          "bg-gradient-to-b from-success to-success-hover text-success-foreground shadow-[0_1px_0_0_rgba(255,255,255,0.15)_inset,0_-1px_0_0_rgba(0,0,0,0.1)_inset,0_4px_12px_-4px_rgba(34,197,94,0.35)] active:translate-y-px rounded-xl",
         warning:
-          "bg-warning text-warning-foreground hover:bg-warning-hover active:bg-warning-active shadow-sm rounded-lg",
+          "bg-gradient-to-b from-warning to-warning-hover text-warning-foreground shadow-[0_1px_0_0_rgba(255,255,255,0.15)_inset,0_-1px_0_0_rgba(0,0,0,0.1)_inset,0_4px_12px_-4px_rgba(234,179,8,0.35)] active:translate-y-px rounded-xl",
         info:
-          "bg-info text-info-foreground hover:bg-info-hover active:bg-info-active shadow-sm rounded-lg",
+          "bg-gradient-to-b from-info to-info-hover text-info-foreground shadow-[0_1px_0_0_rgba(255,255,255,0.15)_inset,0_-1px_0_0_rgba(0,0,0,0.1)_inset,0_4px_12px_-4px_rgba(59,130,246,0.35)] active:translate-y-px rounded-xl",
         // Legacy aliases
         default:
-          "bg-brand-yellow text-brand-yellow-foreground hover:bg-brand-yellow-hover active:bg-brand-yellow-active shadow-sm hover:shadow-md rounded-lg",
+          "bg-gradient-to-b from-brand-yellow to-brand-yellow-hover text-brand-yellow-foreground shadow-[0_1px_0_0_rgba(255,255,255,0.2)_inset,0_-1px_0_0_rgba(0,0,0,0.1)_inset,0_4px_12px_-4px_rgba(0,0,0,0.25)] hover:shadow-[0_6px_16px_-4px_rgba(0,0,0,0.3)] active:translate-y-px rounded-xl",
         brand:
-          "bg-brand-yellow text-brand-yellow-foreground hover:bg-brand-yellow-hover active:bg-brand-yellow-active shadow-sm hover:shadow-glow font-bold rounded-lg",
+          "bg-gradient-to-b from-brand-yellow to-brand-yellow-hover text-brand-yellow-foreground shadow-[0_1px_0_0_rgba(255,255,255,0.25)_inset,0_-1px_0_0_rgba(0,0,0,0.1)_inset,0_6px_20px_-6px_rgba(234,179,8,0.5)] hover:shadow-[0_1px_0_0_rgba(255,255,255,0.25)_inset,0_8px_24px_-6px_rgba(234,179,8,0.6)] active:translate-y-px font-bold rounded-xl",
       },
       size: {
-        sm: "h-8 px-3 text-sm [&_svg]:size-4",
-        default: "h-10 px-4 text-sm [&_svg]:size-4",
-        md: "h-10 px-4 text-sm [&_svg]:size-4",
-        lg: "h-12 px-6 text-base [&_svg]:size-5",
-        xl: "h-14 px-8 text-lg font-bold rounded-xl [&_svg]:size-5",
+        sm: "h-9 px-4 text-sm [&_svg]:size-4",
+        default: "h-11 px-5 text-sm [&_svg]:size-4",
+        md: "h-11 px-5 text-sm [&_svg]:size-4",
+        lg: "h-13 px-6 text-base [&_svg]:size-5",
+        xl: "h-14 px-8 text-lg font-bold [&_svg]:size-5",
         // Icon-only sizes
-        "icon-sm": "h-8 w-8 p-0 rounded-lg [&_svg]:size-4",
-        icon: "h-10 w-10 p-0 rounded-lg [&_svg]:size-5",
-        "icon-lg": "h-12 w-12 p-0 rounded-xl [&_svg]:size-6",
+        "icon-sm": "h-9 w-9 p-0 rounded-xl [&_svg]:size-4",
+        icon: "h-11 w-11 p-0 rounded-xl [&_svg]:size-5",
+        "icon-lg": "h-13 w-13 p-0 rounded-xl [&_svg]:size-6",
         // Circular icon buttons
-        "icon-circle-sm": "h-8 w-8 p-0 rounded-full [&_svg]:size-4",
-        "icon-circle": "h-10 w-10 p-0 rounded-full [&_svg]:size-5",
-        "icon-circle-lg": "h-12 w-12 p-0 rounded-full [&_svg]:size-6",
+        "icon-circle-sm": "h-9 w-9 p-0 rounded-full [&_svg]:size-4",
+        "icon-circle": "h-11 w-11 p-0 rounded-full [&_svg]:size-5",
+        "icon-circle-lg": "h-13 w-13 p-0 rounded-full [&_svg]:size-6",
       },
     },
     defaultVariants: {

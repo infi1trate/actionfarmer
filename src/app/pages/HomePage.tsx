@@ -107,7 +107,7 @@ export function HomePage() {
             <Button 
               size="lg"
               onClick={() => navigate("/challenges")}
-              className="shadow-lg shadow-primary/20"
+              leftIcon={<Zap className="h-5 w-5" />}
             >
               Start today's challenge
             </Button>
@@ -338,15 +338,14 @@ export function HomePage() {
                 onClick={() => setAmbientEnabled(true)}
                 className="w-full"
                 size="lg"
+                leftIcon={<Gift className="h-5 w-5" />}
               >
-                <Gift className="h-4 w-4 mr-2" />
                 Unlock my bonus
               </Button>
             ) : (
               <div className="flex items-center gap-3">
                 <Button 
                   variant="outline"
-                  size="sm"
                   onClick={() => navigate("/ambient")}
                   className="flex-1"
                 >
@@ -354,11 +353,9 @@ export function HomePage() {
                 </Button>
                 <Button 
                   variant="ghost"
-                  size="sm"
                   onClick={() => setAmbientEnabled(false)}
-                  className="text-muted-foreground"
+                  leftIcon={<Pause className="h-4 w-4" />}
                 >
-                  <Pause className="h-4 w-4 mr-1" />
                   Pause
                 </Button>
               </div>
