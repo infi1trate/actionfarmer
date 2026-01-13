@@ -40,6 +40,7 @@ import {
   AmbientModePage,
   DailySummaryPage,
   PlayModePage,
+  LeaderboardPage,
 } from "./app";
 
 import {
@@ -89,6 +90,7 @@ const App = () => (
               
               {/* Play Mode */}
               <Route path="/play" element={<PlayModePage />} />
+              <Route path="/leaderboard" element={<LeaderboardPage />} />
               
               {/* Challenge Flow */}
               <Route path="/challenge/:id" element={<ChallengeBriefPage />} />
