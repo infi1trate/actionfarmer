@@ -58,11 +58,11 @@ export const ChallengeAnnotationPage = () => {
     // In real app, would save annotations
     const selected = options.filter(o => o.selected).map(o => o.id);
     console.log("Challenge annotations:", { challengeId: challenge.id, annotations: selected });
-    navigate("/play");
+    navigate("/challenges");
   };
 
   const handleSkip = () => {
-    navigate("/play");
+    navigate("/challenges");
   };
 
   const hasSelection = options.some((opt) => opt.selected);

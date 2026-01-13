@@ -11,18 +11,18 @@ import {
   Wallet, 
   Circle,
   Home,
-  Gamepad2,
   User,
   Pause,
   Play
 } from "lucide-react";
 import type { TabItem } from "@/components/ui/bottom-tab-bar";
 
+import { Target } from "lucide-react";
+
 const tabs: TabItem[] = [
   { label: "Home", icon: Home, href: "/app" },
-  { label: "Ambient", icon: Camera, href: "/ambient" },
-  { label: "Play", icon: Gamepad2, href: "/play" },
-  { label: "Profile", icon: User, href: "/profile" },
+  { label: "Challenges", icon: Target, href: "/challenges" },
+  { label: "Profile", icon: User, href: "/app/profile" },
 ];
 
 interface Zone {

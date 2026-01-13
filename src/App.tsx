@@ -93,8 +93,8 @@ const App = () => (
               <Route path="/ambient" element={<AmbientModePage />} />
               <Route path="/summary" element={<DailySummaryPage />} />
               
-              {/* Play Mode */}
-              <Route path="/play" element={<PlayModePage />} />
+              {/* Challenges */}
+              <Route path="/challenges" element={<PlayModePage />} />
               <Route path="/leaderboard" element={<LeaderboardPage />} />
               
               {/* Challenge Flow */}
@@ -116,7 +116,6 @@ const App = () => (
               {/* Main App */}
               <Route path="/app" element={<AppLayout />}>
                 <Route index element={<HomePage />} />
-                <Route path="play" element={<PlayPage />} />
                 <Route path="earnings" element={<EarningsPage />} />
                 <Route path="insights" element={<InsightsPage />} />
                 <Route path="settings" element={<SettingsPage />} />
