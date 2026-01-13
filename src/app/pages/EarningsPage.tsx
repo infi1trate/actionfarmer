@@ -110,35 +110,28 @@ export function EarningsPage() {
       </header>
 
       {/* ========================================
-          SECTION 2: Current Balance & Payout
+          SECTION 2: Current Balance & Payout (Primary Anchor)
           ======================================== */}
-      <section className="bg-muted/20 px-5 py-6">
-        <div className="flex items-center gap-2 mb-4">
-          <Wallet className="h-4 w-4 text-primary" />
-          <h2 className="text-sm font-semibold text-foreground">Your Balance</h2>
-        </div>
-
-        <div className="space-y-4">
-          {/* Main Balance */}
-          <div className="flex items-baseline justify-between">
-            <div className="flex items-baseline gap-3">
-              <span className="text-4xl font-bold tracking-tight text-foreground">
+      <section className="px-5 py-8 bg-background">
+        <div className="space-y-5">
+          {/* Main Balance Display */}
+          <div className="text-center">
+            <p className="text-xs text-muted-foreground font-medium mb-2 uppercase tracking-wide">Available Balance</p>
+            <div className="flex items-center justify-center gap-3">
+              <span className="text-5xl font-bold tracking-tight text-foreground">
                 ${balanceData.current.toFixed(2)}
               </span>
-              <div className="flex items-center gap-1 text-emerald-600 bg-emerald-500/10 px-2 py-0.5 rounded-full">
-                <ArrowUpRight className="h-3 w-3" />
-                <span className="text-xs font-semibold">{balanceData.changePercent}%</span>
+              <div className="flex items-center gap-1 text-emerald-600 bg-emerald-500/12 px-2.5 py-1 rounded-full">
+                <ArrowUpRight className="h-3.5 w-3.5" />
+                <span className="text-xs font-semibold">{balanceData.changePercent}% vs last month</span>
               </div>
             </div>
           </div>
 
           {/* Pending */}
-          <div className="flex items-center justify-between py-2 px-3 rounded-xl bg-background/60">
-            <div className="flex items-center gap-2 text-muted-foreground">
-              <Timer className="h-3.5 w-3.5" />
-              <span className="text-xs">Pending verification</span>
-            </div>
-            <span className="text-sm font-medium text-foreground">+${balanceData.pending.toFixed(2)}</span>
+          <div className="flex items-center justify-center gap-2 text-muted-foreground">
+            <Timer className="h-3.5 w-3.5" />
+            <span className="text-sm">+${balanceData.pending.toFixed(2)} pending verification</span>
           </div>
 
           {/* Payout Button */}
