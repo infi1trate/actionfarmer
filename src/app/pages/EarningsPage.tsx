@@ -34,10 +34,12 @@ const balanceData = {
 };
 
 const ambientData = {
-  todayMinutes: 142,
-  todayPoints: 28,
-  weeklyMinutes: 840,
-  weeklyPoints: 168,
+  todayPoints: 124,
+  todayContributions: 847,
+  weeklyPoints: 892,
+  weeklyContributions: 5420,
+  monthlyPoints: 3156,
+  monthlyContributions: 21840,
   status: "active" as const,
 };
 
@@ -151,42 +153,75 @@ export function EarningsPage() {
       </section>
 
       {/* ========================================
-          SECTION 3: Ongoing Ambient Contribution
+          SECTION 3: Ambient Mode Earnings (Live Stream)
           ======================================== */}
-      <section className="px-5 py-6 bg-background">
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-2">
-            <Activity className="h-4 w-4 text-emerald-500" />
-            <h2 className="text-sm font-semibold text-foreground">Ambient Contribution</h2>
+      <section className="bg-muted/20 px-5 py-6">
+        {/* Header with Status */}
+        <div className="flex items-center justify-between mb-5">
+          <div className="flex items-center gap-2.5">
+            <div className="relative">
+              <Activity className="h-4.5 w-4.5 text-emerald-500" />
+              {ambientData.status === "active" && (
+                <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              )}
+            </div>
+            <h2 className="text-sm font-semibold text-foreground">Ambient Earnings</h2>
           </div>
-          <div className="flex items-center gap-1.5 px-2 py-1 rounded-full bg-emerald-500/10">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="text-[10px] font-medium text-emerald-600 uppercase tracking-wide">Active</span>
+          <div className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full ${
+            ambientData.status === "active" 
+              ? 'bg-emerald-500/12' 
+              : 'bg-muted'
+          }`}>
+            <span className={`w-1.5 h-1.5 rounded-full ${
+              ambientData.status === "active" 
+                ? 'bg-emerald-500 animate-pulse' 
+                : 'bg-muted-foreground'
+            }`} />
+            <span className={`text-[10px] font-semibold uppercase tracking-wide ${
+              ambientData.status === "active" 
+                ? 'text-emerald-600' 
+                : 'text-muted-foreground'
+            }`}>
+              {ambientData.status === "active" ? 'Earning now' : 'Paused'}
+            </span>
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-3">
-          {/* Today */}
-          <div className="p-4 rounded-2xl bg-muted/30">
-            <p className="text-xs text-muted-foreground font-medium mb-2">Today</p>
-            <div className="space-y-1">
-              <p className="text-xl font-bold text-foreground">{ambientData.todayMinutes} min</p>
-              <p className="text-sm text-emerald-600 font-medium">+{ambientData.todayPoints} pts earned</p>
-            </div>
-          </div>
+        {/* Live Points Today - Hero Display */}
+        <div className="mb-5 py-5 px-4 rounded-2xl bg-gradient-to-br from-emerald-500/8 via-emerald-500/4 to-transparent">
+          <p className="text-xs text-muted-foreground font-medium mb-1.5 text-center">Points earned today so far</p>
+          <p className="text-4xl font-bold text-emerald-600 text-center tracking-tight">
+            +{ambientData.todayPoints} pts
+          </p>
+          <p className="text-xs text-muted-foreground mt-2 text-center">
+            from {ambientData.todayContributions.toLocaleString()} contributions
+          </p>
+        </div>
 
+        {/* Week & Month Context */}
+        <div className="flex items-stretch gap-3">
           {/* This Week */}
-          <div className="p-4 rounded-2xl bg-muted/30">
-            <p className="text-xs text-muted-foreground font-medium mb-2">This Week</p>
-            <div className="space-y-1">
-              <p className="text-xl font-bold text-foreground">{(ambientData.weeklyMinutes / 60).toFixed(1)} hrs</p>
-              <p className="text-sm text-emerald-600 font-medium">+{ambientData.weeklyPoints} pts earned</p>
-            </div>
+          <div className="flex-1 py-3 px-4 rounded-xl bg-background/60">
+            <p className="text-[11px] text-muted-foreground font-medium mb-1">This week</p>
+            <p className="text-lg font-bold text-foreground">+{ambientData.weeklyPoints} pts</p>
+            <p className="text-[11px] text-muted-foreground mt-0.5">
+              {ambientData.weeklyContributions.toLocaleString()} contributions
+            </p>
+          </div>
+
+          {/* This Month */}
+          <div className="flex-1 py-3 px-4 rounded-xl bg-background/60">
+            <p className="text-[11px] text-muted-foreground font-medium mb-1">This month</p>
+            <p className="text-lg font-bold text-foreground">+{ambientData.monthlyPoints.toLocaleString()} pts</p>
+            <p className="text-[11px] text-muted-foreground mt-0.5">
+              {ambientData.monthlyContributions.toLocaleString()} contributions
+            </p>
           </div>
         </div>
 
-        <p className="text-xs text-muted-foreground mt-3 text-center">
-          Ambient mode runs quietly in the background, earning points while you go about your day.
+        {/* Reassuring Message */}
+        <p className="text-xs text-muted-foreground mt-4 text-center leading-relaxed">
+          Points accumulate quietly while you go about your day—no action needed.
         </p>
       </section>
 
