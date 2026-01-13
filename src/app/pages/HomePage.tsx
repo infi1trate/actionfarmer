@@ -5,6 +5,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
+import { EventChallengeCard } from "./home/EventChallengeCard";
 import { 
   ChevronRight,
   Target,
@@ -21,8 +22,6 @@ import {
   Users,
   Trophy,
   UserPlus,
-  QrCode,
-  Smartphone,
 } from "lucide-react";
 
 function getGreeting() {
@@ -255,58 +254,9 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* Social Challenge - Distinct visual zone */}
+      {/* Social Challenge - Event-style card */}
       <section className="px-5 mb-10">
-        <div className="relative rounded-2xl overflow-hidden">
-          {/* Background texture */}
-          <div className="absolute inset-0 bg-gradient-to-br from-brand-orange/8 via-transparent to-primary/5" />
-          <div className="absolute top-0 right-0 w-40 h-40 bg-brand-orange/15 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4" />
-          
-          <div className="relative border border-brand-orange/15 rounded-2xl p-6 space-y-5">
-            {/* Section label */}
-            <div className="flex items-center justify-between">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-orange/10 text-brand-orange text-xs font-medium">
-                <Users className="h-3.5 w-3.5" />
-                Team Challenge
-              </div>
-              <Badge variant="outline" size="sm" className="text-muted-foreground border-border">
-                This week only
-              </Badge>
-            </div>
-            
-            <div className="space-y-2">
-              <div className="flex items-center gap-3">
-                <h3 className="text-xl font-bold text-foreground">Cook Together</h3>
-                <Badge variant="brand" size="sm" className="font-bold">+100% XP</Badge>
-              </div>
-              <p className="text-sm text-muted-foreground leading-relaxed max-w-[320px]">
-                Team up with a friend to cook the same recipe — both of you earn double rewards.
-              </p>
-            </div>
-
-            {/* Pairing methods - minimal */}
-            <div className="flex items-center gap-4 py-3 border-y border-border/50">
-              <div className="flex items-center gap-2 text-muted-foreground">
-                <QrCode className="h-4 w-4" />
-                <span className="text-xs">QR code</span>
-              </div>
-              <div className="w-px h-4 bg-border" />
-              <div className="flex items-center gap-2 text-muted-foreground">
-                <Smartphone className="h-4 w-4" />
-                <span className="text-xs">NFC tap</span>
-              </div>
-            </div>
-
-            <Button 
-              variant="outline"
-              size="sm"
-              onClick={() => navigate("/challenge/cook-together/pair")}
-              leftIcon={<Users className="h-4 w-4" />}
-            >
-              Find a partner
-            </Button>
-          </div>
-        </div>
+        <EventChallengeCard onNavigate={navigate} />
       </section>
 
       {/* Reward Multiplier - Quieter utility zone */}
