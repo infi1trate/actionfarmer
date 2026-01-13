@@ -21,6 +21,8 @@ import {
   Users,
   Trophy,
   UserPlus,
+  QrCode,
+  Smartphone,
 } from "lucide-react";
 
 function getGreeting() {
@@ -259,6 +261,59 @@ export function HomePage() {
           </div>
         </Card>
       </div>
+
+      {/* Social Challenge - One featured per week */}
+      <Card className="p-5 border-brand-orange/20 bg-gradient-to-br from-brand-orange/5 to-transparent overflow-hidden relative">
+        {/* Subtle gradient accent */}
+        <div className="absolute -right-6 -top-6 w-24 h-24 rounded-full bg-brand-orange/10 blur-2xl" />
+        
+        <div className="relative space-y-4">
+          {/* Header with weekly badge */}
+          <div className="flex items-start gap-3">
+            <div className="w-10 h-10 rounded-lg bg-brand-orange/10 flex items-center justify-center shrink-0">
+              <Users className="h-5 w-5 text-brand-orange" />
+            </div>
+            <div className="flex-1 min-w-0 space-y-1">
+              <div className="flex items-center gap-2 flex-wrap">
+                <h3 className="text-sm font-semibold text-foreground">Cook Together</h3>
+                <Badge variant="brand" size="sm">+100% XP</Badge>
+                <Badge variant="outline" size="sm" className="text-muted-foreground">This week only</Badge>
+              </div>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                Team up with a friend to cook the same recipe — both of you earn double rewards.
+              </p>
+            </div>
+          </div>
+
+          {/* Pairing info */}
+          <div className="pl-[52px] space-y-3">
+            <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/30">
+              <div className="flex items-center gap-2">
+                <QrCode className="h-4 w-4 text-muted-foreground" />
+                <span className="text-xs text-muted-foreground">QR code</span>
+              </div>
+              <span className="text-muted-foreground/40">or</span>
+              <div className="flex items-center gap-2">
+                <Smartphone className="h-4 w-4 text-muted-foreground" />
+                <span className="text-xs text-muted-foreground">Tap to pair (NFC)</span>
+              </div>
+            </div>
+            
+            <p className="text-xs text-muted-foreground">
+              Pair with another user to start. You're both in control — pause or leave anytime.
+            </p>
+
+            <Button 
+              variant="outline"
+              size="sm"
+              onClick={() => navigate("/challenge/cook-together/pair")}
+              leftIcon={<Users className="h-4 w-4" />}
+            >
+              Find a partner
+            </Button>
+          </div>
+        </div>
+      </Card>
 
       {/* Reward Multiplier - Ambient Capture reframed */}
       <Card className={`p-5 transition-all ${ambientEnabled ? 'border-success/30 bg-success/5' : ''}`}>
