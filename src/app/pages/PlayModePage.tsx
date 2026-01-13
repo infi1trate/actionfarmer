@@ -13,6 +13,16 @@ import {
   Settings,
   Play,
   Sparkles,
+  CircleDot,
+  Box,
+  Layers,
+  Hand,
+  Footprints,
+  CheckCircle2,
+  ArrowRight,
+  ScanLine,
+  ShieldCheck,
+  Timer,
 } from "lucide-react";
 import type { TabItem } from "@/components/ui/bottom-tab-bar";
 
@@ -38,6 +48,11 @@ const tabs: TabItem[] = [
 
 type Difficulty = "easy" | "medium" | "hard";
 
+interface Milestone {
+  icon: React.ElementType;
+  label: string;
+}
+
 interface Challenge {
   id: string;
   name: string;
@@ -48,6 +63,7 @@ interface Challenge {
   bonusLabel?: string;
   isWeeklyFeatured?: boolean;
   video: string;
+  milestones: Milestone[];
 }
 
 const challenges: Challenge[] = [
@@ -58,7 +74,12 @@ const challenges: Challenge[] = [
     duration: "5 min", 
     difficulty: "easy", 
     hasBonus: false,
-    video: videoDishwasher
+    video: videoDishwasher,
+    milestones: [
+      { icon: Box, label: "Open dishwasher" },
+      { icon: Layers, label: "Sort items" },
+      { icon: CheckCircle2, label: "Close & finish" },
+    ]
   },
   { 
     id: "2", 
@@ -69,7 +90,12 @@ const challenges: Challenge[] = [
     hasBonus: true, 
     bonusLabel: "2x XP", 
     isWeeklyFeatured: true,
-    video: videoGroceries
+    video: videoGroceries,
+    milestones: [
+      { icon: Box, label: "Unpack bags" },
+      { icon: ScanLine, label: "Sort categories" },
+      { icon: Layers, label: "Store items" },
+    ]
   },
   { 
     id: "3", 
@@ -78,7 +104,12 @@ const challenges: Challenge[] = [
     duration: "10 min", 
     difficulty: "easy", 
     hasBonus: false,
-    video: videoLaundry
+    video: videoLaundry,
+    milestones: [
+      { icon: Hand, label: "Gather items" },
+      { icon: Layers, label: "Fold neatly" },
+      { icon: Box, label: "Stack & store" },
+    ]
   },
   { 
     id: "4", 
@@ -87,7 +118,11 @@ const challenges: Challenge[] = [
     duration: "3 min", 
     difficulty: "easy", 
     hasBonus: false,
-    video: videoBed
+    video: videoBed,
+    milestones: [
+      { icon: Layers, label: "Straighten sheets" },
+      { icon: CheckCircle2, label: "Finish" },
+    ]
   },
   { 
     id: "5", 
@@ -98,7 +133,12 @@ const challenges: Challenge[] = [
     hasBonus: true, 
     bonusLabel: "Featured", 
     isWeeklyFeatured: true,
-    video: videoTable
+    video: videoTable,
+    milestones: [
+      { icon: Hand, label: "Clear items" },
+      { icon: ScanLine, label: "Wipe surface" },
+      { icon: Layers, label: "Set places" },
+    ]
   },
   { 
     id: "6", 
@@ -107,7 +147,11 @@ const challenges: Challenge[] = [
     duration: "2 min", 
     difficulty: "medium", 
     hasBonus: false,
-    video: videoBasket
+    video: videoBasket,
+    milestones: [
+      { icon: Hand, label: "Lift basket" },
+      { icon: Footprints, label: "Navigate safely" },
+    ]
   },
   { 
     id: "7", 
@@ -116,7 +160,12 @@ const challenges: Challenge[] = [
     duration: "6 min", 
     difficulty: "medium", 
     hasBonus: false,
-    video: videoShelf
+    video: videoShelf,
+    milestones: [
+      { icon: Box, label: "Remove items" },
+      { icon: ScanLine, label: "Group by type" },
+      { icon: Layers, label: "Arrange neatly" },
+    ]
   },
   { 
     id: "8", 
@@ -127,7 +176,12 @@ const challenges: Challenge[] = [
     hasBonus: true, 
     bonusLabel: "Precision", 
     isWeeklyFeatured: true,
-    video: videoFragile
+    video: videoFragile,
+    milestones: [
+      { icon: ShieldCheck, label: "Secure grip" },
+      { icon: Footprints, label: "Move carefully" },
+      { icon: CheckCircle2, label: "Place safely" },
+    ]
   },
   { 
     id: "9", 
@@ -136,7 +190,12 @@ const challenges: Challenge[] = [
     duration: "5 min", 
     difficulty: "medium", 
     hasBonus: false,
-    video: videoRecycling
+    video: videoRecycling,
+    milestones: [
+      { icon: ScanLine, label: "Identify materials" },
+      { icon: Layers, label: "Separate items" },
+      { icon: Box, label: "Place in bins" },
+    ]
   },
   { 
     id: "10", 
@@ -146,7 +205,12 @@ const challenges: Challenge[] = [
     difficulty: "hard", 
     hasBonus: true, 
     bonusLabel: "Multi-Task",
-    video: videoMultitask
+    video: videoMultitask,
+    milestones: [
+      { icon: Timer, label: "Start task 1" },
+      { icon: ArrowRight, label: "Transition" },
+      { icon: CheckCircle2, label: "Complete all" },
+    ]
   },
 ];
 
@@ -165,6 +229,7 @@ interface SceneCardProps {
 const SceneCard = ({ challenge, onClick, featured = false }: SceneCardProps) => {
   const diffConfig = difficultyConfig[challenge.difficulty];
   const videoRef = React.useRef<HTMLVideoElement>(null);
+  const [showMilestoneLabels, setShowMilestoneLabels] = React.useState(false);
   
   return (
     <button
@@ -178,12 +243,16 @@ const SceneCard = ({ challenge, onClick, featured = false }: SceneCardProps) => 
           : 'min-h-[160px] rounded-2xl border border-border/50'
         }
       `}
-      onMouseEnter={() => videoRef.current?.play()}
+      onMouseEnter={() => {
+        videoRef.current?.play();
+        setShowMilestoneLabels(true);
+      }}
       onMouseLeave={() => {
         if (videoRef.current) {
           videoRef.current.pause();
           videoRef.current.currentTime = 0;
         }
+        setShowMilestoneLabels(false);
       }}
     >
       {/* Video background */}
@@ -268,6 +337,51 @@ const SceneCard = ({ challenge, onClick, featured = false }: SceneCardProps) => 
           `}>
             {challenge.description}
           </p>
+          
+          {/* Milestone indicators */}
+          <div className={`flex items-center ${featured ? 'gap-3' : 'gap-2'}`}>
+            {challenge.milestones.map((milestone, index) => {
+              const MilestoneIcon = milestone.icon;
+              return (
+                <div key={index} className="relative group/milestone">
+                  {/* Dot/icon indicator */}
+                  <div className={`
+                    flex items-center justify-center rounded-full
+                    bg-white/15 backdrop-blur-sm border border-white/20
+                    transition-all duration-300
+                    ${featured ? 'w-8 h-8' : 'w-6 h-6'}
+                    ${showMilestoneLabels ? 'bg-white/25 scale-110' : ''}
+                  `}>
+                    <MilestoneIcon className={`text-white/90 ${featured ? 'h-4 w-4' : 'h-3 w-3'}`} />
+                  </div>
+                  
+                  {/* Connector line (not for last item) */}
+                  {index < challenge.milestones.length - 1 && (
+                    <div className={`
+                      absolute top-1/2 -translate-y-1/2 bg-white/30
+                      ${featured ? 'left-8 w-3 h-0.5' : 'left-6 w-2 h-px'}
+                    `} />
+                  )}
+                  
+                  {/* Label tooltip on hover */}
+                  <div className={`
+                    absolute bottom-full left-1/2 -translate-x-1/2 mb-2
+                    px-2 py-1 rounded-md text-[10px] font-medium
+                    bg-black/80 text-white backdrop-blur-md whitespace-nowrap
+                    transition-all duration-200 pointer-events-none
+                    ${showMilestoneLabels 
+                      ? 'opacity-100 translate-y-0' 
+                      : 'opacity-0 translate-y-1'
+                    }
+                  `}>
+                    {milestone.label}
+                    {/* Arrow */}
+                    <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-black/80" />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
         
         {/* Bottom row - metadata + action */}
