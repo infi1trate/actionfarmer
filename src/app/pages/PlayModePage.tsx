@@ -236,11 +236,12 @@ const SceneCard = ({ challenge, onClick, featured = false }: SceneCardProps) => 
       onClick={onClick}
       className={`
         group relative w-full overflow-hidden text-left
-        transition-all duration-300 ease-out
-        active:scale-[0.98]
+        transition-all duration-500 ease-out
+        hover:shadow-2xl hover:shadow-black/30
+        active:scale-[0.98] active:shadow-lg
         ${featured 
-          ? 'min-h-[280px] rounded-3xl ring-1 ring-white/20 shadow-2xl shadow-black/40' 
-          : 'min-h-[160px] rounded-2xl border border-border/50'
+          ? 'min-h-[280px] rounded-3xl ring-1 ring-white/10 hover:ring-white/20' 
+          : 'min-h-[160px] rounded-2xl ring-1 ring-white/5 hover:ring-white/15'
         }
       `}
       onMouseEnter={() => {
@@ -265,35 +266,58 @@ const SceneCard = ({ challenge, onClick, featured = false }: SceneCardProps) => 
         autoPlay
         className={`
           absolute inset-0 w-full h-full object-cover 
-          group-hover:scale-105 transition-transform duration-700
-          ${featured ? 'scale-100' : 'scale-105'}
+          transition-transform duration-700 ease-out
+          group-hover:scale-[1.03]
         `}
       />
       
-      {/* Gradient overlays - stronger for featured */}
-      <div className={`absolute inset-0 ${
-        featured 
-          ? 'bg-gradient-to-t from-black via-black/60 to-black/30' 
-          : 'bg-gradient-to-t from-black/80 via-black/40 to-black/20'
-      }`} />
-      <div className={`absolute inset-0 ${
-        featured 
-          ? 'bg-gradient-to-r from-black/70 via-black/20 to-transparent' 
-          : 'bg-gradient-to-r from-black/50 via-transparent to-transparent'
-      }`} />
+      {/* Gradient overlay - refined */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-br from-black/30 via-transparent to-transparent" />
       
-      {/* Subtle vignette */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_transparent_0%,_rgba(0,0,0,0.3)_100%)]" />
+      {/* Floating metadata chips - top left */}
+      <div className={`absolute z-20 flex items-center gap-2 ${featured ? 'top-5 left-5' : 'top-4 left-4'}`}>
+        {/* Time chip */}
+        <div className={`
+          flex items-center gap-1.5 
+          bg-black/40 backdrop-blur-md text-white/90
+          rounded-full border border-white/10
+          transition-all duration-300
+          group-hover:bg-black/50 group-hover:border-white/20
+          ${featured ? 'px-3 py-1.5 text-sm' : 'px-2.5 py-1 text-xs'}
+        `}>
+          <Clock className={featured ? 'h-3.5 w-3.5' : 'h-3 w-3'} />
+          <span className="font-medium">{challenge.duration}</span>
+        </div>
+        
+        {/* Difficulty chip */}
+        <div className={`
+          flex items-center gap-1 
+          backdrop-blur-md rounded-full border border-white/10
+          transition-all duration-300
+          group-hover:border-white/20
+          ${diffConfig.className}
+          ${featured ? 'px-3 py-1.5 text-sm' : 'px-2.5 py-1 text-xs'}
+        `}>
+          <Zap className={featured ? 'h-3 w-3' : 'h-2.5 w-2.5'} />
+          <span className="font-medium">{diffConfig.label}</span>
+        </div>
+      </div>
       
-      {/* Floating bonus badge for featured */}
-      {featured && challenge.hasBonus && (
-        <div className="absolute top-4 right-4 z-20">
-          <div className="relative">
-            <div className="absolute inset-0 bg-primary/40 blur-xl rounded-full scale-150" />
-            <Badge className="relative text-xs px-3 py-1.5 bg-primary text-primary-foreground border-0 shadow-lg shadow-primary/50 font-semibold">
-              <Star className="h-3.5 w-3.5 mr-1.5 fill-current" />
-              {challenge.bonusLabel}
-            </Badge>
+      {/* Floating bonus chip - top right */}
+      {challenge.hasBonus && (
+        <div className={`absolute z-20 ${featured ? 'top-5 right-5' : 'top-4 right-4'}`}>
+          <div className={`
+            flex items-center gap-1.5
+            bg-primary/90 backdrop-blur-md text-primary-foreground
+            rounded-full border border-primary-foreground/20
+            shadow-lg shadow-primary/30
+            transition-all duration-300
+            group-hover:shadow-xl group-hover:shadow-primary/40
+            ${featured ? 'px-3.5 py-1.5 text-sm' : 'px-2.5 py-1 text-xs'}
+          `}>
+            <Star className={`fill-current ${featured ? 'h-3.5 w-3.5' : 'h-3 w-3'}`} />
+            <span className="font-semibold">{challenge.bonusLabel}</span>
           </div>
         </div>
       )}
@@ -304,27 +328,19 @@ const SceneCard = ({ challenge, onClick, featured = false }: SceneCardProps) => 
         ${featured ? 'p-6' : 'p-5'}
       `}>
         <div className="space-y-3">
-          {/* Non-featured badges */}
-          {!featured && challenge.hasBonus && (
-            <div className="flex items-center gap-2 flex-wrap">
-              <Badge className="text-[10px] px-2 py-0.5 bg-primary text-primary-foreground border-0 shadow-lg">
-                <Star className="h-2.5 w-2.5 mr-1 fill-current" />
-                {challenge.bonusLabel}
-              </Badge>
-            </div>
-          )}
-          
-          {/* Featured label for featured cards */}
+          {/* Featured label */}
           {featured && (
-            <Badge className="text-[10px] px-2.5 py-1 bg-white/10 text-white border border-white/20 backdrop-blur-md w-fit">
-              <Sparkles className="h-3 w-3 mr-1.5" />
+            <div className="flex items-center gap-1.5 text-white/60 text-xs font-medium tracking-wide uppercase">
+              <Sparkles className="h-3 w-3" />
               Weekly Spotlight
-            </Badge>
+            </div>
           )}
           
           {/* Title */}
           <h3 className={`
-            font-display font-bold text-white drop-shadow-lg leading-tight
+            font-display font-bold text-white leading-tight
+            transition-transform duration-300
+            group-hover:translate-x-0.5
             ${featured ? 'text-3xl' : 'text-xl'}
           `}>
             {challenge.name}
@@ -332,84 +348,74 @@ const SceneCard = ({ challenge, onClick, featured = false }: SceneCardProps) => 
           
           {/* Description */}
           <p className={`
-            text-white/80 drop-shadow
-            ${featured ? 'text-base line-clamp-2 max-w-[90%]' : 'text-sm line-clamp-2 max-w-[85%]'}
+            text-white/70
+            transition-all duration-300
+            group-hover:text-white/85
+            ${featured ? 'text-base line-clamp-2 max-w-[85%]' : 'text-sm line-clamp-1 max-w-[80%]'}
           `}>
             {challenge.description}
           </p>
           
           {/* Milestone indicators */}
-          <div className={`flex items-center ${featured ? 'gap-3' : 'gap-2'}`}>
+          <div className={`flex items-center ${featured ? 'gap-3 pt-1' : 'gap-2'}`}>
             {challenge.milestones.map((milestone, index) => {
               const MilestoneIcon = milestone.icon;
               return (
-                <div key={index} className="relative group/milestone">
+                <div key={index} className="relative">
                   {/* Dot/icon indicator */}
                   <div className={`
                     flex items-center justify-center rounded-full
-                    bg-white/15 backdrop-blur-sm border border-white/20
-                    transition-all duration-300
+                    bg-white/10 backdrop-blur-sm border border-white/15
+                    transition-all duration-300 ease-out
                     ${featured ? 'w-8 h-8' : 'w-6 h-6'}
-                    ${showMilestoneLabels ? 'bg-white/25 scale-110' : ''}
+                    ${showMilestoneLabels ? 'bg-white/20 border-white/30 scale-105' : ''}
                   `}>
-                    <MilestoneIcon className={`text-white/90 ${featured ? 'h-4 w-4' : 'h-3 w-3'}`} />
+                    <MilestoneIcon className={`text-white/80 transition-colors duration-300 ${showMilestoneLabels ? 'text-white' : ''} ${featured ? 'h-4 w-4' : 'h-3 w-3'}`} />
                   </div>
                   
                   {/* Connector line (not for last item) */}
                   {index < challenge.milestones.length - 1 && (
                     <div className={`
-                      absolute top-1/2 -translate-y-1/2 bg-white/30
-                      ${featured ? 'left-8 w-3 h-0.5' : 'left-6 w-2 h-px'}
+                      absolute top-1/2 -translate-y-1/2 bg-white/20
+                      transition-all duration-300
+                      ${showMilestoneLabels ? 'bg-white/35' : ''}
+                      ${featured ? 'left-8 w-3 h-px' : 'left-6 w-2 h-px'}
                     `} />
                   )}
                   
                   {/* Label tooltip on hover */}
                   <div className={`
                     absolute bottom-full left-1/2 -translate-x-1/2 mb-2
-                    px-2 py-1 rounded-md text-[10px] font-medium
-                    bg-black/80 text-white backdrop-blur-md whitespace-nowrap
-                    transition-all duration-200 pointer-events-none
+                    px-2.5 py-1 rounded-lg text-[10px] font-medium
+                    bg-white/95 text-black backdrop-blur-md whitespace-nowrap
+                    shadow-lg
+                    transition-all duration-200 ease-out pointer-events-none
                     ${showMilestoneLabels 
                       ? 'opacity-100 translate-y-0' 
                       : 'opacity-0 translate-y-1'
                     }
                   `}>
                     {milestone.label}
-                    {/* Arrow */}
-                    <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-black/80" />
                   </div>
                 </div>
               );
             })}
-          </div>
-        </div>
-        
-        {/* Bottom row - metadata + action */}
-        <div className={`flex items-center justify-between ${featured ? 'mt-6' : 'mt-4'}`}>
-          <div className="flex items-center gap-2">
+            
+            {/* Play indicator - right side */}
             <div className={`
-              flex items-center gap-1.5 text-white/90 bg-black/30 backdrop-blur-sm rounded-lg
-              ${featured ? 'px-3 py-1.5' : 'px-2.5 py-1'}
+              ml-auto flex items-center justify-center rounded-full
+              bg-white/10 backdrop-blur-sm
+              transition-all duration-300 ease-out
+              group-hover:bg-primary group-hover:scale-110
+              ${featured ? 'w-12 h-12' : 'w-9 h-9'}
             `}>
-              <Clock className={featured ? 'h-4 w-4' : 'h-3.5 w-3.5'} />
-              <span className={`font-medium ${featured ? 'text-sm' : 'text-xs'}`}>{challenge.duration}</span>
+              <Play className={`
+                text-white/80 fill-current ml-0.5
+                transition-colors duration-300
+                group-hover:text-primary-foreground
+                ${featured ? 'h-5 w-5' : 'h-4 w-4'}
+              `} />
             </div>
-            <Badge variant="secondary" className={`border-0 ${diffConfig.className} ${featured ? 'text-xs px-2.5 py-1' : 'text-[10px] px-2 py-0.5'}`}>
-              <Zap className={featured ? 'h-3 w-3 mr-1' : 'h-2.5 w-2.5 mr-0.5'} />
-              {diffConfig.label}
-            </Badge>
-          </div>
-          
-          {/* Play button */}
-          <div className={`
-            flex items-center justify-center rounded-full
-            bg-primary text-primary-foreground
-            shadow-lg shadow-primary/40
-            group-hover:shadow-xl group-hover:shadow-primary/50
-            group-hover:scale-110 transition-all duration-300
-            ${featured ? 'w-14 h-14' : 'w-10 h-10'}
-          `}>
-            <Play className={`${featured ? 'h-6 w-6' : 'h-4 w-4'} fill-current ml-0.5`} />
           </div>
         </div>
       </div>
