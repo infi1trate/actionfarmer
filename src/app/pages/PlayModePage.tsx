@@ -2,6 +2,7 @@ import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import { MainAppShell, ContentSection } from "@/components/shells";
 import { Badge } from "@/components/ui/badge";
+import { useChallengeTransition, registerChallengeVideo } from "@/contexts/ChallengeTransitionContext";
 import { 
   Clock, 
   Zap,
@@ -222,18 +223,26 @@ const difficultyConfig: Record<Difficulty, { label: string; className: string }>
 
 interface SceneCardProps {
   challenge: Challenge;
-  onClick: () => void;
+  onCardClick: (challenge: Challenge, element: HTMLElement) => void;
   featured?: boolean;
 }
 
-const SceneCard = ({ challenge, onClick, featured = false }: SceneCardProps) => {
+const SceneCard = ({ challenge, onCardClick, featured = false }: SceneCardProps) => {
   const diffConfig = difficultyConfig[challenge.difficulty];
   const videoRef = React.useRef<HTMLVideoElement>(null);
+  const cardRef = React.useRef<HTMLButtonElement>(null);
   const [showMilestoneLabels, setShowMilestoneLabels] = React.useState(false);
+  
+  const handleClick = () => {
+    if (cardRef.current) {
+      onCardClick(challenge, cardRef.current);
+    }
+  };
   
   return (
     <button
-      onClick={onClick}
+      ref={cardRef}
+      onClick={handleClick}
       className={`
         group relative w-full overflow-hidden text-left
         transition-all duration-500 ease-out
@@ -425,9 +434,27 @@ const SceneCard = ({ challenge, onClick, featured = false }: SceneCardProps) => 
 
 const ChallengesPage = () => {
   const navigate = useNavigate();
+  const { setTransitionData, setIsTransitioning } = useChallengeTransition();
 
-  const handleChallengeClick = (challengeId: string) => {
-    navigate(`/challenge/${challengeId}`);
+  // Register all challenge videos on mount
+  React.useEffect(() => {
+    challenges.forEach(c => registerChallengeVideo(c.id, c.video));
+  }, []);
+
+  const handleChallengeClick = (challenge: Challenge, cardElement: HTMLElement) => {
+    const rect = cardElement.getBoundingClientRect();
+    setTransitionData({
+      challengeId: challenge.id,
+      video: challenge.video,
+      name: challenge.name,
+      rect,
+    });
+    setIsTransitioning(true);
+    
+    // Small delay for transition setup
+    setTimeout(() => {
+      navigate(`/challenge/${challenge.id}`);
+    }, 50);
   };
 
   const weeklyFeatured = challenges.filter(c => c.isWeeklyFeatured);
@@ -451,7 +478,7 @@ const ChallengesPage = () => {
               <SceneCard 
                 key={challenge.id}
                 challenge={challenge}
-                onClick={() => handleChallengeClick(challenge.id)}
+                onCardClick={handleChallengeClick}
                 featured
               />
             ))}
@@ -473,7 +500,7 @@ const ChallengesPage = () => {
               <SceneCard 
                 key={challenge.id}
                 challenge={challenge}
-                onClick={() => handleChallengeClick(challenge.id)}
+                onCardClick={handleChallengeClick}
               />
             ))}
           </div>
