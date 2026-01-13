@@ -161,79 +161,97 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* Weekly Focus - Editorial section header */}
-      <section className="mb-10">
-        <div className="px-5 mb-5">
-          <div className="flex items-end justify-between">
-            <div className="space-y-1">
-              <p className="text-[10px] font-semibold text-primary uppercase tracking-widest">
-                Featured
-              </p>
-              <h2 className="text-lg font-bold text-foreground">Weekly Focus</h2>
-            </div>
-            <button 
-              onClick={() => navigate("/challenges")}
-              className="text-xs text-muted-foreground hover:text-foreground transition-colors pb-0.5"
-            >
-              View all →
-            </button>
+      {/* Weekly Focus - Featured Story Layout */}
+      <section className="px-6 mb-12">
+        {/* Section header */}
+        <div className="flex items-end justify-between mb-6">
+          <div className="space-y-1">
+            <p className="text-[10px] font-semibold text-primary uppercase tracking-widest">
+              This Week
+            </p>
+            <h2 className="text-xl font-bold text-foreground">Featured Challenge</h2>
           </div>
-          <p className="text-sm text-muted-foreground mt-1">
-            Hand-picked with bonus rewards
-          </p>
+          <button 
+            onClick={() => navigate("/challenges")}
+            className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+          >
+            View all →
+          </button>
         </div>
         
-        {/* Horizontal scroll for featured challenges */}
-        <div className="flex gap-4 overflow-x-auto px-5 pb-2 -mx-1 scrollbar-hide">
-          {/* Featured Challenge 1 - Larger hero card */}
-          <div 
-            className="shrink-0 w-[280px] cursor-pointer group"
-            onClick={() => navigate("/challenge/morning-routine/brief")}
-          >
-            <div className="aspect-[4/3] rounded-2xl bg-gradient-to-br from-brand-orange/15 via-brand-orange/8 to-transparent border border-brand-orange/20 p-5 flex flex-col justify-between group-hover:border-brand-orange/40 transition-colors">
-              <div className="flex items-start justify-between">
-                <div className="w-12 h-12 rounded-xl bg-brand-orange/20 flex items-center justify-center">
-                  <Star className="h-6 w-6 text-brand-orange" />
-                </div>
-                <Badge variant="brand" size="sm" className="font-bold">+50% XP</Badge>
+        {/* Dominant Featured Challenge - Story card */}
+        <div 
+          className="relative rounded-3xl overflow-hidden cursor-pointer group mb-4"
+          onClick={() => navigate("/challenge/morning-routine/brief")}
+        >
+          {/* Visual cover placeholder */}
+          <div className="aspect-[16/10] bg-gradient-to-br from-brand-orange/20 via-brand-orange/10 to-primary/5 relative">
+            {/* Placeholder illustration area */}
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="w-24 h-24 rounded-full bg-brand-orange/15 flex items-center justify-center">
+                <Star className="h-12 w-12 text-brand-orange/60" />
               </div>
-              <div className="space-y-2">
-                <h3 className="text-base font-semibold text-foreground">Morning Routine</h3>
-                <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">
-                  Capture your morning habits — calming and reflective.
-                </p>
-                <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                  <Clock className="h-3 w-3" />
-                  <span>5–10 min</span>
-                </div>
+            </div>
+            
+            {/* Gradient overlay for text readability */}
+            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
+            
+            {/* Bonus badge - positioned on cover */}
+            <div className="absolute top-4 right-4">
+              <Badge variant="brand" size="sm" className="font-bold text-sm px-3 py-1 shadow-lg">
+                +50% XP
+              </Badge>
+            </div>
+          </div>
+          
+          {/* Story content overlay */}
+          <div className="absolute bottom-0 left-0 right-0 p-5 space-y-2">
+            <h3 className="text-xl font-bold text-foreground group-hover:text-primary transition-colors">
+              Morning Routine
+            </h3>
+            <p className="text-sm text-muted-foreground leading-relaxed max-w-[85%]">
+              Start your day with intention. Capture the quiet rituals that ground you — calming, reflective, yours.
+            </p>
+            <div className="flex items-center gap-4 pt-1">
+              <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                <Clock className="h-3.5 w-3.5" />
+                <span>5–10 min</span>
+              </div>
+              <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                <Target className="h-3.5 w-3.5" />
+                <span>Beginner friendly</span>
               </div>
             </div>
           </div>
+        </div>
 
-          {/* Featured Challenge 2 */}
-          <div 
-            className="shrink-0 w-[280px] cursor-pointer group"
-            onClick={() => navigate("/challenge/workspace-tour/brief")}
-          >
-            <div className="aspect-[4/3] rounded-2xl bg-gradient-to-br from-primary/10 via-primary/5 to-transparent border border-primary/20 p-5 flex flex-col justify-between group-hover:border-primary/40 transition-colors">
-              <div className="flex items-start justify-between">
-                <div className="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center">
-                  <Star className="h-6 w-6 text-primary" />
-                </div>
-                <Badge variant="secondary" size="sm">+25% XP</Badge>
-              </div>
-              <div className="space-y-2">
-                <h3 className="text-base font-semibold text-foreground">Workspace Tour</h3>
-                <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">
-                  Show us where you work — perfect for learning the flow.
-                </p>
-                <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                  <Clock className="h-3 w-3" />
-                  <span>3–5 min</span>
-                </div>
-              </div>
+        {/* Secondary challenge - Compact, supporting */}
+        <div 
+          className="flex items-center gap-4 p-4 rounded-2xl bg-muted/20 border border-border/50 cursor-pointer group hover:bg-muted/30 transition-colors"
+          onClick={() => navigate("/challenge/workspace-tour/brief")}
+        >
+          {/* Small visual thumbnail */}
+          <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-primary/15 to-primary/5 flex items-center justify-center shrink-0">
+            <Star className="h-7 w-7 text-primary/70" />
+          </div>
+          
+          <div className="flex-1 min-w-0 space-y-1">
+            <div className="flex items-center gap-2">
+              <h4 className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors">
+                Workspace Tour
+              </h4>
+              <Badge variant="secondary" size="sm" className="text-[10px]">+25% XP</Badge>
+            </div>
+            <p className="text-xs text-muted-foreground line-clamp-1">
+              Show us where you work — perfect for learning the flow.
+            </p>
+            <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+              <Clock className="h-3 w-3" />
+              <span>3–5 min</span>
             </div>
           </div>
+          
+          <ChevronRight className="h-5 w-5 text-muted-foreground shrink-0 group-hover:text-foreground transition-colors" />
         </div>
       </section>
 
