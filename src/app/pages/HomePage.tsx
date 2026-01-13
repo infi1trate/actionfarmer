@@ -17,7 +17,7 @@ import {
   Star,
   Clock,
   Gift,
-  Timer,
+  
   Pause,
   Users,
   Trophy,
@@ -259,96 +259,147 @@ export function HomePage() {
         <EventChallengeCard onNavigate={navigate} />
       </section>
 
-      {/* Reward Multiplier - Quieter utility zone */}
-      <section className="px-5 pb-8">
-        <div className={`rounded-2xl p-5 transition-all ${
-          ambientEnabled 
-            ? 'bg-success/5 border border-success/20' 
-            : 'bg-muted/20 border border-border/50'
-        }`}>
-          <div className="space-y-4">
-            {/* Compact header */}
-            <div className="flex items-start gap-4">
-              <div className={`w-11 h-11 rounded-xl flex items-center justify-center shrink-0 ${
-                ambientEnabled ? 'bg-success/10' : 'bg-primary/10'
-              }`}>
-                <Gift className={`h-5 w-5 ${ambientEnabled ? 'text-success' : 'text-primary'}`} />
-              </div>
-              <div className="flex-1 min-w-0 space-y-1">
-                <div className="flex items-center gap-2">
-                  <h3 className="text-sm font-semibold text-foreground">Reward Multiplier</h3>
-                  {ambientEnabled && (
-                    <Badge variant="secondary" size="sm" className="bg-success/10 text-success border-0">
-                      Active
-                    </Badge>
-                  )}
+      {/* Ambient Multiplier - Lifestyle Visual Upsell */}
+      <section className="px-5 pb-10">
+        <div className="rounded-3xl overflow-hidden border border-border/40">
+          {/* Lifestyle visual header - No camera symbolism */}
+          <div className="relative h-40 bg-gradient-to-br from-brand-orange/10 via-primary/5 to-accent/10 overflow-hidden">
+            {/* Abstract lifestyle imagery - home, movement, everyday */}
+            <div className="absolute inset-0 flex items-center justify-center gap-6">
+              {/* Morning sun / warmth */}
+              <div className="w-20 h-20 rounded-full bg-gradient-to-br from-brand-orange/30 to-brand-orange/5 blur-sm" />
+              {/* Calm wave / flow */}
+              <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-primary/10 to-transparent" />
+              {/* Soft organic shapes suggesting home life */}
+              <div className="absolute top-6 left-8 w-12 h-12 rounded-2xl bg-success/15 rotate-12" />
+              <div className="absolute bottom-8 right-12 w-16 h-16 rounded-full bg-brand-orange/20" />
+              <div className="absolute top-1/2 right-1/4 w-8 h-8 rounded-xl bg-primary/15 -rotate-6" />
+            </div>
+            
+            {/* Soft radial overlay */}
+            <div className="absolute inset-0 bg-gradient-radial from-transparent via-transparent to-background/80" />
+            
+            {/* Headline on visual */}
+            <div className="absolute bottom-4 left-5 right-5">
+              <h3 className="text-lg font-bold text-foreground">
+                Earn more, just living your day
+              </h3>
+            </div>
+          </div>
+          
+          {/* Content area */}
+          <div className="p-5 space-y-5 bg-gradient-to-b from-muted/10 to-transparent">
+            {/* Value proposition - human, clear */}
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              Let your everyday moments count. The longer you go about your day, 
+              the bigger your bonus on the next challenge.
+            </p>
+            
+            {/* Milestone ladder - Visual journey */}
+            <div className="space-y-3">
+              <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
+                Your bonus grows
+              </p>
+              
+              {/* Visual milestone track */}
+              <div className="relative">
+                {/* Progress track background */}
+                <div className="absolute top-4 left-6 right-6 h-1 bg-muted/40 rounded-full" />
+                
+                {/* Active progress if enabled */}
+                {ambientEnabled && (
+                  <div className="absolute top-4 left-6 h-1 bg-gradient-to-r from-success to-primary rounded-full" style={{ width: '55%' }} />
+                )}
+                
+                {/* Milestone nodes */}
+                <div className="relative flex items-start justify-between px-2">
+                  {/* Start */}
+                  <div className="flex flex-col items-center gap-2">
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${
+                      ambientEnabled ? 'bg-success text-success-foreground' : 'bg-muted text-muted-foreground'
+                    }`}>
+                      0h
+                    </div>
+                    <span className="text-[10px] text-muted-foreground">Start</span>
+                  </div>
+                  
+                  {/* 2 hours */}
+                  <div className="flex flex-col items-center gap-2">
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${
+                      ambientEnabled ? 'bg-success text-success-foreground' : 'bg-muted/60 border-2 border-muted text-muted-foreground'
+                    }`}>
+                      2h
+                    </div>
+                    <span className={`text-[10px] ${ambientEnabled ? 'text-success font-medium' : 'text-muted-foreground'}`}>1.25x</span>
+                  </div>
+                  
+                  {/* 4 hours - current if active */}
+                  <div className="flex flex-col items-center gap-2">
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${
+                      ambientEnabled 
+                        ? 'bg-primary text-primary-foreground ring-2 ring-primary/30 ring-offset-2 ring-offset-background' 
+                        : 'bg-muted/60 border-2 border-muted text-muted-foreground'
+                    }`}>
+                      4h
+                    </div>
+                    <span className={`text-[10px] ${ambientEnabled ? 'text-primary font-semibold' : 'text-muted-foreground'}`}>1.5x</span>
+                  </div>
+                  
+                  {/* 8 hours - goal */}
+                  <div className="flex flex-col items-center gap-2">
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-brand-orange/20 to-brand-orange/40 border-2 border-brand-orange/50 flex items-center justify-center text-xs font-bold text-brand-orange">
+                      8h
+                    </div>
+                    <span className="text-[10px] text-brand-orange font-semibold">2x</span>
+                  </div>
                 </div>
-                <p className="text-xs text-muted-foreground leading-relaxed">
-                  {ambientEnabled 
-                    ? "Your challenges earn bonus XP based on session length" 
-                    : "Unlock multipliers by running optional sessions"
-                  }
-                </p>
               </div>
             </div>
-
-            {/* Multiplier Tiers - Horizontal inline */}
-            {!ambientEnabled && (
-              <div className="flex items-center gap-2 overflow-x-auto pb-1">
-                <div className="shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-lg bg-background border border-border/50">
-                  <Timer className="h-3 w-3 text-muted-foreground" />
-                  <span className="text-xs font-medium text-foreground">2h</span>
-                  <span className="text-xs text-muted-foreground">→ 1.25x</span>
-                </div>
-                <div className="shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-lg bg-background border border-border/50">
-                  <Timer className="h-3 w-3 text-muted-foreground" />
-                  <span className="text-xs font-medium text-foreground">4h</span>
-                  <span className="text-xs text-muted-foreground">→ 1.5x</span>
-                </div>
-                <div className="shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-lg bg-primary/5 border border-primary/20">
-                  <Timer className="h-3 w-3 text-primary" />
-                  <span className="text-xs font-medium text-foreground">8h</span>
-                  <span className="text-xs text-primary font-medium">→ 2x</span>
-                </div>
-              </div>
-            )}
-
-            {/* Active State */}
+            
+            {/* Active state info */}
             {ambientEnabled && (
-              <div className="flex items-center justify-between pt-1">
+              <div className="flex items-center justify-between p-3 rounded-xl bg-success/5 border border-success/20">
                 <div className="flex items-center gap-3">
-                  <Badge variant="brand" size="sm" className="font-bold">1.5x Active</Badge>
-                  <span className="text-xs text-muted-foreground">4h 23m • Next at 8h</span>
+                  <div className="w-2 h-2 rounded-full bg-success animate-pulse" />
+                  <div>
+                    <p className="text-sm font-medium text-foreground">Bonus active</p>
+                    <p className="text-xs text-muted-foreground">4h 23m in — next tier at 8h</p>
+                  </div>
                 </div>
-                <div className="flex items-center gap-3">
-                  <button 
-                    onClick={() => navigate("/ambient")}
-                    className="text-xs text-primary hover:underline"
-                  >
-                    Adjust
-                  </button>
-                  <button 
-                    onClick={() => setAmbientEnabled(false)}
-                    className="text-xs text-muted-foreground hover:text-foreground flex items-center gap-1"
-                  >
-                    <Pause className="h-3 w-3" />
-                    Pause
-                  </button>
-                </div>
+                <Badge variant="brand" className="font-bold">1.5x</Badge>
               </div>
             )}
-
-            {/* CTA */}
-            {!ambientEnabled && (
+            
+            {/* CTA - Framed as enabling a bonus, not capture */}
+            {!ambientEnabled ? (
               <Button 
-                variant="ghost"
-                size="sm"
                 onClick={() => setAmbientEnabled(true)}
-                className="w-full justify-center"
-                leftIcon={<Gift className="h-4 w-4" />}
+                className="w-full"
+                size="lg"
               >
-                Enable multiplier
+                <Gift className="h-4 w-4 mr-2" />
+                Unlock my bonus
               </Button>
+            ) : (
+              <div className="flex items-center gap-3">
+                <Button 
+                  variant="outline"
+                  size="sm"
+                  onClick={() => navigate("/ambient")}
+                  className="flex-1"
+                >
+                  View details
+                </Button>
+                <Button 
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setAmbientEnabled(false)}
+                  className="text-muted-foreground"
+                >
+                  <Pause className="h-4 w-4 mr-1" />
+                  Pause
+                </Button>
+              </div>
             )}
           </div>
         </div>
