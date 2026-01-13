@@ -13,6 +13,7 @@ import {
   TrendingUp,
   TrendingDown,
   Zap,
+  Sparkles,
 } from "lucide-react";
 
 function getGreeting() {
@@ -29,12 +30,15 @@ export function HomePage() {
 
   // Mock user data
   const userName = "Alex";
+  
+  // Mock: set to true to simulate a new user who hasn't completed any challenges
+  const hasCompletedFirstChallenge = false;
 
   // Mock momentum data
   const momentum = {
-    challengesThisWeek: 7,
+    challengesThisWeek: hasCompletedFirstChallenge ? 7 : 0,
     rewardMultiplier: 1.5,
-    streakDays: 5,
+    streakDays: hasCompletedFirstChallenge ? 5 : 0,
     streakTrend: "up" as const, // "up" | "down" | "stable"
     vsLastWeek: 2, // positive = ahead, negative = behind
   };
@@ -63,7 +67,41 @@ export function HomePage() {
         </p>
       </div>
 
-      {/* Rich Momentum Card */}
+      {/* Getting Started Panel - Only shown before first challenge */}
+      {!hasCompletedFirstChallenge && (
+        <Card className="p-5 border-primary/20 bg-gradient-to-br from-primary/5 to-transparent">
+          <div className="space-y-4">
+            <div className="flex items-start gap-3">
+              <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+                <Sparkles className="h-5 w-5 text-primary" />
+              </div>
+              <div className="space-y-1">
+                <h2 className="text-base font-semibold text-foreground">Ready to get started?</h2>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  Challenges are quick activities where you capture real moments. 
+                  Each one takes just a few minutes and earns you rewards.
+                </p>
+              </div>
+            </div>
+            
+            <div className="pl-[52px]">
+              <p className="text-xs text-muted-foreground mb-3">
+                We recommend starting with something simple — no pressure, just explore.
+              </p>
+              <Button 
+                className="w-full"
+                onClick={() => navigate("/challenges")}
+                leftIcon={<Target className="h-4 w-4" />}
+              >
+                Start first challenge
+              </Button>
+            </div>
+          </div>
+        </Card>
+      )}
+
+      {/* Rich Momentum Card - Only shown after first challenge */}
+      {hasCompletedFirstChallenge && (
       <Card className="p-5 bg-gradient-to-br from-primary/5 via-background to-brand-orange/5 border-primary/20 overflow-hidden relative">
         {/* Subtle animated background element */}
         <div className="absolute -right-8 -top-8 w-32 h-32 rounded-full bg-primary/5 blur-2xl" />
@@ -108,15 +146,18 @@ export function HomePage() {
           </div>
         </div>
       </Card>
+      )}
 
-      {/* Primary CTA - Go to Challenges */}
-      <Button 
-        className="w-full h-14 text-base"
-        onClick={() => navigate("/challenges")}
-        leftIcon={<Target className="h-5 w-5" />}
-      >
-        Start a Challenge
-      </Button>
+      {/* Primary CTA - Go to Challenges (only shown after first challenge) */}
+      {hasCompletedFirstChallenge && (
+        <Button 
+          className="w-full h-14 text-base"
+          onClick={() => navigate("/challenges")}
+          leftIcon={<Target className="h-5 w-5" />}
+        >
+          Start a Challenge
+        </Button>
+      )}
 
       {/* Ambient Capture - Optional collapsed card */}
       <Card 
