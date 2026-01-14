@@ -37,6 +37,7 @@ import {
   ChallengesExplainPage,
   TrustPage,
   SignupPage,
+  ReadyPage,
 } from "./app";
 
 import {
@@ -78,6 +79,7 @@ const App = () => (
               <Route path="/onboarding/challenges" element={<ChallengesExplainPage />} />
               <Route path="/onboarding/trust" element={<TrustPage />} />
               <Route path="/onboarding/signup" element={<SignupPage />} />
+              <Route path="/onboarding/ready" element={<ReadyPage />} />
                 
                 {/* Ambient Mode */}
                 <Route path="/ambient" element={<AmbientModePage />} />
