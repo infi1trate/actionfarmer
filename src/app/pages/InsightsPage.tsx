@@ -114,93 +114,92 @@ export function InsightsPage() {
   const weekNumber = Math.floor(today.getTime() / (7 * 24 * 60 * 60 * 1000));
   const headline = weeklyHeadlines[weekNumber % weeklyHeadlines.length];
 
+  // Hero insight - the most notable pattern this week
+  const heroInsight = weeklyHighlights[0];
+  const HeroIcon = heroInsight.icon;
+  const supportingNotes = weeklyHighlights.slice(1);
+
   return (
     <div className="min-h-screen bg-background">
       {/* ==========================================
-          EDITORIAL MASTHEAD
-          Magazine-style header with generous spacing
+          EDITORIAL HEADER
+          Single eyebrow + large headline + week date
           ========================================== */}
       <header className="relative overflow-hidden">
         {/* Soft gradient backdrop */}
-        <div className="absolute inset-0 bg-gradient-to-b from-primary/8 via-primary/3 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-b from-primary/6 via-primary/2 to-transparent" />
         
-        <div className="relative px-6 pt-10 pb-12 md:pt-14 md:pb-16">
-          {/* Journal icon + eyebrow */}
-          <div className="flex items-center gap-2 mb-4">
-            <div className="w-7 h-7 rounded-lg bg-primary/10 flex items-center justify-center">
-              <BookOpen className="h-3.5 w-3.5 text-primary" />
-            </div>
-            <span className="text-[11px] font-semibold text-primary uppercase tracking-[0.15em]">
-              This Week in Your Garden
-            </span>
-          </div>
+        <div className="relative px-6 pt-12 pb-10 md:pt-16 md:pb-14">
+          {/* Eyebrow only */}
+          <p className="text-[11px] font-semibold text-primary uppercase tracking-[0.2em] mb-5">
+            This Week in Your Garden
+          </p>
           
-          {/* Main headline - editorial scale */}
-          <h1 className="text-[28px] md:text-4xl font-bold text-foreground tracking-tight leading-tight mb-3">
+          {/* Large editorial headline */}
+          <h1 className="text-[32px] md:text-[42px] font-bold text-foreground tracking-tight leading-[1.1] mb-4">
             {headline}
           </h1>
           
-          {/* Subhead with date */}
-          <p className="text-[15px] text-muted-foreground leading-relaxed max-w-sm mb-2">
-            Here's what we noticed from how you completed your challenges.
-          </p>
-          <p className="text-xs text-muted-foreground/60 font-medium">
+          {/* Week date - muted subline */}
+          <p className="text-sm text-muted-foreground/70">
             {weekLabel}
           </p>
         </div>
       </header>
 
       {/* ==========================================
-          HIGHLIGHTS - Featured story cards
-          Large, visually distinct cards
+          HERO INSIGHT
+          Large featured card for most notable pattern
+          ========================================== */}
+      <section className="px-5 pb-6">
+        <div className={`relative rounded-3xl bg-gradient-to-br ${heroInsight.accent} p-8 overflow-hidden`}>
+          {/* Background decoration */}
+          <div className="absolute -top-4 -right-4 opacity-[0.07]">
+            <HeroIcon className="h-40 w-40" />
+          </div>
+          
+          {/* Icon */}
+          <div className={`w-16 h-16 rounded-2xl ${heroInsight.iconBg} flex items-center justify-center mb-5`}>
+            <HeroIcon className={`h-8 w-8 ${heroInsight.iconColor}`} />
+          </div>
+          
+          {/* Content */}
+          <h2 className="text-2xl md:text-[28px] font-semibold text-foreground tracking-tight mb-2">
+            {heroInsight.title}
+          </h2>
+          <p className="text-base text-muted-foreground leading-relaxed max-w-xs">
+            {heroInsight.description}
+          </p>
+        </div>
+      </section>
+
+      {/* ==========================================
+          SUPPORTING NOTES
+          Smaller secondary insights beneath hero
           ========================================== */}
       <section className="px-5 pb-10">
-        <div className="flex items-center gap-2.5 mb-5">
-          <Sparkles className="h-4 w-4 text-primary" />
-          <h2 className="text-[13px] font-semibold text-foreground uppercase tracking-wide">
-            This Week's Highlights
-          </h2>
-        </div>
-        
-        {/* Featured highlight - hero card */}
-        {weeklyHighlights[0] && (() => {
-          const FeaturedIcon = weeklyHighlights[0].icon;
-          return (
-            <div className={`relative rounded-2xl bg-gradient-to-br ${weeklyHighlights[0].accent} p-6 mb-4 overflow-hidden`}>
-              <div className="absolute top-4 right-4 opacity-10">
-                <FeaturedIcon className="h-24 w-24" />
-              </div>
-              <div className={`w-14 h-14 rounded-2xl ${weeklyHighlights[0].iconBg} flex items-center justify-center mb-4`}>
-                <FeaturedIcon className={`h-7 w-7 ${weeklyHighlights[0].iconColor}`} />
-              </div>
-              <h3 className="text-xl font-semibold text-foreground mb-1.5">
-                {weeklyHighlights[0].title}
-              </h3>
-              <p className="text-[15px] text-muted-foreground leading-relaxed">
-                {weeklyHighlights[0].description}
-              </p>
-            </div>
-          );
-        })()}
-        
-        {/* Secondary highlights - compact grid */}
-        <div className="grid grid-cols-2 gap-3">
-          {weeklyHighlights.slice(1).map((highlight) => {
-            const IconComponent = highlight.icon;
+        <p className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider mb-3 px-1">
+          Also this week
+        </p>
+        <div className="space-y-2">
+          {supportingNotes.map((note) => {
+            const NoteIcon = note.icon;
             return (
               <div 
-                key={highlight.id}
-                className={`rounded-xl bg-gradient-to-br ${highlight.accent} p-4`}
+                key={note.id}
+                className="flex items-center gap-3.5 p-3.5 rounded-xl bg-muted/30"
               >
-                <div className={`w-10 h-10 rounded-xl ${highlight.iconBg} flex items-center justify-center mb-3`}>
-                  <IconComponent className={`h-5 w-5 ${highlight.iconColor}`} />
+                <div className={`w-9 h-9 rounded-xl ${note.iconBg} flex items-center justify-center flex-shrink-0`}>
+                  <NoteIcon className={`h-4.5 w-4.5 ${note.iconColor}`} />
                 </div>
-                <p className="text-sm font-medium text-foreground mb-0.5 leading-snug">
-                  {highlight.title}
-                </p>
-                <p className="text-xs text-muted-foreground leading-snug">
-                  {highlight.description}
-                </p>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-foreground leading-snug">
+                    {note.title}
+                  </p>
+                  <p className="text-xs text-muted-foreground leading-snug mt-0.5">
+                    {note.description}
+                  </p>
+                </div>
               </div>
             );
           })}
