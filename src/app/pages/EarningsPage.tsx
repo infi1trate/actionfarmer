@@ -179,7 +179,7 @@ export function EarningsPage() {
       <header className="relative overflow-hidden pb-12">
       {/* Illustrated Background - Full hero coverage */}
         <div 
-          className="absolute inset-x-0 top-0 h-[72vh] bg-cover bg-bottom bg-no-repeat z-0"
+          className="absolute inset-x-0 top-0 h-[88vh] bg-cover bg-bottom bg-no-repeat z-0"
           style={{ 
             backgroundImage: `url(${gardenBg})`,
             backgroundPosition: 'center 70%'
@@ -188,7 +188,7 @@ export function EarningsPage() {
         
         {/* A. Atmospheric wash - subtle mint-white, preserves color saturation */}
         <div 
-          className="absolute inset-x-0 top-0 h-[72vh] z-[1]"
+          className="absolute inset-x-0 top-0 h-[88vh] z-[1]"
           style={{ 
             background: 'rgba(245, 252, 249, 0.10)'
           }}
