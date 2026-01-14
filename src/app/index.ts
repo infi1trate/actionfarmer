@@ -12,3 +12,4 @@ export { GardenPage } from "./pages/GardenPage";
 export { SplashPage } from "./pages/onboarding/SplashPage";
 export { ExplainPage } from "./pages/onboarding/ExplainPage";
 export { ChallengesExplainPage } from "./pages/onboarding/ChallengesExplainPage";
+export { TrustPage } from "./pages/onboarding/TrustPage";
