@@ -177,18 +177,18 @@ export function EarningsPage() {
           SECTION 1: Garden of Progress Header - REFINED
           ======================================== */}
       <header className="relative overflow-hidden">
-      {/* Illustrated Background - Full hero coverage */}
+      {/* Illustrated Background - Full hero coverage, extended for breathing room */}
         <div 
-          className="absolute inset-x-0 top-0 h-[55vh] bg-cover bg-bottom bg-no-repeat z-0"
+          className="absolute inset-x-0 top-0 h-[64vh] bg-cover bg-bottom bg-no-repeat z-0"
           style={{ 
             backgroundImage: `url(${gardenBg})`,
-            backgroundPosition: 'center 70%'
+            backgroundPosition: 'center 75%'
           }}
         />
         
         {/* A. Atmospheric wash - subtle mint-white, preserves color saturation */}
         <div 
-          className="absolute inset-x-0 top-0 h-[55vh] z-[1]"
+          className="absolute inset-x-0 top-0 h-[64vh] z-[1]"
           style={{ 
             background: 'rgba(245, 252, 249, 0.10)'
           }}
@@ -350,8 +350,8 @@ export function EarningsPage() {
                   </div>
                 </div>
                 
-                {/* Status Pill - Below plant */}
-                <div className="-mt-4 z-20">
+                {/* Status Pill - Below plant, floating within environment */}
+                <div className="-mt-6 mb-10 z-20">
                   <div className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/70 backdrop-blur-sm border border-white/50 shadow-sm">
                     <span className="text-sm">🌱</span>
                     <span className="text-xs font-medium text-foreground/90">{gardenData.challengesForNextStage} challenges to evolve</span>
