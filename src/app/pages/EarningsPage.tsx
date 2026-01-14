@@ -190,15 +190,41 @@ export function EarningsPage() {
         
         {/* Integrated page header - Garden/progress framing */}
         <div className="relative z-10 px-5 pt-8 pb-4">
-          <p className="text-[10px] font-semibold text-primary uppercase tracking-widest mb-2">
-            Your Growth
-          </p>
-          <h1 className="text-2xl font-bold text-foreground tracking-tight mb-1">
-            Earnings
-          </h1>
-          <p className="text-sm text-muted-foreground leading-relaxed">
-            Nurture your garden with every challenge
-          </p>
+          <div className="flex justify-between items-start">
+            {/* Left: Title content */}
+            <div>
+              <p className="text-[10px] font-semibold text-primary uppercase tracking-widest mb-2">
+                Your Growth
+              </p>
+              <h1 className="text-2xl font-bold text-foreground tracking-tight mb-1">
+                Earnings
+              </h1>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                Nurture your garden with every challenge
+              </p>
+            </div>
+            
+            {/* Right: Ambient status cluster */}
+            <div className="flex flex-col items-end gap-2 pt-1">
+              {/* Today's nourishment */}
+              <div className="flex items-center gap-1.5 opacity-70">
+                <Droplets className="h-3 w-3 text-sky-400" />
+                <span className="text-[10px] font-medium text-foreground/70">+{ambientData.todayPoints}</span>
+              </div>
+              
+              {/* Vitality multiplier */}
+              <div className="flex items-center gap-1.5 opacity-70">
+                <Sparkles className="h-3 w-3 text-amber-400" />
+                <span className="text-[10px] font-medium text-foreground/70">{gardenData.multiplier}×</span>
+              </div>
+              
+              {/* Growth stage */}
+              <div className="flex items-center gap-1.5 opacity-70">
+                <Leaf className="h-3 w-3 text-emerald-400" />
+                <span className="text-[10px] font-medium text-foreground/70">Day {gardenData.currentStreak}</span>
+              </div>
+            </div>
+          </div>
         </div>
         
         {/* Hero container - fixed height for consistent composition */}
