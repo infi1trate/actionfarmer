@@ -342,8 +342,8 @@ export function EarningsPage() {
                     </svg>
                   </div>
                   
-                  {/* Plant image - DOMINANT, 2× scale, overlaps gauge */}
-                  <div className="animate-sway origin-bottom relative z-20 scale-[2]">
+                  {/* Plant image - DOMINANT, 3× scale, overlaps gauge */}
+                  <div className="animate-sway origin-bottom relative z-20 scale-[3]">
                     <img 
                       src={stageInfo.image} 
                       alt={stageInfo.label}
