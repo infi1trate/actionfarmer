@@ -186,7 +186,7 @@ export function EarningsPage() {
           }}
         />
         {/* Fade to content - gradient overlay */}
-        <div className="absolute inset-x-0 top-0 h-[40vh] bg-gradient-to-b from-background/20 via-transparent via-50% to-background z-0" />
+        <div className="absolute inset-x-0 top-0 h-[55vh] bg-gradient-to-b from-background/40 via-transparent via-50% to-background z-0" />
         
         {/* Integrated page header - Garden/progress framing */}
         <div className="relative z-10 px-5 pt-8 pb-4">
@@ -238,7 +238,7 @@ export function EarningsPage() {
                 <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-32 h-4 bg-black/25 rounded-[100%] blur-md z-10" />
                 
                 {/* Plant + Gauge Container - Gauge anchored at plant base, rising behind */}
-                <div className="relative flex items-end justify-center mb-8">
+                <div className="relative flex items-end justify-center mb-2">
                   {/* Arched Progress Gauge - Anchored at plant base, emerges from ground BEHIND plant */}
                   <div 
                     className="absolute z-0 pointer-events-none"
@@ -307,7 +307,7 @@ export function EarningsPage() {
                 </div>
                 
                 {/* Status Pill - Below plant */}
-                <div className="-mt-10 z-20">
+                <div className="-mt-4 z-20">
                   <div className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/70 backdrop-blur-sm border border-white/50 shadow-sm">
                     <span className="text-sm">🌱</span>
                     <span className="text-xs font-medium text-foreground/90">{gardenData.challengesForNextStage} challenges to evolve</span>
