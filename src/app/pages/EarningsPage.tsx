@@ -349,9 +349,7 @@ export function EarningsPage() {
                       alt={stageInfo.label}
                       className="object-contain"
                       style={{ 
-                        height: 'calc(50vh * 0.72)',
-                        minHeight: '240px',
-                        maxHeight: '300px',
+                        height: '180px',
                         transformOrigin: 'bottom center',
                         filter: 'drop-shadow(0 12px 24px rgba(0,0,0,0.25)) drop-shadow(0 24px 48px rgba(16,185,129,0.12))'
                       }}
