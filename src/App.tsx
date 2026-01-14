@@ -41,6 +41,7 @@ import {
   DailySummaryPage,
   PlayModePage,
   LeaderboardPage,
+  GardenPage,
 } from "./app";
 
 import {
@@ -117,6 +118,7 @@ const App = () => (
                 <Route path="/app" element={<AppLayout />}>
                   <Route index element={<HomePage />} />
                   <Route path="earnings" element={<EarningsPage />} />
+                  <Route path="garden" element={<GardenPage />} />
                   <Route path="insights" element={<InsightsPage />} />
                   <Route path="settings" element={<SettingsPage />} />
                 </Route>
