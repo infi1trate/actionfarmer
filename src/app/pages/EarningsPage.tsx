@@ -321,60 +321,41 @@ export function EarningsPage() {
       </section>
 
       {/* ========================================
-          SECTION 5: Monthly Projection
+          SECTION 5: Monthly Projection (Secondary)
           ======================================== */}
-      <section className="px-5 py-6 bg-background">
-        <div className="flex items-center gap-2 mb-4">
-          <TrendingUp className="h-4 w-4 text-primary" />
-          <h2 className="text-sm font-semibold text-foreground">Monthly Projection</h2>
-        </div>
-
-        <div className="p-4 rounded-2xl bg-gradient-to-br from-primary/8 via-primary/4 to-transparent">
-          <div className="flex items-center justify-between mb-4">
+      <section className="px-5 py-5 bg-muted/10 border-t border-border/20">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <TrendingUp className="h-3.5 w-3.5 text-muted-foreground" />
+            <span className="text-xs text-muted-foreground font-medium">Monthly projection</span>
+          </div>
+          <div className="flex items-center gap-4 text-right">
             <div>
-              <p className="text-xs text-muted-foreground mb-1">Projected total</p>
-              <p className="text-3xl font-bold text-foreground">~{projectionData.projectedPoints} pts</p>
+              <p className="text-sm font-semibold text-foreground">~{projectionData.projectedPoints} pts</p>
+              <p className="text-[10px] text-muted-foreground">{projectionData.daysRemaining} days left</p>
             </div>
-            <div className="text-right">
-              <p className="text-xs text-muted-foreground mb-1">Current</p>
-              <p className="text-xl font-semibold text-foreground">{projectionData.currentPoints} pts</p>
+            <div className="h-6 w-px bg-border/40" />
+            <div>
+              <p className="text-sm font-medium text-muted-foreground">{projectionData.currentPoints} pts</p>
+              <p className="text-[10px] text-muted-foreground">current</p>
             </div>
-          </div>
-
-          <div className="flex items-center justify-between text-xs text-muted-foreground">
-            <div className="flex items-center gap-1.5">
-              <Calendar className="h-3.5 w-3.5" />
-              <span>{projectionData.daysRemaining} days remaining</span>
-            </div>
-            <span>Avg: {projectionData.avgDaily} pts/day</span>
           </div>
         </div>
-
-        <p className="text-xs text-muted-foreground mt-3 text-center">
-          Based on your current activity pace. Keep contributing to reach your goal!
-        </p>
       </section>
 
       {/* ========================================
-          SECTION 6: Full History Link
+          SECTION 6: Full History Navigation Row
           ======================================== */}
-      <section className="bg-muted/20 px-5 py-5">
-        <button 
-          onClick={() => {}}
-          className="w-full flex items-center justify-between py-4 px-4 rounded-2xl bg-background hover:bg-background/80 transition-colors group"
-        >
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-muted/50 flex items-center justify-center">
-              <Clock className="h-5 w-5 text-muted-foreground" />
-            </div>
-            <div className="text-left">
-              <p className="text-sm font-medium text-foreground">View Full History</p>
-              <p className="text-xs text-muted-foreground">All contributions, challenges & payouts</p>
-            </div>
-          </div>
-          <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:translate-x-0.5 transition-transform" />
-        </button>
-      </section>
+      <button 
+        onClick={() => {}}
+        className="w-full flex items-center justify-between px-5 py-4 bg-background border-t border-border/20 hover:bg-muted/20 transition-colors group"
+      >
+        <div className="flex items-center gap-2.5">
+          <Clock className="h-4 w-4 text-muted-foreground" />
+          <span className="text-sm font-medium text-foreground">View Earnings History</span>
+        </div>
+        <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:translate-x-0.5 transition-transform" />
+      </button>
 
       {/* Disclaimer */}
       <div className="px-5 py-4 bg-background">
