@@ -179,7 +179,7 @@ export function EarningsPage() {
       <header className="relative overflow-hidden">
       {/* Illustrated Background - Full hero coverage */}
         <div 
-          className="absolute inset-x-0 top-0 h-[55vh] bg-cover bg-bottom bg-no-repeat z-0"
+          className="absolute inset-x-0 top-0 h-[65vh] bg-cover bg-bottom bg-no-repeat z-0"
           style={{ 
             backgroundImage: `url(${gardenBg})`,
             backgroundPosition: 'center 70%'
@@ -188,7 +188,7 @@ export function EarningsPage() {
         
         {/* A. Atmospheric wash - subtle mint-white, preserves color saturation */}
         <div 
-          className="absolute inset-x-0 top-0 h-[55vh] z-[1]"
+          className="absolute inset-x-0 top-0 h-[65vh] z-[1]"
           style={{ 
             background: 'rgba(245, 252, 249, 0.10)'
           }}
@@ -243,7 +243,7 @@ export function EarningsPage() {
         </div>
         
         {/* Hero container - fixed height for consistent composition */}
-        <div className="relative z-10 px-5 -mt-6" style={{ height: '42vh', minHeight: '280px', maxHeight: '360px' }}>
+        <div className="relative z-10 px-5 -mt-6" style={{ height: '52vh', minHeight: '320px', maxHeight: '420px' }}>
           {(() => {
             const stageInfo = getPlantStageInfo(gardenData.currentStreak);
             // Arc gauge: 200° sweep (from -100° to +100°, centered at top)
