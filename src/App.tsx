@@ -32,6 +32,7 @@ import {
   PlayModePage,
   LeaderboardPage,
   GardenPage,
+  SplashPage,
 } from "./app";
 
 import {
@@ -65,8 +66,11 @@ const App = () => (
             <Sonner />
             <BrowserRouter>
               <Routes>
-              {/* Redirect root to app */}
-              <Route path="/" element={<Navigate to="/app" replace />} />
+              {/* Splash Screen */}
+              <Route path="/" element={<SplashPage />} />
+              
+              {/* Onboarding Flow */}
+              <Route path="/onboarding/explain" element={<Navigate to="/app" replace />} />
                 
                 {/* Ambient Mode */}
                 <Route path="/ambient" element={<AmbientModePage />} />
