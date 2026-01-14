@@ -22,10 +22,12 @@ import {
   Target,
   ArrowUpRight,
   Trophy,
-  Activity,
   CheckCircle2,
   Timer,
   Sprout,
+  Droplets,
+  Sun,
+  Leaf,
 } from "lucide-react";
 
 // 7-day growth stages mapping
@@ -107,9 +109,19 @@ export function EarningsPage() {
           25% { transform: translateY(-3px) rotate(2deg); }
           75% { transform: translateY(2px) rotate(-1deg); }
         }
+        @keyframes water-drip {
+          0%, 100% { opacity: 0.4; transform: translateY(0); }
+          50% { opacity: 0.8; transform: translateY(2px); }
+        }
+        @keyframes subtle-glow {
+          0%, 100% { opacity: 0.3; }
+          50% { opacity: 0.6; }
+        }
         .animate-sway { animation: gentle-sway 4s ease-in-out infinite; }
         .animate-breathe { animation: gentle-breathe 3s ease-in-out infinite; }
         .animate-leaf { animation: leaf-float 5s ease-in-out infinite; }
+        .animate-water { animation: water-drip 2.5s ease-in-out infinite; }
+        .animate-glow { animation: subtle-glow 3s ease-in-out infinite; }
       `}</style>
 
       {/* ========================================
@@ -289,76 +301,96 @@ export function EarningsPage() {
       <div className="mx-5 h-px bg-gradient-to-r from-transparent via-border/40 to-transparent" />
 
       {/* ========================================
-          SECTION 3: Ambient Mode Earnings (Live Stream)
+          SECTION 3: Garden Nourishment (Ambient Background Growth)
           ======================================== */}
       <section className="px-5 py-8">
-        {/* Header with Status */}
+        {/* Header with Nurturing Status */}
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-2.5">
             <div className="relative">
-              <Activity className="h-4.5 w-4.5 text-emerald-500" />
+              <Droplets className="h-4.5 w-4.5 text-sky-500" />
               {ambientData.status === "active" && (
-                <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                <span className="absolute -bottom-0.5 -right-0.5 w-2 h-2 rounded-full bg-sky-400 animate-water" />
               )}
             </div>
-            <h2 className="text-sm font-semibold text-foreground">Ambient Earnings</h2>
+            <h2 className="text-sm font-semibold text-foreground">Garden Nourishment</h2>
           </div>
           <div className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full ${
             ambientData.status === "active" 
-              ? 'bg-emerald-500/12' 
+              ? 'bg-sky-500/12' 
               : 'bg-muted'
           }`}>
-            <span className={`w-1.5 h-1.5 rounded-full ${
+            <Leaf className={`h-3 w-3 ${
               ambientData.status === "active" 
-                ? 'bg-emerald-500 animate-pulse' 
-                : 'bg-muted-foreground'
+                ? 'text-emerald-500 animate-leaf' 
+                : 'text-muted-foreground'
             }`} />
             <span className={`text-[10px] font-semibold uppercase tracking-wide ${
               ambientData.status === "active" 
                 ? 'text-emerald-600' 
                 : 'text-muted-foreground'
             }`}>
-              {ambientData.status === "active" ? 'Earning now' : 'Paused'}
+              {ambientData.status === "active" ? 'Growing quietly' : 'Resting'}
             </span>
           </div>
         </div>
 
-        {/* Live Points Today - Hero Display */}
-        <div className="mb-6 py-6 px-5 rounded-2xl bg-gradient-to-br from-emerald-500/8 via-emerald-500/4 to-transparent border border-emerald-500/10">
-          <p className="text-xs text-muted-foreground font-medium mb-2 text-center">Points earned today so far</p>
-          <p className="text-4xl font-bold text-emerald-600 text-center tracking-tight">
-            +{ambientData.todayPoints} pts
-          </p>
-          <p className="text-xs text-muted-foreground mt-2.5 text-center">
-            from {ambientData.todayContributions.toLocaleString()} contributions
-          </p>
+        {/* Today's Nurturing - Hero Display with Garden Theme */}
+        <div className="relative mb-6 py-6 px-5 rounded-2xl bg-gradient-to-br from-sky-500/8 via-emerald-500/6 to-lime-500/4 border border-sky-500/10 overflow-hidden">
+          {/* Subtle background growth indicators */}
+          <div className="absolute top-3 right-4 opacity-20">
+            <Sun className="h-8 w-8 text-amber-400 animate-glow" />
+          </div>
+          <div className="absolute bottom-3 left-4 opacity-15">
+            <Sprout className="h-6 w-6 text-emerald-500 animate-leaf" />
+          </div>
+          
+          <div className="relative z-10">
+            <div className="flex items-center justify-center gap-2 mb-2">
+              <Droplets className="h-3.5 w-3.5 text-sky-500 animate-water" />
+              <p className="text-xs text-muted-foreground font-medium">Today's quiet growth</p>
+            </div>
+            <p className="text-4xl font-bold text-emerald-600 text-center tracking-tight">
+              +{ambientData.todayPoints} pts
+            </p>
+            <p className="text-xs text-muted-foreground mt-2.5 text-center">
+              nurturing your garden in the background
+            </p>
+          </div>
         </div>
 
-        {/* Week & Month Context */}
+        {/* Week & Month Context - Reframed as growth over time */}
         <div className="flex items-stretch gap-4">
           {/* This Week */}
-          <div className="flex-1 py-4 px-4 rounded-xl bg-muted/30">
-            <p className="text-[11px] text-muted-foreground font-medium mb-1.5">This week</p>
+          <div className="flex-1 py-4 px-4 rounded-xl bg-gradient-to-br from-sky-500/5 to-transparent border border-sky-500/8">
+            <div className="flex items-center gap-1.5 mb-1.5">
+              <Leaf className="h-3 w-3 text-emerald-500/70" />
+              <p className="text-[11px] text-muted-foreground font-medium">This week</p>
+            </div>
             <p className="text-xl font-bold text-foreground">+{ambientData.weeklyPoints} pts</p>
             <p className="text-[11px] text-muted-foreground mt-1">
-              {ambientData.weeklyContributions.toLocaleString()} contributions
+              steady nourishment
             </p>
           </div>
 
           {/* This Month */}
-          <div className="flex-1 py-4 px-4 rounded-xl bg-muted/30">
-            <p className="text-[11px] text-muted-foreground font-medium mb-1.5">This month</p>
+          <div className="flex-1 py-4 px-4 rounded-xl bg-gradient-to-br from-emerald-500/5 to-transparent border border-emerald-500/8">
+            <div className="flex items-center gap-1.5 mb-1.5">
+              <Sprout className="h-3 w-3 text-emerald-500/70" />
+              <p className="text-[11px] text-muted-foreground font-medium">This month</p>
+            </div>
             <p className="text-xl font-bold text-foreground">+{ambientData.monthlyPoints.toLocaleString()} pts</p>
             <p className="text-[11px] text-muted-foreground mt-1">
-              {ambientData.monthlyContributions.toLocaleString()} contributions
+              continuous care
             </p>
           </div>
         </div>
 
-        {/* Reassuring Message */}
-        <p className="text-xs text-muted-foreground mt-5 text-center leading-relaxed">
-          Points accumulate quietly while you go about your day—no action needed.
-        </p>
+        {/* Reassuring Message - Garden focused */}
+        <div className="mt-5 flex items-center justify-center gap-2 text-xs text-muted-foreground text-center leading-relaxed">
+          <Droplets className="h-3 w-3 text-sky-400/60 animate-water" />
+          <span>Your garden grows gently while you go about your day</span>
+        </div>
       </section>
 
       {/* Subtle Divider */}
