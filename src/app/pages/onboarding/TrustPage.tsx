@@ -6,7 +6,7 @@ export function TrustPage() {
   const navigate = useNavigate();
 
   const handleContinue = () => {
-    navigate("/app");
+    navigate("/onboarding/signup");
   };
 
   const trustPoints = [
