@@ -177,8 +177,19 @@ export function EarningsPage() {
           SECTION 1: Garden of Progress Header - REFINED
           ======================================== */}
       <header className="relative overflow-hidden">
+        {/* Illustrated Background - Full hero coverage */}
+        <div 
+          className="absolute inset-x-0 top-0 h-[55vh] bg-cover bg-bottom bg-no-repeat z-0"
+          style={{ 
+            backgroundImage: `url(${gardenBg})`,
+            backgroundPosition: 'center 70%'
+          }}
+        />
+        {/* Fade to content - gradient overlay */}
+        <div className="absolute inset-x-0 top-0 h-[55vh] bg-gradient-to-b from-background/40 via-transparent via-50% to-background z-0" />
+        
         {/* Integrated page header - Garden/progress framing */}
-        <div className="relative z-20 px-5 pt-8 pb-4">
+        <div className="relative z-10 px-5 pt-8 pb-4">
           <p className="text-[10px] font-semibold text-primary uppercase tracking-widest mb-2">
             Your Growth
           </p>
@@ -189,17 +200,6 @@ export function EarningsPage() {
             Nurture your garden with every challenge
           </p>
         </div>
-        
-        {/* Illustrated Background - Constrained to ~50% viewport, fades to white */}
-        <div 
-          className="absolute inset-x-0 top-0 h-[50vh] bg-cover bg-bottom bg-no-repeat -z-10"
-          style={{ 
-            backgroundImage: `url(${gardenBg})`,
-            backgroundPosition: 'center 70%'
-          }}
-        />
-        {/* Fade to content - stronger gradient at bottom */}
-        <div className="absolute inset-x-0 top-0 h-[50vh] bg-gradient-to-b from-background/60 via-transparent via-60% to-background -z-10" />
         
         {/* Hero container - fixed height for consistent composition */}
         <div className="relative z-10 px-5" style={{ height: '42vh', minHeight: '280px', maxHeight: '360px' }}>
