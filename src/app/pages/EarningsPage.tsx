@@ -174,98 +174,100 @@ export function EarningsPage() {
       `}</style>
 
       {/* ========================================
-          SECTION 1: Garden of Progress Header - SIMPLIFIED
+          SECTION 1: Garden of Progress Header - REFINED
           ======================================== */}
       <header className="relative overflow-hidden">
-        {/* Illustrated Background - Full garden scene */}
+        {/* Illustrated Background - Positioned higher so grass grounds the plant */}
         <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          className="absolute inset-x-0 -top-8 bottom-0 bg-cover bg-bottom bg-no-repeat"
           style={{ backgroundImage: `url(${gardenBg})` }}
         />
         {/* Soft vignette overlay for depth */}
-        <div className="absolute inset-0 bg-gradient-to-b from-background/20 via-transparent to-background" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-transparent to-background" />
         
-        <div className="relative z-10 px-5 pt-2 pb-4">
+        <div className="relative z-10 px-5 pt-1 pb-6">
           {/* Section Title - Minimal */}
-          <div className="flex items-center justify-center gap-2 mb-1">
+          <div className="flex items-center justify-center gap-2 mb-0">
             <Sprout className="h-3.5 w-3.5 text-emerald-600" />
             <h2 className="text-xs font-semibold text-foreground/90 drop-shadow-sm">Garden of Progress</h2>
           </div>
 
-          {/* Plant Hero - Centered, Large, Grounded */}
+          {/* Plant Hero - Centered, Large, Grounded on landscape */}
           <div className="flex flex-col items-center">
             {(() => {
               const stageInfo = getPlantStageInfo(gardenData.currentStreak);
+              const circumference = 2 * Math.PI * 92;
               
               return (
-                <div className="relative flex items-end justify-center" style={{ height: '280px' }}>
-                  {/* Subtle ambient glow behind plant */}
-                  <div className="absolute bottom-16 left-1/2 -translate-x-1/2 w-48 h-48 rounded-full bg-gradient-radial from-emerald-400/20 via-lime-300/10 to-transparent blur-2xl" />
-                  
-                  {/* CIRCULAR PROGRESS RING - Wrapped around plant */}
-                  <div className="absolute bottom-8 left-1/2 -translate-x-1/2">
-                    <svg 
-                      className="w-[240px] h-[240px] -rotate-90"
-                      viewBox="0 0 240 240"
-                    >
-                      {/* Background ring track */}
-                      <circle
-                        cx="120"
-                        cy="120"
-                        r="110"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="8"
-                        className="text-white/20"
+                <>
+                  <div className="relative flex items-end justify-center" style={{ height: '240px' }}>
+                    {/* Subtle ambient glow behind plant */}
+                    <div className="absolute bottom-8 left-1/2 -translate-x-1/2 w-56 h-32 rounded-full bg-gradient-radial from-emerald-400/15 via-lime-300/5 to-transparent blur-2xl" />
+                    
+                    {/* CIRCULAR PROGRESS RING - Subtle halo around plant */}
+                    <div className="absolute bottom-4 left-1/2 -translate-x-1/2">
+                      <svg 
+                        className="w-[200px] h-[200px] -rotate-90"
+                        viewBox="0 0 200 200"
+                      >
+                        {/* Background ring track - very subtle */}
+                        <circle
+                          cx="100"
+                          cy="100"
+                          r="92"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                          className="text-white/10"
+                        />
+                        {/* Progress ring - thinner, glowing */}
+                        <circle
+                          cx="100"
+                          cy="100"
+                          r="92"
+                          fill="none"
+                          stroke="url(#heroProgressGradient)"
+                          strokeWidth="5"
+                          strokeLinecap="round"
+                          strokeDasharray={circumference}
+                          strokeDashoffset={circumference * (1 - gardenData.stageProgress / 100)}
+                          className="transition-all duration-1000 ease-out"
+                          style={{ filter: 'drop-shadow(0 0 8px rgba(16,185,129,0.4))' }}
+                        />
+                        {/* Gradient definition */}
+                        <defs>
+                          <linearGradient id="heroProgressGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stopColor="#84cc16" />
+                            <stop offset="50%" stopColor="#22c55e" />
+                            <stop offset="100%" stopColor="#10b981" />
+                          </linearGradient>
+                        </defs>
+                      </svg>
+                    </div>
+                    
+                    {/* Contact shadow where plant meets ground */}
+                    <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-32 h-4 bg-black/15 rounded-[100%] blur-sm" />
+                    
+                    {/* Plant image - DOMINANT, grounded on landscape */}
+                    <div className="animate-sway origin-bottom relative z-10">
+                      <img 
+                        src={stageInfo.image} 
+                        alt={stageInfo.label}
+                        className="w-72 h-72 object-contain"
+                        style={{ 
+                          filter: 'drop-shadow(0 8px 16px rgba(0,0,0,0.2)) drop-shadow(0 20px 40px rgba(16,185,129,0.15))',
+                          marginBottom: '-24px'
+                        }}
                       />
-                      {/* Progress ring - animated fill */}
-                      <circle
-                        cx="120"
-                        cy="120"
-                        r="110"
-                        fill="none"
-                        stroke="url(#heroProgressGradient)"
-                        strokeWidth="8"
-                        strokeLinecap="round"
-                        strokeDasharray={`${2 * Math.PI * 110}`}
-                        strokeDashoffset={`${2 * Math.PI * 110 * (1 - gardenData.stageProgress / 100)}`}
-                        className="transition-all duration-1000 ease-out"
-                        style={{ filter: 'drop-shadow(0 0 12px rgba(16,185,129,0.5))' }}
-                      />
-                      {/* Gradient definition */}
-                      <defs>
-                        <linearGradient id="heroProgressGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                          <stop offset="0%" stopColor="#84cc16" />
-                          <stop offset="50%" stopColor="#22c55e" />
-                          <stop offset="100%" stopColor="#10b981" />
-                        </linearGradient>
-                      </defs>
-                    </svg>
-                  </div>
-                  
-                  {/* Ground shadow for plant */}
-                  <div className="absolute bottom-6 left-1/2 -translate-x-1/2 w-40 h-6 bg-black/10 rounded-[100%] blur-md" />
-                  
-                  {/* Plant image - LARGE & grounded */}
-                  <div className="animate-sway origin-bottom relative z-10 mb-4">
-                    <img 
-                      src={stageInfo.image} 
-                      alt={stageInfo.label}
-                      className="w-56 h-56 object-contain"
-                      style={{ 
-                        filter: 'drop-shadow(0 12px 24px rgba(0,0,0,0.25)) drop-shadow(0 30px 50px rgba(16,185,129,0.2))'
-                      }}
-                    />
-                  </div>
-                  
-                  {/* Single Progress Callout - Bottom center */}
-                  <div className="absolute bottom-0 left-1/2 -translate-x-1/2 z-20">
-                    <div className="bg-foreground/95 backdrop-blur-sm text-background text-xs font-semibold px-4 py-2 rounded-full shadow-xl flex items-center gap-2">
-                      <Target className="h-3.5 w-3.5 text-emerald-400" />
-                      <span>{gardenData.challengesForNextStage} challenges to evolve</span>
                     </div>
                   </div>
-                </div>
+                  
+                  {/* Progress Caption - Below hero, centered */}
+                  <div className="mt-3 flex items-center justify-center gap-2 text-muted-foreground">
+                    <Target className="h-3.5 w-3.5 text-emerald-500/70" />
+                    <span className="text-xs font-medium">{gardenData.challengesForNextStage} challenges to evolve</span>
+                  </div>
+                </>
               );
             })()}
           </div>
