@@ -369,305 +369,166 @@ export function EarningsPage() {
           </p>
         </div>
 
-        {gardenData.collectedPlants.length > 0 && (
-          <div className="relative z-10 px-5 pb-6">
-            <button 
-              onClick={() => navigate("/app/garden")}
-              className="w-full text-left group"
-            >
-              <div className="flex items-center justify-between mb-3">
-                <p className="text-[11px] text-muted-foreground font-medium uppercase tracking-wide">
-                  Your collected plants • {gardenData.collectedPlants.length} complete
-                </p>
-                <span className="text-[11px] text-primary font-medium flex items-center gap-1 group-hover:gap-2 transition-all">
-                  View garden
-                  <ChevronRight className="h-3 w-3" />
-                </span>
+        {/* ========================================
+            YOUR GARDEN THIS WEEK - Unified Panel
+            ======================================== */}
+        <div className="relative z-10 px-5 pb-8">
+          <div className="rounded-3xl bg-gradient-to-b from-background/95 to-background/80 backdrop-blur-md border border-border/20 shadow-sm overflow-hidden">
+            
+            {/* Panel Header */}
+            <div className="px-6 pt-6 pb-4">
+              <div className="flex items-center gap-2 mb-1">
+                <Leaf className="h-4 w-4 text-emerald-500 animate-leaf" />
+                <h2 className="text-base font-semibold text-foreground tracking-tight">Your Garden This Week</h2>
               </div>
-              <div className="flex items-center justify-center gap-3 flex-wrap">
-                {gardenData.collectedPlants.slice(0, 3).map((plant, i) => (
-                  <div 
-                    key={i}
-                    className="flex flex-col items-center py-3 px-4 rounded-2xl bg-background/80 backdrop-blur-sm border border-border/30 shadow-sm group-hover:border-primary/20 transition-colors"
-                  >
-                    <img 
-                      src={plant.image} 
-                      alt={plant.name}
-                      className="w-12 h-12 object-contain mb-1.5"
-                    />
-                    <p className="text-[11px] font-medium text-foreground">{plant.name}</p>
-                    <p className="text-[10px] text-muted-foreground">{plant.days}-day streak</p>
-                  </div>
-                ))}
-                {gardenData.collectedPlants.length > 3 && (
-                  <div className="flex flex-col items-center justify-center py-3 px-4 rounded-2xl bg-muted/30 backdrop-blur-sm border border-border/20">
-                    <span className="text-lg font-bold text-muted-foreground mb-0.5">+{gardenData.collectedPlants.length - 3}</span>
-                    <p className="text-[10px] text-muted-foreground">more</p>
-                  </div>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                Gentle progress, one moment at a time
+              </p>
+            </div>
+            
+            {/* Narrative Summary - The heart of the panel */}
+            <div className="px-6 pb-5">
+              <p className="text-[15px] text-foreground/90 leading-relaxed">
+                You've shared <span className="font-semibold text-sky-600">{challengeStats.completed} waterings</span> and 
+                <span className="font-semibold text-amber-600"> +{challengeStats.bonusEarned} rays of sunlight</span> with your plant this week. 
+                {challengeStats.multiplierActive ? (
+                  <span className="text-emerald-600"> It's thriving beautifully.</span>
+                ) : (
+                  <span> Steady growth continues.</span>
                 )}
-              </div>
-            </button>
-          </div>
-        )}
-      </header>
-
-      {/* ========================================
-          SECTION 2: Current Balance & Payout (Primary Anchor)
-          ======================================== */}
-      <section className="px-5 pt-6 pb-8">
-        <div className="space-y-5">
-          {/* Main Balance Display */}
-          <div className="text-center">
-            <p className="text-xs text-muted-foreground font-medium mb-2 uppercase tracking-wide">Available Balance</p>
-            <div className="flex items-center justify-center gap-3">
-              <span className="text-5xl font-bold tracking-tight text-foreground">
-                ${balanceData.current.toFixed(2)}
-              </span>
-              <div className="flex items-center gap-1 text-emerald-600 bg-emerald-500/12 px-2.5 py-1 rounded-full">
-                <ArrowUpRight className="h-3.5 w-3.5" />
-                <span className="text-xs font-semibold">{balanceData.changePercent}% vs last month</span>
-              </div>
+              </p>
             </div>
-          </div>
-
-          {/* Pending */}
-          <div className="flex items-center justify-center gap-2 text-muted-foreground">
-            <Timer className="h-3.5 w-3.5" />
-            <span className="text-sm">+${balanceData.pending.toFixed(2)} pending verification</span>
-          </div>
-
-          {/* Payout Button */}
-          <Button 
-            className="w-full" 
-            size="lg"
-            onClick={() => navigate("/payout")}
-            leftIcon={<Wallet className="h-4 w-4" />}
-          >
-            Request Payout
-          </Button>
-
-          <p className="text-[11px] text-muted-foreground text-center">
-            Minimum payout: $10.00 • Processing: 2-3 business days
-          </p>
-        </div>
-      </section>
-
-      {/* Subtle Divider */}
-      <div className="mx-5 h-px bg-gradient-to-r from-transparent via-border/40 to-transparent" />
-
-      {/* ========================================
-          SECTION 3: Garden Nourishment (Ambient Background Growth)
-          ======================================== */}
-      <section className="px-5 py-8">
-        {/* Header with Nurturing Status */}
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center gap-2.5">
-            <div className="relative">
-              <Droplets className="h-4.5 w-4.5 text-sky-500" />
-              {ambientData.status === "active" && (
-                <span className="absolute -bottom-0.5 -right-0.5 w-2 h-2 rounded-full bg-sky-400 animate-water" />
-              )}
-            </div>
-            <h2 className="text-sm font-semibold text-foreground">Garden Nourishment</h2>
-          </div>
-          <div className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full ${
-            ambientData.status === "active" 
-              ? 'bg-sky-500/12' 
-              : 'bg-muted'
-          }`}>
-            <Leaf className={`h-3 w-3 ${
-              ambientData.status === "active" 
-                ? 'text-emerald-500 animate-leaf' 
-                : 'text-muted-foreground'
-            }`} />
-            <span className={`text-[10px] font-semibold uppercase tracking-wide ${
-              ambientData.status === "active" 
-                ? 'text-emerald-600' 
-                : 'text-muted-foreground'
-            }`}>
-              {ambientData.status === "active" ? 'Growing quietly' : 'Resting'}
-            </span>
-          </div>
-        </div>
-
-        {/* Today's Nurturing - Hero Display with Garden Theme */}
-        <div className="relative mb-6 py-6 px-5 rounded-2xl bg-gradient-to-br from-sky-500/8 via-emerald-500/6 to-lime-500/4 border border-sky-500/10 overflow-hidden">
-          {/* Subtle background growth indicators */}
-          <div className="absolute top-3 right-4 opacity-20">
-            <Sun className="h-8 w-8 text-amber-400 animate-glow" />
-          </div>
-          <div className="absolute bottom-3 left-4 opacity-15">
-            <Sprout className="h-6 w-6 text-emerald-500 animate-leaf" />
-          </div>
-          
-          <div className="relative z-10">
-            <div className="flex items-center justify-center gap-2 mb-2">
-              <Droplets className="h-3.5 w-3.5 text-sky-500 animate-water" />
-              <p className="text-xs text-muted-foreground font-medium">Today's quiet growth</p>
-            </div>
-            <p className="text-4xl font-bold text-emerald-600 text-center tracking-tight">
-              +{ambientData.todayPoints} pts
-            </p>
-            <p className="text-xs text-muted-foreground mt-2.5 text-center">
-              nurturing your garden in the background
-            </p>
-          </div>
-        </div>
-
-        {/* Week & Month Context - Reframed as growth over time */}
-        <div className="flex items-stretch gap-4">
-          {/* This Week */}
-          <div className="flex-1 py-4 px-4 rounded-xl bg-gradient-to-br from-sky-500/5 to-transparent border border-sky-500/8">
-            <div className="flex items-center gap-1.5 mb-1.5">
-              <Leaf className="h-3 w-3 text-emerald-500/70" />
-              <p className="text-[11px] text-muted-foreground font-medium">This week</p>
-            </div>
-            <p className="text-xl font-bold text-foreground">+{ambientData.weeklyPoints} pts</p>
-            <p className="text-[11px] text-muted-foreground mt-1">
-              steady nourishment
-            </p>
-          </div>
-
-          {/* This Month */}
-          <div className="flex-1 py-4 px-4 rounded-xl bg-gradient-to-br from-emerald-500/5 to-transparent border border-emerald-500/8">
-            <div className="flex items-center gap-1.5 mb-1.5">
-              <Sprout className="h-3 w-3 text-emerald-500/70" />
-              <p className="text-[11px] text-muted-foreground font-medium">This month</p>
-            </div>
-            <p className="text-xl font-bold text-foreground">+{ambientData.monthlyPoints.toLocaleString()} pts</p>
-            <p className="text-[11px] text-muted-foreground mt-1">
-              continuous care
-            </p>
-          </div>
-        </div>
-
-        {/* Reassuring Message - Garden focused */}
-        <div className="mt-5 flex items-center justify-center gap-2 text-xs text-muted-foreground text-center leading-relaxed">
-          <Droplets className="h-3 w-3 text-sky-400/60 animate-water" />
-          <span>Your garden grows gently while you go about your day</span>
-        </div>
-      </section>
-
-      {/* Subtle Divider */}
-      <div className="mx-5 h-px bg-gradient-to-r from-transparent via-border/40 to-transparent" />
-
-      {/* ========================================
-          SECTION 4: Accelerated Growth (Challenge Bonuses)
-          ======================================== */}
-      <section className="px-5 py-8">
-        {/* Card Container */}
-        <div className="rounded-2xl bg-gradient-to-br from-amber-500/8 via-lime-500/6 to-emerald-500/4 p-6 border border-amber-500/12 relative overflow-hidden">
-          {/* Decorative nurturing elements */}
-          <div className="absolute top-4 right-4 opacity-10">
-            <Sun className="h-16 w-16 text-amber-400 animate-glow" />
-          </div>
-          <div className="absolute bottom-4 left-4 opacity-8">
-            <Leaf className="h-10 w-10 text-emerald-500 animate-leaf" />
-          </div>
-          
-          {/* Header */}
-          <div className="relative flex items-center gap-3 mb-6">
-            <div className="w-9 h-9 rounded-full bg-gradient-to-br from-amber-500/30 to-lime-500/20 flex items-center justify-center">
-              <Sprout className="h-4.5 w-4.5 text-emerald-600" />
-            </div>
-            <div>
-              <h2 className="text-sm font-semibold text-foreground">Accelerated Growth</h2>
-              <p className="text-[11px] text-muted-foreground">Challenges nurture your plant faster</p>
-            </div>
-          </div>
-
-          {/* Metrics Grid */}
-          <div className="relative grid grid-cols-3 gap-3 mb-6">
-            {/* Challenges Completed - Nurturing Sessions */}
-            <div className="text-center py-5 px-3 rounded-xl bg-background/80 relative overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-t from-lime-500/5 to-transparent" />
-              <div className="relative">
-                <div className="w-11 h-11 mx-auto mb-3 rounded-full bg-gradient-to-br from-lime-500/20 to-emerald-500/15 flex items-center justify-center">
-                  <Droplets className="h-5 w-5 text-sky-500" />
+            
+            {/* Growth Summary - Flowing, connected metrics */}
+            <div className="mx-6 mb-5 py-4 px-5 rounded-2xl bg-gradient-to-r from-sky-500/5 via-emerald-500/5 to-amber-500/5 border border-border/10">
+              <div className="flex items-center justify-between">
+                {/* Waterings */}
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-full bg-sky-500/10 flex items-center justify-center">
+                    <Droplets className="h-4 w-4 text-sky-500" />
+                  </div>
+                  <div>
+                    <p className="text-lg font-semibold text-foreground">{challengeStats.completed}</p>
+                    <p className="text-[11px] text-muted-foreground">waterings</p>
+                  </div>
                 </div>
-                <p className="text-2xl font-bold text-foreground">{challengeStats.completed}</p>
-                <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-wide mt-1">Waterings</p>
-                <p className="text-[11px] text-muted-foreground mt-1.5">{challengeStats.attempted} sessions</p>
-              </div>
-            </div>
-
-            {/* Bonus Points - Extra Sunshine */}
-            <div className="text-center py-5 px-3 rounded-xl bg-background/80 relative overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-t from-amber-500/5 to-transparent" />
-              <div className="relative">
-                <div className="w-11 h-11 mx-auto mb-3 rounded-full bg-gradient-to-br from-amber-500/20 to-yellow-500/15 flex items-center justify-center">
-                  <Sun className="h-5 w-5 text-amber-500 animate-glow" />
+                
+                {/* Divider dot */}
+                <div className="w-1 h-1 rounded-full bg-border/50" />
+                
+                {/* Sunlight */}
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-full bg-amber-500/10 flex items-center justify-center">
+                    <Sun className="h-4 w-4 text-amber-500" />
+                  </div>
+                  <div>
+                    <p className="text-lg font-semibold text-foreground">+{challengeStats.bonusEarned}</p>
+                    <p className="text-[11px] text-muted-foreground">sunlight</p>
+                  </div>
                 </div>
-                <p className="text-2xl font-bold text-amber-600">+{challengeStats.bonusEarned}</p>
-                <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-wide mt-1">Sunlight</p>
-                <p className="text-[11px] text-muted-foreground mt-1.5">bonus warmth</p>
-              </div>
-            </div>
-
-            {/* Multiplier Status - Thriving Mode */}
-            <div className="text-center py-5 px-3 rounded-xl bg-background/80 relative overflow-hidden">
-              {challengeStats.multiplierActive && (
-                <div className="absolute inset-0 bg-gradient-to-t from-emerald-500/8 to-transparent" />
-              )}
-              <div className="relative">
-                <div className={`w-11 h-11 mx-auto mb-3 rounded-full flex items-center justify-center ${
-                  challengeStats.multiplierActive 
-                    ? 'bg-gradient-to-br from-emerald-500/25 to-lime-500/20' 
-                    : 'bg-muted/50'
-                }`}>
-                  <Sparkles className={`h-5 w-5 ${
+                
+                {/* Divider dot */}
+                <div className="w-1 h-1 rounded-full bg-border/50" />
+                
+                {/* Vitality */}
+                <div className="flex items-center gap-3">
+                  <div className={`w-9 h-9 rounded-full flex items-center justify-center ${
                     challengeStats.multiplierActive 
-                      ? 'text-emerald-500' 
-                      : 'text-muted-foreground'
-                  }`} />
-                  {challengeStats.multiplierActive && (
-                    <span className="absolute inset-0 rounded-full bg-emerald-500/15 animate-breathe" />
-                  )}
+                      ? 'bg-emerald-500/10' 
+                      : 'bg-muted/30'
+                  }`}>
+                    <Sparkles className={`h-4 w-4 ${
+                      challengeStats.multiplierActive 
+                        ? 'text-emerald-500' 
+                        : 'text-muted-foreground'
+                    }`} />
+                  </div>
+                  <div>
+                    <p className={`text-lg font-semibold ${
+                      challengeStats.multiplierActive 
+                        ? 'text-emerald-600' 
+                        : 'text-muted-foreground'
+                    }`}>
+                      {challengeStats.multiplierActive ? '1.5×' : '1×'}
+                    </p>
+                    <p className="text-[11px] text-muted-foreground">vitality</p>
+                  </div>
                 </div>
-                <p className={`text-2xl font-bold ${
-                  challengeStats.multiplierActive 
-                    ? 'text-emerald-600' 
-                    : 'text-muted-foreground'
-                }`}>
-                  {challengeStats.multiplierActive ? '1.5×' : '—'}
-                </p>
-                <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-wide mt-1">Vitality</p>
-                <p className={`text-[11px] mt-1.5 ${
-                  challengeStats.multiplierActive 
-                    ? 'text-emerald-600 font-medium' 
-                    : 'text-muted-foreground'
-                }`}>
-                  {challengeStats.multiplierActive ? 'Thriving!' : 'Steady growth'}
-                </p>
               </div>
             </div>
-          </div>
-
-          {/* Next Milestone Progress - Path to next bloom */}
-          <div className="relative flex items-center gap-3 py-3.5 px-4 rounded-xl bg-background/60">
-            <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-emerald-500/15 to-lime-500/10 flex items-center justify-center">
-              <Sprout className="h-4 w-4 text-emerald-600 animate-leaf" />
-            </div>
-            <div className="flex-1 min-w-0">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-xs text-muted-foreground">Next bloom boost at {challengeStats.nextMilestone} waterings</span>
-                <span className="text-xs font-semibold text-foreground">{challengeStats.completed}/{challengeStats.nextMilestone}</span>
+            
+            {/* Progress to Next Bloom - Single elegant bar */}
+            <div className="mx-6 mb-6">
+              <div className="flex items-center justify-between mb-2.5">
+                <span className="text-xs text-muted-foreground">Progress to next bloom</span>
+                <span className="text-xs font-medium text-foreground">{challengeStats.completed} of {challengeStats.nextMilestone}</span>
               </div>
-              <div className="h-1.5 rounded-full bg-muted/50 overflow-hidden">
+              <div className="h-2 rounded-full bg-muted/30 overflow-hidden">
                 <div 
-                  className="h-full rounded-full bg-gradient-to-r from-lime-500 via-emerald-500 to-lime-400 transition-all duration-500"
-                  style={{ width: `${(challengeStats.completed / challengeStats.nextMilestone) * 100}%` }}
+                  className="h-full rounded-full bg-gradient-to-r from-emerald-400 via-lime-400 to-emerald-500 transition-all duration-700"
+                  style={{ 
+                    width: `${(challengeStats.completed / challengeStats.nextMilestone) * 100}%`,
+                    boxShadow: '0 0 12px rgba(16,185,129,0.3)'
+                  }}
                 />
               </div>
+              <p className="text-[11px] text-muted-foreground mt-2">
+                {challengeStats.nextMilestone - challengeStats.completed} more waterings until your next bloom boost
+              </p>
+            </div>
+            
+            {/* Collected Plants - Lightweight horizontal preview */}
+            {gardenData.collectedPlants.length > 0 && (
+              <div className="mx-6 mb-5">
+                <button 
+                  onClick={() => navigate("/app/garden")}
+                  className="w-full group"
+                >
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-xs text-muted-foreground">Past blooms</span>
+                    <span className="text-[11px] text-primary font-medium flex items-center gap-1 group-hover:gap-1.5 transition-all">
+                      View garden
+                      <ChevronRight className="h-3 w-3" />
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    {gardenData.collectedPlants.slice(0, 4).map((plant, i) => (
+                      <div 
+                        key={i}
+                        className="w-12 h-12 rounded-xl bg-muted/20 border border-border/10 flex items-center justify-center group-hover:border-primary/20 transition-colors"
+                      >
+                        <img 
+                          src={plant.image} 
+                          alt={plant.name}
+                          className="w-8 h-8 object-contain"
+                        />
+                      </div>
+                    ))}
+                    {gardenData.collectedPlants.length > 4 && (
+                      <div className="w-12 h-12 rounded-xl bg-muted/10 border border-border/10 flex items-center justify-center">
+                        <span className="text-sm font-medium text-muted-foreground">+{gardenData.collectedPlants.length - 4}</span>
+                      </div>
+                    )}
+                    <div className="flex-1" />
+                    <span className="text-xs text-muted-foreground">{gardenData.collectedPlants.length} complete</span>
+                  </div>
+                </button>
+              </div>
+            )}
+            
+            {/* Closing gentle message */}
+            <div className="px-6 pb-6">
+              <div className="flex items-start gap-2.5 py-3 px-4 rounded-xl bg-emerald-500/5 border border-emerald-500/10">
+                <Sprout className="h-4 w-4 text-emerald-500 mt-0.5 flex-shrink-0" />
+                <p className="text-[13px] text-foreground/80 leading-relaxed">
+                  Your garden grows quietly in the background, nourished by +{ambientData.todayPoints} ambient points today. 
+                  Every small moment of care adds up.
+                </p>
+              </div>
             </div>
           </div>
-          
-          {/* Encouraging message */}
-          <p className="text-[11px] text-muted-foreground text-center mt-4">
-            Each challenge gives your garden a burst of accelerated growth
-          </p>
         </div>
-      </section>
+      </header>
 
       {/* ========================================
           SECTION 5: Monthly Projection (Secondary)
