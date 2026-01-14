@@ -218,66 +218,69 @@ export function EarningsPage() {
             
             return (
               <div className="relative h-full flex flex-col items-center justify-end">
-                {/* Arched Progress Gauge - Behind plant, spans above */}
-                <div className="absolute top-4 left-1/2 -translate-x-1/2 z-0">
-                  <svg 
-                    className="w-[300px] h-[180px]"
-                    viewBox="0 75 300 180"
-                  >
-                    {/* Background arc track - subtle */}
-                    <path
-                      d={arcPath(startAngle, startAngle + arcSweep, arcRadius)}
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth={arcStrokeWidth}
-                      strokeLinecap="round"
-                      className="text-white/20"
-                    />
-                    {/* Progress arc - glowing */}
-                    <path
-                      d={arcPath(startAngle, startAngle + progressAngle, arcRadius)}
-                      fill="none"
-                      stroke="url(#arcProgressGradient)"
-                      strokeWidth={arcStrokeWidth + 2}
-                      strokeLinecap="round"
-                      style={{ filter: 'drop-shadow(0 0 12px rgba(16,185,129,0.5))' }}
-                    />
-                    {/* Gradient definition */}
-                    <defs>
-                      <linearGradient id="arcProgressGradient" x1="0%" y1="50%" x2="100%" y2="50%">
-                        <stop offset="0%" stopColor="#84cc16" />
-                        <stop offset="50%" stopColor="#22c55e" />
-                        <stop offset="100%" stopColor="#10b981" />
-                      </linearGradient>
-                    </defs>
-                  </svg>
-                </div>
-                
-                {/* Section Title - Above gauge */}
-                <div className="absolute top-8 left-1/2 -translate-x-1/2 flex items-center gap-2 z-20">
+                {/* Section Title - At top */}
+                <div className="absolute top-6 left-1/2 -translate-x-1/2 flex items-center gap-2 z-20">
                   <Sprout className="h-3.5 w-3.5 text-emerald-600" />
                   <h2 className="text-xs font-semibold text-foreground/90 drop-shadow-sm">Garden of Progress</h2>
                 </div>
                 
                 {/* Subtle ambient glow behind plant */}
-                <div className="absolute bottom-12 left-1/2 -translate-x-1/2 w-64 h-40 rounded-full bg-gradient-radial from-emerald-400/10 via-lime-300/5 to-transparent blur-2xl z-0" />
+                <div className="absolute bottom-10 left-1/2 -translate-x-1/2 w-64 h-40 rounded-full bg-gradient-radial from-emerald-400/10 via-lime-300/5 to-transparent blur-2xl z-0" />
                 
                 {/* Contact shadow where plant meets ground */}
-                <div className="absolute bottom-6 left-1/2 -translate-x-1/2 w-28 h-3 bg-black/20 rounded-[100%] blur-md z-10" />
+                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-32 h-4 bg-black/25 rounded-[100%] blur-md z-10" />
                 
-                {/* Plant image - DOMINANT, grounded, overlapping gauge */}
-                <div className="animate-sway origin-bottom relative z-10 mb-4">
-                  <img 
-                    src={stageInfo.image} 
-                    alt={stageInfo.label}
-                    className="object-contain"
-                    style={{ 
-                      height: 'calc(50vh * 0.72)',
-                      minHeight: '230px',
-                      maxHeight: '290px',
-                      filter: 'drop-shadow(0 12px 24px rgba(0,0,0,0.25)) drop-shadow(0 24px 48px rgba(16,185,129,0.12))'
-                    }}
-                  />
+                {/* Plant + Gauge Container - Anchored together */}
+                <div className="relative flex flex-col items-center mb-2">
+                  {/* Arched Progress Gauge - Positioned as halo around plant */}
+                  <div className="absolute left-1/2 -translate-x-1/2 z-0" style={{ top: '-24px' }}>
+                    <svg 
+                      className="w-[280px] h-[160px]"
+                      viewBox="0 60 300 160"
+                    >
+                      {/* Background arc track - subtle */}
+                      <path
+                        d={arcPath(startAngle, startAngle + arcSweep, arcRadius)}
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth={arcStrokeWidth + 4}
+                        strokeLinecap="round"
+                        className="text-white/25"
+                      />
+                      {/* Progress arc - glowing, thicker */}
+                      <path
+                        d={arcPath(startAngle, startAngle + progressAngle, arcRadius)}
+                        fill="none"
+                        stroke="url(#arcProgressGradient)"
+                        strokeWidth={arcStrokeWidth + 6}
+                        strokeLinecap="round"
+                        style={{ filter: 'drop-shadow(0 0 16px rgba(16,185,129,0.6))' }}
+                      />
+                      {/* Gradient definition */}
+                      <defs>
+                        <linearGradient id="arcProgressGradient" x1="0%" y1="50%" x2="100%" y2="50%">
+                          <stop offset="0%" stopColor="#84cc16" />
+                          <stop offset="50%" stopColor="#22c55e" />
+                          <stop offset="100%" stopColor="#10b981" />
+                        </linearGradient>
+                      </defs>
+                    </svg>
+                  </div>
+                  
+                  {/* Plant image - DOMINANT, overlapping gauge */}
+                  <div className="animate-sway origin-bottom relative z-10">
+                    <img 
+                      src={stageInfo.image} 
+                      alt={stageInfo.label}
+                      className="object-contain"
+                      style={{ 
+                        height: 'calc(50vh * 0.70)',
+                        minHeight: '220px',
+                        maxHeight: '280px',
+                        filter: 'drop-shadow(0 12px 24px rgba(0,0,0,0.25)) drop-shadow(0 24px 48px rgba(16,185,129,0.12))'
+                      }}
+                    />
+                  </div>
                 </div>
               </div>
             );
