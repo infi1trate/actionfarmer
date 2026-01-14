@@ -218,10 +218,12 @@ export function EarningsPage() {
             
             return (
               <div className="relative h-full flex flex-col items-center justify-end">
-                {/* Section Title - At top */}
-                <div className="absolute top-6 left-1/2 -translate-x-1/2 flex items-center gap-2 z-20">
-                  <Sprout className="h-3.5 w-3.5 text-emerald-600" />
-                  <h2 className="text-xs font-semibold text-foreground/90 drop-shadow-sm">Garden of Progress</h2>
+                {/* Progress Pill - Single, calm indicator */}
+                <div className="absolute top-6 left-1/2 -translate-x-1/2 z-20">
+                  <div className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/60 backdrop-blur-sm border border-white/40 shadow-sm">
+                    <Sprout className="h-3 w-3 text-emerald-500/80" />
+                    <span className="text-xs font-medium text-foreground/80">{gardenData.challengesForNextStage} challenges to evolve</span>
+                  </div>
                 </div>
                 
                 {/* Subtle ambient glow behind plant */}
@@ -303,11 +305,6 @@ export function EarningsPage() {
           })()}
         </div>
         
-        {/* Progress Caption - Below hero, centered, in white content area */}
-        <div className="relative z-10 py-4 flex items-center justify-center gap-2 text-muted-foreground bg-background">
-          <Target className="h-3.5 w-3.5 text-emerald-500/70" />
-          <span className="text-sm font-medium">{gardenData.challengesForNextStage} challenges to evolve</span>
-        </div>
 
         {/* ========================================
             RECENT GROWTH - Challenges that fed the plant
