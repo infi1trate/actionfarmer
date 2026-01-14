@@ -87,6 +87,9 @@ const gardenData = {
     { name: "Rose Bush", days: 7, image: plantDay7 },
   ],
   multiplier: 1.2,
+  // Progress toward next growth stage (0-100)
+  stageProgress: 68, // 68% toward next stage
+  challengesForNextStage: 2, // challenges needed
 };
 
 const balanceData = {
@@ -148,11 +151,26 @@ export function EarningsPage() {
           0%, 100% { opacity: 0.3; }
           50% { opacity: 0.6; }
         }
+        @keyframes progress-pulse {
+          0%, 100% { opacity: 0.8; }
+          50% { opacity: 1; }
+        }
+        @keyframes ring-rotate {
+          0% { transform: rotate(-90deg); }
+          100% { transform: rotate(270deg); }
+        }
+        @keyframes stage-complete {
+          0% { transform: scale(1); filter: brightness(1); }
+          50% { transform: scale(1.08); filter: brightness(1.2); }
+          100% { transform: scale(1); filter: brightness(1); }
+        }
         .animate-sway { animation: gentle-sway 4s ease-in-out infinite; }
         .animate-breathe { animation: gentle-breathe 3s ease-in-out infinite; }
         .animate-leaf { animation: leaf-float 5s ease-in-out infinite; }
         .animate-water { animation: water-drip 2.5s ease-in-out infinite; }
         .animate-glow { animation: subtle-glow 3s ease-in-out infinite; }
+        .animate-progress-pulse { animation: progress-pulse 2s ease-in-out infinite; }
+        .animate-stage-complete { animation: stage-complete 0.6s ease-out; }
       `}</style>
 
       {/* ========================================
@@ -220,8 +238,63 @@ export function EarningsPage() {
                         : 'bg-gradient-to-b from-amber-300/20 to-transparent'
                     }`} style={{ animationDelay: '0.5s' }} />
                     
-                    {/* Plant Image Container - SIGNIFICANTLY LARGER */}
+                    {/* Plant Image Container with Circular Progress Ring */}
                     <div className="relative w-56 h-56 flex items-end justify-center">
+                      {/* CIRCULAR PROGRESS RING - Stage progress indicator */}
+                      <svg 
+                        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[220px] h-[220px] -rotate-90"
+                        viewBox="0 0 220 220"
+                      >
+                        {/* Background ring track */}
+                        <circle
+                          cx="110"
+                          cy="110"
+                          r="100"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="6"
+                          className="text-emerald-500/10"
+                        />
+                        {/* Progress ring - animated fill */}
+                        <circle
+                          cx="110"
+                          cy="110"
+                          r="100"
+                          fill="none"
+                          stroke="url(#progressGradient)"
+                          strokeWidth="6"
+                          strokeLinecap="round"
+                          strokeDasharray={`${2 * Math.PI * 100}`}
+                          strokeDashoffset={`${2 * Math.PI * 100 * (1 - gardenData.stageProgress / 100)}`}
+                          className="transition-all duration-1000 ease-out animate-progress-pulse"
+                          style={{ filter: 'drop-shadow(0 0 8px rgba(16,185,129,0.4))' }}
+                        />
+                        {/* Gradient definition */}
+                        <defs>
+                          <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stopColor={gardenData.multiplier > 1 ? "#fbbf24" : "#84cc16"} />
+                            <stop offset="50%" stopColor="#22c55e" />
+                            <stop offset="100%" stopColor="#10b981" />
+                          </linearGradient>
+                        </defs>
+                      </svg>
+                      
+                      {/* Progress percentage indicator - top of ring */}
+                      <div className="absolute -top-1 left-1/2 -translate-x-1/2 z-30">
+                        <div className="bg-emerald-500 text-white text-[10px] font-bold px-2.5 py-1 rounded-full shadow-lg flex items-center gap-1">
+                          <Zap className="h-2.5 w-2.5" />
+                          <span>{gardenData.stageProgress}%</span>
+                        </div>
+                      </div>
+                      
+                      {/* Challenges remaining indicator */}
+                      <div className="absolute -top-1 right-2 z-30">
+                        <div className="bg-background/90 backdrop-blur-sm text-foreground text-[9px] font-medium px-2 py-1 rounded-full shadow-md border border-border/50 flex items-center gap-1">
+                          <Target className="h-2.5 w-2.5 text-emerald-500" />
+                          <span>{gardenData.challengesForNextStage} to evolve</span>
+                        </div>
+                      </div>
+                      
                       {/* Ground/soil anchor */}
                       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-44 h-6 bg-gradient-to-t from-amber-800/40 via-amber-700/25 to-transparent rounded-[100%] blur-sm" />
                       <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-36 h-3 bg-amber-900/30 rounded-[100%] blur-[2px]" />
@@ -232,11 +305,11 @@ export function EarningsPage() {
                       }`} />
                       
                       {/* Animated plant image with sway - LARGE */}
-                      <div className="animate-sway origin-bottom relative z-10 pb-2">
+                      <div className={`animate-sway origin-bottom relative z-10 pb-2 ${gardenData.stageProgress >= 100 ? 'animate-stage-complete' : ''}`}>
                         <img 
                           src={stageInfo.image} 
                           alt={stageInfo.label}
-                          className="w-52 h-52 object-contain drop-shadow-2xl"
+                          className="w-48 h-48 object-contain drop-shadow-2xl"
                           style={{ 
                             filter: gardenData.multiplier > 1
                               ? 'drop-shadow(0 8px 16px rgba(0,0,0,0.2)) drop-shadow(0 20px 40px rgba(251,191,36,0.25)) drop-shadow(0 0 30px rgba(251,191,36,0.15))'
