@@ -30,7 +30,7 @@ export function SplashPage() {
   return (
     <div 
       className={`
-        fixed inset-0 flex flex-col items-center justify-between
+        fixed inset-0 flex flex-col
         transition-opacity duration-500
         ${isTransitioning ? 'opacity-0' : 'opacity-100'}
       `}
@@ -42,17 +42,35 @@ export function SplashPage() {
       }}
     >
       {/* Subtle ambient overlay for depth */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/10" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/20" />
 
-      {/* Top spacer - keeps content balanced */}
+      {/* Logo + Tagline - Top section */}
+      <header className="relative z-10 pt-16 px-8 flex flex-col items-center">
+        {/* Logo */}
+        <div className="w-20 h-20 rounded-2xl bg-brand-yellow flex items-center justify-center shadow-lg shadow-brand-yellow/30 mb-5">
+          <span className="text-3xl font-display font-bold text-brand-yellow-foreground">🌱</span>
+        </div>
+        
+        {/* App name */}
+        <h1 className="text-2xl font-display font-bold text-white drop-shadow-md mb-2">
+          DePIN Farmer
+        </h1>
+        
+        {/* Tagline */}
+        <p className="text-lg text-white/90 drop-shadow-sm font-medium">
+          Farm your everyday life
+        </p>
+      </header>
+
+      {/* Spacer */}
       <div className="flex-1" />
 
       {/* Bottom section with CTA */}
       <div className="relative z-10 w-full px-8 pb-12 pt-20 flex flex-col items-center">
         {/* Gradient backdrop for CTA readability */}
-        <div className="absolute inset-0 bg-gradient-to-t from-white/80 via-white/40 to-transparent backdrop-blur-[2px]" />
+        <div className="absolute inset-0 bg-gradient-to-t from-white/90 via-white/60 to-transparent backdrop-blur-[2px]" />
         
-        {/* Primary CTA - Floating pill button */}
+        {/* Primary CTA */}
         <button
           onClick={handlePlantSeed}
           disabled={isTransitioning}
@@ -85,10 +103,10 @@ export function SplashPage() {
           <span>Plant your first seed</span>
         </button>
 
-        {/* Secondary action - very subtle */}
+        {/* Secondary action */}
         <button
           onClick={handleLearnMore}
-          className="relative z-10 mt-5 text-sm text-foreground/50 hover:text-foreground/70 transition-colors"
+          className="relative z-10 mt-5 text-sm text-foreground/60 hover:text-foreground/80 transition-colors font-medium"
         >
           Learn how it works
         </button>
