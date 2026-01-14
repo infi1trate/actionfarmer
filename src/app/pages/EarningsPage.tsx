@@ -307,7 +307,7 @@ export function EarningsPage() {
                 </div>
                 
                 {/* Status Pill - Below plant */}
-                <div className="z-20">
+                <div className="-mt-4 z-20">
                   <div className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/70 backdrop-blur-sm border border-white/50 shadow-sm">
                     <span className="text-sm">🌱</span>
                     <span className="text-xs font-medium text-foreground/90">{gardenData.challengesForNextStage} challenges to evolve</span>
