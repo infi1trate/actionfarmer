@@ -202,7 +202,7 @@ export function EarningsPage() {
         </div>
         
         {/* Hero container - fixed height for consistent composition */}
-        <div className="relative z-10 px-5 -mt-10" style={{ height: '42vh', minHeight: '280px', maxHeight: '360px' }}>
+        <div className="relative z-10 px-5 -mt-6" style={{ height: '42vh', minHeight: '280px', maxHeight: '360px' }}>
           {(() => {
             const stageInfo = getPlantStageInfo(gardenData.currentStreak);
             // Arc gauge: 200° sweep (from -100° to +100°, centered at top)
