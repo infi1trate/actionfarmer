@@ -176,10 +176,10 @@ export function EarningsPage() {
       {/* ========================================
           SECTION 1: Garden of Progress Header - REFINED
           ======================================== */}
-      <header className="relative overflow-hidden">
+      <header className="relative overflow-hidden" style={{ minHeight: '70vh' }}>
       {/* Illustrated Background - Full hero coverage */}
         <div 
-          className="absolute inset-x-0 top-0 h-[65vh] bg-cover bg-bottom bg-no-repeat z-0"
+          className="absolute inset-0 bg-cover bg-bottom bg-no-repeat z-0"
           style={{ 
             backgroundImage: `url(${gardenBg})`,
             backgroundPosition: 'center 70%'
@@ -188,18 +188,18 @@ export function EarningsPage() {
         
         {/* A. Atmospheric wash - subtle mint-white, preserves color saturation */}
         <div 
-          className="absolute inset-x-0 top-0 h-[65vh] z-[1]"
+          className="absolute inset-0 z-[1]"
           style={{ 
-            background: 'rgba(245, 252, 249, 0.10)'
+            background: 'rgba(245, 252, 249, 0.08)'
           }}
         />
         
-        {/* B. Bottom seam gradient - short, steep mask at hero/content junction */}
+        {/* B. Bottom seam gradient - short, strong mask ONLY at the edge (80-100px) */}
         <div 
-          className="absolute inset-x-0 bottom-0 z-[2] pointer-events-none"
+          className="absolute inset-x-0 bottom-0 z-[5] pointer-events-none"
           style={{ 
-            height: '16%',
-            background: 'linear-gradient(to bottom, rgba(255,255,255,0.0) 0%, rgba(255,255,255,0.18) 35%, rgba(255,255,255,0.55) 70%, rgba(255,255,255,0.95) 100%)'
+            height: '100px',
+            background: 'linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,0.85) 100%)'
           }}
         />
         
@@ -242,8 +242,8 @@ export function EarningsPage() {
           </div>
         </div>
         
-        {/* Hero container - fixed height for consistent composition */}
-        <div className="relative z-10 px-5 -mt-6" style={{ height: '52vh', minHeight: '320px', maxHeight: '420px' }}>
+        {/* Hero container - taller to reveal green foreground */}
+        <div className="relative z-10 px-5 -mt-6" style={{ height: '58vh', minHeight: '380px', maxHeight: '480px' }}>
           {(() => {
             const stageInfo = getPlantStageInfo(gardenData.currentStreak);
             // Arc gauge: 200° sweep (from -100° to +100°, centered at top)
@@ -350,8 +350,8 @@ export function EarningsPage() {
                   </div>
                 </div>
                 
-                {/* Status Pill - Below plant */}
-                <div className="-mt-4 z-20">
+                {/* Status Pill - Below plant with breathing room */}
+                <div className="mt-2 mb-6 z-20">
                   <div className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/70 backdrop-blur-sm border border-white/50 shadow-sm">
                     <span className="text-sm">🌱</span>
                     <span className="text-xs font-medium text-foreground/90">{gardenData.challengesForNextStage} challenges to evolve</span>
@@ -368,7 +368,7 @@ export function EarningsPage() {
       {/* ========================================
           YOUR GARDEN THIS WEEK - Primary conceptual panel
           ======================================== */}
-      <section className="px-5 pt-8 pb-6">
+      <section className="px-5 pt-8 pb-6 relative z-10 bg-background">
         <div className="rounded-3xl bg-gradient-to-b from-muted/40 to-muted/20 border border-border/10 overflow-hidden">
           
           {/* Panel Header - Generous spacing */}
