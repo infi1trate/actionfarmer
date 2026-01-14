@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 
 import {
   TrendingUp,
-  Flame,
   ChevronRight,
   Sparkles,
   Clock,
@@ -13,18 +12,37 @@ import {
   Target,
   ArrowUpRight,
   Trophy,
-  Percent,
   Activity,
-  Calendar,
   CheckCircle2,
   Timer,
+  Sprout,
+  Flower2,
+  TreeDeciduous,
 } from "lucide-react";
 
-// Placeholder data
-const streakData = {
-  current: 7,
-  best: 14,
+// Garden/Streak data
+const gardenData = {
+  currentStreak: 7,
+  currentPlantStage: 3, // 1=seed, 2=sprout, 3=growing, 4=blooming, 5=full tree
+  currentPlantName: "Sunflower",
+  daysToNextStage: 3,
+  collectedPlants: [
+    { name: "Daisy", days: 7, icon: "🌼" },
+    { name: "Tulip", days: 14, icon: "🌷" },
+    { name: "Rose", days: 21, icon: "🌹" },
+  ],
   multiplier: 1.2,
+};
+
+const getPlantStageInfo = (stage: number) => {
+  const stages = [
+    { label: "Seed", icon: Sprout, color: "text-amber-600", bg: "bg-amber-500/15" },
+    { label: "Sprout", icon: Sprout, color: "text-lime-600", bg: "bg-lime-500/15" },
+    { label: "Growing", icon: Flower2, color: "text-emerald-600", bg: "bg-emerald-500/15" },
+    { label: "Blooming", icon: Flower2, color: "text-pink-500", bg: "bg-pink-500/15" },
+    { label: "Full Bloom", icon: TreeDeciduous, color: "text-green-600", bg: "bg-green-500/15" },
+  ];
+  return stages[Math.min(stage - 1, 4)];
 };
 
 const balanceData = {
@@ -64,50 +82,99 @@ export function EarningsPage() {
   return (
     <div className="min-h-screen pb-28 bg-background">
       {/* ========================================
-          SECTION 1: Momentum Status Header
+          SECTION 1: Garden of Progress
           ======================================== */}
-      <header className="bg-gradient-to-b from-muted/30 to-transparent">
-        <div className="px-5 py-5">
-          <div className="flex items-center justify-between">
-            {/* Current Streak */}
-            <div className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-full bg-orange-500/15 flex items-center justify-center">
-                <Flame className="h-4.5 w-4.5 text-orange-500" />
-              </div>
-              <div>
-                <p className="text-lg font-bold text-foreground leading-tight">{streakData.current} days</p>
-                <p className="text-[11px] text-muted-foreground font-medium">Current streak</p>
-              </div>
-            </div>
-
-            {/* Divider */}
-            <div className="h-10 w-px bg-border/40" />
-
-            {/* Best Streak */}
-            <div className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-full bg-amber-500/15 flex items-center justify-center">
-                <Trophy className="h-4.5 w-4.5 text-amber-500" />
-              </div>
-              <div>
-                <p className="text-lg font-bold text-foreground leading-tight">{streakData.best} days</p>
-                <p className="text-[11px] text-muted-foreground font-medium">Personal best</p>
-              </div>
-            </div>
-
-            {/* Divider */}
-            <div className="h-10 w-px bg-border/40" />
-
-            {/* Multiplier */}
-            <div className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-full bg-primary/15 flex items-center justify-center">
-                <Zap className="h-4.5 w-4.5 text-primary" />
-              </div>
-              <div>
-                <p className="text-lg font-bold text-primary leading-tight">{streakData.multiplier}x</p>
-                <p className="text-[11px] text-muted-foreground font-medium">Active bonus</p>
-              </div>
-            </div>
+      <header className="bg-gradient-to-b from-emerald-500/8 via-lime-500/5 to-transparent">
+        <div className="px-5 pt-6 pb-5">
+          {/* Section Title */}
+          <div className="flex items-center gap-2 mb-5">
+            <Sprout className="h-4 w-4 text-emerald-600" />
+            <h2 className="text-sm font-semibold text-foreground">Garden of Progress</h2>
           </div>
+
+          {/* Current Growing Plant - Hero */}
+          <div className="relative mb-6">
+            {(() => {
+              const stageInfo = getPlantStageInfo(gardenData.currentPlantStage);
+              const PlantIcon = stageInfo.icon;
+              const progress = (gardenData.currentPlantStage / 5) * 100;
+              
+              return (
+                <div className="flex items-center gap-5">
+                  {/* Plant Visualization */}
+                  <div className="relative">
+                    <div className={`w-20 h-20 rounded-2xl ${stageInfo.bg} flex items-center justify-center relative overflow-hidden`}>
+                      {/* Growth rings animation */}
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className={`w-16 h-16 rounded-full border-2 border-dashed ${stageInfo.color.replace('text-', 'border-')} opacity-20 animate-pulse`} />
+                      </div>
+                      <PlantIcon className={`h-9 w-9 ${stageInfo.color} relative z-10`} />
+                    </div>
+                    {/* Day counter badge */}
+                    <div className="absolute -bottom-1.5 -right-1.5 bg-foreground text-background text-[10px] font-bold px-2 py-0.5 rounded-full">
+                      Day {gardenData.currentStreak}
+                    </div>
+                  </div>
+
+                  {/* Plant Info */}
+                  <div className="flex-1">
+                    <p className="text-xs text-muted-foreground font-medium mb-1">Currently growing</p>
+                    <p className="text-xl font-bold text-foreground mb-1">{gardenData.currentPlantName}</p>
+                    <p className={`text-sm font-medium ${stageInfo.color}`}>{stageInfo.label}</p>
+                    
+                    {/* Growth Progress */}
+                    <div className="mt-3">
+                      <div className="flex items-center justify-between text-[10px] text-muted-foreground mb-1.5">
+                        <span>Growth progress</span>
+                        <span>{gardenData.daysToNextStage} days to next stage</span>
+                      </div>
+                      <div className="h-2 rounded-full bg-muted/30 overflow-hidden">
+                        <div 
+                          className="h-full rounded-full bg-gradient-to-r from-lime-500 to-emerald-500 transition-all duration-700"
+                          style={{ width: `${progress}%` }}
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Multiplier Badge */}
+                  <div className="text-center">
+                    <div className="w-12 h-12 rounded-xl bg-primary/15 flex items-center justify-center mb-1">
+                      <Zap className="h-5 w-5 text-primary" />
+                    </div>
+                    <p className="text-sm font-bold text-primary">{gardenData.multiplier}x</p>
+                    <p className="text-[9px] text-muted-foreground">bonus</p>
+                  </div>
+                </div>
+              );
+            })()}
+          </div>
+
+          {/* Collected Plants Gallery */}
+          {gardenData.collectedPlants.length > 0 && (
+            <div className="pt-4 border-t border-border/20">
+              <p className="text-[11px] text-muted-foreground font-medium uppercase tracking-wide mb-3">
+                Your collected plants
+              </p>
+              <div className="flex items-center gap-2">
+                {gardenData.collectedPlants.map((plant, i) => (
+                  <div 
+                    key={i}
+                    className="flex items-center gap-2 py-2 px-3 rounded-xl bg-background/60 border border-border/20"
+                  >
+                    <span className="text-lg">{plant.icon}</span>
+                    <div>
+                      <p className="text-xs font-medium text-foreground">{plant.name}</p>
+                      <p className="text-[10px] text-muted-foreground">{plant.days}-day streak</p>
+                    </div>
+                  </div>
+                ))}
+                <div className="py-2 px-3 rounded-xl border border-dashed border-border/30 text-center">
+                  <p className="text-xs text-muted-foreground">+{3 - gardenData.collectedPlants.length} more</p>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </header>
 
