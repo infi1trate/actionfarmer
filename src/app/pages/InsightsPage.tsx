@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { 
   Sparkles,
@@ -12,12 +11,13 @@ import {
   TrendingUp,
   Heart,
   Eye,
-  ChevronRight,
+  BookOpen,
+  ArrowRight,
 } from "lucide-react";
 
 // =====================================
 // Weekly Garden Journal - Insights Page
-// Editorial, playful, reflective design
+// Editorial digest layout with storytelling hierarchy
 // =====================================
 
 // Dynamic weekly headline options
@@ -35,21 +35,27 @@ const weeklyHighlights = [
     title: "Your smoothest week yet",
     description: "Transitions between tasks felt effortless",
     icon: Zap,
-    color: "bg-amber-500/10 text-amber-600",
+    accent: "from-amber-500/20 to-amber-500/5",
+    iconBg: "bg-amber-500/15",
+    iconColor: "text-amber-600",
   },
   {
     id: "h2",
     title: "Gentle with fragile items",
     description: "You naturally slowed down when it mattered",
     icon: Feather,
-    color: "bg-rose-500/10 text-rose-600",
+    accent: "from-rose-500/20 to-rose-500/5",
+    iconBg: "bg-rose-500/15",
+    iconColor: "text-rose-600",
   },
   {
     id: "h3",
     title: "Morning momentum",
     description: "Your best energy showed up early",
     icon: Sun,
-    color: "bg-orange-500/10 text-orange-600",
+    accent: "from-orange-500/20 to-orange-500/5",
+    iconBg: "bg-orange-500/15",
+    iconColor: "text-orange-600",
   },
 ];
 
@@ -109,158 +115,201 @@ export function InsightsPage() {
   const headline = weeklyHeadlines[weekNumber % weeklyHeadlines.length];
 
   return (
-    <div className="pb-24 bg-gradient-to-b from-primary/5 via-background to-background min-h-screen">
+    <div className="min-h-screen bg-background">
       {/* ==========================================
-          EDITORIAL HERO HEADER - Garden Journal
-          Weekly recap style, warm and reflective
+          EDITORIAL MASTHEAD
+          Magazine-style header with generous spacing
           ========================================== */}
-      <header className="px-5 pt-8 pb-8">
-        <p className="text-[10px] font-semibold text-primary uppercase tracking-widest mb-1">
-          This Week in Your Garden
-        </p>
-        <p className="text-[10px] text-muted-foreground mb-3">
-          {weekLabel}
-        </p>
-        <h1 className="text-2xl md:text-3xl font-bold text-foreground tracking-tight mb-2">
-          {headline}
-        </h1>
-        <p className="text-sm text-muted-foreground leading-relaxed max-w-[320px]">
-          Here's what we noticed from how you completed your challenges.
-        </p>
-      </header>
-
-      <div className="px-4 space-y-8">
-        {/* ==========================================
-            SECTION 1: This Week's Highlights
-            2-4 playful insight cards
-            ========================================== */}
-        <section className="space-y-4">
-          <div className="flex items-center gap-2 px-1">
-            <Sparkles className="h-4 w-4 text-primary" />
-            <h2 className="text-sm font-semibold text-foreground">
-              This Week's Highlights
-            </h2>
+      <header className="relative overflow-hidden">
+        {/* Soft gradient backdrop */}
+        <div className="absolute inset-0 bg-gradient-to-b from-primary/8 via-primary/3 to-transparent" />
+        
+        <div className="relative px-6 pt-10 pb-12 md:pt-14 md:pb-16">
+          {/* Journal icon + eyebrow */}
+          <div className="flex items-center gap-2 mb-4">
+            <div className="w-7 h-7 rounded-lg bg-primary/10 flex items-center justify-center">
+              <BookOpen className="h-3.5 w-3.5 text-primary" />
+            </div>
+            <span className="text-[11px] font-semibold text-primary uppercase tracking-[0.15em]">
+              This Week in Your Garden
+            </span>
           </div>
           
-          <div className="grid gap-3">
-            {weeklyHighlights.map((highlight) => {
-              const IconComponent = highlight.icon;
-              return (
-                <Card 
-                  key={highlight.id}
-                  className="p-4 border-0 bg-card/80 backdrop-blur-sm shadow-sm hover:shadow-md transition-shadow"
-                >
-                  <div className="flex items-center gap-4">
-                    <div className={`w-12 h-12 rounded-2xl ${highlight.color} flex items-center justify-center flex-shrink-0`}>
-                      <IconComponent className="h-6 w-6" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-base font-medium text-foreground mb-0.5">
-                        {highlight.title}
-                      </p>
-                      <p className="text-sm text-muted-foreground">
-                        {highlight.description}
-                      </p>
-                    </div>
-                  </div>
-                </Card>
-              );
-            })}
-          </div>
-        </section>
+          {/* Main headline - editorial scale */}
+          <h1 className="text-[28px] md:text-4xl font-bold text-foreground tracking-tight leading-tight mb-3">
+            {headline}
+          </h1>
+          
+          {/* Subhead with date */}
+          <p className="text-[15px] text-muted-foreground leading-relaxed max-w-sm mb-2">
+            Here's what we noticed from how you completed your challenges.
+          </p>
+          <p className="text-xs text-muted-foreground/60 font-medium">
+            {weekLabel}
+          </p>
+        </div>
+      </header>
 
-        {/* ==========================================
-            SECTION 2: Your Patterns
-            Grouped by human categories
-            ========================================== */}
-        <section className="space-y-5">
-          <div className="flex items-center gap-2 px-1">
-            <Eye className="h-4 w-4 text-primary" />
-            <h2 className="text-sm font-semibold text-foreground">
-              Your Patterns
-            </h2>
-          </div>
-
-          {/* How You Move */}
-          <div className="space-y-3">
-            <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide px-1">
-              How You Move
-            </p>
-            <div className="space-y-2">
-              {movementPatterns.map((pattern) => (
-                <PatternCard key={pattern.id} pattern={pattern} />
-              ))}
-            </div>
-          </div>
-
-          {/* How You Handle Things */}
-          <div className="space-y-3">
-            <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide px-1">
-              How You Handle Things
-            </p>
-            <div className="space-y-2">
-              {handlingPatterns.map((pattern) => (
-                <PatternCard key={pattern.id} pattern={pattern} />
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* ==========================================
-            SECTION 3: Weekly Garden Reflection
-            Narrative tying behavior to garden metaphor
-            ========================================== */}
-        <section>
-          <Card className="p-5 border-0 bg-gradient-to-br from-primary/10 via-primary/5 to-transparent">
-            <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
-                <Leaf className="h-6 w-6 text-primary" />
+      {/* ==========================================
+          HIGHLIGHTS - Featured story cards
+          Large, visually distinct cards
+          ========================================== */}
+      <section className="px-5 pb-10">
+        <div className="flex items-center gap-2.5 mb-5">
+          <Sparkles className="h-4 w-4 text-primary" />
+          <h2 className="text-[13px] font-semibold text-foreground uppercase tracking-wide">
+            This Week's Highlights
+          </h2>
+        </div>
+        
+        {/* Featured highlight - hero card */}
+        {weeklyHighlights[0] && (() => {
+          const FeaturedIcon = weeklyHighlights[0].icon;
+          return (
+            <div className={`relative rounded-2xl bg-gradient-to-br ${weeklyHighlights[0].accent} p-6 mb-4 overflow-hidden`}>
+              <div className="absolute top-4 right-4 opacity-10">
+                <FeaturedIcon className="h-24 w-24" />
               </div>
-              <div className="space-y-2">
-                <h3 className="text-sm font-semibold text-foreground">
-                  Weekly Garden Reflection
-                </h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  Your garden thrived on steady care this week. Each challenge you completed added a little more growth — 
-                  not through big leaps, but through small, consistent moments of showing up. 
-                  That's how gardens flourish. 🌱
+              <div className={`w-14 h-14 rounded-2xl ${weeklyHighlights[0].iconBg} flex items-center justify-center mb-4`}>
+                <FeaturedIcon className={`h-7 w-7 ${weeklyHighlights[0].iconColor}`} />
+              </div>
+              <h3 className="text-xl font-semibold text-foreground mb-1.5">
+                {weeklyHighlights[0].title}
+              </h3>
+              <p className="text-[15px] text-muted-foreground leading-relaxed">
+                {weeklyHighlights[0].description}
+              </p>
+            </div>
+          );
+        })()}
+        
+        {/* Secondary highlights - compact grid */}
+        <div className="grid grid-cols-2 gap-3">
+          {weeklyHighlights.slice(1).map((highlight) => {
+            const IconComponent = highlight.icon;
+            return (
+              <div 
+                key={highlight.id}
+                className={`rounded-xl bg-gradient-to-br ${highlight.accent} p-4`}
+              >
+                <div className={`w-10 h-10 rounded-xl ${highlight.iconBg} flex items-center justify-center mb-3`}>
+                  <IconComponent className={`h-5 w-5 ${highlight.iconColor}`} />
+                </div>
+                <p className="text-sm font-medium text-foreground mb-0.5 leading-snug">
+                  {highlight.title}
+                </p>
+                <p className="text-xs text-muted-foreground leading-snug">
+                  {highlight.description}
                 </p>
               </div>
-            </div>
-          </Card>
-        </section>
+            );
+          })}
+        </div>
+      </section>
 
-        {/* ==========================================
-            SECTION 4: Looking Ahead
-            Gentle anticipation copy
-            ========================================== */}
-        <section>
-          <Card className="p-5 border-0 bg-muted/30">
-            <div className="text-center space-y-3">
-              <p className="text-sm text-muted-foreground">
-                ✨ New insights unlock as you complete more challenges
-              </p>
-              <p className="text-xs text-muted-foreground/70">
-                Next week we'll watch how your pace changes
-              </p>
-            </div>
-          </Card>
-        </section>
+      {/* Soft divider */}
+      <div className="mx-6 h-px bg-border/50 mb-10" />
 
-        {/* Privacy footer */}
-        <p className="text-xs text-muted-foreground/60 text-center px-4 pb-4">
+      {/* ==========================================
+          PATTERNS - Grouped editorial sections
+          Clean typography hierarchy
+          ========================================== */}
+      <section className="px-5 pb-10">
+        <div className="flex items-center gap-2.5 mb-6">
+          <Eye className="h-4 w-4 text-primary" />
+          <h2 className="text-[13px] font-semibold text-foreground uppercase tracking-wide">
+            Your Patterns
+          </h2>
+        </div>
+
+        {/* How You Move - Pattern group */}
+        <div className="mb-8">
+          <div className="flex items-center gap-2 mb-4">
+            <Move className="h-3.5 w-3.5 text-muted-foreground" />
+            <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+              How You Move
+            </h3>
+          </div>
+          <div className="space-y-3">
+            {movementPatterns.map((pattern) => (
+              <PatternRow key={pattern.id} pattern={pattern} />
+            ))}
+          </div>
+        </div>
+
+        {/* How You Handle Things - Pattern group */}
+        <div>
+          <div className="flex items-center gap-2 mb-4">
+            <Hand className="h-3.5 w-3.5 text-muted-foreground" />
+            <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+              How You Handle Things
+            </h3>
+          </div>
+          <div className="space-y-3">
+            {handlingPatterns.map((pattern) => (
+              <PatternRow key={pattern.id} pattern={pattern} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Soft divider */}
+      <div className="mx-6 h-px bg-border/50 mb-10" />
+
+      {/* ==========================================
+          REFLECTION - Narrative section
+          Full-width, editorial prose feel
+          ========================================== */}
+      <section className="px-6 pb-10">
+        <div className="flex items-center gap-2.5 mb-5">
+          <Leaf className="h-4 w-4 text-primary" />
+          <h2 className="text-[13px] font-semibold text-foreground uppercase tracking-wide">
+            Weekly Reflection
+          </h2>
+        </div>
+        
+        <div className="relative rounded-2xl bg-gradient-to-br from-primary/8 via-primary/4 to-transparent p-6">
+          <p className="text-[15px] text-foreground/90 leading-relaxed mb-4">
+            Your garden thrived on steady care this week.
+          </p>
+          <p className="text-sm text-muted-foreground leading-relaxed">
+            Each challenge you completed added a little more growth — not through big leaps, 
+            but through small, consistent moments of showing up. That's how gardens flourish. 🌱
+          </p>
+        </div>
+      </section>
+
+      {/* ==========================================
+          LOOKING AHEAD - Anticipation footer
+          Gentle, forward-looking
+          ========================================== */}
+      <section className="px-6 pb-8">
+        <div className="rounded-xl bg-muted/40 p-5 text-center">
+          <p className="text-sm text-muted-foreground mb-2">
+            ✨ New insights unlock as you complete more challenges
+          </p>
+          <div className="flex items-center justify-center gap-1.5 text-xs text-muted-foreground/70">
+            <span>Next week we'll watch how your pace changes</span>
+            <ArrowRight className="h-3 w-3" />
+          </div>
+        </div>
+      </section>
+
+      {/* Privacy footer */}
+      <footer className="px-6 pb-28 text-center">
+        <p className="text-[11px] text-muted-foreground/50">
           These observations are personal and private — only you can see them.
         </p>
-      </div>
+      </footer>
     </div>
   );
 }
 
 // =====================================
-// Pattern Card Component
-// Soft card with icon, name, explanation
+// Pattern Row Component
+// Clean, readable pattern display
 // =====================================
-interface PatternCardProps {
+interface PatternRowProps {
   pattern: {
     id: string;
     title: string;
@@ -271,40 +320,36 @@ interface PatternCardProps {
   };
 }
 
-const PatternCard = ({ pattern }: PatternCardProps) => {
+const PatternRow = ({ pattern }: PatternRowProps) => {
   const IconComponent = pattern.icon;
   
   return (
-    <Card className="p-4 border-0 bg-card/60 backdrop-blur-sm hover:bg-card/80 transition-colors group cursor-default">
-      <div className="flex items-center gap-3">
-        <div className="w-10 h-10 rounded-xl bg-muted/80 flex items-center justify-center flex-shrink-0 group-hover:bg-muted transition-colors">
-          <IconComponent className="h-5 w-5 text-muted-foreground" />
-        </div>
-        
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 flex-wrap mb-0.5">
-            <p className="text-sm font-medium text-foreground">{pattern.title}</p>
-            {pattern.isNew && (
-              <Badge 
-                variant="secondary" 
-                className="text-[10px] px-1.5 py-0 h-4 bg-primary/15 text-primary border-0 font-medium"
-              >
-                New this week
-              </Badge>
-            )}
-          </div>
-          <p className="text-sm text-muted-foreground leading-snug">
-            {pattern.description}
-          </p>
-          {pattern.context && (
-            <p className="text-xs text-muted-foreground/60 mt-1">
-              {pattern.context}
-            </p>
+    <div className="flex items-start gap-4 p-4 rounded-xl bg-card/60 hover:bg-card/80 transition-colors">
+      <div className="w-10 h-10 rounded-xl bg-muted flex items-center justify-center flex-shrink-0">
+        <IconComponent className="h-5 w-5 text-muted-foreground" />
+      </div>
+      
+      <div className="flex-1 min-w-0 pt-0.5">
+        <div className="flex items-center gap-2 flex-wrap mb-1">
+          <span className="text-[15px] font-medium text-foreground">{pattern.title}</span>
+          {pattern.isNew && (
+            <Badge 
+              variant="secondary" 
+              className="text-[10px] px-1.5 py-0 h-4 bg-primary/12 text-primary border-0 font-medium"
+            >
+              New
+            </Badge>
           )}
         </div>
-
-        <ChevronRight className="h-4 w-4 text-muted-foreground/40 flex-shrink-0" />
+        <p className="text-sm text-muted-foreground leading-relaxed">
+          {pattern.description}
+        </p>
+        {pattern.context && (
+          <p className="text-xs text-muted-foreground/50 mt-1.5">
+            {pattern.context}
+          </p>
+        )}
       </div>
-    </Card>
+    </div>
   );
 };
