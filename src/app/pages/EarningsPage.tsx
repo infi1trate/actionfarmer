@@ -293,7 +293,7 @@ export function EarningsPage() {
                   <div 
                     className="absolute z-0 pointer-events-none"
                     style={{ 
-                      bottom: '88px',
+                      bottom: '48px',
                       left: '50%',
                       transform: 'translateX(-50%)',
                       opacity: 0.72,
