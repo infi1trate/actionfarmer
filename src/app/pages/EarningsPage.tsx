@@ -397,97 +397,117 @@ export function EarningsPage() {
       <div className="mx-5 h-px bg-gradient-to-r from-transparent via-border/40 to-transparent" />
 
       {/* ========================================
-          SECTION 4: Challenge Bonus Summary Card
+          SECTION 4: Growth Bursts (Challenge Bonuses)
           ======================================== */}
       <section className="px-5 py-8">
         {/* Card Container */}
-        <div className="rounded-2xl bg-gradient-to-br from-amber-500/8 via-amber-400/4 to-transparent p-6 border border-amber-500/12">
+        <div className="rounded-2xl bg-gradient-to-br from-amber-500/8 via-lime-500/6 to-emerald-500/4 p-6 border border-amber-500/12 relative overflow-hidden">
+          {/* Decorative burst elements */}
+          <div className="absolute top-4 right-4 opacity-10">
+            <Sparkles className="h-16 w-16 text-amber-400 animate-glow" />
+          </div>
+          
           {/* Header */}
-          <div className="flex items-center gap-3 mb-6">
-            <div className="w-9 h-9 rounded-full bg-amber-500/20 flex items-center justify-center">
-              <Trophy className="h-4.5 w-4.5 text-amber-500" />
+          <div className="relative flex items-center gap-3 mb-6">
+            <div className="w-9 h-9 rounded-full bg-gradient-to-br from-amber-500/30 to-lime-500/20 flex items-center justify-center">
+              <Sparkles className="h-4.5 w-4.5 text-amber-500" />
             </div>
             <div>
-              <h2 className="text-sm font-semibold text-foreground">Challenge Rewards</h2>
-              <p className="text-[11px] text-muted-foreground">Your bonus achievements</p>
+              <h2 className="text-sm font-semibold text-foreground">Growth Bursts</h2>
+              <p className="text-[11px] text-muted-foreground">Challenges accelerate your garden</p>
             </div>
           </div>
 
           {/* Metrics Grid */}
-          <div className="grid grid-cols-3 gap-3 mb-6">
-            {/* Challenges Completed */}
-            <div className="text-center py-5 px-3 rounded-xl bg-background/80">
-              <div className="w-11 h-11 mx-auto mb-3 rounded-full bg-amber-500/15 flex items-center justify-center">
-                <CheckCircle2 className="h-5 w-5 text-amber-600" />
+          <div className="relative grid grid-cols-3 gap-3 mb-6">
+            {/* Challenges Completed - Growth Spurts */}
+            <div className="text-center py-5 px-3 rounded-xl bg-background/80 relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-t from-lime-500/5 to-transparent" />
+              <div className="relative">
+                <div className="w-11 h-11 mx-auto mb-3 rounded-full bg-gradient-to-br from-lime-500/20 to-emerald-500/15 flex items-center justify-center">
+                  <Sprout className="h-5 w-5 text-lime-600" />
+                </div>
+                <p className="text-2xl font-bold text-foreground">{challengeStats.completed}</p>
+                <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-wide mt-1">Growth Spurts</p>
+                <p className="text-[11px] text-muted-foreground mt-1.5">of {challengeStats.attempted} attempted</p>
               </div>
-              <p className="text-2xl font-bold text-foreground">{challengeStats.completed}</p>
-              <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-wide mt-1">Completed</p>
-              <p className="text-[11px] text-muted-foreground mt-1.5">of {challengeStats.attempted} attempted</p>
             </div>
 
-            {/* Bonus Points */}
-            <div className="text-center py-5 px-3 rounded-xl bg-background/80">
-              <div className="w-11 h-11 mx-auto mb-3 rounded-full bg-emerald-500/15 flex items-center justify-center">
-                <Sparkles className="h-5 w-5 text-emerald-600" />
+            {/* Bonus Points - Sunshine Boost */}
+            <div className="text-center py-5 px-3 rounded-xl bg-background/80 relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-t from-amber-500/5 to-transparent" />
+              <div className="relative">
+                <div className="w-11 h-11 mx-auto mb-3 rounded-full bg-gradient-to-br from-amber-500/20 to-yellow-500/15 flex items-center justify-center">
+                  <Sun className="h-5 w-5 text-amber-500 animate-glow" />
+                </div>
+                <p className="text-2xl font-bold text-amber-600">+{challengeStats.bonusEarned}</p>
+                <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-wide mt-1">Bonus Pts</p>
+                <p className="text-[11px] text-muted-foreground mt-1.5">extra sunshine</p>
               </div>
-              <p className="text-2xl font-bold text-emerald-600">+{challengeStats.bonusEarned}</p>
-              <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-wide mt-1">Bonus Pts</p>
-              <p className="text-[11px] text-muted-foreground mt-1.5">earned this month</p>
             </div>
 
-            {/* Multiplier Status */}
+            {/* Multiplier Status - Super Growth */}
             <div className="text-center py-5 px-3 rounded-xl bg-background/80 relative overflow-hidden">
               {challengeStats.multiplierActive && (
-                <div className="absolute inset-0 bg-gradient-to-t from-primary/6 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-emerald-500/8 to-transparent" />
               )}
-              <div className={`relative w-11 h-11 mx-auto mb-3 rounded-full flex items-center justify-center ${
-                challengeStats.multiplierActive 
-                  ? 'bg-primary/15' 
-                  : 'bg-muted/50'
-              }`}>
-                <Zap className={`h-5 w-5 ${
+              <div className="relative">
+                <div className={`w-11 h-11 mx-auto mb-3 rounded-full flex items-center justify-center ${
                   challengeStats.multiplierActive 
-                    ? 'text-primary' 
+                    ? 'bg-gradient-to-br from-emerald-500/25 to-lime-500/20' 
+                    : 'bg-muted/50'
+                }`}>
+                  <Zap className={`h-5 w-5 ${
+                    challengeStats.multiplierActive 
+                      ? 'text-emerald-500' 
+                      : 'text-muted-foreground'
+                  }`} />
+                  {challengeStats.multiplierActive && (
+                    <span className="absolute inset-0 rounded-full bg-emerald-500/15 animate-breathe" />
+                  )}
+                </div>
+                <p className={`text-2xl font-bold ${
+                  challengeStats.multiplierActive 
+                    ? 'text-emerald-600' 
                     : 'text-muted-foreground'
-                }`} />
-                {challengeStats.multiplierActive && (
-                  <span className="absolute inset-0 rounded-full bg-primary/20 animate-pulse" />
-                )}
+                }`}>
+                  {challengeStats.multiplierActive ? '1.5×' : '—'}
+                </p>
+                <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-wide mt-1">Growth Rate</p>
+                <p className={`text-[11px] mt-1.5 ${
+                  challengeStats.multiplierActive 
+                    ? 'text-emerald-600 font-medium' 
+                    : 'text-muted-foreground'
+                }`}>
+                  {challengeStats.multiplierActive ? 'Supercharged!' : 'Normal pace'}
+                </p>
               </div>
-              <p className={`text-2xl font-bold ${
-                challengeStats.multiplierActive 
-                  ? 'text-primary' 
-                  : 'text-muted-foreground'
-              }`}>
-                {challengeStats.multiplierActive ? '1.5×' : '—'}
-              </p>
-              <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-wide mt-1">Multiplier</p>
-              <p className={`text-[11px] mt-1.5 ${
-                challengeStats.multiplierActive 
-                  ? 'text-primary font-medium' 
-                  : 'text-muted-foreground'
-              }`}>
-                {challengeStats.multiplierActive ? 'Active now!' : 'Inactive'}
-              </p>
             </div>
           </div>
 
-          {/* Next Milestone Progress */}
-          <div className="flex items-center gap-3 py-3.5 px-4 rounded-xl bg-background/60">
-            <Target className="h-4 w-4 text-amber-500 flex-shrink-0" />
+          {/* Next Milestone Progress - Path to next bloom */}
+          <div className="relative flex items-center gap-3 py-3.5 px-4 rounded-xl bg-background/60">
+            <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-amber-500/15 to-lime-500/10 flex items-center justify-center">
+              <Leaf className="h-4 w-4 text-lime-600 animate-leaf" />
+            </div>
             <div className="flex-1 min-w-0">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-xs text-muted-foreground">Next reward at {challengeStats.nextMilestone} challenges</span>
+                <span className="text-xs text-muted-foreground">Next growth boost at {challengeStats.nextMilestone}</span>
                 <span className="text-xs font-semibold text-foreground">{challengeStats.completed}/{challengeStats.nextMilestone}</span>
               </div>
               <div className="h-1.5 rounded-full bg-muted/50 overflow-hidden">
                 <div 
-                  className="h-full rounded-full bg-gradient-to-r from-amber-500 to-amber-400 transition-all duration-500"
+                  className="h-full rounded-full bg-gradient-to-r from-lime-500 via-emerald-500 to-lime-400 transition-all duration-500"
                   style={{ width: `${(challengeStats.completed / challengeStats.nextMilestone) * 100}%` }}
                 />
               </div>
             </div>
           </div>
+          
+          {/* Encouraging message */}
+          <p className="text-[11px] text-muted-foreground text-center mt-4">
+            Each challenge gives your garden a burst of accelerated growth
+          </p>
         </div>
       </section>
 
