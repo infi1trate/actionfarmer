@@ -230,28 +230,45 @@ export function EarningsPage() {
           </div>
         </div>
 
-        {/* Collected Plants Gallery - Bottom Row */}
+        {/* Collected Plants Preview - Link to Full Garden */}
         {gardenData.collectedPlants.length > 0 && (
           <div className="relative z-10 px-5 pb-6">
-            <p className="text-[11px] text-muted-foreground font-medium uppercase tracking-wide mb-3 text-center">
-              Your collected plants • {gardenData.collectedPlants.length} complete
-            </p>
-            <div className="flex items-center justify-center gap-3 flex-wrap">
-              {gardenData.collectedPlants.map((plant, i) => (
-                <div 
-                  key={i}
-                  className="flex flex-col items-center py-3 px-4 rounded-2xl bg-background/80 backdrop-blur-sm border border-border/30 shadow-sm"
-                >
-                  <img 
-                    src={plant.image} 
-                    alt={plant.name}
-                    className="w-12 h-12 object-contain mb-1.5"
-                  />
-                  <p className="text-[11px] font-medium text-foreground">{plant.name}</p>
-                  <p className="text-[10px] text-muted-foreground">{plant.days}-day streak</p>
-                </div>
-              ))}
-            </div>
+            <button 
+              onClick={() => navigate("/app/garden")}
+              className="w-full text-left group"
+            >
+              <div className="flex items-center justify-between mb-3">
+                <p className="text-[11px] text-muted-foreground font-medium uppercase tracking-wide">
+                  Your collected plants • {gardenData.collectedPlants.length} complete
+                </p>
+                <span className="text-[11px] text-primary font-medium flex items-center gap-1 group-hover:gap-2 transition-all">
+                  View garden
+                  <ChevronRight className="h-3 w-3" />
+                </span>
+              </div>
+              <div className="flex items-center justify-center gap-3 flex-wrap">
+                {gardenData.collectedPlants.slice(0, 3).map((plant, i) => (
+                  <div 
+                    key={i}
+                    className="flex flex-col items-center py-3 px-4 rounded-2xl bg-background/80 backdrop-blur-sm border border-border/30 shadow-sm group-hover:border-primary/20 transition-colors"
+                  >
+                    <img 
+                      src={plant.image} 
+                      alt={plant.name}
+                      className="w-12 h-12 object-contain mb-1.5"
+                    />
+                    <p className="text-[11px] font-medium text-foreground">{plant.name}</p>
+                    <p className="text-[10px] text-muted-foreground">{plant.days}-day streak</p>
+                  </div>
+                ))}
+                {gardenData.collectedPlants.length > 3 && (
+                  <div className="flex flex-col items-center justify-center py-3 px-4 rounded-2xl bg-muted/30 backdrop-blur-sm border border-border/20">
+                    <span className="text-lg font-bold text-muted-foreground mb-0.5">+{gardenData.collectedPlants.length - 3}</span>
+                    <p className="text-[10px] text-muted-foreground">more</p>
+                  </div>
+                )}
+              </div>
+            </button>
           </div>
         )}
       </header>
