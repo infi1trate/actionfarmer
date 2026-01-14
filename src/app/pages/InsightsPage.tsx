@@ -11,8 +11,6 @@ import {
   TrendingUp,
   Heart,
   Eye,
-  BookOpen,
-  ArrowRight,
 } from "lucide-react";
 
 // =====================================
@@ -282,24 +280,32 @@ export function InsightsPage() {
       </section>
 
       {/* ==========================================
-          LOOKING AHEAD - Anticipation footer
-          Gentle, forward-looking
+          LOOKING AHEAD - Curiosity teaser
+          Encouraging, gradual, not gated
           ========================================== */}
-      <section className="px-6 pb-8">
-        <div className="rounded-xl bg-muted/40 p-5 text-center">
-          <p className="text-sm text-muted-foreground mb-2">
-            ✨ New insights unlock as you complete more challenges
-          </p>
-          <div className="flex items-center justify-center gap-1.5 text-xs text-muted-foreground/70">
-            <span>Next week we'll watch how your pace changes</span>
-            <ArrowRight className="h-3 w-3" />
+      <section className="px-5 pb-10">
+        <div className="rounded-2xl bg-gradient-to-br from-muted/50 via-muted/30 to-transparent p-6 text-center">
+          {/* Gentle growing icon */}
+          <div className="flex justify-center mb-4">
+            <div className="w-10 h-10 rounded-full bg-primary/8 flex items-center justify-center">
+              <Sparkles className="h-5 w-5 text-primary/60" />
+            </div>
           </div>
+          
+          {/* Curious, forward-looking copy */}
+          <p className="text-[15px] text-foreground/80 leading-relaxed mb-2">
+            Your story is still being written
+          </p>
+          <p className="text-sm text-muted-foreground leading-relaxed max-w-[280px] mx-auto">
+            Each challenge reveals a little more about how you move through your day. 
+            We're curious to see what patterns emerge next.
+          </p>
         </div>
       </section>
 
       {/* Privacy footer */}
       <footer className="px-6 pb-28 text-center">
-        <p className="text-[11px] text-muted-foreground/50">
+        <p className="text-[11px] text-muted-foreground/40">
           These observations are personal and private — only you can see them.
         </p>
       </footer>
