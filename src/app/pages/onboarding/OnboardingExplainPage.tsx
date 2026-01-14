@@ -1,61 +1,66 @@
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowRight, Zap, Video, Settings2 } from "lucide-react";
+import { ArrowRight, Sparkles, Flower2, Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export function OnboardingExplainPage() {
   const navigate = useNavigate();
 
-  const features = [
+  const steps = [
     {
-      icon: Zap,
-      title: "Complete fun challenges",
-      description: "Browse and start movement challenges anytime. Each one takes just a few minutes."
+      icon: Sparkles,
+      iconBg: "bg-amber-100 dark:bg-amber-900/30",
+      iconColor: "text-amber-600 dark:text-amber-400",
+      title: "Complete small challenges",
+      description: "Fun, quick tasks you can do around your home"
     },
     {
-      icon: Video,
-      title: "Recording happens automatically",
-      description: "When you start a challenge, we capture motion data. When you finish, it stops. Simple."
+      icon: Flower2,
+      iconBg: "bg-green-100 dark:bg-green-900/30",
+      iconColor: "text-green-600 dark:text-green-400",
+      title: "Grow your garden",
+      description: "Watch your plants bloom as you stay active"
     },
     {
-      icon: Settings2,
-      title: "Ambient Capture is optional",
-      description: "Want to contribute in the background? Enable Ambient Capture later in Settings."
+      icon: Eye,
+      iconBg: "bg-blue-100 dark:bg-blue-900/30",
+      iconColor: "text-blue-600 dark:text-blue-400",
+      title: "Discover your patterns",
+      description: "Learn how you move through your everyday life"
     }
   ];
 
   return (
     <div className="min-h-screen flex flex-col bg-background safe-area-inset">
-      {/* Progress indicator */}
-      <div className="px-6 pt-6">
-        <div className="flex gap-2">
-          <div className="h-1 flex-1 rounded-full bg-primary" />
-          <div className="h-1 flex-1 rounded-full bg-muted" />
-          <div className="h-1 flex-1 rounded-full bg-muted" />
-        </div>
-      </div>
-
       {/* Main content */}
-      <main className="flex-1 flex flex-col px-6 pt-12 pb-32">
-        <h1 className="text-3xl font-display font-bold text-foreground mb-3">
-          How MoveAI works
+      <main className="flex-1 flex flex-col justify-center px-8 pb-32">
+        {/* Friendly header */}
+        <h1 className="text-2xl font-display font-bold text-foreground text-center mb-2">
+          Here's how it works
         </h1>
-        <p className="text-muted-foreground text-lg mb-10">
-          Jump into challenges, earn rewards. No setup required.
+        <p className="text-muted-foreground text-center mb-12">
+          Simple steps, real rewards
         </p>
 
-        <div className="space-y-6">
-          {features.map((feature, index) => (
-            <div key={index} className="flex gap-4">
-              <div className="w-12 h-12 rounded-2xl bg-muted flex items-center justify-center flex-shrink-0">
-                <feature.icon className="w-6 h-6 text-foreground" />
+        {/* Steps */}
+        <div className="space-y-5 max-w-sm mx-auto w-full">
+          {steps.map((step, index) => (
+            <div 
+              key={index} 
+              className="flex items-start gap-4 p-4 rounded-2xl bg-muted/30"
+            >
+              {/* Soft icon */}
+              <div className={`w-11 h-11 rounded-xl ${step.iconBg} flex items-center justify-center flex-shrink-0`}>
+                <step.icon className={`w-5 h-5 ${step.iconColor}`} />
               </div>
-              <div className="flex-1">
-                <h3 className="font-semibold text-foreground mb-1">
-                  {feature.title}
+              
+              {/* Copy */}
+              <div className="flex-1 pt-0.5">
+                <h3 className="font-semibold text-foreground text-[15px] mb-0.5">
+                  {step.title}
                 </h3>
                 <p className="text-muted-foreground text-sm leading-relaxed">
-                  {feature.description}
+                  {step.description}
                 </p>
               </div>
             </div>
@@ -63,7 +68,7 @@ export function OnboardingExplainPage() {
         </div>
       </main>
 
-      {/* Footer */}
+      {/* Footer with CTA */}
       <footer className="p-6 pb-10">
         <Button 
           variant="primary" 
