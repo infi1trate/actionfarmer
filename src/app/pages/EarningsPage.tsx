@@ -157,12 +157,37 @@ export function EarningsPage() {
                 <>
                   {/* Plant Visualization - LARGE Centered Hero with Ground Anchor */}
                   <div className="relative mb-3">
-                    {/* Multi-layered glow effect */}
-                    <div className="absolute inset-0 -m-16 rounded-full bg-gradient-radial from-emerald-400/30 via-lime-300/15 to-transparent blur-3xl animate-glow" />
-                    <div className="absolute inset-0 -m-10 rounded-full bg-gradient-to-t from-emerald-500/35 to-lime-400/20 blur-2xl animate-breathe" />
+                    {/* BOOSTED GROWTH AURA - Enhanced glow when multiplier active */}
+                    {gardenData.multiplier > 1 && (
+                      <>
+                        {/* Outer warm energy ring */}
+                        <div className="absolute inset-0 -m-20 rounded-full bg-gradient-radial from-amber-400/25 via-orange-300/15 to-transparent blur-3xl animate-glow" />
+                        {/* Golden sparkle particles */}
+                        <div className="absolute -top-6 -left-4 w-3 h-3 bg-amber-300/60 rounded-full blur-sm animate-breathe" style={{ animationDelay: '0s' }} />
+                        <div className="absolute top-8 -right-6 w-2 h-2 bg-yellow-300/50 rounded-full blur-sm animate-breathe" style={{ animationDelay: '0.7s' }} />
+                        <div className="absolute -top-2 right-4 w-2.5 h-2.5 bg-orange-300/50 rounded-full blur-sm animate-breathe" style={{ animationDelay: '1.4s' }} />
+                        <div className="absolute top-16 -left-8 w-2 h-2 bg-amber-200/60 rounded-full blur-sm animate-breathe" style={{ animationDelay: '2.1s' }} />
+                      </>
+                    )}
                     
-                    {/* Soft ambient light from above */}
-                    <div className="absolute -top-8 left-1/2 -translate-x-1/2 w-40 h-20 bg-gradient-to-b from-amber-300/20 to-transparent blur-2xl animate-glow" style={{ animationDelay: '0.5s' }} />
+                    {/* Base multi-layered glow effect */}
+                    <div className={`absolute inset-0 -m-16 rounded-full blur-3xl animate-glow ${
+                      gardenData.multiplier > 1 
+                        ? 'bg-gradient-radial from-amber-400/35 via-emerald-400/20 to-transparent' 
+                        : 'bg-gradient-radial from-emerald-400/30 via-lime-300/15 to-transparent'
+                    }`} />
+                    <div className={`absolute inset-0 -m-10 rounded-full blur-2xl animate-breathe ${
+                      gardenData.multiplier > 1 
+                        ? 'bg-gradient-to-t from-amber-500/30 via-emerald-500/25 to-lime-400/15' 
+                        : 'bg-gradient-to-t from-emerald-500/35 to-lime-400/20'
+                    }`} />
+                    
+                    {/* Soft ambient light from above - warmer when boosted */}
+                    <div className={`absolute -top-8 left-1/2 -translate-x-1/2 w-40 h-20 blur-2xl animate-glow ${
+                      gardenData.multiplier > 1 
+                        ? 'bg-gradient-to-b from-amber-400/35 via-orange-300/20 to-transparent' 
+                        : 'bg-gradient-to-b from-amber-300/20 to-transparent'
+                    }`} style={{ animationDelay: '0.5s' }} />
                     
                     {/* Plant Image Container - SIGNIFICANTLY LARGER */}
                     <div className="relative w-56 h-56 flex items-end justify-center">
@@ -170,8 +195,10 @@ export function EarningsPage() {
                       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-44 h-6 bg-gradient-to-t from-amber-800/40 via-amber-700/25 to-transparent rounded-[100%] blur-sm" />
                       <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-36 h-3 bg-amber-900/30 rounded-[100%] blur-[2px]" />
                       
-                      {/* Plant shadow on ground */}
-                      <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-32 h-8 bg-black/15 rounded-[100%] blur-md" />
+                      {/* Plant shadow on ground - warmer when boosted */}
+                      <div className={`absolute bottom-2 left-1/2 -translate-x-1/2 w-32 h-8 rounded-[100%] blur-md ${
+                        gardenData.multiplier > 1 ? 'bg-amber-900/20' : 'bg-black/15'
+                      }`} />
                       
                       {/* Animated plant image with sway - LARGE */}
                       <div className="animate-sway origin-bottom relative z-10 pb-2">
@@ -180,7 +207,9 @@ export function EarningsPage() {
                           alt={stageInfo.label}
                           className="w-52 h-52 object-contain drop-shadow-2xl"
                           style={{ 
-                            filter: 'drop-shadow(0 8px 16px rgba(0,0,0,0.2)) drop-shadow(0 20px 40px rgba(16,185,129,0.15))'
+                            filter: gardenData.multiplier > 1
+                              ? 'drop-shadow(0 8px 16px rgba(0,0,0,0.2)) drop-shadow(0 20px 40px rgba(251,191,36,0.25)) drop-shadow(0 0 30px rgba(251,191,36,0.15))'
+                              : 'drop-shadow(0 8px 16px rgba(0,0,0,0.2)) drop-shadow(0 20px 40px rgba(16,185,129,0.15))'
                           }}
                         />
                       </div>
@@ -192,10 +221,21 @@ export function EarningsPage() {
                     </div>
                   </div>
 
-                  {/* Plant Info - Compact */}
-                  <div className="mb-3">
+                  {/* Plant Info with inline boost indicator */}
+                  <div className="mb-3 text-center">
                     <p className="text-[10px] text-muted-foreground font-medium mb-0.5">Currently growing</p>
                     <p className={`text-xl font-bold drop-shadow-sm ${stageInfo.color}`}>{stageInfo.label}</p>
+                    
+                    {/* Inline growth boost message */}
+                    {gardenData.multiplier > 1 && (
+                      <div className="mt-2 flex items-center justify-center gap-1.5">
+                        <Sparkles className="h-3 w-3 text-amber-500 animate-glow" />
+                        <span className="text-[11px] font-medium text-amber-600 dark:text-amber-400">
+                          Growing {gardenData.multiplier}× faster from your streak warmth
+                        </span>
+                        <Sparkles className="h-3 w-3 text-amber-500 animate-glow" style={{ animationDelay: '1.5s' }} />
+                      </div>
+                    )}
                   </div>
                   
                   {/* Growth Progress - 7 Day Visualization */}
@@ -216,7 +256,9 @@ export function EarningsPage() {
                           key={stage.day}
                           className={`flex-1 h-2 rounded-full transition-all duration-500 ${
                             i < normalizedDay 
-                              ? 'bg-gradient-to-r from-lime-400 to-emerald-500' 
+                              ? gardenData.multiplier > 1
+                                ? 'bg-gradient-to-r from-amber-400 via-lime-400 to-emerald-500'
+                                : 'bg-gradient-to-r from-lime-400 to-emerald-500' 
                               : 'bg-background/60'
                           } ${i === normalizedDay - 1 ? 'ring-2 ring-emerald-400/50 ring-offset-1 ring-offset-transparent' : ''}`}
                         />
@@ -227,17 +269,6 @@ export function EarningsPage() {
                     <div className="flex items-center justify-between mt-1.5 px-0.5">
                       <span className="text-[9px] text-muted-foreground">Seed</span>
                       <span className="text-[9px] text-muted-foreground">Fruit</span>
-                    </div>
-                  </div>
-
-                  {/* Multiplier Badge - Floating */}
-                  <div className="absolute top-4 right-4 animate-breathe" style={{ animationDelay: '1.5s' }}>
-                    <div className="bg-primary/20 backdrop-blur-sm rounded-xl px-2.5 py-1.5 border border-primary/30 shadow-lg">
-                      <div className="flex items-center gap-1">
-                        <Zap className="h-3.5 w-3.5 text-primary" />
-                        <span className="text-xs font-bold text-primary">{gardenData.multiplier}x</span>
-                      </div>
-                      <p className="text-[8px] text-primary/70 text-center mt-0.5">bonus</p>
                     </div>
                   </div>
                 </>
