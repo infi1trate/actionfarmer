@@ -27,17 +27,6 @@ import {
   EarningsPage,
   InsightsPage,
   SettingsPage,
-  SplashPage,
-  WelcomePage,
-  SignupPage,
-  SigninPage,
-  SuccessPage,
-  OnboardingExplainPage,
-  OnboardingPrivacyPage,
-  OnboardingConsentPage,
-  CameraPlacementPage,
-  ZoneSelectionPage,
-  ScheduleSelectionPage,
   AmbientModePage,
   DailySummaryPage,
   PlayModePage,
@@ -76,23 +65,8 @@ const App = () => (
             <Sonner />
             <BrowserRouter>
               <Routes>
-              {/* Redirect root to splash */}
-              <Route path="/" element={<Navigate to="/splash" replace />} />
-              
-              {/* Splash Screen */}
-              <Route path="/splash" element={<SplashPage />} />
-              
-              {/* Onboarding Flow */}
-              <Route path="/onboarding" element={<WelcomePage />} />
-                <Route path="/onboarding/explain" element={<OnboardingExplainPage />} />
-                <Route path="/onboarding/privacy" element={<OnboardingPrivacyPage />} />
-                <Route path="/onboarding/consent" element={<OnboardingConsentPage />} />
-                <Route path="/onboarding/signup" element={<SignupPage />} />
-                <Route path="/onboarding/signin" element={<SigninPage />} />
-                <Route path="/onboarding/success" element={<SuccessPage />} />
-                <Route path="/onboarding/camera" element={<CameraPlacementPage />} />
-                <Route path="/onboarding/zones" element={<ZoneSelectionPage />} />
-                <Route path="/onboarding/schedule" element={<ScheduleSelectionPage />} />
+              {/* Redirect root to app */}
+              <Route path="/" element={<Navigate to="/app" replace />} />
                 
                 {/* Ambient Mode */}
                 <Route path="/ambient" element={<AmbientModePage />} />
