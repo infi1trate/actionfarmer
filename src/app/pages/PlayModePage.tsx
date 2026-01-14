@@ -235,7 +235,7 @@ const SceneCard = ({ challenge, onCardClick, featured = false }: SceneCardProps)
   const videoRef = React.useRef<HTMLVideoElement>(null);
   const cardRef = React.useRef<HTMLButtonElement>(null);
   const [showMilestoneLabels, setShowMilestoneLabels] = React.useState(false);
-  const [seedTapped, setSeedTapped] = React.useState(false);
+  
   
   const handleClick = () => {
     if (cardRef.current) {
@@ -317,9 +317,28 @@ const SceneCard = ({ challenge, onCardClick, featured = false }: SceneCardProps)
         </div>
       </div>
       
-      {/* Floating bonus chip - top right */}
-      {challenge.hasBonus && (
-        <div className={`absolute z-20 ${featured ? 'top-5 right-5' : 'top-4 right-4'}`}>
+      {/* Floating badges - top right */}
+      <div className={`absolute z-20 flex items-center gap-2 ${featured ? 'top-5 right-5' : 'top-4 right-4'}`}>
+        {/* Seed/Growth badge - always present */}
+        <div className={`
+          flex items-center gap-1.5
+          bg-emerald-500/80 backdrop-blur-md text-white
+          rounded-full border border-emerald-300/30
+          shadow-lg shadow-emerald-500/20
+          transition-all duration-300
+          group-hover:shadow-xl group-hover:shadow-emerald-500/30 group-hover:bg-emerald-500/90
+          ${featured ? 'px-3 py-1.5 text-sm' : 'px-2.5 py-1 text-xs'}
+        `}>
+          <img 
+            src={seedImage} 
+            alt="" 
+            className={`object-contain brightness-0 invert ${featured ? 'w-3.5 h-3.5' : 'w-3 h-3'}`}
+          />
+          <span className="font-semibold">+1</span>
+        </div>
+        
+        {/* Bonus badge */}
+        {challenge.hasBonus && (
           <div className={`
             flex items-center gap-1.5
             bg-primary/90 backdrop-blur-md text-primary-foreground
@@ -332,8 +351,8 @@ const SceneCard = ({ challenge, onCardClick, featured = false }: SceneCardProps)
             <Star className={`fill-current ${featured ? 'h-3.5 w-3.5' : 'h-3 w-3'}`} />
             <span className="font-semibold">{challenge.bonusLabel}</span>
           </div>
-        </div>
-      )}
+        )}
+      </div>
       
       {/* Content */}
       <div className={`
@@ -432,43 +451,6 @@ const SceneCard = ({ challenge, onCardClick, featured = false }: SceneCardProps)
           </div>
         </div>
         
-        {/* Subtle seed visual - bottom left corner */}
-        <div 
-          className={`
-            absolute z-20 transition-all duration-300 ease-out
-            ${featured ? 'bottom-5 left-5' : 'bottom-4 left-4'}
-          `}
-          onClick={(e) => {
-            e.stopPropagation();
-            setSeedTapped(true);
-            setTimeout(() => setSeedTapped(false), 600);
-          }}
-        >
-          <div className={`
-            relative transition-all duration-300 ease-out
-            ${seedTapped ? 'scale-125' : 'scale-100 group-hover:scale-110'}
-          `}>
-            {/* Seed glow effect on tap */}
-            <div className={`
-              absolute inset-0 rounded-full blur-md transition-opacity duration-300
-              bg-emerald-400/40
-              ${seedTapped ? 'opacity-100' : 'opacity-0'}
-            `} />
-            
-            {/* Seed image */}
-            <img 
-              src={seedImage} 
-              alt="" 
-              className={`
-                relative z-10 object-contain drop-shadow-sm
-                opacity-50 transition-all duration-300
-                group-hover:opacity-70
-                ${seedTapped ? 'opacity-90' : ''}
-                ${featured ? 'w-7 h-7' : 'w-5 h-5'}
-              `}
-            />
-          </div>
-        </div>
       </div>
     </button>
   );
