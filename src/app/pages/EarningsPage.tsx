@@ -226,88 +226,96 @@ export function EarningsPage() {
       </section>
 
       {/* ========================================
-          SECTION 4: Challenge Bonus Breakdown
+          SECTION 4: Challenge Bonus Summary Card
           ======================================== */}
-      <section className="bg-muted/20 px-5 py-6">
-        <div className="flex items-center gap-2 mb-4">
-          <Target className="h-4 w-4 text-amber-500" />
-          <h2 className="text-sm font-semibold text-foreground">Challenge Bonuses</h2>
-        </div>
+      <section className="px-5 py-6 bg-background">
+        {/* Card Container */}
+        <div className="rounded-2xl bg-gradient-to-br from-amber-500/10 via-amber-400/5 to-transparent p-5 border border-amber-500/15">
+          {/* Header */}
+          <div className="flex items-center gap-2.5 mb-5">
+            <div className="w-8 h-8 rounded-full bg-amber-500/20 flex items-center justify-center">
+              <Trophy className="h-4 w-4 text-amber-500" />
+            </div>
+            <div>
+              <h2 className="text-sm font-semibold text-foreground">Challenge Rewards</h2>
+              <p className="text-[11px] text-muted-foreground">Your bonus achievements</p>
+            </div>
+          </div>
 
-        <div className="space-y-4">
-          {/* Stats Row */}
-          <div className="flex items-center justify-between">
-            {/* Completed */}
-            <div className="flex flex-col items-center gap-2">
-              <div className="relative">
-                <div className="w-14 h-14 rounded-full bg-amber-500/10 flex items-center justify-center">
-                  <CheckCircle2 className="h-6 w-6 text-amber-600" />
-                </div>
-                {challengeStats.completed >= 5 && (
-                  <div className="absolute -top-0.5 -right-0.5 w-4 h-4 rounded-full bg-amber-500 flex items-center justify-center">
-                    <Sparkles className="h-2.5 w-2.5 text-white" />
-                  </div>
-                )}
+          {/* Metrics Grid */}
+          <div className="grid grid-cols-3 gap-4 mb-5">
+            {/* Challenges Completed */}
+            <div className="text-center py-4 px-2 rounded-xl bg-background/70">
+              <div className="w-10 h-10 mx-auto mb-2.5 rounded-full bg-amber-500/15 flex items-center justify-center">
+                <CheckCircle2 className="h-5 w-5 text-amber-600" />
               </div>
-              <div className="text-center">
-                <p className="text-xl font-bold text-foreground">{challengeStats.completed}/{challengeStats.attempted}</p>
-                <p className="text-[11px] text-muted-foreground font-medium">completed</p>
-              </div>
+              <p className="text-2xl font-bold text-foreground">{challengeStats.completed}</p>
+              <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-wide mt-0.5">Completed</p>
+              <p className="text-[11px] text-muted-foreground mt-1">of {challengeStats.attempted} attempted</p>
             </div>
 
-            {/* Divider */}
-            <div className="h-20 w-px bg-border/40" />
-
-            {/* Bonus Earned */}
-            <div className="flex flex-col items-center gap-2">
-              <div className="w-14 h-14 rounded-full bg-emerald-500/10 flex items-center justify-center">
-                <Zap className="h-6 w-6 text-emerald-600" />
+            {/* Bonus Points */}
+            <div className="text-center py-4 px-2 rounded-xl bg-background/70">
+              <div className="w-10 h-10 mx-auto mb-2.5 rounded-full bg-emerald-500/15 flex items-center justify-center">
+                <Sparkles className="h-5 w-5 text-emerald-600" />
               </div>
-              <div className="text-center">
-                <p className="text-xl font-bold text-foreground">+{challengeStats.bonusEarned}</p>
-                <p className="text-[11px] text-muted-foreground font-medium">bonus pts</p>
-              </div>
+              <p className="text-2xl font-bold text-emerald-600">+{challengeStats.bonusEarned}</p>
+              <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-wide mt-0.5">Bonus Pts</p>
+              <p className="text-[11px] text-muted-foreground mt-1">earned this month</p>
             </div>
-
-            {/* Divider */}
-            <div className="h-20 w-px bg-border/40" />
 
             {/* Multiplier Status */}
-            <div className="flex flex-col items-center gap-2">
-              <div className={`relative w-14 h-14 rounded-full flex items-center justify-center ${
+            <div className="text-center py-4 px-2 rounded-xl bg-background/70 relative overflow-hidden">
+              {challengeStats.multiplierActive && (
+                <div className="absolute inset-0 bg-gradient-to-t from-primary/8 to-transparent" />
+              )}
+              <div className={`relative w-10 h-10 mx-auto mb-2.5 rounded-full flex items-center justify-center ${
                 challengeStats.multiplierActive 
-                  ? 'bg-primary/10' 
-                  : 'bg-muted/40'
+                  ? 'bg-primary/15' 
+                  : 'bg-muted/50'
               }`}>
-                <Percent className={`h-6 w-6 ${
+                <Zap className={`h-5 w-5 ${
                   challengeStats.multiplierActive 
                     ? 'text-primary' 
                     : 'text-muted-foreground'
                 }`} />
                 {challengeStats.multiplierActive && (
-                  <span className="absolute inset-0 rounded-full bg-primary/15 animate-pulse" />
+                  <span className="absolute inset-0 rounded-full bg-primary/20 animate-pulse" />
                 )}
               </div>
-              <div className="text-center">
-                <p className={`text-xl font-bold ${
-                  challengeStats.multiplierActive 
-                    ? 'text-primary' 
-                    : 'text-muted-foreground'
-                }`}>
-                  {challengeStats.multiplierActive ? 'ON' : 'OFF'}
-                </p>
-                <p className="text-[11px] text-muted-foreground font-medium">multiplier</p>
-              </div>
+              <p className={`text-2xl font-bold ${
+                challengeStats.multiplierActive 
+                  ? 'text-primary' 
+                  : 'text-muted-foreground'
+              }`}>
+                {challengeStats.multiplierActive ? '1.5×' : '—'}
+              </p>
+              <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-wide mt-0.5">Multiplier</p>
+              <p className={`text-[11px] mt-1 ${
+                challengeStats.multiplierActive 
+                  ? 'text-primary font-medium' 
+                  : 'text-muted-foreground'
+              }`}>
+                {challengeStats.multiplierActive ? 'Active now!' : 'Inactive'}
+              </p>
             </div>
           </div>
 
-          {/* Next Milestone */}
-          <div className="flex items-center justify-between py-3 px-4 rounded-xl bg-background/60">
-            <div className="flex items-center gap-2">
-              <Target className="h-4 w-4 text-muted-foreground" />
-              <span className="text-sm text-muted-foreground">Next milestone</span>
+          {/* Next Milestone Progress */}
+          <div className="flex items-center gap-3 py-3 px-4 rounded-xl bg-background/50">
+            <Target className="h-4 w-4 text-amber-500 flex-shrink-0" />
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center justify-between mb-1.5">
+                <span className="text-xs text-muted-foreground">Next reward at {challengeStats.nextMilestone} challenges</span>
+                <span className="text-xs font-semibold text-foreground">{challengeStats.completed}/{challengeStats.nextMilestone}</span>
+              </div>
+              <div className="h-1.5 rounded-full bg-muted/50 overflow-hidden">
+                <div 
+                  className="h-full rounded-full bg-gradient-to-r from-amber-500 to-amber-400 transition-all duration-500"
+                  style={{ width: `${(challengeStats.completed / challengeStats.nextMilestone) * 100}%` }}
+                />
+              </div>
             </div>
-            <span className="text-sm font-semibold text-foreground">{challengeStats.nextMilestone} challenges</span>
           </div>
         </div>
       </section>
