@@ -230,53 +230,69 @@ export function EarningsPage() {
                 {/* Contact shadow where plant meets ground */}
                 <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-32 h-4 bg-black/25 rounded-[100%] blur-md z-10" />
                 
-                {/* Plant + Gauge Container - Anchored together */}
-                <div className="relative flex flex-col items-center mb-2">
-                  {/* Arched Progress Gauge - Positioned as halo around plant */}
-                  <div className="absolute left-1/2 -translate-x-1/2 z-0" style={{ top: '-24px' }}>
+                {/* Plant + Gauge Container - Gauge anchored at plant base, rising behind */}
+                <div className="relative flex items-end justify-center mb-2">
+                  {/* Arched Progress Gauge - Anchored at plant base, emerges from ground BEHIND plant */}
+                  <div 
+                    className="absolute z-0 pointer-events-none"
+                    style={{ 
+                      bottom: '8px', // Align with plant pot base
+                      left: '50%',
+                      transform: 'translateX(-50%)'
+                    }}
+                  >
                     <svg 
-                      className="w-[280px] h-[160px]"
-                      viewBox="0 60 300 160"
+                      className="w-[320px] h-[280px]"
+                      viewBox="0 0 300 260"
+                      style={{ overflow: 'visible' }}
                     >
-                      {/* Background arc track - subtle */}
+                      {/* Gradient definitions with faded ends */}
+                      <defs>
+                        <linearGradient id="arcProgressGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                          <stop offset="0%" stopColor="#84cc16" stopOpacity="0.2" />
+                          <stop offset="15%" stopColor="#84cc16" stopOpacity="0.9" />
+                          <stop offset="50%" stopColor="#22c55e" stopOpacity="1" />
+                          <stop offset="85%" stopColor="#10b981" stopOpacity="0.9" />
+                          <stop offset="100%" stopColor="#10b981" stopOpacity="0.2" />
+                        </linearGradient>
+                        <linearGradient id="arcTrackGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                          <stop offset="0%" stopColor="white" stopOpacity="0" />
+                          <stop offset="15%" stopColor="white" stopOpacity="0.2" />
+                          <stop offset="50%" stopColor="white" stopOpacity="0.3" />
+                          <stop offset="85%" stopColor="white" stopOpacity="0.2" />
+                          <stop offset="100%" stopColor="white" stopOpacity="0" />
+                        </linearGradient>
+                      </defs>
+                      {/* Background arc track - fades at ends */}
                       <path
                         d={arcPath(startAngle, startAngle + arcSweep, arcRadius)}
                         fill="none"
-                        stroke="currentColor"
-                        strokeWidth={arcStrokeWidth + 4}
+                        stroke="url(#arcTrackGradient)"
+                        strokeWidth={arcStrokeWidth + 8}
                         strokeLinecap="round"
-                        className="text-white/25"
                       />
-                      {/* Progress arc - glowing, thicker */}
+                      {/* Progress arc - thick, glowing, fades at ends */}
                       <path
                         d={arcPath(startAngle, startAngle + progressAngle, arcRadius)}
                         fill="none"
                         stroke="url(#arcProgressGradient)"
-                        strokeWidth={arcStrokeWidth + 6}
+                        strokeWidth={arcStrokeWidth + 10}
                         strokeLinecap="round"
-                        style={{ filter: 'drop-shadow(0 0 16px rgba(16,185,129,0.6))' }}
+                        style={{ filter: 'drop-shadow(0 0 20px rgba(16,185,129,0.5))' }}
                       />
-                      {/* Gradient definition */}
-                      <defs>
-                        <linearGradient id="arcProgressGradient" x1="0%" y1="50%" x2="100%" y2="50%">
-                          <stop offset="0%" stopColor="#84cc16" />
-                          <stop offset="50%" stopColor="#22c55e" />
-                          <stop offset="100%" stopColor="#10b981" />
-                        </linearGradient>
-                      </defs>
                     </svg>
                   </div>
                   
-                  {/* Plant image - DOMINANT, overlapping gauge */}
+                  {/* Plant image - DOMINANT, overlaps gauge significantly */}
                   <div className="animate-sway origin-bottom relative z-10">
                     <img 
                       src={stageInfo.image} 
                       alt={stageInfo.label}
                       className="object-contain"
                       style={{ 
-                        height: 'calc(50vh * 0.70)',
-                        minHeight: '220px',
-                        maxHeight: '280px',
+                        height: 'calc(50vh * 0.72)',
+                        minHeight: '240px',
+                        maxHeight: '300px',
                         filter: 'drop-shadow(0 12px 24px rgba(0,0,0,0.25)) drop-shadow(0 24px 48px rgba(16,185,129,0.12))'
                       }}
                     />
