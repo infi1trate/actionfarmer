@@ -35,6 +35,7 @@ import {
   SplashPage,
   ExplainPage,
   ChallengesExplainPage,
+  TrustPage,
 } from "./app";
 
 import {
@@ -74,6 +75,7 @@ const App = () => (
               {/* Onboarding Flow */}
               <Route path="/onboarding/explain" element={<ExplainPage />} />
               <Route path="/onboarding/challenges" element={<ChallengesExplainPage />} />
+              <Route path="/onboarding/trust" element={<TrustPage />} />
                 
                 {/* Ambient Mode */}
                 <Route path="/ambient" element={<AmbientModePage />} />

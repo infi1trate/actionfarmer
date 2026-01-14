@@ -6,7 +6,7 @@ export function ChallengesExplainPage() {
   const navigate = useNavigate();
 
   const handleContinue = () => {
-    navigate("/app");
+    navigate("/onboarding/trust");
   };
 
   const steps = [
