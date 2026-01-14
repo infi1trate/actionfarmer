@@ -186,7 +186,7 @@ export function EarningsPage() {
           }}
         />
         {/* Fade to content - gradient overlay */}
-        <div className="absolute inset-x-0 top-0 h-[45vh] bg-gradient-to-b from-background/20 via-transparent via-60% to-background/90 z-0" />
+        <div className="absolute inset-x-0 top-0 h-[40vh] bg-gradient-to-b from-background/20 via-transparent via-50% to-background z-0" />
         
         {/* Integrated page header - Garden/progress framing */}
         <div className="relative z-10 px-5 pt-8 pb-4">
