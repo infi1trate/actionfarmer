@@ -47,6 +47,37 @@ const getPlantStageInfo = (streakDay: number) => {
   return GROWTH_STAGES[normalizedDay - 1];
 };
 
+// Recent growth activities from challenges
+const recentGrowthActivities = [
+  { 
+    id: 1, 
+    challenge: "Kitchen Cleanup", 
+    timeAgo: "2 hours ago", 
+    growthPoints: 45, 
+    bonusApplied: true,
+    bonusMultiplier: 1.2,
+    icon: "🍳"
+  },
+  { 
+    id: 2, 
+    challenge: "Laundry Sort", 
+    timeAgo: "Yesterday", 
+    growthPoints: 32, 
+    bonusApplied: false,
+    bonusMultiplier: 1,
+    icon: "👕"
+  },
+  { 
+    id: 3, 
+    challenge: "Grocery Unload", 
+    timeAgo: "2 days ago", 
+    growthPoints: 28, 
+    bonusApplied: true,
+    bonusMultiplier: 1.2,
+    icon: "🛒"
+  },
+];
+
 // Garden/Streak data
 const gardenData = {
   currentStreak: 4, // Example: Day 4 = Leafy Plant
@@ -277,7 +308,56 @@ export function EarningsPage() {
           </div>
         </div>
 
-        {/* Collected Plants Preview - Link to Full Garden */}
+        {/* ========================================
+            RECENT GROWTH - Challenges that fed the plant
+            ======================================== */}
+        <div className="relative z-10 px-5 py-5">
+          <div className="flex items-center gap-2 mb-4">
+            <Sparkles className="h-3.5 w-3.5 text-emerald-500" />
+            <h3 className="text-xs font-semibold text-foreground uppercase tracking-wide">Recent Growth</h3>
+          </div>
+          
+          <div className="space-y-2.5">
+            {recentGrowthActivities.map((activity) => (
+              <div 
+                key={activity.id}
+                className="flex items-center gap-3 py-3 px-4 rounded-xl bg-background/70 backdrop-blur-sm border border-border/30"
+              >
+                {/* Challenge icon */}
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500/15 to-lime-500/10 flex items-center justify-center text-lg">
+                  {activity.icon}
+                </div>
+                
+                {/* Challenge info */}
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-foreground truncate">{activity.challenge}</p>
+                  <p className="text-[11px] text-muted-foreground">{activity.timeAgo}</p>
+                </div>
+                
+                {/* Growth contribution */}
+                <div className="text-right">
+                  <div className="flex items-center gap-1 justify-end">
+                    <Sprout className="h-3 w-3 text-emerald-500" />
+                    <span className="text-sm font-bold text-emerald-600">+{activity.growthPoints}</span>
+                  </div>
+                  {activity.bonusApplied && (
+                    <div className="flex items-center gap-1 justify-end mt-0.5">
+                      <Sparkles className="h-2.5 w-2.5 text-amber-500" />
+                      <span className="text-[10px] font-medium text-amber-600">{activity.bonusMultiplier}× boost</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+          
+          {/* Connection message */}
+          <p className="text-[11px] text-muted-foreground text-center mt-4 flex items-center justify-center gap-1.5">
+            <Target className="h-3 w-3 text-emerald-500/60" />
+            <span>Each challenge nurtures your plant's growth</span>
+          </p>
+        </div>
+
         {gardenData.collectedPlants.length > 0 && (
           <div className="relative z-10 px-5 pb-6">
             <button 
