@@ -3,6 +3,15 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import gardenBg from "@/assets/garden-bg.png";
 
+// Plant stage images
+import plantDay1 from "@/assets/plants/day-1-seed.png";
+import plantDay2 from "@/assets/plants/day-2-sprout.png";
+import plantDay3 from "@/assets/plants/day-3-small-plant.png";
+import plantDay4 from "@/assets/plants/day-4-leafy-plant.png";
+import plantDay5 from "@/assets/plants/day-5-bud.png";
+import plantDay6 from "@/assets/plants/day-6-flower.png";
+import plantDay7 from "@/assets/plants/day-7-fruit.png";
+
 import {
   TrendingUp,
   ChevronRight,
@@ -17,33 +26,34 @@ import {
   CheckCircle2,
   Timer,
   Sprout,
-  Flower2,
-  TreeDeciduous,
 } from "lucide-react";
+
+// 7-day growth stages mapping
+const GROWTH_STAGES = [
+  { day: 1, label: "Seed", image: plantDay1, color: "text-amber-600" },
+  { day: 2, label: "Sprout", image: plantDay2, color: "text-lime-500" },
+  { day: 3, label: "Small Plant", image: plantDay3, color: "text-lime-600" },
+  { day: 4, label: "Leafy Plant", image: plantDay4, color: "text-emerald-500" },
+  { day: 5, label: "Bud", image: plantDay5, color: "text-pink-400" },
+  { day: 6, label: "Flower", image: plantDay6, color: "text-pink-500" },
+  { day: 7, label: "Fruit", image: plantDay7, color: "text-rose-500" },
+];
+
+const getPlantStageInfo = (streakDay: number) => {
+  // Normalize streak to 1-7 range (day 8+ starts new cycle)
+  const normalizedDay = ((streakDay - 1) % 7) + 1;
+  return GROWTH_STAGES[normalizedDay - 1];
+};
 
 // Garden/Streak data
 const gardenData = {
-  currentStreak: 7,
-  currentPlantStage: 3, // 1=seed, 2=sprout, 3=growing, 4=blooming, 5=full tree
-  currentPlantName: "Sunflower",
-  daysToNextStage: 3,
+  currentStreak: 4, // Example: Day 4 = Leafy Plant
   collectedPlants: [
-    { name: "Daisy", days: 7, icon: "🌼" },
-    { name: "Tulip", days: 14, icon: "🌷" },
-    { name: "Rose", days: 21, icon: "🌹" },
+    { name: "Cherry Tree", days: 7, image: plantDay7 },
+    { name: "Sunflower", days: 7, image: plantDay7 },
+    { name: "Rose Bush", days: 7, image: plantDay7 },
   ],
   multiplier: 1.2,
-};
-
-const getPlantStageInfo = (stage: number) => {
-  const stages = [
-    { label: "Seed", icon: Sprout, color: "text-amber-600", bg: "bg-amber-500/15" },
-    { label: "Sprout", icon: Sprout, color: "text-lime-600", bg: "bg-lime-500/15" },
-    { label: "Growing", icon: Flower2, color: "text-emerald-600", bg: "bg-emerald-500/15" },
-    { label: "Blooming", icon: Flower2, color: "text-pink-500", bg: "bg-pink-500/15" },
-    { label: "Full Bloom", icon: TreeDeciduous, color: "text-green-600", bg: "bg-green-500/15" },
-  ];
-  return stages[Math.min(stage - 1, 4)];
 };
 
 const balanceData = {
@@ -124,34 +134,32 @@ export function EarningsPage() {
           {/* Current Growing Plant - Hero */}
           <div className="flex flex-col items-center text-center">
             {(() => {
-              const stageInfo = getPlantStageInfo(gardenData.currentPlantStage);
-              const PlantIcon = stageInfo.icon;
-              const progress = (gardenData.currentPlantStage / 5) * 100;
+              const stageInfo = getPlantStageInfo(gardenData.currentStreak);
+              const normalizedDay = ((gardenData.currentStreak - 1) % 7) + 1;
+              const progress = (normalizedDay / 7) * 100;
+              const daysToComplete = 7 - normalizedDay;
               
               return (
                 <>
                   {/* Plant Visualization - Centered Hero */}
                   <div className="relative mb-5">
                     {/* Outer glow ring */}
-                    <div className="absolute inset-0 -m-3 rounded-full bg-gradient-to-t from-emerald-500/20 to-lime-400/10 blur-xl animate-breathe" />
+                    <div className="absolute inset-0 -m-6 rounded-full bg-gradient-to-t from-emerald-500/25 to-lime-400/15 blur-2xl animate-breathe" />
                     
-                    <div className={`relative w-28 h-28 rounded-3xl ${stageInfo.bg} backdrop-blur-sm flex items-center justify-center border border-white/20 shadow-lg`}>
-                      {/* Animated plant icon with sway */}
+                    {/* Plant Image Container */}
+                    <div className="relative w-36 h-36 flex items-center justify-center">
+                      {/* Animated plant image with sway */}
                       <div className="animate-sway origin-bottom">
-                        <PlantIcon className={`h-14 w-14 ${stageInfo.color} drop-shadow-md`} />
-                      </div>
-                      
-                      {/* Decorative leaves */}
-                      <div className="absolute -left-2 top-1/2 animate-leaf" style={{ animationDelay: '0.5s' }}>
-                        <span className="text-xl opacity-70">🌿</span>
-                      </div>
-                      <div className="absolute -right-2 top-1/3 animate-leaf" style={{ animationDelay: '1s' }}>
-                        <span className="text-lg opacity-60">🍃</span>
+                        <img 
+                          src={stageInfo.image} 
+                          alt={stageInfo.label}
+                          className="w-32 h-32 object-contain drop-shadow-xl"
+                        />
                       </div>
                     </div>
                     
                     {/* Day counter badge */}
-                    <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-foreground text-background text-xs font-bold px-3 py-1 rounded-full shadow-md">
+                    <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 bg-foreground text-background text-xs font-bold px-3.5 py-1.5 rounded-full shadow-lg">
                       Day {gardenData.currentStreak}
                     </div>
                   </div>
@@ -159,23 +167,38 @@ export function EarningsPage() {
                   {/* Plant Info */}
                   <div className="mb-4">
                     <p className="text-xs text-muted-foreground font-medium mb-1">Currently growing</p>
-                    <p className="text-2xl font-bold text-foreground drop-shadow-sm">{gardenData.currentPlantName}</p>
-                    <p className={`text-sm font-semibold ${stageInfo.color} mt-0.5`}>{stageInfo.label}</p>
+                    <p className={`text-2xl font-bold drop-shadow-sm ${stageInfo.color}`}>{stageInfo.label}</p>
                   </div>
                   
-                  {/* Growth Progress Bar */}
+                  {/* Growth Progress - 7 Day Visualization */}
                   <div className="w-full max-w-xs">
-                    <div className="flex items-center justify-between text-[11px] text-muted-foreground mb-2">
+                    <div className="flex items-center justify-between text-[11px] text-muted-foreground mb-2.5">
                       <span>Growth progress</span>
-                      <span className="font-medium">{gardenData.daysToNextStage} day{gardenData.daysToNextStage !== 1 ? 's' : ''} to next stage</span>
+                      <span className="font-medium">
+                        {daysToComplete === 0 
+                          ? "Ready to collect!" 
+                          : `${daysToComplete} day${daysToComplete !== 1 ? 's' : ''} to full bloom`}
+                      </span>
                     </div>
-                    <div className="h-2.5 rounded-full bg-background/60 backdrop-blur-sm overflow-hidden shadow-inner">
-                      <div 
-                        className="h-full rounded-full bg-gradient-to-r from-lime-400 via-emerald-500 to-green-600 transition-all duration-700 relative"
-                        style={{ width: `${progress}%` }}
-                      >
-                        <div className="absolute inset-0 bg-white/20 animate-pulse" />
-                      </div>
+                    
+                    {/* 7-day dot progress */}
+                    <div className="flex items-center justify-between gap-1.5">
+                      {GROWTH_STAGES.map((stage, i) => (
+                        <div 
+                          key={stage.day}
+                          className={`flex-1 h-2.5 rounded-full transition-all duration-500 ${
+                            i < normalizedDay 
+                              ? 'bg-gradient-to-r from-lime-400 to-emerald-500' 
+                              : 'bg-background/60'
+                          } ${i === normalizedDay - 1 ? 'ring-2 ring-emerald-400/50 ring-offset-1 ring-offset-transparent' : ''}`}
+                        />
+                      ))}
+                    </div>
+                    
+                    {/* Stage labels */}
+                    <div className="flex items-center justify-between mt-2 px-0.5">
+                      <span className="text-[9px] text-muted-foreground">Seed</span>
+                      <span className="text-[9px] text-muted-foreground">Fruit</span>
                     </div>
                   </div>
 
@@ -199,19 +222,21 @@ export function EarningsPage() {
         {gardenData.collectedPlants.length > 0 && (
           <div className="relative z-10 px-5 pb-6">
             <p className="text-[11px] text-muted-foreground font-medium uppercase tracking-wide mb-3 text-center">
-              Your collected plants
+              Your collected plants • {gardenData.collectedPlants.length} complete
             </p>
-            <div className="flex items-center justify-center gap-2 flex-wrap">
+            <div className="flex items-center justify-center gap-3 flex-wrap">
               {gardenData.collectedPlants.map((plant, i) => (
                 <div 
                   key={i}
-                  className="flex items-center gap-2 py-2 px-3 rounded-xl bg-background/80 backdrop-blur-sm border border-border/30 shadow-sm"
+                  className="flex flex-col items-center py-3 px-4 rounded-2xl bg-background/80 backdrop-blur-sm border border-border/30 shadow-sm"
                 >
-                  <span className="text-lg">{plant.icon}</span>
-                  <div>
-                    <p className="text-xs font-medium text-foreground">{plant.name}</p>
-                    <p className="text-[10px] text-muted-foreground">{plant.days}-day streak</p>
-                  </div>
+                  <img 
+                    src={plant.image} 
+                    alt={plant.name}
+                    className="w-12 h-12 object-contain mb-1.5"
+                  />
+                  <p className="text-[11px] font-medium text-foreground">{plant.name}</p>
+                  <p className="text-[10px] text-muted-foreground">{plant.days}-day streak</p>
                 </div>
               ))}
             </div>
