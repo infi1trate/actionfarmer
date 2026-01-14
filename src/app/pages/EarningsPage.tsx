@@ -231,14 +231,6 @@ export function EarningsPage() {
             
             return (
               <div className="relative h-full flex flex-col items-center justify-end">
-                {/* Status Pill - Above plant, garden-themed */}
-                <div className="absolute top-6 left-1/2 -translate-x-1/2 z-20">
-                  <div className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/70 backdrop-blur-sm border border-white/50 shadow-sm">
-                    <span className="text-sm">🌱</span>
-                    <span className="text-xs font-medium text-foreground/90">{gardenData.challengesForNextStage} challenges to evolve</span>
-                  </div>
-                </div>
-                
                 {/* Subtle ambient glow behind plant */}
                 <div className="absolute bottom-10 left-1/2 -translate-x-1/2 w-64 h-40 rounded-full bg-gradient-radial from-emerald-400/10 via-lime-300/5 to-transparent blur-2xl z-0" />
                 
@@ -311,6 +303,14 @@ export function EarningsPage() {
                         filter: 'drop-shadow(0 12px 24px rgba(0,0,0,0.25)) drop-shadow(0 24px 48px rgba(16,185,129,0.12))'
                       }}
                     />
+                  </div>
+                </div>
+                
+                {/* Status Pill - Below plant */}
+                <div className="mt-4 z-20">
+                  <div className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/70 backdrop-blur-sm border border-white/50 shadow-sm">
+                    <span className="text-sm">🌱</span>
+                    <span className="text-xs font-medium text-foreground/90">{gardenData.challengesForNextStage} challenges to evolve</span>
                   </div>
                 </div>
               </div>
