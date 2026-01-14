@@ -231,11 +231,11 @@ export function EarningsPage() {
             
             return (
               <div className="relative h-full flex flex-col items-center justify-end">
-                {/* Progress Pill - Single, calm indicator */}
+                {/* Status Pill - Above plant, garden-themed */}
                 <div className="absolute top-6 left-1/2 -translate-x-1/2 z-20">
-                  <div className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/60 backdrop-blur-sm border border-white/40 shadow-sm">
-                    <Sprout className="h-3 w-3 text-emerald-500/80" />
-                    <span className="text-xs font-medium text-foreground/80">{gardenData.challengesForNextStage} challenges to evolve</span>
+                  <div className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/70 backdrop-blur-sm border border-white/50 shadow-sm">
+                    <span className="text-sm">🌱</span>
+                    <span className="text-xs font-medium text-foreground/90">{gardenData.challengesForNextStage} challenges to evolve</span>
                   </div>
                 </div>
                 

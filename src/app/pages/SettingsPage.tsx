@@ -78,17 +78,19 @@ export function SettingsPage() {
   return (
     <div className="pb-24">
       {/* ==========================================
-          INTEGRATED HEADER - Calm, control-oriented
+          EDITORIAL HERO HEADER - Settings
+          Calm, control-oriented, reduced height
+          Height: 140px mobile (compact variant)
           ========================================== */}
-      <header className="px-5 pt-8 pb-6">
+      <header className="px-5 pt-8 pb-4">
         <p className="text-[10px] font-semibold text-primary uppercase tracking-widest mb-2">
           Your Account
         </p>
-        <h1 className="text-2xl font-bold text-foreground tracking-tight mb-2">
+        <h1 className="text-2xl md:text-3xl font-bold text-foreground tracking-tight mb-1">
           Settings
         </h1>
         <p className="text-sm text-muted-foreground leading-relaxed max-w-[320px]">
-          Manage your account, privacy, and preferences. You're always in control.
+          Manage your preferences. You're always in control.
         </p>
       </header>
 

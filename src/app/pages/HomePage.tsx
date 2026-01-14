@@ -1,7 +1,5 @@
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { EventChallengeCard } from "./home/EventChallengeCard";
 import { 
   Clock,
@@ -12,6 +10,10 @@ import {
   Gift,
   ChevronRight,
 } from "lucide-react";
+import { 
+  FloatingSeed, 
+  AmbientTicker 
+} from "@/components/ui/editorial-hero-header";
 
 // Asset imports
 import homeGardenBg from "@/assets/home-garden-bg.png";
@@ -90,19 +92,10 @@ const activityMessages = [
 
 export function HomePage() {
   const navigate = useNavigate();
-  const [activityIndex, setActivityIndex] = React.useState(0);
   const videoRefs = React.useRef<(HTMLVideoElement | null)[]>([]);
 
   // Mock user data
   const userName = "Alex";
-
-  // Rotate activity messages
-  React.useEffect(() => {
-    const interval = setInterval(() => {
-      setActivityIndex((prev) => (prev + 1) % activityMessages.length);
-    }, 6000);
-    return () => clearInterval(interval);
-  }, []);
 
   const handleSeedTap = () => {
     navigate("/challenges");
@@ -115,69 +108,59 @@ export function HomePage() {
   return (
     <div className="min-h-screen bg-background">
       {/* ==========================================
-          GARDEN HERO - Calm, meditative entry
+          EDITORIAL HERO HEADER - Farm scene
+          Height: 200px mobile, 260px desktop
           ========================================== */}
-      <section 
+      <header 
         className="relative overflow-hidden"
-        style={{ height: "42vh", minHeight: "300px", maxHeight: "380px" }}
+        style={{ 
+          height: "clamp(240px, 45vh, 320px)",
+        }}
       >
-        {/* Garden background image */}
+        {/* Farm background image */}
         <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat z-0"
           style={{ backgroundImage: `url(${homeGardenBg})` }}
         />
         
-        {/* Soft gradient fade to content */}
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background" />
+        {/* Soft gradient fade */}
+        <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-transparent via-60% to-background z-0" />
         
-        {/* Personal greeting - top left */}
-        <div className="absolute top-5 left-5 z-10">
-          <p className="text-sm font-medium text-foreground/70 mb-0.5">
-            {getGreeting()},
+        {/* Editorial Text Content - Top left */}
+        <div className="relative z-10 px-5 pt-8 pb-2">
+          <p className="text-[10px] font-semibold text-primary uppercase tracking-widest mb-1.5">
+            {getGreeting()}
           </p>
-          <h1 className="text-2xl font-bold text-foreground tracking-tight">
+          <h1 className="text-3xl font-bold text-foreground tracking-tight mb-1">
             {userName}
           </h1>
-        </div>
-
-        {/* Floating seed CTA - centered, calm animation */}
-        <div className="absolute inset-0 flex flex-col items-center justify-center pt-4">
-          <button
-            onClick={handleSeedTap}
-            className="relative group focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-full"
-            aria-label="Plant a seed today"
-          >
-            {/* Subtle ambient glow */}
-            <div className="absolute inset-0 -m-6 rounded-full bg-white/15 blur-2xl opacity-50" />
-            
-            {/* Seed image with slow float animation */}
-            <img
-              src={homeSeed}
-              alt="Seed"
-              className="relative w-20 h-20 object-contain drop-shadow-lg animate-seed-float cursor-pointer
-                         transition-transform duration-500 group-hover:scale-105 group-active:scale-95"
-            />
-            
-            {/* Very subtle pulse ring */}
-            <div className="absolute inset-0 -m-3 rounded-full border border-white/20 animate-seed-pulse" />
-          </button>
-          
-          {/* Gentle label */}
-          <p className="mt-4 text-sm font-medium text-foreground/80 bg-white/40 backdrop-blur-sm px-4 py-1.5 rounded-full shadow-sm border border-white/30">
-            Plant a seed today
+          <p className="text-sm text-muted-foreground leading-relaxed max-w-[280px]">
+            Plant something small today. We'll help it grow.
           </p>
         </div>
 
-        {/* Ambient activity - subtle community signal */}
-        <div className="absolute bottom-3 left-0 right-0 flex justify-center pointer-events-none">
-          <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-white/30 backdrop-blur-sm text-xs text-foreground/60 border border-white/20">
-            <div className="w-1.5 h-1.5 rounded-full bg-success/60 animate-pulse" />
-            <span key={activityIndex} className="animate-fade-in">
-              {activityMessages[activityIndex]}
-            </span>
-          </div>
+        {/* Floating Seed - Centered with 6-8s drift */}
+        <div className="absolute inset-0 flex flex-col items-center justify-center pt-6 z-10">
+          <FloatingSeed
+            src={homeSeed}
+            size="lg"
+            onClick={handleSeedTap}
+          />
+          
+          {/* CTA pill below seed */}
+          <button
+            onClick={handleSeedTap}
+            className="mt-4 px-5 py-2 rounded-full bg-primary text-primary-foreground font-medium text-sm shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
+          >
+            🌱 Plant a seed today
+          </button>
         </div>
-      </section>
+
+        {/* Ambient Activity Ticker - Bottom */}
+        <div className="absolute bottom-4 left-0 right-0 z-10">
+          <AmbientTicker messages={activityMessages} />
+        </div>
+      </header>
 
       {/* ==========================================
           TODAY - Featured challenge, editorial feel

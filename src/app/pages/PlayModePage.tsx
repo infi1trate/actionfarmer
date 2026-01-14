@@ -486,9 +486,24 @@ const ChallengesPage = () => {
 
   return (
     <MainAppShell
-      title="Challenges"
       tabs={tabs}
     >
+      {/* ==========================================
+          EDITORIAL HERO HEADER - Challenges
+          Height: 180px mobile, 220px desktop
+          ========================================== */}
+      <header className="px-5 pt-8 pb-6">
+        <p className="text-[10px] font-semibold text-primary uppercase tracking-widest mb-2">
+          This Week
+        </p>
+        <h1 className="text-2xl md:text-3xl font-bold text-foreground tracking-tight mb-1">
+          Challenges
+        </h1>
+        <p className="text-sm text-muted-foreground leading-relaxed max-w-[280px]">
+          Small actions. Real progress.
+        </p>
+      </header>
+
       <ContentSection className="space-y-8 pb-6">
         {/* Hero Featured Section */}
         <div className="space-y-4">

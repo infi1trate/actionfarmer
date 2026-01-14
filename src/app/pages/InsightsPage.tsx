@@ -90,17 +90,19 @@ export function InsightsPage() {
   return (
     <div className="pb-24">
       {/* ==========================================
-          INTEGRATED HEADER - Reflective, personal
+          EDITORIAL HERO HEADER - Insights
+          Reflective, personal, minimal visual noise
+          Height: 160px mobile
           ========================================== */}
       <header className="px-5 pt-8 pb-6">
         <p className="text-[10px] font-semibold text-primary uppercase tracking-widest mb-2">
           Your Patterns
         </p>
-        <h1 className="text-2xl font-bold text-foreground tracking-tight mb-2">
+        <h1 className="text-2xl md:text-3xl font-bold text-foreground tracking-tight mb-2">
           Insights
         </h1>
         <p className="text-sm text-muted-foreground leading-relaxed max-w-[320px]">
-          Observations about how you move and handle everyday tasks. Personal, private, and always learning.
+          Personal, private observations about how you move through your day.
         </p>
       </header>
 
