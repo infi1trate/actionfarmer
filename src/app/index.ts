@@ -14,3 +14,4 @@ export { ExplainPage } from "./pages/onboarding/ExplainPage";
 export { ChallengesExplainPage } from "./pages/onboarding/ChallengesExplainPage";
 export { TrustPage } from "./pages/onboarding/TrustPage";
 export { SignupPage } from "./pages/onboarding/SignupPage";
+export { ReadyPage } from "./pages/onboarding/ReadyPage";

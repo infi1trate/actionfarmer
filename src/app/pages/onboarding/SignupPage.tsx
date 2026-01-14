@@ -7,17 +7,17 @@ export function SignupPage() {
 
   const handleApple = () => {
     // Apple auth would go here
-    navigate("/app");
+    navigate("/onboarding/ready");
   };
 
   const handleGoogle = () => {
     // Google auth would go here
-    navigate("/app");
+    navigate("/onboarding/ready");
   };
 
   const handleEmail = () => {
     // Email auth would go here
-    navigate("/app");
+    navigate("/onboarding/ready");
   };
 
   return (
