@@ -343,13 +343,13 @@ export function EarningsPage() {
                   </div>
                   
                   {/* Plant image - DOMINANT, 3× scale, overlaps gauge */}
-                  <div className="animate-sway origin-bottom relative z-20 scale-[3]">
+                  <div className="animate-sway origin-bottom relative z-20">
                     <img 
                       src={stageInfo.image} 
                       alt={stageInfo.label}
                       className="object-contain"
                       style={{ 
-                        height: '180px',
+                        height: '420px',
                         transformOrigin: 'bottom center',
                         filter: 'drop-shadow(0 12px 24px rgba(0,0,0,0.25)) drop-shadow(0 24px 48px rgba(16,185,129,0.12))'
                       }}
