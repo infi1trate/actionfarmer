@@ -207,53 +207,47 @@ export function InsightsPage() {
       </section>
 
       {/* Soft divider */}
-      <div className="mx-6 h-px bg-border/50 mb-10" />
+      <div className="mx-6 h-px bg-border/50 mb-8" />
 
       {/* ==========================================
-          PATTERNS - Grouped editorial sections
-          Clean typography hierarchy
+          PATTERNS - Clustered insight groups
+          Browsable, exploratory grid layout
           ========================================== */}
       <section className="px-5 pb-10">
-        <div className="flex items-center gap-2.5 mb-6">
+        <div className="flex items-center gap-2.5 mb-8">
           <Eye className="h-4 w-4 text-primary" />
           <h2 className="text-[13px] font-semibold text-foreground uppercase tracking-wide">
             Your Patterns
           </h2>
         </div>
 
-        {/* How You Move - Pattern group */}
-        <div className="mb-8">
-          <div className="flex items-center gap-2 mb-4">
-            <Move className="h-3.5 w-3.5 text-muted-foreground" />
-            <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-              How You Move
-            </h3>
-          </div>
-          <div className="space-y-3">
+        {/* How You Move - Cluster */}
+        <div className="mb-10">
+          <h3 className="text-lg font-semibold text-foreground mb-4">
+            How You Move
+          </h3>
+          <div className="grid grid-cols-2 gap-3">
             {movementPatterns.map((pattern) => (
-              <PatternRow key={pattern.id} pattern={pattern} />
+              <InsightCard key={pattern.id} pattern={pattern} />
             ))}
           </div>
         </div>
 
-        {/* How You Handle Things - Pattern group */}
+        {/* How You Handle Things - Cluster */}
         <div>
-          <div className="flex items-center gap-2 mb-4">
-            <Hand className="h-3.5 w-3.5 text-muted-foreground" />
-            <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-              How You Handle Things
-            </h3>
-          </div>
-          <div className="space-y-3">
+          <h3 className="text-lg font-semibold text-foreground mb-4">
+            How You Handle Things
+          </h3>
+          <div className="grid grid-cols-2 gap-3">
             {handlingPatterns.map((pattern) => (
-              <PatternRow key={pattern.id} pattern={pattern} />
+              <InsightCard key={pattern.id} pattern={pattern} />
             ))}
           </div>
         </div>
       </section>
 
       {/* Soft divider */}
-      <div className="mx-6 h-px bg-border/50 mb-10" />
+      <div className="mx-6 h-px bg-border/50 mb-8" />
 
       {/* ==========================================
           REFLECTION - Narrative section
@@ -305,10 +299,11 @@ export function InsightsPage() {
 }
 
 // =====================================
-// Pattern Row Component
-// Clean, readable pattern display
+// Insight Card Component
+// Browsable card for pattern clusters
+// No chevrons - exploratory, not navigational
 // =====================================
-interface PatternRowProps {
+interface InsightCardProps {
   pattern: {
     id: string;
     title: string;
@@ -319,36 +314,42 @@ interface PatternRowProps {
   };
 }
 
-const PatternRow = ({ pattern }: PatternRowProps) => {
+const InsightCard = ({ pattern }: InsightCardProps) => {
   const IconComponent = pattern.icon;
   
   return (
-    <div className="flex items-start gap-4 p-4 rounded-xl bg-card/60 hover:bg-card/80 transition-colors">
-      <div className="w-10 h-10 rounded-xl bg-muted flex items-center justify-center flex-shrink-0">
-        <IconComponent className="h-5 w-5 text-muted-foreground" />
-      </div>
-      
-      <div className="flex-1 min-w-0 pt-0.5">
-        <div className="flex items-center gap-2 flex-wrap mb-1">
-          <span className="text-[15px] font-medium text-foreground">{pattern.title}</span>
-          {pattern.isNew && (
-            <Badge 
-              variant="secondary" 
-              className="text-[10px] px-1.5 py-0 h-4 bg-primary/12 text-primary border-0 font-medium"
-            >
-              New
-            </Badge>
-          )}
+    <div className="rounded-2xl bg-card/70 p-4 hover:bg-card transition-colors cursor-pointer">
+      {/* Icon + New badge row */}
+      <div className="flex items-start justify-between mb-3">
+        <div className="w-10 h-10 rounded-xl bg-muted/80 flex items-center justify-center">
+          <IconComponent className="h-5 w-5 text-muted-foreground" />
         </div>
-        <p className="text-sm text-muted-foreground leading-relaxed">
-          {pattern.description}
-        </p>
-        {pattern.context && (
-          <p className="text-xs text-muted-foreground/50 mt-1.5">
-            {pattern.context}
-          </p>
+        {pattern.isNew && (
+          <Badge 
+            variant="secondary" 
+            className="text-[9px] px-1.5 py-0.5 h-auto bg-primary/12 text-primary border-0 font-medium"
+          >
+            New
+          </Badge>
         )}
       </div>
+      
+      {/* Title */}
+      <p className="text-sm font-medium text-foreground mb-1 leading-snug">
+        {pattern.title}
+      </p>
+      
+      {/* Description */}
+      <p className="text-xs text-muted-foreground leading-relaxed mb-2">
+        {pattern.description}
+      </p>
+      
+      {/* Context */}
+      {pattern.context && (
+        <p className="text-[10px] text-muted-foreground/50 font-medium">
+          {pattern.context}
+        </p>
+      )}
     </div>
   );
 };
