@@ -177,100 +177,117 @@ export function EarningsPage() {
           SECTION 1: Garden of Progress Header - REFINED
           ======================================== */}
       <header className="relative overflow-hidden">
-        {/* Illustrated Background - Positioned higher so grass grounds the plant */}
+        {/* Illustrated Background - Constrained to ~50% viewport, fades to white */}
         <div 
-          className="absolute inset-x-0 -top-8 bottom-0 bg-cover bg-bottom bg-no-repeat"
-          style={{ backgroundImage: `url(${gardenBg})` }}
+          className="absolute inset-x-0 top-0 h-[50vh] bg-cover bg-bottom bg-no-repeat"
+          style={{ 
+            backgroundImage: `url(${gardenBg})`,
+            backgroundPosition: 'center 70%'
+          }}
         />
-        {/* Soft vignette overlay for depth */}
-        <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-transparent to-background" />
+        {/* Fade to content - stronger gradient at bottom */}
+        <div className="absolute inset-x-0 top-0 h-[50vh] bg-gradient-to-b from-transparent via-transparent via-60% to-background" />
         
-        <div className="relative z-10 px-5 pt-1 pb-6">
-          {/* Section Title - Minimal */}
-          <div className="flex items-center justify-center gap-2 mb-0">
-            <Sprout className="h-3.5 w-3.5 text-emerald-600" />
-            <h2 className="text-xs font-semibold text-foreground/90 drop-shadow-sm">Garden of Progress</h2>
-          </div>
-
-          {/* Plant Hero - Centered, Large, Grounded on landscape */}
-          <div className="flex flex-col items-center">
-            {(() => {
-              const stageInfo = getPlantStageInfo(gardenData.currentStreak);
-              const circumference = 2 * Math.PI * 92;
-              
-              return (
-                <>
-                  <div className="relative flex items-end justify-center" style={{ height: '240px' }}>
-                    {/* Subtle ambient glow behind plant */}
-                    <div className="absolute bottom-8 left-1/2 -translate-x-1/2 w-56 h-32 rounded-full bg-gradient-radial from-emerald-400/15 via-lime-300/5 to-transparent blur-2xl" />
-                    
-                    {/* CIRCULAR PROGRESS RING - Subtle halo around plant */}
-                    <div className="absolute bottom-4 left-1/2 -translate-x-1/2">
-                      <svg 
-                        className="w-[200px] h-[200px] -rotate-90"
-                        viewBox="0 0 200 200"
-                      >
-                        {/* Background ring track - very subtle */}
-                        <circle
-                          cx="100"
-                          cy="100"
-                          r="92"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="4"
-                          className="text-white/10"
-                        />
-                        {/* Progress ring - thinner, glowing */}
-                        <circle
-                          cx="100"
-                          cy="100"
-                          r="92"
-                          fill="none"
-                          stroke="url(#heroProgressGradient)"
-                          strokeWidth="5"
-                          strokeLinecap="round"
-                          strokeDasharray={circumference}
-                          strokeDashoffset={circumference * (1 - gardenData.stageProgress / 100)}
-                          className="transition-all duration-1000 ease-out"
-                          style={{ filter: 'drop-shadow(0 0 8px rgba(16,185,129,0.4))' }}
-                        />
-                        {/* Gradient definition */}
-                        <defs>
-                          <linearGradient id="heroProgressGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                            <stop offset="0%" stopColor="#84cc16" />
-                            <stop offset="50%" stopColor="#22c55e" />
-                            <stop offset="100%" stopColor="#10b981" />
-                          </linearGradient>
-                        </defs>
-                      </svg>
-                    </div>
-                    
-                    {/* Contact shadow where plant meets ground */}
-                    <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-32 h-4 bg-black/15 rounded-[100%] blur-sm" />
-                    
-                    {/* Plant image - DOMINANT, grounded on landscape */}
-                    <div className="animate-sway origin-bottom relative z-10">
-                      <img 
-                        src={stageInfo.image} 
-                        alt={stageInfo.label}
-                        className="w-72 h-72 object-contain"
-                        style={{ 
-                          filter: 'drop-shadow(0 8px 16px rgba(0,0,0,0.2)) drop-shadow(0 20px 40px rgba(16,185,129,0.15))',
-                          marginBottom: '-24px'
-                        }}
-                      />
-                    </div>
-                  </div>
-                  
-                  {/* Progress Caption - Below hero, centered */}
-                  <div className="mt-3 flex items-center justify-center gap-2 text-muted-foreground">
-                    <Target className="h-3.5 w-3.5 text-emerald-500/70" />
-                    <span className="text-xs font-medium">{gardenData.challengesForNextStage} challenges to evolve</span>
-                  </div>
-                </>
-              );
-            })()}
-          </div>
+        {/* Hero container - fixed height for consistent composition */}
+        <div className="relative z-10 px-5" style={{ height: '50vh', minHeight: '320px', maxHeight: '400px' }}>
+          {(() => {
+            const stageInfo = getPlantStageInfo(gardenData.currentStreak);
+            // Arc gauge: 200° sweep (from -100° to +100°, centered at top)
+            const arcRadius = 130;
+            const arcStrokeWidth = 10;
+            const arcSweep = 200; // degrees
+            const startAngle = -100; // degrees from top (12 o'clock)
+            const progressAngle = (gardenData.stageProgress / 100) * arcSweep;
+            
+            // Convert degrees to radians, with 0° at top
+            const degToRad = (deg: number) => (deg - 90) * (Math.PI / 180);
+            
+            // Calculate arc path points
+            const arcPath = (startDeg: number, endDeg: number, radius: number) => {
+              const start = {
+                x: 150 + radius * Math.cos(degToRad(startDeg)),
+                y: 150 + radius * Math.sin(degToRad(startDeg))
+              };
+              const end = {
+                x: 150 + radius * Math.cos(degToRad(endDeg)),
+                y: 150 + radius * Math.sin(degToRad(endDeg))
+              };
+              const largeArc = Math.abs(endDeg - startDeg) > 180 ? 1 : 0;
+              return `M ${start.x} ${start.y} A ${radius} ${radius} 0 ${largeArc} 1 ${end.x} ${end.y}`;
+            };
+            
+            return (
+              <div className="relative h-full flex flex-col items-center justify-end">
+                {/* Arched Progress Gauge - Behind plant, spans above */}
+                <div className="absolute top-4 left-1/2 -translate-x-1/2 z-0">
+                  <svg 
+                    className="w-[300px] h-[180px]"
+                    viewBox="0 75 300 180"
+                  >
+                    {/* Background arc track - subtle */}
+                    <path
+                      d={arcPath(startAngle, startAngle + arcSweep, arcRadius)}
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth={arcStrokeWidth}
+                      strokeLinecap="round"
+                      className="text-white/20"
+                    />
+                    {/* Progress arc - glowing */}
+                    <path
+                      d={arcPath(startAngle, startAngle + progressAngle, arcRadius)}
+                      fill="none"
+                      stroke="url(#arcProgressGradient)"
+                      strokeWidth={arcStrokeWidth + 2}
+                      strokeLinecap="round"
+                      style={{ filter: 'drop-shadow(0 0 12px rgba(16,185,129,0.5))' }}
+                    />
+                    {/* Gradient definition */}
+                    <defs>
+                      <linearGradient id="arcProgressGradient" x1="0%" y1="50%" x2="100%" y2="50%">
+                        <stop offset="0%" stopColor="#84cc16" />
+                        <stop offset="50%" stopColor="#22c55e" />
+                        <stop offset="100%" stopColor="#10b981" />
+                      </linearGradient>
+                    </defs>
+                  </svg>
+                </div>
+                
+                {/* Section Title - Above gauge */}
+                <div className="absolute top-8 left-1/2 -translate-x-1/2 flex items-center gap-2 z-20">
+                  <Sprout className="h-3.5 w-3.5 text-emerald-600" />
+                  <h2 className="text-xs font-semibold text-foreground/90 drop-shadow-sm">Garden of Progress</h2>
+                </div>
+                
+                {/* Subtle ambient glow behind plant */}
+                <div className="absolute bottom-12 left-1/2 -translate-x-1/2 w-64 h-40 rounded-full bg-gradient-radial from-emerald-400/10 via-lime-300/5 to-transparent blur-2xl z-0" />
+                
+                {/* Contact shadow where plant meets ground */}
+                <div className="absolute bottom-6 left-1/2 -translate-x-1/2 w-28 h-3 bg-black/20 rounded-[100%] blur-md z-10" />
+                
+                {/* Plant image - DOMINANT, grounded, overlapping gauge */}
+                <div className="animate-sway origin-bottom relative z-10 mb-4">
+                  <img 
+                    src={stageInfo.image} 
+                    alt={stageInfo.label}
+                    className="object-contain"
+                    style={{ 
+                      height: 'calc(50vh * 0.72)',
+                      minHeight: '230px',
+                      maxHeight: '290px',
+                      filter: 'drop-shadow(0 12px 24px rgba(0,0,0,0.25)) drop-shadow(0 24px 48px rgba(16,185,129,0.12))'
+                    }}
+                  />
+                </div>
+              </div>
+            );
+          })()}
+        </div>
+        
+        {/* Progress Caption - Below hero, centered, in white content area */}
+        <div className="relative z-10 py-4 flex items-center justify-center gap-2 text-muted-foreground bg-background">
+          <Target className="h-3.5 w-3.5 text-emerald-500/70" />
+          <span className="text-sm font-medium">{gardenData.challengesForNextStage} challenges to evolve</span>
         </div>
 
         {/* ========================================
