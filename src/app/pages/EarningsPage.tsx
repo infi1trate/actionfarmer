@@ -194,12 +194,12 @@ export function EarningsPage() {
           }}
         />
         
-        {/* B. Bottom gradient fade - hero to content transition */}
+        {/* B. Bottom seam gradient - short, steep mask at hero/content junction */}
         <div 
           className="absolute inset-x-0 bottom-0 z-[2] pointer-events-none"
           style={{ 
-            height: '25%',
-            background: 'linear-gradient(to bottom, rgba(255,255,255,0.0) 0%, rgba(255,255,255,0.35) 55%, rgba(255,255,255,0.85) 100%)'
+            height: '16%',
+            background: 'linear-gradient(to bottom, rgba(255,255,255,0.0) 0%, rgba(255,255,255,0.18) 35%, rgba(255,255,255,0.55) 70%, rgba(255,255,255,0.95) 100%)'
           }}
         />
         
