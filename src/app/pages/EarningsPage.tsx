@@ -176,7 +176,7 @@ export function EarningsPage() {
       {/* ========================================
           SECTION 1: Garden of Progress Header - REFINED
           ======================================== */}
-      <header className="relative overflow-hidden" style={{ minHeight: '70vh' }}>
+      <header className="relative overflow-hidden" style={{ minHeight: '60vh' }}>
       {/* Illustrated Background - Full hero coverage */}
         <div 
           className="absolute inset-0 bg-cover bg-bottom bg-no-repeat z-0"
@@ -194,12 +194,21 @@ export function EarningsPage() {
           }}
         />
         
-        {/* B. Bottom seam gradient - short, strong mask ONLY at the edge (80-100px) */}
+        {/* Layer B: Quick feather fade - short, fades fast */}
+        <div 
+          className="absolute inset-x-0 bottom-0 z-[4] pointer-events-none"
+          style={{ 
+            height: '90px',
+            background: 'linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 35%, rgba(255,255,255,0.55) 75%, rgba(255,255,255,0.98) 100%)'
+          }}
+        />
+        
+        {/* Layer A: Hard edge killer strip - very small, very strong */}
         <div 
           className="absolute inset-x-0 bottom-0 z-[5] pointer-events-none"
           style={{ 
-            height: '100px',
-            background: 'linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,0.85) 100%)'
+            height: '16px',
+            background: 'rgba(255,255,255,0.98)'
           }}
         />
         
@@ -242,8 +251,8 @@ export function EarningsPage() {
           </div>
         </div>
         
-        {/* Hero container - taller to reveal green foreground */}
-        <div className="relative z-10 px-5 -mt-6" style={{ height: '58vh', minHeight: '380px', maxHeight: '480px' }}>
+        {/* Hero container - balanced height showing greenspace */}
+        <div className="relative z-10 px-5 -mt-6" style={{ height: '48vh', minHeight: '340px', maxHeight: '440px' }}>
           {(() => {
             const stageInfo = getPlantStageInfo(gardenData.currentStreak);
             // Arc gauge: 200° sweep (from -100° to +100°, centered at top)
@@ -333,8 +342,8 @@ export function EarningsPage() {
                     </svg>
                   </div>
                   
-                  {/* Plant image - DOMINANT, scaled up, overlaps gauge */}
-                  <div className="animate-sway origin-bottom relative z-20 scale-[1.5]">
+                  {/* Plant image - DOMINANT, 2× scale, overlaps gauge */}
+                  <div className="animate-sway origin-bottom relative z-20 scale-[2]">
                     <img 
                       src={stageInfo.image} 
                       alt={stageInfo.label}
@@ -350,8 +359,8 @@ export function EarningsPage() {
                   </div>
                 </div>
                 
-                {/* Status Pill - Below plant with breathing room */}
-                <div className="mt-2 mb-6 z-20">
+                {/* Status Pill - Below plant, tightened spacing */}
+                <div className="-mt-2 mb-4 z-20">
                   <div className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/70 backdrop-blur-sm border border-white/50 shadow-sm">
                     <span className="text-sm">🌱</span>
                     <span className="text-xs font-medium text-foreground/90">{gardenData.challengesForNextStage} challenges to evolve</span>
