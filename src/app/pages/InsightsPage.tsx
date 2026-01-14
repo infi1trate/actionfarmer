@@ -88,64 +88,81 @@ export function InsightsPage() {
   const patternInsights = insights.filter(i => i.category === "pattern");
 
   return (
-    <div className="p-4 space-y-6 pb-24">
-      {/* Header explanation */}
-      <Card className="p-4 bg-muted/30 border-0">
-        <div className="flex items-start gap-3">
-          <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
-            <Sparkles className="h-5 w-5 text-primary" />
-          </div>
-          <div className="space-y-1">
-            <p className="text-sm font-medium text-foreground">About Your Insights</p>
-            <p className="text-xs text-muted-foreground">
-              These are neutral observations about your movement patterns and object handling tendencies. They're informational only—not medical or diagnostic.
-            </p>
-          </div>
-        </div>
-      </Card>
-
-      {/* Movement Tendencies */}
-      <section className="space-y-3">
-        <h2 className="text-xs font-medium text-muted-foreground uppercase tracking-wide px-1">
-          Movement Tendencies
-        </h2>
-        <div className="space-y-2">
-          {movementInsights.map((insight) => (
-            <InsightCardComponent key={insight.id} insight={insight} />
-          ))}
-        </div>
-      </section>
-
-      {/* Object Handling Strengths */}
-      <section className="space-y-3">
-        <h2 className="text-xs font-medium text-muted-foreground uppercase tracking-wide px-1">
-          Object Handling Strengths
-        </h2>
-        <div className="space-y-2">
-          {handlingInsights.map((insight) => (
-            <InsightCardComponent key={insight.id} insight={insight} />
-          ))}
-        </div>
-      </section>
-
-      {/* Activity Patterns */}
-      <section className="space-y-3">
-        <h2 className="text-xs font-medium text-muted-foreground uppercase tracking-wide px-1">
-          Activity Patterns
-        </h2>
-        <div className="space-y-2">
-          {patternInsights.map((insight) => (
-            <InsightCardComponent key={insight.id} insight={insight} />
-          ))}
-        </div>
-      </section>
-
-      {/* Privacy note */}
-      <Card className="p-4 bg-muted/20 border-0">
-        <p className="text-xs text-muted-foreground text-center">
-          Insights are generated from your activity data and are visible only to you. They update as more data becomes available.
+    <div className="pb-24">
+      {/* ==========================================
+          INTEGRATED HEADER - Reflective, personal
+          ========================================== */}
+      <header className="px-5 pt-8 pb-6">
+        <p className="text-[10px] font-semibold text-primary uppercase tracking-widest mb-2">
+          Your Patterns
         </p>
-      </Card>
+        <h1 className="text-2xl font-bold text-foreground tracking-tight mb-2">
+          Insights
+        </h1>
+        <p className="text-sm text-muted-foreground leading-relaxed max-w-[320px]">
+          Observations about how you move and handle everyday tasks. Personal, private, and always learning.
+        </p>
+      </header>
+
+      <div className="px-4 space-y-6">
+        {/* About explanation card */}
+        <Card className="p-4 bg-muted/30 border-0">
+          <div className="flex items-start gap-3">
+            <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+              <Sparkles className="h-5 w-5 text-primary" />
+            </div>
+            <div className="space-y-1">
+              <p className="text-sm font-medium text-foreground">About Your Insights</p>
+              <p className="text-xs text-muted-foreground">
+                These are neutral observations about your movement patterns and object handling tendencies. They're informational only—not medical or diagnostic.
+              </p>
+            </div>
+          </div>
+        </Card>
+
+        {/* Movement Tendencies */}
+        <section className="space-y-3">
+          <h2 className="text-xs font-medium text-muted-foreground uppercase tracking-wide px-1">
+            Movement Tendencies
+          </h2>
+          <div className="space-y-2">
+            {movementInsights.map((insight) => (
+              <InsightCardComponent key={insight.id} insight={insight} />
+            ))}
+          </div>
+        </section>
+
+        {/* Object Handling Strengths */}
+        <section className="space-y-3">
+          <h2 className="text-xs font-medium text-muted-foreground uppercase tracking-wide px-1">
+            Object Handling Strengths
+          </h2>
+          <div className="space-y-2">
+            {handlingInsights.map((insight) => (
+              <InsightCardComponent key={insight.id} insight={insight} />
+            ))}
+          </div>
+        </section>
+
+        {/* Activity Patterns */}
+        <section className="space-y-3">
+          <h2 className="text-xs font-medium text-muted-foreground uppercase tracking-wide px-1">
+            Activity Patterns
+          </h2>
+          <div className="space-y-2">
+            {patternInsights.map((insight) => (
+              <InsightCardComponent key={insight.id} insight={insight} />
+            ))}
+          </div>
+        </section>
+
+        {/* Privacy note */}
+        <Card className="p-4 bg-muted/20 border-0">
+          <p className="text-xs text-muted-foreground text-center">
+            Insights are generated from your activity data and are visible only to you. They update as more data becomes available.
+          </p>
+        </Card>
+      </div>
     </div>
   );
 }

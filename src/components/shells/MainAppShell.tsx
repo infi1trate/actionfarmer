@@ -5,7 +5,7 @@ import { BottomTabBar, type TabItem } from "@/components/ui/bottom-tab-bar";
 
 interface MainAppShellProps {
   children: React.ReactNode;
-  /** App title shown in top bar */
+  /** App title shown in top bar (deprecated - use in-page headers instead) */
   title?: string;
   /** Left action in top bar (can be used for logo) */
   leftAction?: React.ReactNode;
@@ -17,6 +17,8 @@ interface MainAppShellProps {
   showBottomTabs?: boolean;
   /** Custom top bar content (replaces default) */
   customTopBar?: React.ReactNode;
+  /** Whether to show the top app bar (default: false for cleaner page headers) */
+  showTopBar?: boolean;
   /** Whether content should scroll */
   scrollable?: boolean;
   /** Additional padding at bottom for bottom tabs */
@@ -33,6 +35,7 @@ const MainAppShell = React.forwardRef<HTMLDivElement, MainAppShellProps>(
       tabs = [],
       showBottomTabs = true,
       customTopBar,
+      showTopBar = false,
       scrollable = true,
       className,
     },
@@ -45,14 +48,14 @@ const MainAppShell = React.forwardRef<HTMLDivElement, MainAppShellProps>(
         ref={ref}
         className={cn("min-h-screen flex flex-col bg-background", className)}
       >
-        {/* Top App Bar */}
-        {customTopBar || (
+        {/* Top App Bar - Only shown if explicitly enabled */}
+        {showTopBar && (customTopBar || (
           <TopAppBar
             title={title}
             leftAction={leftAction}
             rightActions={rightActions}
           />
-        )}
+        ))}
 
         {/* Main Content */}
         <main
