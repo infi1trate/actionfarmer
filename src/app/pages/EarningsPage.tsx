@@ -177,12 +177,13 @@ export function EarningsPage() {
           SECTION 1: Garden of Progress Header - REFINED
           ======================================== */}
       <header className="relative overflow-hidden">
-      {/* Illustrated Background - Full hero coverage, extended for breathing room */}
+      {/* Illustrated Background - Full hero coverage, full image visible */}
         <div 
-          className="absolute inset-x-0 top-0 h-[64vh] bg-cover bg-bottom bg-no-repeat z-0"
+          className="absolute inset-x-0 top-0 h-[64vh] bg-contain bg-bottom bg-no-repeat z-0"
           style={{ 
             backgroundImage: `url(${gardenBg})`,
-            backgroundPosition: 'center 75%'
+            backgroundSize: '100% auto',
+            backgroundPosition: 'center bottom'
           }}
         />
         
