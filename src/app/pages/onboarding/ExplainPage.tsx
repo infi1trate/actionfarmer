@@ -6,7 +6,7 @@ export function ExplainPage() {
   const navigate = useNavigate();
 
   const handleContinue = () => {
-    navigate("/app");
+    navigate("/onboarding/challenges");
   };
 
   const features = [
