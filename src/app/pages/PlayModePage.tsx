@@ -30,6 +30,9 @@ import type { TabItem } from "@/components/ui/bottom-tab-bar";
 // Video imports
 import videoDishwasher from "@/assets/videos/challenge-dishwasher.mp4";
 import videoGroceries from "@/assets/videos/challenge-groceries.mp4";
+
+// Seed image for garden connection
+import seedImage from "@/assets/seed.png";
 import videoLaundry from "@/assets/videos/challenge-laundry.mp4";
 import videoBed from "@/assets/videos/challenge-bed.mp4";
 import videoTable from "@/assets/videos/challenge-table.mp4";
@@ -232,6 +235,7 @@ const SceneCard = ({ challenge, onCardClick, featured = false }: SceneCardProps)
   const videoRef = React.useRef<HTMLVideoElement>(null);
   const cardRef = React.useRef<HTMLButtonElement>(null);
   const [showMilestoneLabels, setShowMilestoneLabels] = React.useState(false);
+  const [seedTapped, setSeedTapped] = React.useState(false);
   
   const handleClick = () => {
     if (cardRef.current) {
@@ -425,6 +429,44 @@ const SceneCard = ({ challenge, onCardClick, featured = false }: SceneCardProps)
                 ${featured ? 'h-5 w-5' : 'h-4 w-4'}
               `} />
             </div>
+          </div>
+        </div>
+        
+        {/* Subtle seed visual - bottom left corner */}
+        <div 
+          className={`
+            absolute z-20 transition-all duration-300 ease-out
+            ${featured ? 'bottom-5 left-5' : 'bottom-4 left-4'}
+          `}
+          onClick={(e) => {
+            e.stopPropagation();
+            setSeedTapped(true);
+            setTimeout(() => setSeedTapped(false), 600);
+          }}
+        >
+          <div className={`
+            relative transition-all duration-300 ease-out
+            ${seedTapped ? 'scale-125' : 'scale-100 group-hover:scale-110'}
+          `}>
+            {/* Seed glow effect on tap */}
+            <div className={`
+              absolute inset-0 rounded-full blur-md transition-opacity duration-300
+              bg-emerald-400/40
+              ${seedTapped ? 'opacity-100' : 'opacity-0'}
+            `} />
+            
+            {/* Seed image */}
+            <img 
+              src={seedImage} 
+              alt="" 
+              className={`
+                relative z-10 object-contain drop-shadow-sm
+                opacity-50 transition-all duration-300
+                group-hover:opacity-70
+                ${seedTapped ? 'opacity-90' : ''}
+                ${featured ? 'w-7 h-7' : 'w-5 h-5'}
+              `}
+            />
           </div>
         </div>
       </div>
