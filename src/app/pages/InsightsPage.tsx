@@ -247,25 +247,34 @@ export function InsightsPage() {
       </section>
 
       {/* Soft divider */}
-      <div className="mx-6 h-px bg-border/50 mb-8" />
+      <div className="mx-6 h-px bg-border/40 mb-10" />
 
       {/* ==========================================
-          REFLECTION - Narrative section
-          Full-width, editorial prose feel
+          REFLECTION - Editorial journal block
+          Soft, reflective, personal note feeling
           ========================================== */}
-      <section className="px-6 pb-10">
-        <div className="flex items-center gap-2.5 mb-5">
-          <Leaf className="h-4 w-4 text-primary" />
-          <h2 className="text-[13px] font-semibold text-foreground uppercase tracking-wide">
-            Weekly Reflection
-          </h2>
-        </div>
+      <section className="px-5 pb-12">
+        {/* Section label - subtle */}
+        <p className="text-[10px] font-medium text-muted-foreground/60 uppercase tracking-widest mb-4 px-1">
+          Weekly Reflection
+        </p>
         
-        <div className="relative rounded-2xl bg-gradient-to-br from-primary/8 via-primary/4 to-transparent p-6">
-          <p className="text-[15px] text-foreground/90 leading-relaxed mb-4">
+        {/* Journal entry card */}
+        <div className="relative rounded-3xl bg-gradient-to-b from-primary/6 via-primary/3 to-primary/1 px-7 py-8 md:px-10 md:py-10">
+          {/* Decorative leaf */}
+          <div className="absolute top-6 right-6 opacity-[0.08]">
+            <Leaf className="h-16 w-16" />
+          </div>
+          
+          {/* Opening flourish */}
+          <p className="text-primary/40 text-2xl mb-4 font-serif italic">"</p>
+          
+          {/* Main reflection text - journal typography */}
+          <p className="text-[17px] md:text-lg text-foreground/85 leading-[1.8] tracking-wide font-light mb-5">
             Your garden thrived on steady care this week.
           </p>
-          <p className="text-sm text-muted-foreground leading-relaxed">
+          
+          <p className="text-[15px] md:text-base text-muted-foreground leading-[1.9] tracking-wide font-light">
             Each challenge you completed added a little more growth — not through big leaps, 
             but through small, consistent moments of showing up. That's how gardens flourish. 🌱
           </p>
