@@ -10,3 +10,4 @@ export { default as PlayModePage, ChallengesPage } from "./pages/PlayModePage";
 export { default as LeaderboardPage } from "./pages/LeaderboardPage";
 export { GardenPage } from "./pages/GardenPage";
 export { SplashPage } from "./pages/onboarding/SplashPage";
+export { ExplainPage } from "./pages/onboarding/ExplainPage";

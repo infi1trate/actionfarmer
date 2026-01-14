@@ -33,6 +33,7 @@ import {
   LeaderboardPage,
   GardenPage,
   SplashPage,
+  ExplainPage,
 } from "./app";
 
 import {
@@ -70,7 +71,7 @@ const App = () => (
               <Route path="/" element={<SplashPage />} />
               
               {/* Onboarding Flow */}
-              <Route path="/onboarding/explain" element={<Navigate to="/app" replace />} />
+              <Route path="/onboarding/explain" element={<ExplainPage />} />
                 
                 {/* Ambient Mode */}
                 <Route path="/ambient" element={<AmbientModePage />} />
