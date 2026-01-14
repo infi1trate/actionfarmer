@@ -177,7 +177,7 @@ export function EarningsPage() {
           SECTION 1: Garden of Progress Header - REFINED
           ======================================== */}
       <header className="relative overflow-hidden">
-        {/* Illustrated Background - Full hero coverage */}
+      {/* Illustrated Background - Full hero coverage */}
         <div 
           className="absolute inset-x-0 top-0 h-[55vh] bg-cover bg-bottom bg-no-repeat z-0"
           style={{ 
@@ -185,8 +185,23 @@ export function EarningsPage() {
             backgroundPosition: 'center 70%'
           }}
         />
-        {/* Fade to content - gradient overlay */}
-        <div className="absolute inset-x-0 top-0 h-[55vh] bg-gradient-to-b from-background/40 via-transparent via-50% to-background z-0" />
+        
+        {/* A. Atmospheric wash - subtle mint-white, preserves color saturation */}
+        <div 
+          className="absolute inset-x-0 top-0 h-[55vh] z-[1]"
+          style={{ 
+            background: 'rgba(245, 252, 249, 0.10)'
+          }}
+        />
+        
+        {/* B. Bottom gradient fade - hero to content transition */}
+        <div 
+          className="absolute inset-x-0 bottom-0 z-[2] pointer-events-none"
+          style={{ 
+            height: '25%',
+            background: 'linear-gradient(to bottom, rgba(255,255,255,0.0) 0%, rgba(255,255,255,0.35) 55%, rgba(255,255,255,0.85) 100%)'
+          }}
+        />
         
         {/* Integrated page header - Garden/progress framing */}
         <div className="relative z-10 px-5 pt-8 pb-4">
@@ -265,13 +280,15 @@ export function EarningsPage() {
                 
                 {/* Plant + Gauge Container - Gauge anchored at plant base, rising behind */}
                 <div className="relative flex items-end justify-center mb-2">
-                  {/* Arched Progress Gauge - Anchored at plant base, emerges from ground BEHIND plant */}
+                  {/* Arched Progress Gauge - Anchored at plant base, BEHIND plant, subordinated */}
                   <div 
                     className="absolute z-0 pointer-events-none"
                     style={{ 
-                      bottom: '8px', // Align with plant pot base
+                      bottom: '8px',
                       left: '50%',
-                      transform: 'translateX(-50%)'
+                      transform: 'translateX(-50%)',
+                      opacity: 0.72,
+                      filter: 'blur(0.5px)'
                     }}
                   >
                     <svg 
@@ -316,8 +333,8 @@ export function EarningsPage() {
                     </svg>
                   </div>
                   
-                  {/* Plant image - DOMINANT, overlaps gauge significantly */}
-                  <div className="animate-sway origin-bottom relative z-20 scale-[1.3]">
+                  {/* Plant image - DOMINANT, scaled up, overlaps gauge */}
+                  <div className="animate-sway origin-bottom relative z-20 scale-[1.5]">
                     <img 
                       src={stageInfo.image} 
                       alt={stageInfo.label}
@@ -326,6 +343,7 @@ export function EarningsPage() {
                         height: 'calc(50vh * 0.72)',
                         minHeight: '240px',
                         maxHeight: '300px',
+                        transformOrigin: 'bottom center',
                         filter: 'drop-shadow(0 12px 24px rgba(0,0,0,0.25)) drop-shadow(0 24px 48px rgba(16,185,129,0.12))'
                       }}
                     />
