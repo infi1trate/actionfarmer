@@ -252,6 +252,22 @@ export default {
           "50%": { transform: "scale(0.97)" },
           "100%": { transform: "scale(1)" },
         },
+        // Seed floating animation - gentle, calm
+        "seed-float": {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-8px)" },
+        },
+        // Seed pulse ring - subtle, magical
+        "seed-pulse": {
+          "0%": { transform: "scale(1)", opacity: "0.6" },
+          "50%": { transform: "scale(1.15)", opacity: "0.3" },
+          "100%": { transform: "scale(1.3)", opacity: "0" },
+        },
+        // Plant sway animation
+        sway: {
+          "0%, 100%": { transform: "rotate(-1deg)" },
+          "50%": { transform: "rotate(1deg)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -263,6 +279,11 @@ export default {
         "scale-in": "scale-in 0.2s ease-out",
         shimmer: "shimmer 2s linear infinite",
         press: "press 0.15s ease-out",
+        // Seed animations
+        "seed-float": "seed-float 3s ease-in-out infinite",
+        "seed-pulse": "seed-pulse 2.5s ease-out infinite",
+        // Plant animation
+        sway: "sway 4s ease-in-out infinite",
       },
     },
   },
