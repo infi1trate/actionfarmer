@@ -4,6 +4,7 @@ export { PlayPage } from "./pages/PlayPage";
 export { EarningsPage } from "./pages/EarningsPage";
 export { InsightsPage } from "./pages/InsightsPage";
 export { SettingsPage } from "./pages/SettingsPage";
+export { SplashPage } from "./pages/onboarding/SplashPage";
 export { WelcomePage } from "./pages/onboarding/WelcomePage";
 export { SignupPage } from "./pages/onboarding/SignupPage";
 export { SigninPage } from "./pages/onboarding/SigninPage";

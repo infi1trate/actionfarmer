@@ -27,6 +27,7 @@ import {
   EarningsPage,
   InsightsPage,
   SettingsPage,
+  SplashPage,
   WelcomePage,
   SignupPage,
   SigninPage,
@@ -75,11 +76,14 @@ const App = () => (
             <Sonner />
             <BrowserRouter>
               <Routes>
-                {/* Redirect root to onboarding */}
-                <Route path="/" element={<Navigate to="/onboarding" replace />} />
-                
-                {/* Onboarding Flow */}
-                <Route path="/onboarding" element={<WelcomePage />} />
+              {/* Redirect root to splash */}
+              <Route path="/" element={<Navigate to="/splash" replace />} />
+              
+              {/* Splash Screen */}
+              <Route path="/splash" element={<SplashPage />} />
+              
+              {/* Onboarding Flow */}
+              <Route path="/onboarding" element={<WelcomePage />} />
                 <Route path="/onboarding/explain" element={<OnboardingExplainPage />} />
                 <Route path="/onboarding/privacy" element={<OnboardingPrivacyPage />} />
                 <Route path="/onboarding/consent" element={<OnboardingConsentPage />} />
