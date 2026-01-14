@@ -18,7 +18,8 @@ import {
   FileText,
   Smartphone,
   LogOut,
-  AlertTriangle
+  AlertTriangle,
+  Settings as SettingsIcon,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Card } from "@/components/ui/card";
@@ -75,8 +76,23 @@ export function SettingsPage() {
   };
 
   return (
-    <div className="pb-4">
-      <div className="mt-2 space-y-6">
+    <div className="pb-24">
+      {/* ==========================================
+          INTEGRATED HEADER - Calm, control-oriented
+          ========================================== */}
+      <header className="px-5 pt-8 pb-6">
+        <p className="text-[10px] font-semibold text-primary uppercase tracking-widest mb-2">
+          Your Account
+        </p>
+        <h1 className="text-2xl font-bold text-foreground tracking-tight mb-2">
+          Settings
+        </h1>
+        <p className="text-sm text-muted-foreground leading-relaxed max-w-[320px]">
+          Manage your account, privacy, and preferences. You're always in control.
+        </p>
+      </header>
+
+      <div className="space-y-6">
         
         {/* Account */}
         <SettingsGroup label="Account">

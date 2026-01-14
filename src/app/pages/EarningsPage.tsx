@@ -177,19 +177,32 @@ export function EarningsPage() {
           SECTION 1: Garden of Progress Header - REFINED
           ======================================== */}
       <header className="relative overflow-hidden">
+        {/* Integrated page header - Garden/progress framing */}
+        <div className="relative z-20 px-5 pt-8 pb-4">
+          <p className="text-[10px] font-semibold text-primary uppercase tracking-widest mb-2">
+            Your Growth
+          </p>
+          <h1 className="text-2xl font-bold text-foreground tracking-tight mb-1">
+            Earnings
+          </h1>
+          <p className="text-sm text-muted-foreground leading-relaxed">
+            Nurture your garden with every challenge
+          </p>
+        </div>
+        
         {/* Illustrated Background - Constrained to ~50% viewport, fades to white */}
         <div 
-          className="absolute inset-x-0 top-0 h-[50vh] bg-cover bg-bottom bg-no-repeat"
+          className="absolute inset-x-0 top-0 h-[50vh] bg-cover bg-bottom bg-no-repeat -z-10"
           style={{ 
             backgroundImage: `url(${gardenBg})`,
             backgroundPosition: 'center 70%'
           }}
         />
         {/* Fade to content - stronger gradient at bottom */}
-        <div className="absolute inset-x-0 top-0 h-[50vh] bg-gradient-to-b from-transparent via-transparent via-60% to-background" />
+        <div className="absolute inset-x-0 top-0 h-[50vh] bg-gradient-to-b from-background/60 via-transparent via-60% to-background -z-10" />
         
         {/* Hero container - fixed height for consistent composition */}
-        <div className="relative z-10 px-5" style={{ height: '50vh', minHeight: '320px', maxHeight: '400px' }}>
+        <div className="relative z-10 px-5" style={{ height: '42vh', minHeight: '280px', maxHeight: '360px' }}>
           {(() => {
             const stageInfo = getPlantStageInfo(gardenData.currentStreak);
             // Arc gauge: 200° sweep (from -100° to +100°, centered at top)
