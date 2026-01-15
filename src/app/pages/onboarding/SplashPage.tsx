@@ -20,11 +20,11 @@ export function SplashPage() {
       />
       
       {/* Logo at top */}
-      <div className="absolute top-12 left-0 right-0 flex justify-center z-10">
+      <div className="absolute top-4 left-0 right-0 flex justify-center z-10">
         <img 
           src={actionFarmerLogo}
           alt="Action Farmer"
-          className="w-[48rem] h-auto drop-shadow-lg"
+          className="w-[36rem] h-auto drop-shadow-lg"
         />
       </div>
       
