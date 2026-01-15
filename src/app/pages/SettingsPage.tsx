@@ -19,7 +19,6 @@ import {
   Smartphone,
   LogOut,
   AlertTriangle,
-  Settings as SettingsIcon,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Card } from "@/components/ui/card";
@@ -42,9 +41,12 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { useAuth } from "@/contexts/AuthContext";
+import { toast } from "sonner";
 
 export function SettingsPage() {
   const navigate = useNavigate();
+  const { signOut } = useAuth();
   
   // Toggle states
   const [notifications, setNotifications] = React.useState(true);
@@ -55,24 +57,28 @@ export function SettingsPage() {
   // Ambient Capture is OFF by default - optional background feature
   const [ambientCaptureEnabled, setAmbientCaptureEnabled] = React.useState(false);
 
-  const handleSignOut = () => {
-    navigate("/onboarding");
+  const handleSignOut = async () => {
+    await signOut();
+    toast.success("Signed out successfully");
+    navigate("/");
   };
 
   const handleDeleteData = () => {
     // Mock: Would trigger data deletion
-    console.log("Data deletion requested");
+    toast.success("Data deletion requested");
   };
 
-  const handleDeleteAccount = () => {
+  const handleDeleteAccount = async () => {
     // Mock: Would trigger account deletion
-    navigate("/onboarding");
+    await signOut();
+    toast.success("Account deleted");
+    navigate("/");
   };
 
   const handleKillSwitch = () => {
     // Mock: Immediately stops all recording
     setIsPaused(true);
-    console.log("Kill switch activated - all recording stopped");
+    toast.success("All recording stopped");
   };
 
   return (

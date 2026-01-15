@@ -8,6 +8,7 @@ import { ThemeProvider } from "next-themes";
 import { ReducedMotionProvider } from "@/hooks/use-reduced-motion";
 import { ChallengeTransitionProvider } from "@/contexts/ChallengeTransitionContext";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { AppDataProvider } from "@/contexts/AppDataContext";
 import NotFound from "./pages/NotFound";
 // Lightweight loading fallback
 const PageLoader = () => (
@@ -80,7 +81,8 @@ const App = () => (
     <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
       <ReducedMotionProvider>
         <AuthProvider>
-          <ChallengeTransitionProvider>
+          <AppDataProvider>
+            <ChallengeTransitionProvider>
             <TooltipProvider>
               <Toaster />
               <Sonner />
@@ -155,8 +157,9 @@ const App = () => (
                 </Routes>
               </Suspense>
             </BrowserRouter>
-          </TooltipProvider>
-        </ChallengeTransitionProvider>
+            </TooltipProvider>
+          </ChallengeTransitionProvider>
+        </AppDataProvider>
       </AuthProvider>
     </ReducedMotionProvider>
   </ThemeProvider>

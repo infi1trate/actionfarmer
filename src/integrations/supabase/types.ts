@@ -14,6 +14,164 @@ export type Database = {
   }
   public: {
     Tables: {
+      challenge_sessions: {
+        Row: {
+          challenge_id: string
+          created_at: string
+          duration_seconds: number | null
+          ended_at: string | null
+          id: string
+          points_earned: number
+          started_at: string
+          status: Database["public"]["Enums"]["challenge_status"]
+          sunlight_points: number
+          user_id: string
+          vitality_multiplier: number
+          watering_points: number
+          xp_multiplier: number
+        }
+        Insert: {
+          challenge_id: string
+          created_at?: string
+          duration_seconds?: number | null
+          ended_at?: string | null
+          id?: string
+          points_earned?: number
+          started_at?: string
+          status?: Database["public"]["Enums"]["challenge_status"]
+          sunlight_points?: number
+          user_id: string
+          vitality_multiplier?: number
+          watering_points?: number
+          xp_multiplier?: number
+        }
+        Update: {
+          challenge_id?: string
+          created_at?: string
+          duration_seconds?: number | null
+          ended_at?: string | null
+          id?: string
+          points_earned?: number
+          started_at?: string
+          status?: Database["public"]["Enums"]["challenge_status"]
+          sunlight_points?: number
+          user_id?: string
+          vitality_multiplier?: number
+          watering_points?: number
+          xp_multiplier?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "challenge_sessions_challenge_id_fkey"
+            columns: ["challenge_id"]
+            isOneToOne: false
+            referencedRelation: "challenges_catalog"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      challenges_catalog: {
+        Row: {
+          created_at: string
+          description: string | null
+          difficulty: string
+          duration_minutes: number
+          icon_emoji: string | null
+          id: string
+          is_active: boolean
+          thumbnail_url: string | null
+          title: string
+          updated_at: string
+          video_url: string | null
+          xp_base: number
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          difficulty?: string
+          duration_minutes?: number
+          icon_emoji?: string | null
+          id?: string
+          is_active?: boolean
+          thumbnail_url?: string | null
+          title: string
+          updated_at?: string
+          video_url?: string | null
+          xp_base?: number
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          difficulty?: string
+          duration_minutes?: number
+          icon_emoji?: string | null
+          id?: string
+          is_active?: boolean
+          thumbnail_url?: string | null
+          title?: string
+          updated_at?: string
+          video_url?: string | null
+          xp_base?: number
+        }
+        Relationships: []
+      }
+      insights_weekly: {
+        Row: {
+          created_at: string
+          headline: string | null
+          highlights: Json | null
+          id: string
+          patterns: Json | null
+          user_id: string
+          week_end: string
+          week_start: string
+        }
+        Insert: {
+          created_at?: string
+          headline?: string | null
+          highlights?: Json | null
+          id?: string
+          patterns?: Json | null
+          user_id: string
+          week_end: string
+          week_start: string
+        }
+        Update: {
+          created_at?: string
+          headline?: string | null
+          highlights?: Json | null
+          id?: string
+          patterns?: Json | null
+          user_id?: string
+          week_end?: string
+          week_start?: string
+        }
+        Relationships: []
+      }
+      plants: {
+        Row: {
+          created_at: string
+          current_stage: number
+          id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          current_stage?: number
+          id?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          current_stage?: number
+          id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
@@ -46,7 +204,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      challenge_status: "started" | "submitted" | "completed"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -173,6 +331,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      challenge_status: ["started", "submitted", "completed"],
+    },
   },
 } as const
