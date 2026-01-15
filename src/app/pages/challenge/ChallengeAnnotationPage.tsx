@@ -12,6 +12,7 @@ import {
   ArrowLeft,
 } from "lucide-react";
 import { challengeData } from "./ChallengeBriefPage";
+import { toast } from "@/hooks/use-toast";
 
 interface AnnotationOption {
   id: string;
@@ -58,10 +59,23 @@ export const ChallengeAnnotationPage = () => {
     // In real app, would save annotations
     const selected = options.filter(o => o.selected).map(o => o.id);
     console.log("Challenge annotations:", { challengeId: challenge.id, annotations: selected });
+    
+    // Show toast and navigate
+    toast({
+      title: "Challenge submitted ✅",
+      description: "Your recording has been saved.",
+    });
+    
     navigate("/challenges");
   };
 
   const handleSkip = () => {
+    // Show toast and navigate
+    toast({
+      title: "Challenge submitted ✅",
+      description: "Your recording has been saved.",
+    });
+    
     navigate("/challenges");
   };
 
@@ -73,44 +87,52 @@ export const ChallengeAnnotationPage = () => {
       <header className="flex items-center gap-3 p-4 border-b border-border">
         <button 
           onClick={() => navigate(-1)}
-          className="p-2 -ml-2 hover:bg-muted rounded-lg transition-colors"
+          className="p-2 -ml-2 hover:bg-muted rounded-xl transition-colors"
         >
           <ArrowLeft className="h-5 w-5 text-foreground" />
         </button>
         <div>
-          <h1 className="text-lg font-semibold text-foreground">Quick Feedback</h1>
+          <h1 className="text-lg font-display font-bold text-foreground">Quick Feedback</h1>
           <p className="text-xs text-muted-foreground">{challenge.name}</p>
         </div>
       </header>
 
       {/* Content */}
-      <main className="flex-1 p-4 space-y-6 pb-32">
+      <main className="flex-1 p-4 space-y-6 pb-40">
         <div className="text-center space-y-2">
-          <p className="text-sm text-muted-foreground">
-            How did this challenge go? (Optional)
+          <p className="text-base text-muted-foreground">
+            How did this challenge go?
           </p>
+          <p className="text-xs text-muted-foreground/70">Optional - tap any that apply</p>
         </div>
 
-        {/* Annotation Grid */}
+        {/* Annotation Grid - Improved with more air */}
         <div className="grid grid-cols-2 gap-3">
           {options.map((option) => {
             const IconComponent = option.icon;
             return (
               <Card
                 key={option.id}
-                className={`p-4 cursor-pointer transition-all active:scale-[0.98] ${
-                  option.selected
-                    ? "bg-primary/10 border-primary ring-1 ring-primary"
-                    : "hover:bg-muted/50"
-                }`}
+                className={`
+                  p-5 cursor-pointer transition-all active:scale-[0.98] 
+                  ${option.selected
+                    ? "bg-primary/10 border-primary shadow-sm shadow-primary/20"
+                    : "hover:bg-muted/50 border-border/60"
+                  }
+                `}
                 onClick={() => toggleOption(option.id)}
               >
-                <div className="flex flex-col items-center gap-2 text-center">
-                  <IconComponent
-                    className={`h-6 w-6 ${
-                      option.selected ? "text-primary" : "text-muted-foreground"
-                    }`}
-                  />
+                <div className="flex flex-col items-center gap-3 text-center">
+                  <div className={`
+                    w-12 h-12 rounded-xl flex items-center justify-center
+                    ${option.selected ? 'bg-primary/15' : 'bg-muted/50'}
+                  `}>
+                    <IconComponent
+                      className={`h-6 w-6 ${
+                        option.selected ? "text-primary" : "text-muted-foreground"
+                      }`}
+                    />
+                  </div>
                   <span
                     className={`text-sm font-medium ${
                       option.selected ? "text-primary" : "text-foreground"
@@ -133,21 +155,22 @@ export const ChallengeAnnotationPage = () => {
       </main>
 
       {/* Footer */}
-      <div className="fixed bottom-0 left-0 right-0 p-4 bg-background border-t border-border space-y-2">
+      <div className="fixed bottom-0 left-0 right-0 p-4 pb-safe bg-gradient-to-t from-background via-background to-transparent pt-8 space-y-2">
         <Button 
-          className="w-full h-12 text-base font-semibold"
+          className="w-full h-14 text-lg font-semibold rounded-2xl shadow-lg shadow-primary/25"
           onClick={handleSubmit}
-          disabled={!hasSelection}
         >
-          Submit Feedback
+          {hasSelection ? "Submit Feedback" : "Done"}
         </Button>
-        <Button 
-          variant="ghost"
-          className="w-full h-10 text-sm text-muted-foreground"
-          onClick={handleSkip}
-        >
-          Skip
-        </Button>
+        {hasSelection && (
+          <Button 
+            variant="ghost"
+            className="w-full h-11 text-muted-foreground"
+            onClick={handleSkip}
+          >
+            Skip
+          </Button>
+        )}
       </div>
     </div>
   );

@@ -231,7 +231,7 @@ export const ChallengeBriefPage = () => {
   }, [setTransitionData]);
 
   const handleStart = () => {
-    navigate(`/challenge/${challenge.id}/countdown`);
+    navigate(`/challenge/${challenge.id}/permission`);
   };
 
   const handleBack = () => {

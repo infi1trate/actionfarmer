@@ -2,90 +2,185 @@ import * as React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { CheckCircle2, Clock, Zap, Star } from "lucide-react";
+import { 
+  Sparkles, 
+  Sprout, 
+  ArrowRight,
+  Wallet,
+} from "lucide-react";
 import { challengeData } from "./ChallengeBriefPage";
+import seedImage from "@/assets/home-seed.png";
 
 export const ChallengeCompletedPage = () => {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   
   const challenge = challengeData[id || "1"] || challengeData["1"];
+  
+  // Animated state for flourish effect
+  const [showFlourish, setShowFlourish] = React.useState(false);
+  const [showContent, setShowContent] = React.useState(false);
+
+  React.useEffect(() => {
+    // Stagger animations
+    const flourishTimer = setTimeout(() => setShowFlourish(true), 200);
+    const contentTimer = setTimeout(() => setShowContent(true), 400);
+    
+    return () => {
+      clearTimeout(flourishTimer);
+      clearTimeout(contentTimer);
+    };
+  }, []);
 
   const handleContinue = () => {
-    navigate(`/challenge/${challenge.id}/annotate`);
+    navigate(`/challenge/${challenge.id}/feedback`);
   };
+
+  const handleViewEarnings = () => {
+    navigate("/app/earnings");
+  };
+
+  // Mock progress - in real app, this would come from user state
+  const challengesToEvolve = 2;
+  const currentProgress = 1;
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
       {/* Main content */}
-      <main className="flex-1 flex flex-col items-center justify-center p-6">
-        {/* Success Animation */}
-        <div className="text-center space-y-6">
-          {/* Checkmark */}
-          <div className="relative">
-            <div className="w-24 h-24 rounded-full bg-emerald-500/10 flex items-center justify-center mx-auto animate-in zoom-in-50 duration-500">
-              <CheckCircle2 className="h-12 w-12 text-emerald-500" />
-            </div>
-            {/* Celebration particles would go here */}
-          </div>
-
-          {/* Message */}
-          <div className="space-y-2 animate-in fade-in slide-in-from-bottom-4 duration-500 delay-200">
-            <h1 className="text-2xl font-bold text-foreground">Challenge Complete!</h1>
-            <p className="text-muted-foreground">Great work on finishing {challenge.name}</p>
-          </div>
-        </div>
-
-        {/* Summary Card */}
-        <Card className="mt-8 p-5 w-full max-w-sm animate-in fade-in slide-in-from-bottom-4 duration-500 delay-300">
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <span className="text-sm text-muted-foreground">Challenge</span>
-              <span className="text-sm font-medium text-foreground">{challenge.name}</span>
-            </div>
+      <main className="flex-1 flex flex-col items-center justify-center px-6 py-12">
+        {/* Garden reward illustration */}
+        <div className="relative mb-8">
+          {/* Seed/Plant icon with glow */}
+          <div 
+            className={`
+              relative w-32 h-32 rounded-3xl bg-gradient-to-br from-success/20 via-primary/10 to-success/20 
+              flex items-center justify-center border border-success/30
+              transition-all duration-700 ease-out
+              ${showFlourish ? 'scale-100 opacity-100' : 'scale-90 opacity-0'}
+            `}
+          >
+            <img 
+              src={seedImage} 
+              alt="Growing plant" 
+              className="w-20 h-20 object-contain"
+              onError={(e) => {
+                e.currentTarget.style.display = 'none';
+              }}
+            />
+            <Sprout className="h-12 w-12 text-success absolute" style={{ display: 'none' }} />
             
-            <div className="flex items-center justify-between">
-              <span className="text-sm text-muted-foreground">Duration</span>
-              <div className="flex items-center gap-1.5">
-                <Clock className="h-3.5 w-3.5 text-muted-foreground" />
-                <span className="text-sm font-medium text-foreground">{challenge.duration}</span>
-              </div>
-            </div>
-
-            <div className="flex items-center justify-between">
-              <span className="text-sm text-muted-foreground">Difficulty</span>
-              <Badge variant="secondary" className="text-xs border-0 bg-muted">
-                <Zap className="h-3 w-3 mr-1" />
-                {challenge.difficulty.charAt(0).toUpperCase() + challenge.difficulty.slice(1)}
-              </Badge>
-            </div>
-
-            {challenge.hasBonus && (
-              <div className="flex items-center justify-between pt-2 border-t border-border">
-                <span className="text-sm text-muted-foreground">Bonus</span>
-                <Badge className="text-xs bg-brand-yellow text-brand-yellow-foreground border-0">
-                  <Star className="h-3 w-3 mr-0.5 fill-current" />
-                  {challenge.bonusLabel}
-                </Badge>
-              </div>
+            {/* Sparkle effects */}
+            {showFlourish && (
+              <>
+                <Sparkles 
+                  className="absolute -top-2 -right-2 h-6 w-6 text-primary animate-pulse" 
+                  style={{ animationDelay: '0.2s' }}
+                />
+                <Sparkles 
+                  className="absolute -bottom-1 -left-1 h-5 w-5 text-success animate-pulse" 
+                  style={{ animationDelay: '0.5s' }}
+                />
+                <Sparkles 
+                  className="absolute top-1/2 -right-4 h-4 w-4 text-warning animate-pulse" 
+                  style={{ animationDelay: '0.8s' }}
+                />
+              </>
             )}
           </div>
-        </Card>
+          
+          {/* Soft glow behind */}
+          <div 
+            className={`
+              absolute inset-0 rounded-3xl bg-success/10 blur-2xl scale-150 -z-10
+              transition-opacity duration-1000
+              ${showFlourish ? 'opacity-100' : 'opacity-0'}
+            `}
+          />
+        </div>
 
-        {/* Data Notice */}
-        <p className="mt-6 text-xs text-muted-foreground text-center max-w-xs animate-in fade-in duration-500 delay-500">
-          Your challenge data has been saved. Tap continue to add any notes.
-        </p>
+        {/* Title & subtitle */}
+        <div 
+          className={`
+            text-center space-y-2 mb-8
+            transition-all duration-500 delay-200
+            ${showContent ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}
+          `}
+        >
+          <h1 className="text-2xl font-display font-bold text-foreground">
+            Challenge submitted!
+          </h1>
+          <p className="text-base text-muted-foreground max-w-[280px] mx-auto">
+            Your garden got a little stronger today.
+          </p>
+        </div>
+
+        {/* Growth reward card */}
+        <Card 
+          className={`
+            w-full max-w-sm p-5 bg-gradient-to-br from-success/10 via-background to-primary/5 
+            border-success/30 shadow-sm
+            transition-all duration-500 delay-300
+            ${showContent ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}
+          `}
+        >
+          <div className="space-y-4">
+            {/* Rewards earned */}
+            <div className="flex items-center justify-center gap-3">
+              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-success/15 text-success text-sm font-semibold">
+                <Sparkles className="h-4 w-4" />
+                <span>+{challenge.xpReward || 50} XP</span>
+              </div>
+              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary/15 text-primary text-sm font-semibold">
+                <Sprout className="h-4 w-4" />
+                <span>+1 Growth</span>
+              </div>
+            </div>
+
+            {/* Evolution progress */}
+            <div className="pt-3 border-t border-border/50">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-sm text-muted-foreground">Evolution progress</span>
+                <span className="text-sm font-medium text-foreground">
+                  {currentProgress} / {challengesToEvolve}
+                </span>
+              </div>
+              <div className="h-2 rounded-full bg-muted overflow-hidden">
+                <div 
+                  className="h-full rounded-full bg-gradient-to-r from-success to-primary transition-all duration-1000 ease-out"
+                  style={{ width: `${(currentProgress / challengesToEvolve) * 100}%` }}
+                />
+              </div>
+              <p className="text-xs text-muted-foreground mt-2 text-center">
+                {challengesToEvolve - currentProgress} more {challengesToEvolve - currentProgress === 1 ? 'challenge' : 'challenges'} to evolve your plant
+              </p>
+            </div>
+          </div>
+        </Card>
       </main>
 
-      {/* Footer */}
-      <div className="p-4 border-t border-border">
+      {/* Footer actions */}
+      <div 
+        className={`
+          p-4 pb-safe space-y-3
+          transition-all duration-500 delay-500
+          ${showContent ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}
+        `}
+      >
         <Button 
-          className="w-full h-12 text-base font-semibold"
+          className="w-full h-14 text-lg font-semibold rounded-2xl shadow-lg shadow-primary/25"
           onClick={handleContinue}
         >
           Continue
+          <ArrowRight className="h-5 w-5 ml-2" />
+        </Button>
+        
+        <Button 
+          variant="ghost"
+          className="w-full h-11 text-muted-foreground hover:text-foreground"
+          onClick={handleViewEarnings}
+        >
+          <Wallet className="h-4 w-4 mr-2" />
+          View Earnings
         </Button>
       </div>
     </div>
