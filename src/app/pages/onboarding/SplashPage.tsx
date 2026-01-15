@@ -64,12 +64,12 @@ export function SplashPage() {
         {/* Primary CTA */}
         <Button
           onClick={handleStart}
-          className="w-full max-w-xs h-14 rounded-full text-lg font-semibold shadow-lg"
+          className="w-full max-w-sm h-16 rounded-full text-xl font-bold shadow-xl"
           style={{
             background: "linear-gradient(180deg, #FFD966 0%, #F5C542 100%)",
             color: "#5D4037",
-            border: "2px solid rgba(255,255,255,0.4)",
-            boxShadow: "0 4px 20px rgba(245, 197, 66, 0.4)"
+            border: "3px solid rgba(255,255,255,0.5)",
+            boxShadow: "0 6px 28px rgba(245, 197, 66, 0.5)"
           }}
         >
           🌱 Plant your first seed
