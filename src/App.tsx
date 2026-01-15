@@ -7,8 +7,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "next-themes";
 import { ReducedMotionProvider } from "@/hooks/use-reduced-motion";
 import { ChallengeTransitionProvider } from "@/contexts/ChallengeTransitionContext";
+import { AuthProvider } from "@/contexts/AuthContext";
 import NotFound from "./pages/NotFound";
-
 // Lightweight loading fallback
 const PageLoader = () => (
   <div className="min-h-screen flex items-center justify-center bg-background">
@@ -48,6 +48,11 @@ const TrustPage = lazy(() => import("./app/pages/onboarding/TrustPage").then(m =
 const SignupPage = lazy(() => import("./app/pages/onboarding/SignupPage").then(m => ({ default: m.SignupPage })));
 const ReadyPage = lazy(() => import("./app/pages/onboarding/ReadyPage").then(m => ({ default: m.ReadyPage })));
 
+// Lazy load Auth Pages
+const CreateAccountPage = lazy(() => import("./app/pages/auth/CreateAccountPage").then(m => ({ default: m.CreateAccountPage })));
+const VerifyEmailPage = lazy(() => import("./app/pages/auth/VerifyEmailPage").then(m => ({ default: m.VerifyEmailPage })));
+const SignInPage = lazy(() => import("./app/pages/auth/SignInPage").then(m => ({ default: m.SignInPage })));
+
 // Lazy load Session Pages
 const SessionCompletedPage = lazy(() => import("./app/pages/session/SessionCompletedPage").then(m => ({ default: m.SessionCompletedPage })));
 const SessionAnnotationPage = lazy(() => import("./app/pages/session/SessionAnnotationPage").then(m => ({ default: m.SessionAnnotationPage })));
@@ -74,22 +79,28 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
       <ReducedMotionProvider>
-        <ChallengeTransitionProvider>
-          <TooltipProvider>
-            <Toaster />
-            <Sonner />
-            <BrowserRouter>
-              <Suspense fallback={<PageLoader />}>
-                <Routes>
-                {/* Splash Screen */}
-                <Route path="/" element={<SplashPage />} />
-                
-                {/* Onboarding Flow */}
-                <Route path="/onboarding/explain" element={<ExplainPage />} />
-                <Route path="/onboarding/challenges" element={<ChallengesExplainPage />} />
-                <Route path="/onboarding/trust" element={<TrustPage />} />
-                <Route path="/onboarding/signup" element={<SignupPage />} />
-                <Route path="/onboarding/ready" element={<ReadyPage />} />
+        <AuthProvider>
+          <ChallengeTransitionProvider>
+            <TooltipProvider>
+              <Toaster />
+              <Sonner />
+              <BrowserRouter>
+                <Suspense fallback={<PageLoader />}>
+                  <Routes>
+                  {/* Splash Screen */}
+                  <Route path="/" element={<SplashPage />} />
+                  
+                  {/* Onboarding Flow */}
+                  <Route path="/onboarding/explain" element={<ExplainPage />} />
+                  <Route path="/onboarding/challenges" element={<ChallengesExplainPage />} />
+                  <Route path="/onboarding/trust" element={<TrustPage />} />
+                  <Route path="/onboarding/signup" element={<SignupPage />} />
+                  <Route path="/onboarding/ready" element={<ReadyPage />} />
+                  
+                  {/* Auth Flow */}
+                  <Route path="/auth/create-account" element={<CreateAccountPage />} />
+                  <Route path="/auth/verify-email" element={<VerifyEmailPage />} />
+                  <Route path="/auth/sign-in" element={<SignInPage />} />
                   
                   {/* Ambient Mode */}
                   <Route path="/ambient" element={<AmbientModePage />} />
@@ -146,9 +157,10 @@ const App = () => (
             </BrowserRouter>
           </TooltipProvider>
         </ChallengeTransitionProvider>
-      </ReducedMotionProvider>
-    </ThemeProvider>
-  </QueryClientProvider>
+      </AuthProvider>
+    </ReducedMotionProvider>
+  </ThemeProvider>
+</QueryClientProvider>
 );
 
 export default App;
