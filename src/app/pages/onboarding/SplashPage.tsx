@@ -16,6 +16,7 @@ export function SplashPage() {
         src={splashBg}
         alt="DePIN Farmer"
         className="absolute inset-0 w-full h-full object-cover object-center"
+        style={{ transform: 'scale(0.85)', transformOrigin: 'center center' }}
       />
       
       {/* Slow drifting cloud overlays */}
