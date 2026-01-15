@@ -24,7 +24,7 @@ export function SplashPage() {
         <img 
           src={actionFarmerLogo}
           alt="Action Farmer"
-          className="w-64 h-auto drop-shadow-lg"
+          className="w-[48rem] h-auto drop-shadow-lg"
         />
       </div>
       
