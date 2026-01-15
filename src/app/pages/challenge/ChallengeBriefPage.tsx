@@ -263,17 +263,17 @@ export const ChallengeBriefPage = () => {
           `}
         />
         
-        {/* Dark gradient scrim - replaces white washout */}
+        {/* Dark gradient scrim for title legibility */}
         <div 
-          className="absolute inset-0"
+          className="absolute inset-0 pointer-events-none"
           style={{
-            background: 'linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.10) 35%, rgba(0,0,0,0.55) 85%)'
+            background: 'linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.05) 40%, rgba(0,0,0,0.6) 75%, rgba(0,0,0,0.75) 100%)'
           }}
         />
         
-        {/* White fade at bottom to blend into content */}
+        {/* Sharp white fade at bottom edge */}
         <div 
-          className="absolute bottom-0 left-0 right-0 h-24 pointer-events-none"
+          className="absolute bottom-0 left-0 right-0 h-12 pointer-events-none"
           style={{
             background: 'linear-gradient(to bottom, transparent 0%, hsl(var(--background)) 100%)'
           }}
@@ -323,16 +323,16 @@ export const ChallengeBriefPage = () => {
           </div>
         )}
         
-        {/* Title overlay at bottom of video - improved typography */}
+        {/* Title overlay at bottom of video */}
         <div className={`
-          absolute bottom-0 left-0 right-0 px-5 pb-6 pt-12
+          absolute bottom-10 left-0 right-0 px-5
           transition-all duration-500 delay-200
           ${showContent ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}
         `}>
-          <h1 className="text-[28px] sm:text-[32px] font-display font-bold text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)] mb-2 leading-tight">
+          <h1 className="text-[28px] sm:text-[32px] font-display font-bold text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.7)] mb-1.5 leading-tight">
             {challenge.name}
           </h1>
-          <p className="text-white/90 text-base sm:text-lg max-w-[90%] drop-shadow-[0_1px_4px_rgba(0,0,0,0.4)] leading-relaxed">
+          <p className="text-white/95 text-base sm:text-lg max-w-[90%] drop-shadow-[0_1px_6px_rgba(0,0,0,0.6)] leading-relaxed">
             {challenge.description}
           </p>
         </div>
