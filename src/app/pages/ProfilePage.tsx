@@ -6,43 +6,55 @@ import {
   Shield, 
   HelpCircle, 
   LogOut,
-  ChevronRight,
   Moon,
   Smartphone,
   FileText,
-  Mail
+  Mail,
+  Loader2,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card } from "@/components/ui/card";
-import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { StreakBadge } from "@/components/ui/streak-indicator";
 import { 
-  SettingsShell, 
   SettingsGroup, 
   SettingsLinkRow, 
   SettingsToggleRow,
   SettingsButtonRow,
-  SettingsSeparator
 } from "@/components/shells";
-
-// Mock user data
-const mockUser = {
-  name: "Alex Johnson",
-  email: "alex@example.com",
-  avatar: "",
-  memberSince: "Jan 2025",
-  streak: 12,
-  tier: "Pro",
-  devicesCount: 4,
-};
+import { useAuth } from "@/contexts/AuthContext";
+import { useAppData } from "@/contexts/AppDataContext";
+import { toast } from "sonner";
 
 export function ProfilePage() {
   const navigate = useNavigate();
+  const { profile, signOut, loading: authLoading } = useAuth();
+  const { plant, stats, loading: dataLoading } = useAppData();
+  
   const [darkMode, setDarkMode] = React.useState(false);
   const [notifications, setNotifications] = React.useState(true);
+
+  const handleSignOut = async () => {
+    await signOut();
+    toast.success("Signed out successfully");
+    navigate("/");
+  };
+
+  // Loading state
+  if (authLoading || dataLoading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    );
+  }
+
+  // Get user data
+  const userName = profile?.first_name || "Friend";
+  const userEmail = profile ? `User since ${new Date(profile.created_at).toLocaleDateString("en-US", { month: "short", year: "numeric" })}` : "";
+  const currentStreak = plant?.current_stage || 0;
 
   return (
     <div className="pb-4">
@@ -51,20 +63,25 @@ export function ProfilePage() {
         <Card className="p-5">
           <div className="flex items-center gap-4">
             <Avatar className="w-16 h-16">
-              <AvatarImage src={mockUser.avatar} alt={mockUser.name} />
               <AvatarFallback className="bg-brand-yellow text-brand-yellow-foreground text-xl font-semibold">
-                {mockUser.name.split(' ').map(n => n[0]).join('')}
+                {userName.charAt(0).toUpperCase()}
               </AvatarFallback>
             </Avatar>
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2 mb-1">
-                <h2 className="text-lg font-semibold truncate">{mockUser.name}</h2>
-                <Badge variant="secondary" className="shrink-0">{mockUser.tier}</Badge>
+                <h2 className="text-lg font-semibold truncate">{userName}</h2>
+                {stats.totalCompleted >= 10 && (
+                  <Badge variant="secondary" className="shrink-0">Pro</Badge>
+                )}
               </div>
-              <p className="text-sm text-muted-foreground truncate">{mockUser.email}</p>
+              <p className="text-sm text-muted-foreground truncate">{userEmail}</p>
               <div className="flex items-center gap-2 mt-2">
-                <StreakBadge count={mockUser.streak} variant="fire" size="sm" />
-                <span className="text-xs text-muted-foreground">Member since {mockUser.memberSince}</span>
+                {currentStreak > 0 && (
+                  <StreakBadge count={currentStreak} variant="fire" size="sm" />
+                )}
+                <span className="text-xs text-muted-foreground">
+                  {stats.totalCompleted} challenges completed
+                </span>
               </div>
             </div>
           </div>
@@ -81,14 +98,6 @@ export function ProfilePage() {
               icon={User}
               iconBg="bg-info/10"
               onClick={() => navigate("/app/profile/edit")}
-            />
-            <Separator />
-            <SettingsLinkRow
-              label="My Devices"
-              icon={Wifi}
-              iconBg="bg-success/10"
-              value={`${mockUser.devicesCount} connected`}
-              onClick={() => navigate("/app/profile/devices")}
             />
             <Separator />
             <SettingsLinkRow
@@ -168,7 +177,7 @@ export function ProfilePage() {
               icon={LogOut}
               iconBg="bg-danger/10"
               danger
-              onClick={() => navigate("/onboarding")}
+              onClick={handleSignOut}
             />
           </Card>
         </div>

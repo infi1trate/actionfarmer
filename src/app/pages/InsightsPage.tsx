@@ -11,7 +11,10 @@ import {
   TrendingUp,
   Heart,
   Eye,
+  Loader2,
 } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
+import { useAppData } from "@/contexts/AppDataContext";
 
 // =====================================
 // Weekly Garden Journal - Insights Page
@@ -26,75 +29,10 @@ const weeklyHeadlines = [
   "Gentle progress, real results ✨",
 ];
 
-// This week's highlights - playful insight cards
-const weeklyHighlights = [
-  {
-    id: "h1",
-    title: "Your smoothest week yet",
-    description: "Transitions between tasks felt effortless",
-    icon: Zap,
-    accent: "from-amber-500/20 to-amber-500/5",
-    iconBg: "bg-amber-500/15",
-    iconColor: "text-amber-600",
-  },
-  {
-    id: "h2",
-    title: "Gentle with fragile items",
-    description: "You naturally slowed down when it mattered",
-    icon: Feather,
-    accent: "from-rose-500/20 to-rose-500/5",
-    iconBg: "bg-rose-500/15",
-    iconColor: "text-rose-600",
-  },
-  {
-    id: "h3",
-    title: "Morning momentum",
-    description: "Your best energy showed up early",
-    icon: Sun,
-    accent: "from-orange-500/20 to-orange-500/5",
-    iconBg: "bg-orange-500/15",
-    iconColor: "text-orange-600",
-  },
-];
-
-// Pattern insights grouped by human category
-const movementPatterns = [
-  {
-    id: "m1",
-    title: "Flowing reach",
-    description: "Your reaching motions have a natural, relaxed quality",
-    icon: Move,
-    isNew: true,
-    context: "Seen in 8 challenges",
-  },
-  {
-    id: "m2",
-    title: "Steady pacing",
-    description: "You maintain a consistent rhythm throughout tasks",
-    icon: TrendingUp,
-    context: "Seen in 12 challenges",
-  },
-];
-
-const handlingPatterns = [
-  {
-    id: "hd1",
-    title: "Secure grip",
-    description: "You favor grip styles that provide extra stability",
-    icon: Hand,
-    context: "Seen in 6 challenges",
-  },
-  {
-    id: "hd2",
-    title: "Careful precision",
-    description: "Delicate items get the attention they deserve",
-    icon: Heart,
-    isNew: true,
-    context: "Seen in 4 challenges",
-  },
-];
-
 export function InsightsPage() {
+  const { profile, loading: authLoading } = useAuth();
+  const { currentWeekInsight, stats, sessions, loading: dataLoading } = useAppData();
+
   // Get current week label
   const today = new Date();
   const weekStart = new Date(today);
@@ -112,10 +50,117 @@ export function InsightsPage() {
   const weekNumber = Math.floor(today.getTime() / (7 * 24 * 60 * 60 * 1000));
   const headline = weeklyHeadlines[weekNumber % weeklyHeadlines.length];
 
-  // Hero insight - the most notable pattern this week
-  const heroInsight = weeklyHighlights[0];
-  const HeroIcon = heroInsight.icon;
-  const supportingNotes = weeklyHighlights.slice(1);
+  // Loading state
+  if (authLoading || dataLoading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    );
+  }
+
+  // Get this week's completed sessions
+  const thisWeekSessions = sessions.filter(s => {
+    const sessionDate = new Date(s.created_at);
+    return sessionDate >= weekStart && sessionDate <= weekEnd && s.status === "completed";
+  });
+
+  const hasActivity = thisWeekSessions.length > 0 || currentWeekInsight;
+
+  // Empty state for new users
+  if (!hasActivity) {
+    return (
+      <div className="min-h-screen bg-background">
+        {/* Header */}
+        <header className="relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-b from-primary/6 via-primary/2 to-transparent" />
+          
+          <div className="relative px-6 pt-12 pb-10 md:pt-16 md:pb-14">
+            <p className="text-[11px] font-semibold text-primary uppercase tracking-[0.2em] mb-5">
+              This Week in Your Garden
+            </p>
+            
+            <h1 className="text-[32px] md:text-[42px] font-bold text-foreground tracking-tight leading-[1.1] mb-4">
+              Your story begins here
+            </h1>
+            
+            <p className="text-sm text-muted-foreground/70">
+              {weekLabel}
+            </p>
+          </div>
+        </header>
+
+        {/* Empty state */}
+        <section className="px-5 pb-10">
+          <div className="rounded-3xl bg-gradient-to-b from-muted/40 to-muted/20 border border-border/30 p-8 text-center">
+            <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-5">
+              <Eye className="h-8 w-8 text-primary/60" />
+            </div>
+            
+            <h2 className="text-xl font-semibold text-foreground mb-3">
+              No insights yet
+            </h2>
+            
+            <p className="text-sm text-muted-foreground leading-relaxed max-w-xs mx-auto mb-6">
+              Complete your first challenge to start discovering patterns in how you move and work.
+            </p>
+            
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm">
+              <Sparkles className="h-4 w-4" />
+              <span>Insights unlock after your first challenge</span>
+            </div>
+          </div>
+        </section>
+
+        {/* Privacy footer */}
+        <footer className="px-6 pb-28 text-center">
+          <p className="text-[11px] text-muted-foreground/40">
+            These observations are personal and private — only you can see them.
+          </p>
+        </footer>
+      </div>
+    );
+  }
+
+  // Build highlights from actual data or use insight data
+  const highlights = currentWeekInsight?.highlights || [
+    {
+      id: "h1",
+      title: `${thisWeekSessions.length} challenge${thisWeekSessions.length !== 1 ? "s" : ""} completed`,
+      description: "You're building momentum",
+      icon: "Zap",
+      accent: "from-amber-500/20 to-amber-500/5",
+    },
+  ];
+
+  const heroHighlight = highlights[0];
+  const supportingNotes = highlights.slice(1);
+
+  // Build patterns from insight data or generate defaults based on activity
+  const movementPatterns = currentWeekInsight?.patterns?.movement || (thisWeekSessions.length > 0 ? [
+    {
+      id: "m1",
+      title: "Getting started",
+      description: "Complete more challenges to discover your movement patterns",
+      icon: "Move",
+      context: `Seen in ${thisWeekSessions.length} challenge${thisWeekSessions.length !== 1 ? "s" : ""}`,
+    },
+  ] : []);
+
+  const handlingPatterns = currentWeekInsight?.patterns?.handling || [];
+
+  // Icon mapping
+  const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+    Zap,
+    Feather,
+    Sun,
+    Move,
+    TrendingUp,
+    Hand,
+    Heart,
+  };
+
+  const HeroIcon = iconMap[heroHighlight.icon || "Zap"] || Zap;
 
   return (
     <div className="min-h-screen bg-background">
@@ -150,23 +195,23 @@ export function InsightsPage() {
           Large featured card for most notable pattern
           ========================================== */}
       <section className="px-5 pb-6">
-        <div className={`relative rounded-3xl bg-gradient-to-br ${heroInsight.accent} p-8 overflow-hidden`}>
+        <div className={`relative rounded-3xl bg-gradient-to-br ${heroHighlight.accent || "from-amber-500/20 to-amber-500/5"} p-8 overflow-hidden`}>
           {/* Background decoration */}
           <div className="absolute -top-4 -right-4 opacity-[0.07]">
             <HeroIcon className="h-40 w-40" />
           </div>
           
           {/* Icon */}
-          <div className={`w-16 h-16 rounded-2xl ${heroInsight.iconBg} flex items-center justify-center mb-5`}>
-            <HeroIcon className={`h-8 w-8 ${heroInsight.iconColor}`} />
+          <div className="w-16 h-16 rounded-2xl bg-amber-500/15 flex items-center justify-center mb-5">
+            <HeroIcon className="h-8 w-8 text-amber-600" />
           </div>
           
           {/* Content */}
           <h2 className="text-2xl md:text-[28px] font-semibold text-foreground tracking-tight mb-2">
-            {heroInsight.title}
+            {heroHighlight.title}
           </h2>
           <p className="text-base text-muted-foreground leading-relaxed max-w-xs">
-            {heroInsight.description}
+            {heroHighlight.description}
           </p>
         </div>
       </section>
@@ -175,74 +220,84 @@ export function InsightsPage() {
           SUPPORTING NOTES
           Smaller secondary insights beneath hero
           ========================================== */}
-      <section className="px-5 pb-10">
-        <p className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider mb-3 px-1">
-          Also this week
-        </p>
-        <div className="space-y-2">
-          {supportingNotes.map((note) => {
-            const NoteIcon = note.icon;
-            return (
-              <div 
-                key={note.id}
-                className="flex items-center gap-3.5 p-3.5 rounded-xl bg-muted/30"
-              >
-                <div className={`w-9 h-9 rounded-xl ${note.iconBg} flex items-center justify-center flex-shrink-0`}>
-                  <NoteIcon className={`h-4.5 w-4.5 ${note.iconColor}`} />
+      {supportingNotes.length > 0 && (
+        <section className="px-5 pb-10">
+          <p className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider mb-3 px-1">
+            Also this week
+          </p>
+          <div className="space-y-2">
+            {supportingNotes.map((note) => {
+              const NoteIcon = iconMap[note.icon || "Zap"] || Zap;
+              return (
+                <div 
+                  key={note.id}
+                  className="flex items-center gap-3.5 p-3.5 rounded-xl bg-muted/30"
+                >
+                  <div className="w-9 h-9 rounded-xl bg-muted/80 flex items-center justify-center flex-shrink-0">
+                    <NoteIcon className="h-4.5 w-4.5 text-muted-foreground" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium text-foreground leading-snug">
+                      {note.title}
+                    </p>
+                    <p className="text-xs text-muted-foreground leading-snug mt-0.5">
+                      {note.description}
+                    </p>
+                  </div>
                 </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-foreground leading-snug">
-                    {note.title}
-                  </p>
-                  <p className="text-xs text-muted-foreground leading-snug mt-0.5">
-                    {note.description}
-                  </p>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </section>
+              );
+            })}
+          </div>
+        </section>
+      )}
 
       {/* Soft divider */}
-      <div className="mx-6 h-px bg-border/50 mb-8" />
+      {(movementPatterns.length > 0 || handlingPatterns.length > 0) && (
+        <div className="mx-6 h-px bg-border/50 mb-8" />
+      )}
 
       {/* ==========================================
           PATTERNS - Clustered insight groups
           Browsable, exploratory grid layout
           ========================================== */}
-      <section className="px-5 pb-10">
-        <div className="flex items-center gap-2.5 mb-8">
-          <Eye className="h-4 w-4 text-primary" />
-          <h2 className="text-[13px] font-semibold text-foreground uppercase tracking-wide">
-            Your Patterns
-          </h2>
-        </div>
-
-        {/* How You Move - Cluster */}
-        <div className="mb-10">
-          <h3 className="text-lg font-semibold text-foreground mb-4">
-            How You Move
-          </h3>
-          <div className="grid grid-cols-2 gap-3">
-            {movementPatterns.map((pattern) => (
-              <InsightCard key={pattern.id} pattern={pattern} />
-            ))}
+      {(movementPatterns.length > 0 || handlingPatterns.length > 0) && (
+        <section className="px-5 pb-10">
+          <div className="flex items-center gap-2.5 mb-8">
+            <Eye className="h-4 w-4 text-primary" />
+            <h2 className="text-[13px] font-semibold text-foreground uppercase tracking-wide">
+              Your Patterns
+            </h2>
           </div>
-        </div>
 
-        {/* How You Handle Things - Cluster */}
-        <div>
-          <h3 className="text-lg font-semibold text-foreground mb-4">
-            How You Handle Things
-          </h3>
-          <div className="grid grid-cols-2 gap-3">
-            {handlingPatterns.map((pattern) => (
-              <InsightCard key={pattern.id} pattern={pattern} />
-            ))}
-          </div>
-        </div>
-      </section>
+          {/* How You Move - Cluster */}
+          {movementPatterns.length > 0 && (
+            <div className="mb-10">
+              <h3 className="text-lg font-semibold text-foreground mb-4">
+                How You Move
+              </h3>
+              <div className="grid grid-cols-2 gap-3">
+                {movementPatterns.map((pattern) => (
+                  <InsightCard key={pattern.id} pattern={pattern} iconMap={iconMap} />
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* How You Handle Things - Cluster */}
+          {handlingPatterns.length > 0 && (
+            <div>
+              <h3 className="text-lg font-semibold text-foreground mb-4">
+                How You Handle Things
+              </h3>
+              <div className="grid grid-cols-2 gap-3">
+                {handlingPatterns.map((pattern) => (
+                  <InsightCard key={pattern.id} pattern={pattern} iconMap={iconMap} />
+                ))}
+              </div>
+            </div>
+          )}
+        </section>
+      )}
 
       {/* Soft divider */}
       <div className="mx-6 h-px bg-border/40 mb-10" />
@@ -269,12 +324,17 @@ export function InsightsPage() {
           
           {/* Main reflection text - journal typography */}
           <p className="text-[17px] md:text-lg text-foreground/85 leading-[1.8] tracking-wide font-light mb-5">
-            Your garden thrived on steady care this week.
+            {thisWeekSessions.length > 0 
+              ? "Your garden thrived on steady care this week."
+              : "Your garden is ready for its first seeds."
+            }
           </p>
           
           <p className="text-[15px] md:text-base text-muted-foreground leading-[1.9] tracking-wide font-light">
-            Each challenge you completed added a little more growth — not through big leaps, 
-            but through small, consistent moments of showing up. That's how gardens flourish. 🌱
+            {thisWeekSessions.length > 0 
+              ? "Each challenge you completed added a little more growth — not through big leaps, but through small, consistent moments of showing up. That's how gardens flourish. 🌱"
+              : "Every journey begins with a single step. Start your first challenge and watch your garden come to life. 🌱"
+            }
           </p>
         </div>
       </section>
@@ -323,14 +383,15 @@ interface InsightCardProps {
     id: string;
     title: string;
     description: string;
-    icon: React.ComponentType<{ className?: string }>;
+    icon?: string;
     isNew?: boolean;
     context?: string;
   };
+  iconMap: Record<string, React.ComponentType<{ className?: string }>>;
 }
 
-const InsightCard = ({ pattern }: InsightCardProps) => {
-  const IconComponent = pattern.icon;
+const InsightCard = ({ pattern, iconMap }: InsightCardProps) => {
+  const IconComponent = iconMap[pattern.icon || "Move"] || Move;
   
   return (
     <div className="rounded-2xl bg-card/70 p-4 hover:bg-card transition-colors cursor-pointer">
