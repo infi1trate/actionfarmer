@@ -271,11 +271,11 @@ export const ChallengeBriefPage = () => {
           }}
         />
         
-        {/* Elegant fade at bottom - subtle blend into content */}
+        {/* Elegant fade at bottom - smooth multi-stop blend */}
         <div 
-          className="absolute bottom-0 left-0 right-0 h-32 pointer-events-none"
+          className="absolute bottom-0 left-0 right-0 h-40 pointer-events-none"
           style={{
-            background: 'linear-gradient(to bottom, transparent 0%, transparent 20%, hsl(var(--background) / 0.4) 50%, hsl(var(--background) / 0.85) 75%, hsl(var(--background)) 100%)'
+            background: 'linear-gradient(to bottom, transparent 0%, hsl(var(--background) / 0.05) 25%, hsl(var(--background) / 0.2) 45%, hsl(var(--background) / 0.5) 65%, hsl(var(--background) / 0.8) 82%, hsl(var(--background)) 100%)'
           }}
         />
         
