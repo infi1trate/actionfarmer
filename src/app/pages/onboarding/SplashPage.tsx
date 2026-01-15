@@ -46,35 +46,6 @@ export function SplashPage() {
         />
       </div>
 
-      {/* App Title - Playful branded text */}
-      <div className="absolute top-16 left-0 right-0 flex justify-center pointer-events-none">
-        <h1 
-          className="text-5xl font-black tracking-tight select-none"
-          style={{
-            fontFamily: "'Arial Black', 'Helvetica Neue', sans-serif",
-            background: "linear-gradient(180deg, #FFFFFF 0%, #FFE566 30%, #FFD966 60%, #F5A623 100%)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-            backgroundClip: "text",
-            textShadow: "none",
-            filter: "drop-shadow(0 4px 0 #8B5A2B) drop-shadow(0 6px 12px rgba(0,0,0,0.3))",
-            transform: "rotate(-2deg)",
-            letterSpacing: "-0.02em",
-          }}
-        >
-          <span style={{ display: "inline-block", transform: "translateY(-2px)" }}>De</span>
-          <span style={{ 
-            display: "inline-block", 
-            color: "#4ADE80",
-            background: "linear-gradient(180deg, #86EFAC 0%, #4ADE80 50%, #22C55E 100%)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-            backgroundClip: "text",
-          }}>PIN</span>
-          <span style={{ display: "inline-block", marginLeft: "0.15em" }}> Farmer</span>
-        </h1>
-      </div>
-
       {/* Bottom gradient for CTA visibility */}
       <div className="absolute bottom-0 left-0 right-0 h-72 bg-gradient-to-t from-black/30 via-black/15 to-transparent pointer-events-none" />
 
