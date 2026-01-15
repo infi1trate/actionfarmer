@@ -436,11 +436,11 @@ export const ChallengeBriefPage = () => {
         ${showContent ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}
       `}>
         <Button 
-          className="w-full h-[56px] text-lg font-semibold rounded-2xl shadow-lg shadow-primary/25 flex flex-row items-center justify-center gap-2.5 whitespace-nowrap"
+          className="w-full h-[56px] text-lg font-semibold rounded-2xl shadow-lg shadow-primary/25"
           onClick={handleStart}
+          leftIcon={<Play className="h-5 w-5 fill-current" />}
         >
-          <Play className="h-5 w-5 fill-current shrink-0" />
-          <span>Start Challenge</span>
+          Start Challenge
         </Button>
         <p className="text-center text-[13px] text-muted-foreground mt-3">
           You're always in control — stop anytime.
