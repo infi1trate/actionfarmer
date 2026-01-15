@@ -263,19 +263,19 @@ export const ChallengeBriefPage = () => {
           `}
         />
         
-        {/* Dark gradient scrim - replaces white washout */}
+        {/* Dark gradient scrim for text readability */}
         <div 
           className="absolute inset-0"
           style={{
-            background: 'linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.10) 35%, rgba(0,0,0,0.55) 85%)'
+            background: 'linear-gradient(to bottom, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.05) 30%, rgba(0,0,0,0.45) 70%, rgba(0,0,0,0.7) 100%)'
           }}
         />
         
-        {/* White fade at bottom to blend into content */}
+        {/* Elegant fade at bottom - subtle blend into content */}
         <div 
-          className="absolute bottom-0 left-0 right-0 h-24 pointer-events-none"
+          className="absolute bottom-0 left-0 right-0 h-32 pointer-events-none"
           style={{
-            background: 'linear-gradient(to bottom, transparent 0%, hsl(var(--background)) 100%)'
+            background: 'linear-gradient(to bottom, transparent 0%, transparent 20%, hsl(var(--background) / 0.4) 50%, hsl(var(--background) / 0.85) 75%, hsl(var(--background)) 100%)'
           }}
         />
         
@@ -323,16 +323,18 @@ export const ChallengeBriefPage = () => {
           </div>
         )}
         
-        {/* Title overlay at bottom of video - improved typography */}
+        {/* Title overlay at bottom of video - larger, clearer typography */}
         <div className={`
-          absolute bottom-0 left-0 right-0 px-5 pb-6 pt-12
+          absolute bottom-0 left-0 right-0 px-5 pb-8 pt-16
           transition-all duration-500 delay-200
           ${showContent ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}
         `}>
-          <h1 className="text-[28px] sm:text-[32px] font-display font-bold text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)] mb-2 leading-tight">
+          <h1 className="text-[32px] sm:text-[38px] font-display font-bold text-white mb-2.5 leading-[1.1] tracking-tight"
+              style={{ textShadow: '0 2px 12px rgba(0,0,0,0.6), 0 4px 24px rgba(0,0,0,0.4)' }}>
             {challenge.name}
           </h1>
-          <p className="text-white/90 text-base sm:text-lg max-w-[90%] drop-shadow-[0_1px_4px_rgba(0,0,0,0.4)] leading-relaxed">
+          <p className="text-white text-lg sm:text-xl max-w-[95%] leading-relaxed font-medium"
+             style={{ textShadow: '0 1px 8px rgba(0,0,0,0.5), 0 2px 16px rgba(0,0,0,0.3)' }}>
             {challenge.description}
           </p>
         </div>
