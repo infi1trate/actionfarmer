@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import splashBg from "@/assets/splash-farm.png";
+import splashBg from "@/assets/splash-farm-new.png";
 import actionFarmerLogo from "@/assets/action-farmer-logo.png";
 
 export function SplashPage() {
