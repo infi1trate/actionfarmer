@@ -55,7 +55,11 @@ const UploadConfirmationPage = lazy(() => import("./app/pages/session/UploadConf
 
 // Lazy load Challenge Pages
 const ChallengeBriefPage = lazy(() => import("./app/pages/challenge/ChallengeBriefPage").then(m => ({ default: m.ChallengeBriefPage })));
+const CameraPermissionPage = lazy(() => import("./app/pages/challenge/CameraPermissionPage").then(m => ({ default: m.CameraPermissionPage })));
+const ChallengeCameraReadyPage = lazy(() => import("./app/pages/challenge/ChallengeCameraReadyPage").then(m => ({ default: m.ChallengeCameraReadyPage })));
 const ChallengeCountdownPage = lazy(() => import("./app/pages/challenge/ChallengeCountdownPage").then(m => ({ default: m.ChallengeCountdownPage })));
+const ChallengeRecordingPage = lazy(() => import("./app/pages/challenge/ChallengeRecordingPage").then(m => ({ default: m.ChallengeRecordingPage })));
+const ChallengeReviewSubmitPage = lazy(() => import("./app/pages/challenge/ChallengeReviewSubmitPage").then(m => ({ default: m.ChallengeReviewSubmitPage })));
 const ChallengeActivePage = lazy(() => import("./app/pages/challenge/ChallengeActivePage").then(m => ({ default: m.ChallengeActivePage })));
 const ChallengeCompletedPage = lazy(() => import("./app/pages/challenge/ChallengeCompletedPage").then(m => ({ default: m.ChallengeCompletedPage })));
 const ChallengeAnnotationPage = lazy(() => import("./app/pages/challenge/ChallengeAnnotationPage").then(m => ({ default: m.ChallengeAnnotationPage })));
@@ -97,10 +101,14 @@ const App = () => (
                   
                   {/* Challenge Flow */}
                   <Route path="/challenge/:id" element={<ChallengeBriefPage />} />
+                  <Route path="/challenge/:id/permission" element={<CameraPermissionPage />} />
+                  <Route path="/challenge/:id/camera" element={<ChallengeCameraReadyPage />} />
                   <Route path="/challenge/:id/countdown" element={<ChallengeCountdownPage />} />
+                  <Route path="/challenge/:id/recording" element={<ChallengeRecordingPage />} />
+                  <Route path="/challenge/:id/review" element={<ChallengeReviewSubmitPage />} />
                   <Route path="/challenge/:id/active" element={<ChallengeActivePage />} />
                   <Route path="/challenge/:id/complete" element={<ChallengeCompletedPage />} />
-                  <Route path="/challenge/:id/annotate" element={<ChallengeAnnotationPage />} />
+                  <Route path="/challenge/:id/feedback" element={<ChallengeAnnotationPage />} />
                   
                   {/* Session Flow */}
                   <Route path="/session/complete" element={<SessionCompletedPage />} />

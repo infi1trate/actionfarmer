@@ -1,5 +1,9 @@
 export { ChallengeBriefPage } from "./ChallengeBriefPage";
+export { CameraPermissionPage } from "./CameraPermissionPage";
+export { ChallengeCameraReadyPage } from "./ChallengeCameraReadyPage";
 export { ChallengeCountdownPage } from "./ChallengeCountdownPage";
+export { ChallengeRecordingPage } from "./ChallengeRecordingPage";
+export { ChallengeReviewSubmitPage } from "./ChallengeReviewSubmitPage";
 export { ChallengeActivePage } from "./ChallengeActivePage";
 export { ChallengeCompletedPage } from "./ChallengeCompletedPage";
 export { ChallengeAnnotationPage } from "./ChallengeAnnotationPage";
