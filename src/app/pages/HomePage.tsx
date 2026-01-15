@@ -9,12 +9,13 @@ import {
   Sparkles,
   Gift,
   ChevronRight,
-  Loader2,
+  Users,
 } from "lucide-react";
 import { 
   FloatingSeed, 
   AmbientTicker 
 } from "@/components/ui/editorial-hero-header";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useAuth } from "@/contexts/AuthContext";
 import { useAppData, ChallengeFromCatalog } from "@/contexts/AppDataContext";
 
@@ -57,11 +58,11 @@ function getGreeting() {
   return "Good evening";
 }
 
-// Ambient activity messages
-const activityMessages = [
-  "Someone just completed Kitchen Cleanup",
-  "A garden grew to stage 5",
-  "Someone unlocked their daily bonus",
+// Community activity messages (clearly labeled as community, not user's activity)
+const communityActivityMessages = [
+  "Community: Someone completed Kitchen Cleanup",
+  "Community: A garden grew to stage 5",
+  "Community: Someone unlocked their daily bonus",
 ];
 
 export function HomePage() {
@@ -69,17 +70,31 @@ export function HomePage() {
   const videoRefs = React.useRef<(HTMLVideoElement | null)[]>([]);
   
   const { profile, loading: authLoading } = useAuth();
-  const { challenges, loading: dataLoading } = useAppData();
+  const { challenges, plant, stats, loading: dataLoading } = useAppData();
 
-  // Get user's first name or fallback
-  const userName = profile?.first_name || "Friend";
+  // Get user's first name or fallback to "there"
+  const userName = profile?.first_name || "there";
+
+  // Determine if user is brand new (no plant or stage 0)
+  const hasPlant = plant !== null && plant.current_stage >= 1;
+  const currentStage = plant?.current_stage || 0;
+  
+  // Calculate challenges needed to evolve (simple formula: next stage requires 2 more challenges)
+  const completedCount = stats.totalCompleted;
+  const challengesForNextStage = hasPlant 
+    ? Math.max(0, (currentStage + 1) * 2 - completedCount) 
+    : 0;
 
   // Pick featured and secondary challenges from catalog
   const featuredChallenge = challenges[0];
   const secondaryChallenges = challenges.slice(1, 3);
 
   const handleSeedTap = () => {
-    navigate("/challenges");
+    if (featuredChallenge) {
+      navigate(`/challenge/${featuredChallenge.id}/brief`);
+    } else {
+      navigate("/challenges");
+    }
   };
 
   const handleChallengeClick = (challengeId: string) => {
@@ -90,11 +105,48 @@ export function HomePage() {
     return videoMap[challenge.id] || videoGroceries;
   };
 
-  // Loading state
+  // Loading state with skeletons
   if (authLoading || dataLoading) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      <div className="min-h-screen bg-background">
+        {/* Hero skeleton */}
+        <header 
+          className="relative overflow-hidden"
+          style={{ height: "clamp(240px, 45vh, 320px)" }}
+        >
+          <div 
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat z-0 opacity-50"
+            style={{ backgroundImage: `url(${homeGardenBg})` }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-transparent via-60% to-background z-0" />
+          
+          <div className="relative z-10 px-5 pt-8 pb-2">
+            <Skeleton className="h-3 w-20 mb-3" />
+            <Skeleton className="h-8 w-32 mb-2" />
+            <Skeleton className="h-4 w-48" />
+          </div>
+
+          <div className="absolute inset-0 flex flex-col items-center justify-center pt-6 z-10">
+            <Skeleton className="w-20 h-20 rounded-full" />
+            <Skeleton className="mt-4 h-10 w-40 rounded-full" />
+          </div>
+        </header>
+
+        {/* Challenge skeleton */}
+        <section className="px-5 pt-6 pb-4">
+          <Skeleton className="h-3 w-12 mb-1" />
+          <Skeleton className="h-6 w-40 mb-4" />
+          <Skeleton className="aspect-[16/10] rounded-2xl" />
+        </section>
+
+        {/* Secondary challenges skeleton */}
+        <section className="px-5 pb-6">
+          <Skeleton className="h-4 w-32 mb-3" />
+          <div className="grid grid-cols-2 gap-3">
+            <Skeleton className="aspect-[4/3] rounded-xl" />
+            <Skeleton className="aspect-[4/3] rounded-xl" />
+          </div>
+        </section>
       </div>
     );
   }
@@ -129,7 +181,10 @@ export function HomePage() {
             {userName}
           </h1>
           <p className="text-sm text-muted-foreground leading-relaxed max-w-[280px]">
-            Plant something small today. We'll help it grow.
+            {hasPlant 
+              ? "Your garden is growing. Keep it going."
+              : "Plant something small today. We'll help it grow."
+            }
           </p>
         </div>
 
@@ -141,18 +196,38 @@ export function HomePage() {
             onClick={handleSeedTap}
           />
           
-          {/* CTA pill below seed */}
+          {/* CTA pill below seed - different text based on plant status */}
           <button
             onClick={handleSeedTap}
             className="mt-4 px-5 py-2 rounded-full bg-primary text-primary-foreground font-medium text-sm shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
           >
-            🌱 Plant a seed today
+            {hasPlant ? "🌱 Start today's challenge" : "🌱 Plant your first seed"}
           </button>
+
+          {/* Status chip for returning users */}
+          {hasPlant && challengesForNextStage > 0 && (
+            <div className="mt-2 px-3 py-1 rounded-full bg-white/70 backdrop-blur-sm border border-white/50 shadow-sm">
+              <span className="text-[11px] font-medium text-foreground/80">
+                {challengesForNextStage} challenge{challengesForNextStage !== 1 ? "s" : ""} to evolve
+              </span>
+            </div>
+          )}
+
+          {/* Subtext for new users */}
+          {!hasPlant && (
+            <p className="mt-2 text-xs text-muted-foreground/80 text-center max-w-[200px]">
+              Start your first challenge to begin growing.
+            </p>
+          )}
         </div>
 
-        {/* Ambient Activity Ticker - Bottom */}
+        {/* Community Activity Ticker - Bottom (clearly labeled) */}
         <div className="absolute bottom-4 left-0 right-0 z-10">
-          <AmbientTicker messages={activityMessages} />
+          <div className="flex items-center justify-center gap-1.5 mb-1">
+            <Users className="h-2.5 w-2.5 text-muted-foreground/50" />
+            <span className="text-[9px] text-muted-foreground/50 uppercase tracking-wider">Community Activity</span>
+          </div>
+          <AmbientTicker messages={communityActivityMessages} />
         </div>
       </header>
 
@@ -167,7 +242,9 @@ export function HomePage() {
               <p className="text-[10px] font-semibold text-primary uppercase tracking-widest mb-0.5">
                 Today
               </p>
-              <h2 className="text-lg font-bold text-foreground">Your next challenge</h2>
+              <h2 className="text-lg font-bold text-foreground">
+                {hasPlant ? "Your next challenge" : "Start here"}
+              </h2>
             </div>
           </div>
 
