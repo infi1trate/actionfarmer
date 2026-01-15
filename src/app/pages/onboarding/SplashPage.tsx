@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import splashBg from "@/assets/splash-farm.png";
+import actionFarmerLogo from "@/assets/action-farmer-logo.png";
 
 export function SplashPage() {
   const navigate = useNavigate();
@@ -17,6 +18,15 @@ export function SplashPage() {
         alt="DePIN Farmer"
         className="absolute inset-0 w-full h-full object-cover object-center"
       />
+      
+      {/* Logo at top */}
+      <div className="absolute top-12 left-0 right-0 flex justify-center z-10">
+        <img 
+          src={actionFarmerLogo}
+          alt="Action Farmer"
+          className="w-64 h-auto drop-shadow-lg"
+        />
+      </div>
       
       {/* Slow drifting cloud overlays */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
