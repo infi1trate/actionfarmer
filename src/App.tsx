@@ -1,63 +1,68 @@
+import { Suspense, lazy } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "next-themes";
 import { ReducedMotionProvider } from "@/hooks/use-reduced-motion";
 import { ChallengeTransitionProvider } from "@/contexts/ChallengeTransitionContext";
 import NotFound from "./pages/NotFound";
 
-// Design System Pages
-import DSOverview from "./pages/design-system/Overview";
-import DSBrand from "./pages/design-system/Brand";
-import DSTokens from "./pages/design-system/Tokens";
-import DSTypography from "./pages/design-system/Typography";
-import DSPatterns from "./pages/design-system/Patterns";
-import DSGuardrails from "./pages/design-system/Guardrails";
-import DSHandoff from "./pages/design-system/Handoff";
-import DesignSystem from "./pages/DesignSystem";
-import Accessibility from "./pages/Accessibility";
+// Lightweight loading fallback
+const PageLoader = () => (
+  <div className="min-h-screen flex items-center justify-center bg-background">
+    <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+  </div>
+);
 
-// App Pages
-import {
-  AppLayout,
-  HomePage,
-  PlayPage,
-  EarningsPage,
-  InsightsPage,
-  SettingsPage,
-  AmbientModePage,
-  DailySummaryPage,
-  PlayModePage,
-  LeaderboardPage,
-  GardenPage,
-  SplashPage,
-  ExplainPage,
-  ChallengesExplainPage,
-  TrustPage,
-  SignupPage,
-  ReadyPage,
-} from "./app";
+// Lazy load Design System Pages
+const DSOverview = lazy(() => import("./pages/design-system/Overview"));
+const DSBrand = lazy(() => import("./pages/design-system/Brand"));
+const DSTokens = lazy(() => import("./pages/design-system/Tokens"));
+const DSTypography = lazy(() => import("./pages/design-system/Typography"));
+const DSPatterns = lazy(() => import("./pages/design-system/Patterns"));
+const DSGuardrails = lazy(() => import("./pages/design-system/Guardrails"));
+const DSHandoff = lazy(() => import("./pages/design-system/Handoff"));
+const DesignSystem = lazy(() => import("./pages/DesignSystem"));
+const Accessibility = lazy(() => import("./pages/Accessibility"));
 
-import {
-  SessionCompletedPage,
-  SessionAnnotationPage,
-  UploadConfirmationPage,
-} from "./app/pages/session";
+// Lazy load App Pages
+const AppLayout = lazy(() => import("./app/AppLayout").then(m => ({ default: m.AppLayout })));
+const HomePage = lazy(() => import("./app/pages/HomePage").then(m => ({ default: m.HomePage })));
+const PlayPage = lazy(() => import("./app/pages/PlayPage").then(m => ({ default: m.PlayPage })));
+const EarningsPage = lazy(() => import("./app/pages/EarningsPage").then(m => ({ default: m.EarningsPage })));
+const InsightsPage = lazy(() => import("./app/pages/InsightsPage").then(m => ({ default: m.InsightsPage })));
+const SettingsPage = lazy(() => import("./app/pages/SettingsPage").then(m => ({ default: m.SettingsPage })));
+const AmbientModePage = lazy(() => import("./app/pages/AmbientModePage"));
+const DailySummaryPage = lazy(() => import("./app/pages/DailySummaryPage"));
+const PlayModePage = lazy(() => import("./app/pages/PlayModePage"));
+const LeaderboardPage = lazy(() => import("./app/pages/LeaderboardPage"));
+const GardenPage = lazy(() => import("./app/pages/GardenPage").then(m => ({ default: m.GardenPage })));
 
-import {
-  ChallengeBriefPage,
-  ChallengeCountdownPage,
-  ChallengeActivePage,
-  ChallengeCompletedPage,
-  ChallengeAnnotationPage,
-} from "./app/pages/challenge";
+// Lazy load Onboarding Pages
+const SplashPage = lazy(() => import("./app/pages/onboarding/SplashPage").then(m => ({ default: m.SplashPage })));
+const ExplainPage = lazy(() => import("./app/pages/onboarding/ExplainPage").then(m => ({ default: m.ExplainPage })));
+const ChallengesExplainPage = lazy(() => import("./app/pages/onboarding/ChallengesExplainPage").then(m => ({ default: m.ChallengesExplainPage })));
+const TrustPage = lazy(() => import("./app/pages/onboarding/TrustPage").then(m => ({ default: m.TrustPage })));
+const SignupPage = lazy(() => import("./app/pages/onboarding/SignupPage").then(m => ({ default: m.SignupPage })));
+const ReadyPage = lazy(() => import("./app/pages/onboarding/ReadyPage").then(m => ({ default: m.ReadyPage })));
 
-import {
-  PayoutPage,
-  PayoutConfirmationPage,
-} from "./app/pages/payout";
+// Lazy load Session Pages
+const SessionCompletedPage = lazy(() => import("./app/pages/session/SessionCompletedPage").then(m => ({ default: m.SessionCompletedPage })));
+const SessionAnnotationPage = lazy(() => import("./app/pages/session/SessionAnnotationPage").then(m => ({ default: m.SessionAnnotationPage })));
+const UploadConfirmationPage = lazy(() => import("./app/pages/session/UploadConfirmationPage").then(m => ({ default: m.UploadConfirmationPage })));
+
+// Lazy load Challenge Pages
+const ChallengeBriefPage = lazy(() => import("./app/pages/challenge/ChallengeBriefPage").then(m => ({ default: m.ChallengeBriefPage })));
+const ChallengeCountdownPage = lazy(() => import("./app/pages/challenge/ChallengeCountdownPage").then(m => ({ default: m.ChallengeCountdownPage })));
+const ChallengeActivePage = lazy(() => import("./app/pages/challenge/ChallengeActivePage").then(m => ({ default: m.ChallengeActivePage })));
+const ChallengeCompletedPage = lazy(() => import("./app/pages/challenge/ChallengeCompletedPage").then(m => ({ default: m.ChallengeCompletedPage })));
+const ChallengeAnnotationPage = lazy(() => import("./app/pages/challenge/ChallengeAnnotationPage").then(m => ({ default: m.ChallengeAnnotationPage })));
+
+// Lazy load Payout Pages
+const PayoutPage = lazy(() => import("./app/pages/payout/PayoutPage").then(m => ({ default: m.PayoutPage })));
+const PayoutConfirmationPage = lazy(() => import("./app/pages/payout/PayoutConfirmationPage").then(m => ({ default: m.PayoutConfirmationPage })));
 
 const queryClient = new QueryClient();
 
@@ -70,64 +75,66 @@ const App = () => (
             <Toaster />
             <Sonner />
             <BrowserRouter>
-              <Routes>
-              {/* Splash Screen */}
-              <Route path="/" element={<SplashPage />} />
-              
-              {/* Onboarding Flow */}
-              <Route path="/onboarding/explain" element={<ExplainPage />} />
-              <Route path="/onboarding/challenges" element={<ChallengesExplainPage />} />
-              <Route path="/onboarding/trust" element={<TrustPage />} />
-              <Route path="/onboarding/signup" element={<SignupPage />} />
-              <Route path="/onboarding/ready" element={<ReadyPage />} />
+              <Suspense fallback={<PageLoader />}>
+                <Routes>
+                {/* Splash Screen */}
+                <Route path="/" element={<SplashPage />} />
                 
-                {/* Ambient Mode */}
-                <Route path="/ambient" element={<AmbientModePage />} />
-                <Route path="/summary" element={<DailySummaryPage />} />
-                
-                {/* Challenges */}
-                <Route path="/challenges" element={<PlayModePage />} />
-                <Route path="/leaderboard" element={<LeaderboardPage />} />
-                
-                {/* Challenge Flow */}
-                <Route path="/challenge/:id" element={<ChallengeBriefPage />} />
-                <Route path="/challenge/:id/countdown" element={<ChallengeCountdownPage />} />
-                <Route path="/challenge/:id/active" element={<ChallengeActivePage />} />
-                <Route path="/challenge/:id/complete" element={<ChallengeCompletedPage />} />
-                <Route path="/challenge/:id/annotate" element={<ChallengeAnnotationPage />} />
-                
-                {/* Session Flow */}
-                <Route path="/session/complete" element={<SessionCompletedPage />} />
-                <Route path="/session/annotate" element={<SessionAnnotationPage />} />
-                <Route path="/session/confirm" element={<UploadConfirmationPage />} />
-                
-                {/* Payout Flow */}
-                <Route path="/payout" element={<PayoutPage />} />
-                <Route path="/payout/confirmation" element={<PayoutConfirmationPage />} />
-                
-                {/* Main App */}
-                <Route path="/app" element={<AppLayout />}>
-                  <Route index element={<HomePage />} />
-                  <Route path="earnings" element={<EarningsPage />} />
-                  <Route path="garden" element={<GardenPage />} />
-                  <Route path="insights" element={<InsightsPage />} />
-                  <Route path="settings" element={<SettingsPage />} />
-                </Route>
-                
-                {/* Design System Hub */}
-                <Route path="/design-system" element={<DSOverview />} />
-                <Route path="/design-system/brand" element={<DSBrand />} />
-                <Route path="/design-system/tokens" element={<DSTokens />} />
-                <Route path="/design-system/typography" element={<DSTypography />} />
-                <Route path="/design-system/components" element={<DesignSystem />} />
-                <Route path="/design-system/patterns" element={<DSPatterns />} />
-                <Route path="/design-system/accessibility" element={<Accessibility />} />
-                <Route path="/design-system/guardrails" element={<DSGuardrails />} />
-                <Route path="/design-system/handoff" element={<DSHandoff />} />
-                
-                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                <Route path="*" element={<NotFound />} />
-              </Routes>
+                {/* Onboarding Flow */}
+                <Route path="/onboarding/explain" element={<ExplainPage />} />
+                <Route path="/onboarding/challenges" element={<ChallengesExplainPage />} />
+                <Route path="/onboarding/trust" element={<TrustPage />} />
+                <Route path="/onboarding/signup" element={<SignupPage />} />
+                <Route path="/onboarding/ready" element={<ReadyPage />} />
+                  
+                  {/* Ambient Mode */}
+                  <Route path="/ambient" element={<AmbientModePage />} />
+                  <Route path="/summary" element={<DailySummaryPage />} />
+                  
+                  {/* Challenges */}
+                  <Route path="/challenges" element={<PlayModePage />} />
+                  <Route path="/leaderboard" element={<LeaderboardPage />} />
+                  
+                  {/* Challenge Flow */}
+                  <Route path="/challenge/:id" element={<ChallengeBriefPage />} />
+                  <Route path="/challenge/:id/countdown" element={<ChallengeCountdownPage />} />
+                  <Route path="/challenge/:id/active" element={<ChallengeActivePage />} />
+                  <Route path="/challenge/:id/complete" element={<ChallengeCompletedPage />} />
+                  <Route path="/challenge/:id/annotate" element={<ChallengeAnnotationPage />} />
+                  
+                  {/* Session Flow */}
+                  <Route path="/session/complete" element={<SessionCompletedPage />} />
+                  <Route path="/session/annotate" element={<SessionAnnotationPage />} />
+                  <Route path="/session/confirm" element={<UploadConfirmationPage />} />
+                  
+                  {/* Payout Flow */}
+                  <Route path="/payout" element={<PayoutPage />} />
+                  <Route path="/payout/confirmation" element={<PayoutConfirmationPage />} />
+                  
+                  {/* Main App */}
+                  <Route path="/app" element={<AppLayout />}>
+                    <Route index element={<HomePage />} />
+                    <Route path="earnings" element={<EarningsPage />} />
+                    <Route path="garden" element={<GardenPage />} />
+                    <Route path="insights" element={<InsightsPage />} />
+                    <Route path="settings" element={<SettingsPage />} />
+                  </Route>
+                  
+                  {/* Design System Hub */}
+                  <Route path="/design-system" element={<DSOverview />} />
+                  <Route path="/design-system/brand" element={<DSBrand />} />
+                  <Route path="/design-system/tokens" element={<DSTokens />} />
+                  <Route path="/design-system/typography" element={<DSTypography />} />
+                  <Route path="/design-system/components" element={<DesignSystem />} />
+                  <Route path="/design-system/patterns" element={<DSPatterns />} />
+                  <Route path="/design-system/accessibility" element={<Accessibility />} />
+                  <Route path="/design-system/guardrails" element={<DSGuardrails />} />
+                  <Route path="/design-system/handoff" element={<DSHandoff />} />
+                  
+                  {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </Suspense>
             </BrowserRouter>
           </TooltipProvider>
         </ChallengeTransitionProvider>
