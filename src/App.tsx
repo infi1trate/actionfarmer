@@ -131,8 +131,7 @@ const App = () => (
                   <Route path="/session/confirm" element={<UploadConfirmationPage />} />
                   
                   {/* Payout Flow */}
-                  <Route path="/payout" element={<PayoutPage />} />
-                  <Route path="/payout/confirmation" element={<PayoutConfirmationPage />} />
+                  <Route path="/app/payout" element={<PayoutPage />} />
                   
                   {/* Main App */}
                   <Route path="/app" element={<AppLayout />}>

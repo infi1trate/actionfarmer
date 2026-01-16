@@ -2,3 +2,18 @@ project_id = "lzbrlhutuppqvozbjvao"
 
 [functions.seed-demo-user]
 verify_jwt = false
+
+[functions.stripe-connect-account]
+verify_jwt = false
+
+[functions.stripe-onboarding-link]
+verify_jwt = false
+
+[functions.stripe-refresh-connect-status]
+verify_jwt = false
+
+[functions.request-payout]
+verify_jwt = false
+
+[functions.stripe-webhook]
+verify_jwt = false
