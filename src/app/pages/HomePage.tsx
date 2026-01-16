@@ -183,7 +183,7 @@ export function HomePage() {
           <p className="text-[10px] font-semibold text-primary uppercase tracking-widest mb-1.5">
             {getGreeting()}
           </p>
-          <h1 className="text-3xl font-bold text-foreground tracking-tight mb-1">
+          <h1 className="text-5xl sm:text-6xl font-bold text-foreground tracking-tight mb-1">
             {userName}
           </h1>
         </div>
