@@ -1,5 +1,10 @@
 export { AuthProvider, useAuth } from "./AuthContext";
-export { AppDataProvider, useAppData } from "./AppDataContext";
+export { 
+  AppDataProvider, 
+  useAppData, 
+  isSessionCompleted, 
+  getSessionActivityDate 
+} from "./AppDataContext";
 export type { 
   Plant, 
   ChallengeFromCatalog, 
