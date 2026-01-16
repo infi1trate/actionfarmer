@@ -67,38 +67,47 @@ export const ChallengeReviewSubmitPage = () => {
     setIsSubmitting(true);
     
     try {
-      // Find the catalog challenge by matching the static ID to the database challenges
-      const catalogChallenge = challenges.find(c => c.title === challenge.name);
+      // Create plant if user doesn't have one
+      if (!plant) {
+        await createPlant();
+      }
+      
+      // Find a catalog challenge - try matching by title, fallback to first available
+      let catalogChallenge = challenges.find(c => 
+        c.title.toLowerCase().includes(challenge.name.toLowerCase().split(' ')[0]) ||
+        challenge.name.toLowerCase().includes(c.title.toLowerCase().split(' ')[0])
+      );
+      
+      // If no match, use the first active challenge
+      if (!catalogChallenge && challenges.length > 0) {
+        catalogChallenge = challenges[0];
+      }
+      
+      let sessionId: string | undefined;
+      let challengeId: string | undefined;
       
       if (catalogChallenge) {
-        // Create plant if user doesn't have one
-        if (!plant) {
-          await createPlant();
-        }
-        
         // Start a challenge session in the database
         const session = await startChallengeSession(catalogChallenge.id);
-        
-        // Clean up recorded video URL
-        if (recordedVideoUrl) {
-          URL.revokeObjectURL(recordedVideoUrl);
-        }
-        
-        // Navigate to complete screen with session ID
-        navigate(`/challenge/${challenge.id}/complete`, { 
-          replace: true,
-          state: { note, sessionId: session?.id, challengeId: catalogChallenge.id }
-        });
-      } else {
-        // Fallback if challenge not found in catalog
-        if (recordedVideoUrl) {
-          URL.revokeObjectURL(recordedVideoUrl);
-        }
-        navigate(`/challenge/${challenge.id}/complete`, { 
-          replace: true,
-          state: { note }
-        });
+        sessionId = session?.id;
+        challengeId = catalogChallenge.id;
       }
+      
+      // Clean up recorded video URL
+      if (recordedVideoUrl) {
+        URL.revokeObjectURL(recordedVideoUrl);
+      }
+      
+      // Navigate to complete screen with session ID
+      navigate(`/challenge/${challenge.id}/complete`, { 
+        replace: true,
+        state: { 
+          note, 
+          sessionId, 
+          challengeId,
+          xpReward: challenge.xpReward || 50 
+        }
+      });
     } catch (error) {
       console.error("Error submitting challenge:", error);
       setIsSubmitting(false);

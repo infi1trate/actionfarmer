@@ -21,7 +21,10 @@ export const ChallengeCompletedPage = () => {
   const challenge = challengeData[id || "1"] || challengeData["1"];
   
   // Get session info from navigation state
-  const { sessionId, challengeId } = (location.state as { sessionId?: string; challengeId?: string; note?: string }) || {};
+  const { sessionId, challengeId, xpReward: stateXpReward } = (location.state as { sessionId?: string; challengeId?: string; note?: string; xpReward?: number }) || {};
+  
+  // Use xpReward from state if available, otherwise fallback to challenge data
+  const xpReward = stateXpReward || challenge.xpReward || 50;
   
   // Animated state for flourish effect
   const [showFlourish, setShowFlourish] = React.useState(false);
@@ -35,7 +38,6 @@ export const ChallengeCompletedPage = () => {
         setHasCompleted(true);
         
         // Calculate points based on challenge
-        const xpReward = challenge.xpReward || 50;
         const wateringPoints = Math.floor(xpReward * 0.4);
         const sunlightPoints = Math.floor(xpReward * 0.6);
         
@@ -58,7 +60,7 @@ export const ChallengeCompletedPage = () => {
     };
     
     completeSession();
-  }, [sessionId, hasCompleted, completeChallengeSession, updatePlantStage, plant, sessions, refreshData, challenge.xpReward]);
+  }, [sessionId, hasCompleted, completeChallengeSession, updatePlantStage, plant, sessions, refreshData, xpReward]);
 
   React.useEffect(() => {
     // Stagger animations
@@ -169,7 +171,7 @@ export const ChallengeCompletedPage = () => {
             <div className="flex items-center justify-center gap-3">
               <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-success/15 text-success text-sm font-semibold">
                 <Sparkles className="h-4 w-4" />
-                <span>+{challenge.xpReward || 50} XP</span>
+                <span>+{xpReward} XP</span>
               </div>
               <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary/15 text-primary text-sm font-semibold">
                 <Sprout className="h-4 w-4" />
