@@ -278,19 +278,19 @@ export function EarningsPage() {
               <h1 className="text-2xl font-bold text-foreground tracking-tight mb-1">Earnings</h1>
               <p className="text-sm text-muted-foreground">Nurture your garden with every challenge</p>
             </div>
-            {/* Real stats from user data */}
-            <div className="flex flex-col items-end gap-2 pt-1">
-              <div className="flex items-center gap-1.5 opacity-70">
-                <Droplets className="h-3 w-3 text-sky-400" />
-                <span className="text-[10px] font-medium text-foreground/70">+{todayPoints}</span>
+            {/* Real stats from user data - glassy elevated pills */}
+            <div className="flex flex-col items-end gap-1.5 pt-1">
+              <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/60 backdrop-blur-sm border border-white/40 shadow-sm">
+                <Droplets className="h-3.5 w-3.5 text-sky-500" />
+                <span className="text-xs font-semibold text-foreground/90">+{todayPoints}</span>
               </div>
-              <div className="flex items-center gap-1.5 opacity-70">
-                <Sparkles className="h-3 w-3 text-amber-400" />
-                <span className="text-[10px] font-medium text-foreground/70">{currentMultiplier.toFixed(1)}×</span>
+              <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/60 backdrop-blur-sm border border-white/40 shadow-sm">
+                <Sparkles className="h-3.5 w-3.5 text-amber-500" />
+                <span className="text-xs font-semibold text-foreground/90">{currentMultiplier.toFixed(1)}×</span>
               </div>
-              <div className="flex items-center gap-1.5 opacity-70">
-                <Leaf className="h-3 w-3 text-emerald-400" />
-                <span className="text-[10px] font-medium text-foreground/70">Day {dayStreak}</span>
+              <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/60 backdrop-blur-sm border border-white/40 shadow-sm">
+                <Leaf className="h-3.5 w-3.5 text-emerald-500" />
+                <span className="text-xs font-semibold text-foreground/90">Day {dayStreak}</span>
               </div>
             </div>
           </div>

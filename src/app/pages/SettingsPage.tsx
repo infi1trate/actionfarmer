@@ -5,25 +5,16 @@ import {
   Eye,
   Trash2,
   Download,
-  Camera,
-  Grid3X3,
-  Calendar,
-  Clock,
-  Pause,
-  Power,
   Bell,
-  Moon,
   HelpCircle,
   Mail,
   FileText,
   Smartphone,
   LogOut,
-  AlertTriangle,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { 
   SettingsGroup, 
@@ -52,11 +43,7 @@ export function SettingsPage() {
   
   // Toggle states - initialized from profile
   const [notifications, setNotifications] = React.useState(true);
-  const [darkMode, setDarkMode] = React.useState(false);
-  const [dataSharingResearch, setDataSharingResearch] = React.useState(false);
   const [dataSharingAnalytics, setDataSharingAnalytics] = React.useState(true);
-  const [isPaused, setIsPaused] = React.useState(false);
-  const [ambientCaptureEnabled, setAmbientCaptureEnabled] = React.useState(false);
   
   // Loading state for profile preferences
   const [prefsLoading, setPrefsLoading] = React.useState(true);
@@ -129,21 +116,6 @@ export function SettingsPage() {
     navigate("/");
   };
 
-  const handleDeleteData = () => {
-    toast.success("Data deletion requested");
-  };
-
-  const handleDeleteAccount = async () => {
-    await signOut();
-    toast.success("Account deleted");
-    navigate("/");
-  };
-
-  const handleKillSwitch = () => {
-    setIsPaused(true);
-    toast.success("All recording stopped");
-  };
-
   // Build profile row subtitle
   const profileSubtitle = React.useMemo(() => {
     const parts: string[] = [];
@@ -179,7 +151,6 @@ export function SettingsPage() {
       {/* ==========================================
           EDITORIAL HERO HEADER - Settings
           Calm, control-oriented, reduced height
-          Height: 140px mobile (compact variant)
           ========================================== */}
       <header className="px-5 pt-8 pb-4">
         <p className="text-[10px] font-semibold text-primary uppercase tracking-widest mb-2">
@@ -222,29 +193,12 @@ export function SettingsPage() {
               checked={notifications}
               onCheckedChange={handleNotificationsChange}
             />
-            <Separator />
-            <SettingsToggleRow
-              label="Dark Mode"
-              icon={Moon}
-              iconBg="bg-surface-3"
-              checked={darkMode}
-              onCheckedChange={setDarkMode}
-            />
           </Card>
         </SettingsGroup>
 
         {/* Privacy & Data */}
         <SettingsGroup label="Privacy & Data">
           <Card>
-            <SettingsToggleRow
-              label="Share for Research"
-              icon={Eye}
-              iconBg="bg-info/10"
-              description="Contribute anonymized data to improve the platform"
-              checked={dataSharingResearch}
-              onCheckedChange={setDataSharingResearch}
-            />
-            <Separator />
             <SettingsToggleRow
               label="Analytics Data"
               icon={Eye}
@@ -261,178 +215,6 @@ export function SettingsPage() {
               description="Export all your data in a portable format"
               onClick={() => {}}
             />
-            <Separator />
-            <AlertDialog>
-              <AlertDialogTrigger asChild>
-                <div>
-                  <SettingsButtonRow
-                    label="Delete All Data"
-                    icon={Trash2}
-                    iconBg="bg-danger/10"
-                    description="Permanently remove all recorded data"
-                    danger
-                    onClick={() => {}}
-                  />
-                </div>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>Delete all data?</AlertDialogTitle>
-                  <AlertDialogDescription>
-                    This will permanently delete all your recorded data, insights, and activity history. This action cannot be undone.
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction
-                    onClick={handleDeleteData}
-                    className="bg-danger hover:bg-danger/90"
-                  >
-                    Delete All Data
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
-            <Separator />
-            <AlertDialog>
-              <AlertDialogTrigger asChild>
-                <div>
-                  <SettingsButtonRow
-                    label="Delete Account"
-                    icon={Trash2}
-                    iconBg="bg-danger/10"
-                    description="Permanently delete your account and all data"
-                    danger
-                    onClick={() => {}}
-                  />
-                </div>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>Delete your account?</AlertDialogTitle>
-                  <AlertDialogDescription>
-                    This will permanently delete your account, all data, and any pending payouts. This action cannot be undone.
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction
-                    onClick={handleDeleteAccount}
-                    className="bg-danger hover:bg-danger/90"
-                  >
-                    Delete Account
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
-          </Card>
-        </SettingsGroup>
-
-        {/* Camera & Zones */}
-        <SettingsGroup label="Camera & Zones">
-          <Card>
-            <SettingsLinkRow
-              label="Camera Setup"
-              icon={Camera}
-              iconBg="bg-info/10"
-              description="Position and permissions"
-              onClick={() => navigate("/onboarding/camera-placement")}
-            />
-            <Separator />
-            <SettingsLinkRow
-              label="Privacy Zones"
-              icon={Grid3X3}
-              iconBg="bg-warning/10"
-              description="Areas excluded from recording"
-              onClick={() => navigate("/onboarding/zone-selection")}
-            />
-          </Card>
-        </SettingsGroup>
-
-        {/* Ambient Capture - Optional feature */}
-        <SettingsGroup label="Ambient Capture">
-          <Card>
-            <SettingsToggleRow
-              label="Enable Ambient Capture"
-              icon={Camera}
-              iconBg="bg-success/10"
-              description="Earn extra points passively between challenges"
-              checked={ambientCaptureEnabled}
-              onCheckedChange={setAmbientCaptureEnabled}
-            />
-            {ambientCaptureEnabled && (
-              <>
-                <Separator />
-                <SettingsLinkRow
-                  label="Recording Schedule"
-                  icon={Calendar}
-                  iconBg="bg-brand-yellow/10"
-                  description="Set active hours for ambient capture"
-                  onClick={() => navigate("/onboarding/schedule-selection")}
-                />
-                <Separator />
-                <SettingsLinkRow
-                  label="Quiet Hours"
-                  icon={Clock}
-                  iconBg="bg-muted"
-                  description="Times when capture is paused"
-                  value="10pm - 7am"
-                  onClick={() => {}}
-                />
-              </>
-            )}
-          </Card>
-        </SettingsGroup>
-
-        {/* Pause / Kill Switch */}
-        <SettingsGroup label="Recording Controls">
-          <Card>
-            <SettingsToggleRow
-              label="Pause Recording"
-              icon={Pause}
-              iconBg="bg-warning/10"
-              description="Temporarily stop all ambient recording"
-              checked={isPaused}
-              onCheckedChange={setIsPaused}
-            />
-            <Separator />
-            <div className="p-4">
-              <AlertDialog>
-                <AlertDialogTrigger asChild>
-                  <Button 
-                    variant="destructive" 
-                    className="w-full gap-2"
-                    size="lg"
-                  >
-                    <Power className="h-4 w-4" />
-                    Emergency Stop
-                  </Button>
-                </AlertDialogTrigger>
-                <AlertDialogContent>
-                  <AlertDialogHeader>
-                    <div className="flex items-center gap-2 text-danger">
-                      <AlertTriangle className="h-5 w-5" />
-                      <AlertDialogTitle>Emergency Stop</AlertDialogTitle>
-                    </div>
-                    <AlertDialogDescription>
-                      This will immediately stop all recording and data collection. You can resume recording at any time from settings.
-                    </AlertDialogDescription>
-                  </AlertDialogHeader>
-                  <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction
-                      onClick={handleKillSwitch}
-                      className="bg-danger hover:bg-danger/90"
-                    >
-                      Stop All Recording
-                    </AlertDialogAction>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialog>
-              <p className="text-xs text-muted-foreground mt-2 text-center">
-                Immediately stops all recording activity
-              </p>
-            </div>
           </Card>
         </SettingsGroup>
 
@@ -492,6 +274,45 @@ export function SettingsPage() {
               onClick={handleSignOut}
             />
           </Card>
+        </div>
+
+        {/* Delete Account - Single location with confirmation */}
+        <div className="px-4 pt-2">
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Card className="cursor-pointer hover:bg-muted/50 transition-colors">
+                <SettingsButtonRow
+                  label="Delete Account"
+                  icon={Trash2}
+                  iconBg="bg-danger/10"
+                  description="Permanently delete your account and all data"
+                  danger
+                  onClick={() => {}}
+                />
+              </Card>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Delete your account?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  This will permanently delete your account, all data, and any pending payouts. This action cannot be undone.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction
+                  onClick={async () => {
+                    await signOut();
+                    toast.success("Account deleted");
+                    navigate("/");
+                  }}
+                  className="bg-danger hover:bg-danger/90"
+                >
+                  Delete Account
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </div>
       </div>
     </div>

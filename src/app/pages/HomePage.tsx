@@ -213,20 +213,10 @@ export function HomePage() {
             </div>
           )}
 
-          {/* Subtext for new users */}
-          {!hasPlant && (
-            <p className="mt-2 text-xs text-muted-foreground/80 text-center max-w-[200px]">
-              Start your first challenge to begin growing.
-            </p>
-          )}
         </div>
 
-        {/* Community Activity Ticker - Bottom (clearly labeled) */}
+        {/* Community Activity Ticker - Bottom */}
         <div className="absolute bottom-4 left-0 right-0 z-10">
-          <div className="flex items-center justify-center gap-1.5 mb-1">
-            <Users className="h-2.5 w-2.5 text-muted-foreground/50" />
-            <span className="text-[9px] text-muted-foreground/50 uppercase tracking-wider">Community Activity</span>
-          </div>
           <AmbientTicker messages={communityActivityMessages} />
         </div>
       </header>
