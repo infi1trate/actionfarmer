@@ -167,7 +167,7 @@ export function GardenPage() {
               <Sparkles className="h-4 w-4 text-amber-500" />
             </div>
             
-            <h1 className="text-3xl font-bold text-foreground mb-2 drop-shadow-sm">
+            <h1 className="text-3xl sm:text-4xl font-bold text-foreground mb-2 drop-shadow-sm">
               {gardenStats.totalPlants > 0 ? "A Garden of Memories" : "Your Garden Awaits"}
             </h1>
             <p className="text-sm text-muted-foreground max-w-xs mx-auto">

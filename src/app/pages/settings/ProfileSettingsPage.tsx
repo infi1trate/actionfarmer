@@ -88,7 +88,7 @@ export function ProfileSettingsPage() {
           <ArrowLeft className="h-5 w-5" />
           <span className="text-sm">Settings</span>
         </button>
-        <h1 className="text-2xl font-bold text-foreground tracking-tight">
+        <h1 className="text-3xl sm:text-4xl font-bold text-foreground tracking-tight">
           Profile
         </h1>
         <p className="text-sm text-muted-foreground mt-1">

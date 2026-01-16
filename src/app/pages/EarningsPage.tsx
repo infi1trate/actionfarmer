@@ -189,7 +189,7 @@ export function EarningsPage() {
             <div className="flex justify-between items-start">
               <div>
                 <p className="text-[10px] font-semibold text-primary uppercase tracking-widest mb-2">Your Growth</p>
-                <h1 className="text-2xl font-bold text-foreground tracking-tight mb-1">Earnings</h1>
+                <h1 className="text-3xl sm:text-4xl font-bold text-foreground tracking-tight mb-1">Earnings</h1>
                 <p className="text-sm text-muted-foreground">Nurture your garden with every challenge</p>
               </div>
               {/* Empty stats - show zeros */}
