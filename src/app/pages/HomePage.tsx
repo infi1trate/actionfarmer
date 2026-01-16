@@ -69,8 +69,15 @@ export function HomePage() {
   const hasPlant = plant !== null && plant.current_stage >= 1;
   const currentStage = plant?.current_stage || 0;
   
-  // Countdown to FULL plant (7 stages / 7 images)
-  const challengesForNextStage = hasPlant ? Math.max(0, 7 - currentStage) : 0;
+  // Count total completed challenges and calculate derived stage
+  const completedCount = stats.totalCompleted;
+  const fullPlantsCompleted = Math.floor(completedCount / 7);
+  
+  // Challenges remaining to reach the next full plant (stage 7)
+  // If at stage 7, they need 7 more (full new cycle)
+  const challengesForNextStage = hasPlant 
+    ? (currentStage >= 7 ? 0 : 7 - currentStage) 
+    : 7;
 
 
   // Pick featured and secondary challenges from catalog
@@ -210,11 +217,29 @@ export function HomePage() {
             {hasPlant ? "🌱 Start today's challenge" : "🌱 Plant your first seed"}
           </button>
 
-          {/* Status chip for returning users */}
-          {hasPlant && challengesForNextStage > 0 && (
+          {/* Status chip for returning users - shows progress to full plant */}
+          {hasPlant && currentStage < 7 && challengesForNextStage > 0 && (
             <div className="mt-1.5 px-3 py-1 rounded-full bg-white/70 backdrop-blur-sm border border-white/50 shadow-sm">
               <span className="text-[11px] font-medium text-foreground/80">
                 {challengesForNextStage} challenge{challengesForNextStage !== 1 ? "s" : ""} to evolve
+              </span>
+            </div>
+          )}
+
+          {/* Show "fully grown" state when at stage 7 */}
+          {hasPlant && currentStage >= 7 && (
+            <div className="mt-1.5 px-3 py-1 rounded-full bg-success/20 backdrop-blur-sm border border-success/30 shadow-sm">
+              <span className="text-[11px] font-medium text-success-text">
+                🌸 Fully grown! Start a new plant
+              </span>
+            </div>
+          )}
+
+          {/* Show collection count if they've completed plants */}
+          {fullPlantsCompleted > 0 && (
+            <div className="mt-1 px-2.5 py-0.5 rounded-full bg-white/50 backdrop-blur-sm">
+              <span className="text-[10px] text-muted-foreground">
+                {fullPlantsCompleted} plant{fullPlantsCompleted !== 1 ? "s" : ""} in your garden
               </span>
             </div>
           )}

@@ -67,7 +67,11 @@ export function GardenPage() {
   const collectedPlants = React.useMemo(() => {
     const completedSessions = sessions.filter(s => s.status === "completed" || s.status === "submitted");
     
-    // Group by 7-day cycles
+    // Sort by created_at ASCENDING (oldest first) so we can properly group cycles
+    const sortedSessions = [...completedSessions].sort(
+      (a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+    );
+    
     const plants: Array<{
       id: string;
       name: string;
@@ -77,8 +81,13 @@ export function GardenPage() {
     }> = [];
     
     // For each completed 7-session cycle, create a "collected plant"
-    for (let i = 0; i < Math.floor(completedSessions.length / 7); i++) {
-      const cycleEnd = completedSessions[i * 7];
+    const numCompletedPlants = Math.floor(sortedSessions.length / 7);
+    
+    for (let i = 0; i < numCompletedPlants; i++) {
+      // The 7th session of each cycle (index 6, 13, 20...) is when the plant was completed
+      const cycleEndIndex = (i + 1) * 7 - 1; // 6, 13, 20...
+      const cycleEnd = sortedSessions[cycleEndIndex];
+      
       if (cycleEnd) {
         plants.push({
           id: `plant-${i}`,
