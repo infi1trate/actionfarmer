@@ -14,9 +14,12 @@ import {
   Sparkles,
   Lightbulb,
   Target,
+  Droplets,
 } from "lucide-react";
 import { useChallengeTransition, challengeVideos } from "@/contexts/ChallengeTransitionContext";
+import { useAppData } from "@/contexts/AppDataContext";
 import seedImage from "@/assets/home-seed.png";
+import waterDropletImage from "@/assets/water-droplet.png";
 
 // Video imports
 import videoDishwasher from "@/assets/videos/challenge-dishwasher.mp4";
@@ -195,10 +198,16 @@ export const ChallengeBriefPage = () => {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const { transitionData, setTransitionData, isTransitioning, setIsTransitioning } = useChallengeTransition();
+  const { plant, stats } = useAppData();
   const [isEntering, setIsEntering] = React.useState(true);
   const [showContent, setShowContent] = React.useState(false);
   
   const challenge = challengeData[id || "1"] || challengeData["1"];
+  
+  // Determine if user is watering an active plant or starting a new one
+  // Plant evolves after 3 challenges, so if they've done fewer than 3, they're still nurturing
+  const challengesRemainingToEvolve = plant ? Math.max(0, 3 - (stats?.totalCompleted || 0) % 3) : 0;
+  const isWateringPhase = plant && challengesRemainingToEvolve > 0 && (plant.current_stage < 7);
   const diffConfig = difficultyConfig[challenge.difficulty];
   
   // Get video from transition data or fallback to challenge data
@@ -386,30 +395,54 @@ export const ChallengeBriefPage = () => {
           </ul>
         </Card>
 
-        {/* Card C: Garden Reward (NEW) */}
+        {/* Card C: Garden Reward - Contextual based on plant state */}
         <Card className="p-5 bg-gradient-to-br from-success/10 via-background to-primary/5 border-success/30 shadow-sm overflow-hidden relative">
           <div className="flex items-start gap-4">
-            {/* Seed illustration */}
+            {/* Icon: Water droplet for watering phase, Seed for planting */}
             <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary/20 to-success/20 flex items-center justify-center shrink-0 border border-success/20">
-              <img 
-                src={seedImage} 
-                alt="Seed" 
-                className="w-10 h-10 object-contain"
-                onError={(e) => {
-                  // Fallback to icon if image fails
-                  e.currentTarget.style.display = 'none';
-                }}
-              />
-              <Sprout className="h-6 w-6 text-success absolute" style={{ display: 'none' }} />
+              {isWateringPhase ? (
+                <img 
+                  src={waterDropletImage} 
+                  alt="Water droplet" 
+                  className="w-10 h-10 object-contain"
+                  onError={(e) => {
+                    e.currentTarget.style.display = 'none';
+                  }}
+                />
+              ) : (
+                <img 
+                  src={seedImage} 
+                  alt="Seed" 
+                  className="w-10 h-10 object-contain"
+                  onError={(e) => {
+                    e.currentTarget.style.display = 'none';
+                  }}
+                />
+              )}
+              {/* Fallback icons */}
+              {isWateringPhase ? (
+                <Droplets className="h-6 w-6 text-primary absolute hidden" />
+              ) : (
+                <Sprout className="h-6 w-6 text-success absolute hidden" />
+              )}
             </div>
             
             <div className="flex-1 space-y-3">
               <div className="flex items-center gap-2">
-                <Sprout className="h-4 w-4 text-success" />
-                <h3 className="text-lg font-semibold text-foreground">This grows your garden</h3>
+                {isWateringPhase ? (
+                  <Droplets className="h-4 w-4 text-primary" />
+                ) : (
+                  <Sprout className="h-4 w-4 text-success" />
+                )}
+                <h3 className="text-lg font-semibold text-foreground">
+                  {isWateringPhase ? "This helps your plant grow" : "This grows your garden"}
+                </h3>
               </div>
               <p className="text-[15px] text-muted-foreground leading-relaxed">
-                Completing this challenge nurtures your plant and earns growth credit toward evolution.
+                {isWateringPhase 
+                  ? "Completing this challenge waters your plant and brings it closer to blooming."
+                  : "Completing this challenge plants a new seed in your garden."
+                }
               </p>
               
               {/* Reward details */}
@@ -419,7 +452,11 @@ export const ChallengeBriefPage = () => {
                   <span>+{challenge.xpReward || 50} XP</span>
                 </div>
                 <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary/15 text-primary text-sm font-medium">
-                  <Sprout className="h-3.5 w-3.5" />
+                  {isWateringPhase ? (
+                    <Droplets className="h-3.5 w-3.5" />
+                  ) : (
+                    <Sprout className="h-3.5 w-3.5" />
+                  )}
                   <span>+1 Growth</span>
                 </div>
                 {challenge.hasBonus && (
