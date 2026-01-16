@@ -281,13 +281,8 @@ export const ChallengeBriefPage = () => {
           }}
         />
         
-        {/* Elegant fade at bottom - smooth multi-stop blend */}
-        <div 
-          className="absolute bottom-0 left-0 right-0 h-40 pointer-events-none"
-          style={{
-            background: 'linear-gradient(to bottom, transparent 0%, hsl(var(--background) / 0.05) 25%, hsl(var(--background) / 0.2) 45%, hsl(var(--background) / 0.5) 65%, hsl(var(--background) / 0.8) 82%, hsl(var(--background)) 100%)'
-          }}
-        />
+        {/* Elegant fade at bottom - matching home hero style */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent via-60% to-background pointer-events-none" />
         
         {/* Back button */}
         <button 
