@@ -195,7 +195,7 @@ export function HomePage() {
           
           {/* CTA pill below seed - different text based on plant status */}
           <button
-            onClick={() => navigate("/app/challenges")}
+            onClick={() => navigate("/challenges")}
             className="mt-1 px-5 py-2 rounded-full bg-primary text-primary-foreground font-medium text-sm shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
           >
             {hasPlant ? "🌱 Start today's challenge" : "🌱 Plant your first seed"}
