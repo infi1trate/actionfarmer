@@ -35,6 +35,8 @@ const PlayPage = lazy(() => import("./app/pages/PlayPage").then(m => ({ default:
 const EarningsPage = lazy(() => import("./app/pages/EarningsPage").then(m => ({ default: m.EarningsPage })));
 const InsightsPage = lazy(() => import("./app/pages/InsightsPage").then(m => ({ default: m.InsightsPage })));
 const SettingsPage = lazy(() => import("./app/pages/SettingsPage").then(m => ({ default: m.SettingsPage })));
+const ProfileSettingsPage = lazy(() => import("./app/pages/settings/ProfileSettingsPage").then(m => ({ default: m.ProfileSettingsPage })));
+const SecuritySettingsPage = lazy(() => import("./app/pages/settings/SecuritySettingsPage").then(m => ({ default: m.SecuritySettingsPage })));
 const AmbientModePage = lazy(() => import("./app/pages/AmbientModePage"));
 const DailySummaryPage = lazy(() => import("./app/pages/DailySummaryPage"));
 const PlayModePage = lazy(() => import("./app/pages/PlayModePage"));
@@ -139,6 +141,8 @@ const App = () => (
                     <Route path="garden" element={<GardenPage />} />
                     <Route path="insights" element={<InsightsPage />} />
                     <Route path="settings" element={<SettingsPage />} />
+                    <Route path="settings/profile" element={<ProfileSettingsPage />} />
+                    <Route path="settings/security" element={<SecuritySettingsPage />} />
                   </Route>
                   
                   {/* Design System Hub */}

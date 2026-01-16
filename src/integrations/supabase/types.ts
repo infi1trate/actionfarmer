@@ -174,23 +174,29 @@ export type Database = {
       }
       profiles: {
         Row: {
+          analytics_enabled: boolean
           created_at: string
           first_name: string
           id: string
+          push_notifications_enabled: boolean
           updated_at: string
           user_id: string
         }
         Insert: {
+          analytics_enabled?: boolean
           created_at?: string
           first_name: string
           id?: string
+          push_notifications_enabled?: boolean
           updated_at?: string
           user_id: string
         }
         Update: {
+          analytics_enabled?: boolean
           created_at?: string
           first_name?: string
           id?: string
+          push_notifications_enabled?: boolean
           updated_at?: string
           user_id?: string
         }

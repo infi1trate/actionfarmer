@@ -24,6 +24,7 @@ import { useNavigate } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import { 
   SettingsGroup, 
   SettingsLinkRow, 
@@ -42,20 +43,85 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
 export function SettingsPage() {
   const navigate = useNavigate();
-  const { signOut } = useAuth();
+  const { user, profile, signOut, loading: authLoading } = useAuth();
   
-  // Toggle states
+  // Toggle states - initialized from profile
   const [notifications, setNotifications] = React.useState(true);
   const [darkMode, setDarkMode] = React.useState(false);
   const [dataSharingResearch, setDataSharingResearch] = React.useState(false);
   const [dataSharingAnalytics, setDataSharingAnalytics] = React.useState(true);
   const [isPaused, setIsPaused] = React.useState(false);
-  // Ambient Capture is OFF by default - optional background feature
   const [ambientCaptureEnabled, setAmbientCaptureEnabled] = React.useState(false);
+  
+  // Loading state for profile preferences
+  const [prefsLoading, setPrefsLoading] = React.useState(true);
+
+  // Load profile preferences
+  React.useEffect(() => {
+    const loadPreferences = async () => {
+      if (!user) return;
+      
+      try {
+        const { data, error } = await supabase
+          .from("profiles")
+          .select("push_notifications_enabled, analytics_enabled")
+          .eq("user_id", user.id)
+          .single();
+
+        if (!error && data) {
+          setNotifications(data.push_notifications_enabled ?? true);
+          setDataSharingAnalytics(data.analytics_enabled ?? true);
+        }
+      } catch (err) {
+        console.error("Failed to load preferences:", err);
+      } finally {
+        setPrefsLoading(false);
+      }
+    };
+
+    if (user) {
+      loadPreferences();
+    } else {
+      setPrefsLoading(false);
+    }
+  }, [user]);
+
+  // Update notifications preference
+  const handleNotificationsChange = async (checked: boolean) => {
+    setNotifications(checked);
+    if (!user) return;
+
+    const { error } = await supabase
+      .from("profiles")
+      .update({ push_notifications_enabled: checked })
+      .eq("user_id", user.id);
+
+    if (error) {
+      toast.error("Failed to update preference");
+      setNotifications(!checked); // Revert
+    }
+  };
+
+  // Update analytics preference
+  const handleAnalyticsChange = async (checked: boolean) => {
+    setDataSharingAnalytics(checked);
+    if (!user) return;
+
+    const { error } = await supabase
+      .from("profiles")
+      .update({ analytics_enabled: checked })
+      .eq("user_id", user.id);
+
+    if (error) {
+      toast.error("Failed to update preference");
+      setDataSharingAnalytics(!checked); // Revert
+    }
+  };
 
   const handleSignOut = async () => {
     await signOut();
@@ -64,22 +130,49 @@ export function SettingsPage() {
   };
 
   const handleDeleteData = () => {
-    // Mock: Would trigger data deletion
     toast.success("Data deletion requested");
   };
 
   const handleDeleteAccount = async () => {
-    // Mock: Would trigger account deletion
     await signOut();
     toast.success("Account deleted");
     navigate("/");
   };
 
   const handleKillSwitch = () => {
-    // Mock: Immediately stops all recording
     setIsPaused(true);
     toast.success("All recording stopped");
   };
+
+  // Build profile row subtitle
+  const profileSubtitle = React.useMemo(() => {
+    const parts: string[] = [];
+    if (profile?.first_name) parts.push(profile.first_name);
+    if (user?.email) parts.push(user.email);
+    return parts.length > 0 ? parts.join(" • ") : "Manage your profile";
+  }, [profile, user]);
+
+  if (authLoading || prefsLoading) {
+    return (
+      <div className="pb-24">
+        <header className="px-5 pt-8 pb-4">
+          <Skeleton className="h-3 w-20 mb-2" />
+          <Skeleton className="h-8 w-24 mb-1" />
+          <Skeleton className="h-4 w-48" />
+        </header>
+        <div className="space-y-6 px-4">
+          <div className="space-y-2">
+            <Skeleton className="h-4 w-16" />
+            <Skeleton className="h-48 w-full rounded-xl" />
+          </div>
+          <div className="space-y-2">
+            <Skeleton className="h-4 w-24" />
+            <Skeleton className="h-32 w-full rounded-xl" />
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="pb-24">
@@ -109,8 +202,8 @@ export function SettingsPage() {
               label="Profile"
               icon={User}
               iconBg="bg-info/10"
-              description="Name, email, profile picture"
-              onClick={() => navigate("/app/profile")}
+              description={profileSubtitle}
+              onClick={() => navigate("/app/settings/profile")}
             />
             <Separator />
             <SettingsLinkRow
@@ -118,7 +211,7 @@ export function SettingsPage() {
               icon={Shield}
               iconBg="bg-warning/10"
               description="Password, two-factor authentication"
-              onClick={() => {}}
+              onClick={() => navigate("/app/settings/security")}
             />
             <Separator />
             <SettingsToggleRow
@@ -127,7 +220,7 @@ export function SettingsPage() {
               iconBg="bg-brand-yellow/10"
               description="Challenge reminders and earnings updates"
               checked={notifications}
-              onCheckedChange={setNotifications}
+              onCheckedChange={handleNotificationsChange}
             />
             <Separator />
             <SettingsToggleRow
@@ -158,7 +251,7 @@ export function SettingsPage() {
               iconBg="bg-muted"
               description="Help us improve your experience"
               checked={dataSharingAnalytics}
-              onCheckedChange={setDataSharingAnalytics}
+              onCheckedChange={handleAnalyticsChange}
             />
             <Separator />
             <SettingsLinkRow
