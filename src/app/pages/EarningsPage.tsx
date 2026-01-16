@@ -298,8 +298,8 @@ export function EarningsPage() {
       <header className="relative overflow-hidden" style={{ minHeight: '60vh' }}>
         <div className="absolute inset-0 bg-cover bg-bottom bg-no-repeat z-0" style={{ backgroundImage: `url(${gardenBg})`, backgroundPosition: 'center 70%' }} />
         <div className="absolute inset-0 z-[1]" style={{ background: 'rgba(245, 252, 249, 0.08)' }} />
-        <div className="absolute inset-x-0 bottom-0 z-[4]" style={{ height: '90px', background: 'linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,0.98) 100%)' }} />
-        <div className="absolute inset-x-0 bottom-0 z-[5]" style={{ height: '16px', background: 'rgba(255,255,255,0.98)' }} />
+        {/* Soft gradient fade - matches home hero */}
+        <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-transparent via-60% to-background z-[4]" />
         
         <div className="relative z-10 px-5 pt-8 pb-4">
           <div className="flex justify-between items-start">
