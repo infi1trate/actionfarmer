@@ -89,7 +89,7 @@ export function HomePage() {
 
   const handleSeedTap = () => {
     if (featuredChallenge) {
-      navigate(`/challenge/${featuredChallenge.id}/brief`);
+      navigate(`/challenge/${featuredChallenge.id}`);
     } else {
       navigate("/challenges");
     }
@@ -97,14 +97,14 @@ export function HomePage() {
 
   const handlePlantFirstSeed = () => {
     if (easiestChallenge) {
-      navigate(`/challenge/${easiestChallenge.id}/brief`);
+      navigate(`/challenge/${easiestChallenge.id}`);
     } else {
       navigate("/challenges");
     }
   };
 
   const handleChallengeClick = (challengeId: string) => {
-    navigate(`/challenge/${challengeId}/brief`);
+    navigate(`/challenge/${challengeId}`);
   };
 
   const getVideoForChallenge = (challenge: ChallengeFromCatalog) => {
