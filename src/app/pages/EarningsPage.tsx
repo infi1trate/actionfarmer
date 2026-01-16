@@ -163,9 +163,12 @@ export function EarningsPage() {
   
   // Progress calculation
   const totalCompleted = completedSessions.length;
-  const challengesForNextStage = currentStage === 7 ? 0 : Math.max(0, (currentStage + 1) * 2 - totalCompleted);
-  const stageProgress = currentStage === 7 ? 100 : Math.min(100, (totalCompleted / Math.max(1, (currentStage + 1) * 2)) * 100);
-  
+
+  // Stage is 0..7 where 1..7 maps to the 7 plant images.
+  // We show countdown to FULL plant (stage 7).
+  const challengesForNextStage = currentStage >= 7 ? 0 : Math.max(0, 7 - currentStage);
+  const stageProgress = currentStage >= 7 ? 100 : Math.min(100, (currentStage / 7) * 100);
+
   // Recent growth (last 5 completed sessions with challenge info)
   const recentGrowth = completedSessions.slice(0, 5).map(session => {
     const challenge = challenges.find(c => c.id === session.challenge_id);

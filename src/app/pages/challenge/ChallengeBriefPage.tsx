@@ -205,11 +205,12 @@ export const ChallengeBriefPage = () => {
   const challenge = challengeData[id || "1"] || challengeData["1"];
   
   // Determine if user is watering an active plant or starting a new one
-  // Plant evolves after 3 challenges, so if they've done fewer than 3, they're still nurturing
-  const challengesRemainingToEvolve = plant ? Math.max(0, 3 - (stats?.totalCompleted || 0) % 3) : 0;
-  const isWateringPhase = plant && challengesRemainingToEvolve > 0 && (plant.current_stage < 7);
+  // Full plant takes 7 completed challenges (7 images/stages).
+  const currentStage = plant?.current_stage || 0;
+  const challengesRemainingToEvolve = plant ? Math.max(0, 7 - currentStage) : 0;
+  const isWateringPhase = !!plant && currentStage >= 1 && currentStage < 7;
   const diffConfig = difficultyConfig[challenge.difficulty];
-  
+
   // Get video from transition data or fallback to challenge data
   const videoSrc = transitionData?.video || challengeVideos[challenge.id] || challenge.video;
 
