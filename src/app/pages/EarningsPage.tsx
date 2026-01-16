@@ -8,8 +8,9 @@ import plantDay4 from "@/assets/plants/day-4-leafy-plant.png";
 import plantDay5 from "@/assets/plants/day-5-bud.png";
 import plantDay6 from "@/assets/plants/day-6-flower.png";
 import plantDay7 from "@/assets/plants/day-7-fruit.png";
-import { Droplets, Sun, Sparkles, Leaf, Loader2, Clock, ChevronRight } from "lucide-react";
+import { Droplets, Sun, Sparkles, Leaf, Clock, ChevronRight, Wallet, Gift, X, ArrowUpRight } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import { useAppData, ChallengeSession, isSessionCompleted, getSessionActivityDate } from "@/contexts/AppDataContext";
 
@@ -104,10 +105,19 @@ const formatTimeAgo = (dateStr: string): string => {
   return date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
 };
 
+// Format cents to dollars
+const formatCents = (cents: number): string => {
+  return `$${(cents / 100).toFixed(2)}`;
+};
+
 export function EarningsPage() {
   const navigate = useNavigate();
   const { loading: authLoading } = useAuth();
-  const { plant, sessions, challenges, loading: dataLoading } = useAppData();
+  const { plant, wallet, sessions, challenges, loading: dataLoading, claimFirstReward, stats } = useAppData();
+  
+  // Session-dismissed state for "Not now" on first reward
+  const [firstRewardDismissedSession, setFirstRewardDismissedSession] = React.useState(false);
+  const [claimingReward, setClaimingReward] = React.useState(false);
 
   // Loading state with skeletons
   if (authLoading || dataLoading) {
@@ -163,6 +173,7 @@ export function EarningsPage() {
   
   // Progress calculation
   const totalCompleted = completedSessions.length;
+  const completedPlantCount = stats.completedPlantCount;
 
   // Stage is 0..7 where 1..7 maps to the 7 plant images.
   // We show countdown to FULL plant (stage 7).
@@ -178,6 +189,22 @@ export function EarningsPage() {
       challengeEmoji: challenge?.icon_emoji || "🌱",
     };
   });
+
+  // First reward eligibility: user has completed at least 1 plant AND hasn't claimed
+  const hasCompletedFirstPlant = completedPlantCount >= 1;
+  const showFirstRewardCard = hasCompletedFirstPlant && wallet && !wallet.first_reward_claimed && !firstRewardDismissedSession;
+  const firstRewardAmount = wallet?.first_reward_amount_cents || 1500;
+
+  // Balance info
+  const availableBalance = wallet?.available_balance_cents || 0;
+  const pendingBalance = wallet?.pending_balance_cents || 0;
+
+  // Handle claim first reward
+  const handleClaimFirstReward = async () => {
+    setClaimingReward(true);
+    await claimFirstReward();
+    setClaimingReward(false);
+  };
 
   // Empty state - no plant and no sessions
   if (!hasPlant && completedSessions.length === 0) {
@@ -319,9 +346,92 @@ export function EarningsPage() {
           </div>
         </div>
       </header>
+
+      {/* First Reward Claim Card - One-time only */}
+      {showFirstRewardCard && (
+        <section className="px-5 pt-6 pb-2 relative z-10 bg-background">
+          <div className="relative rounded-2xl bg-gradient-to-br from-amber-500/20 via-yellow-400/15 to-orange-400/10 border border-amber-400/40 p-5 overflow-hidden">
+            {/* Dismiss button */}
+            <button 
+              onClick={() => setFirstRewardDismissedSession(true)}
+              className="absolute top-3 right-3 p-1 rounded-full hover:bg-black/5 transition-colors"
+              aria-label="Dismiss for now"
+            >
+              <X className="h-4 w-4 text-muted-foreground" />
+            </button>
+            
+            {/* Background decoration */}
+            <div className="absolute -right-4 -bottom-4 opacity-10">
+              <Gift className="h-24 w-24 text-amber-600" />
+            </div>
+            
+            <div className="relative z-10">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-2xl">🎉</span>
+                <h3 className="text-lg font-bold text-foreground">First harvest!</h3>
+              </div>
+              <p className="text-sm text-muted-foreground mb-4">
+                Your first plant is fully grown. Claim your first reward.
+              </p>
+              <div className="flex items-center gap-3">
+                <Button
+                  onClick={handleClaimFirstReward}
+                  disabled={claimingReward}
+                  className="bg-amber-500 hover:bg-amber-600 text-white font-semibold shadow-lg shadow-amber-500/25"
+                >
+                  {claimingReward ? "Claiming..." : `Claim ${formatCents(firstRewardAmount)}`}
+                </Button>
+                <button 
+                  onClick={() => setFirstRewardDismissedSession(true)}
+                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  Not now
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Balance Module - Always visible */}
+      <section className="px-5 pt-6 pb-4 relative z-10 bg-background">
+        <div className="rounded-2xl bg-gradient-to-br from-emerald-500/10 via-teal-500/5 to-cyan-500/5 border border-emerald-500/20 p-5">
+          <div className="flex items-start justify-between">
+            <div className="flex-1">
+              <div className="flex items-center gap-2 mb-1">
+                <Wallet className="h-4 w-4 text-emerald-600" />
+                <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Available Balance</span>
+              </div>
+              <p className="text-3xl font-bold text-foreground tracking-tight">
+                {formatCents(availableBalance)}
+              </p>
+              <p className="text-xs text-muted-foreground mt-0.5">Ready to payout</p>
+              {pendingBalance > 0 && (
+                <p className="text-xs text-amber-600 mt-1">
+                  +{formatCents(pendingBalance)} pending verification
+                </p>
+              )}
+            </div>
+            <Button
+              onClick={() => navigate("/app/payout")}
+              disabled={availableBalance < 1000}
+              variant={availableBalance >= 1000 ? "default" : "outline"}
+              className={availableBalance >= 1000 ? "bg-emerald-600 hover:bg-emerald-700" : ""}
+              rightIcon={<ArrowUpRight className="h-4 w-4" />}
+            >
+              Request payout
+            </Button>
+          </div>
+          {availableBalance < 1000 && (
+            <p className="text-[11px] text-muted-foreground mt-3 pt-3 border-t border-border/30">
+              Minimum payout $10.00 • 2–3 business days
+            </p>
+          )}
+        </div>
+      </section>
       
       {/* Your Garden This Week - Real data */}
-      <section className="px-5 pt-8 pb-6 relative z-10 bg-background">
+      <section className="px-5 pt-4 pb-6 relative z-10 bg-background">
         <div className="rounded-3xl bg-gradient-to-b from-muted/40 to-muted/20 border border-border/10 overflow-hidden">
           <div className="px-6 pt-7 pb-2">
             <div className="flex items-center gap-2.5 mb-2">
@@ -394,67 +504,62 @@ export function EarningsPage() {
       </section>
       
       {/* Garden Collection - show if user has completed plants */}
-      {(() => {
-        const completedPlantCount = Math.floor(totalCompleted / 7);
-        if (completedPlantCount === 0) return null;
-        
-        return (
-          <section className="px-5 pb-6 relative z-10 bg-background">
-            <div className="flex items-center justify-between mb-3">
-              <div className="flex items-center gap-2">
-                <Sparkles className="h-4 w-4 text-amber-500" />
-                <h3 className="text-sm font-semibold text-foreground">Your Garden</h3>
-              </div>
-              <button 
-                onClick={() => navigate("/app/garden")}
-                className="text-xs text-primary font-medium hover:underline flex items-center gap-0.5"
-              >
-                View all <ChevronRight className="h-3 w-3" />
-              </button>
+      {completedPlantCount > 0 && (
+        <section className="px-5 pb-6 relative z-10 bg-background">
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-2">
+              <Sparkles className="h-4 w-4 text-amber-500" />
+              <h3 className="text-sm font-semibold text-foreground">Your Garden</h3>
             </div>
-            
-            <div 
+            <button 
               onClick={() => navigate("/app/garden")}
-              className="rounded-2xl bg-gradient-to-br from-emerald-500/10 via-lime-500/5 to-amber-500/5 border border-emerald-500/20 p-4 cursor-pointer hover:border-emerald-500/40 transition-colors"
+              className="text-xs text-primary font-medium hover:underline flex items-center gap-0.5"
             >
-              <div className="flex items-center gap-4">
-                {/* Plant thumbnails - show up to 3 */}
-                <div className="flex -space-x-3">
-                  {Array.from({ length: Math.min(completedPlantCount, 3) }).map((_, i) => (
-                    <div 
-                      key={i}
-                      className="w-12 h-12 rounded-full bg-white/80 border-2 border-white shadow-sm flex items-center justify-center overflow-hidden"
-                    >
-                      <img 
-                        src={plantDay7} 
-                        alt="Collected plant" 
-                        className="w-10 h-10 object-contain"
-                      />
-                    </div>
-                  ))}
-                  {completedPlantCount > 3 && (
-                    <div className="w-12 h-12 rounded-full bg-emerald-500/20 border-2 border-white shadow-sm flex items-center justify-center">
-                      <span className="text-xs font-semibold text-emerald-700">+{completedPlantCount - 3}</span>
-                    </div>
-                  )}
-                </div>
-                
-                {/* Text */}
-                <div className="flex-1">
-                  <p className="text-sm font-semibold text-foreground">
-                    {completedPlantCount} plant{completedPlantCount !== 1 ? 's' : ''} collected
-                  </p>
-                  <p className="text-xs text-muted-foreground">
-                    Each represents a completed 7-day streak
-                  </p>
-                </div>
-                
-                <ChevronRight className="h-5 w-5 text-muted-foreground" />
+              View all <ChevronRight className="h-3 w-3" />
+            </button>
+          </div>
+          
+          <div 
+            onClick={() => navigate("/app/garden")}
+            className="rounded-2xl bg-gradient-to-br from-emerald-500/10 via-lime-500/5 to-amber-500/5 border border-emerald-500/20 p-4 cursor-pointer hover:border-emerald-500/40 transition-colors"
+          >
+            <div className="flex items-center gap-4">
+              {/* Plant thumbnails - show up to 3 */}
+              <div className="flex -space-x-3">
+                {Array.from({ length: Math.min(completedPlantCount, 3) }).map((_, i) => (
+                  <div 
+                    key={i}
+                    className="w-12 h-12 rounded-full bg-white/80 border-2 border-white shadow-sm flex items-center justify-center overflow-hidden"
+                  >
+                    <img 
+                      src={plantDay7} 
+                      alt="Collected plant" 
+                      className="w-10 h-10 object-contain"
+                    />
+                  </div>
+                ))}
+                {completedPlantCount > 3 && (
+                  <div className="w-12 h-12 rounded-full bg-emerald-500/20 border-2 border-white shadow-sm flex items-center justify-center">
+                    <span className="text-xs font-semibold text-emerald-700">+{completedPlantCount - 3}</span>
+                  </div>
+                )}
               </div>
+              
+              {/* Text */}
+              <div className="flex-1">
+                <p className="text-sm font-semibold text-foreground">
+                  {completedPlantCount} plant{completedPlantCount !== 1 ? 's' : ''} collected
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  Each represents a completed 7-day streak
+                </p>
+              </div>
+              
+              <ChevronRight className="h-5 w-5 text-muted-foreground" />
             </div>
-          </section>
-        );
-      })()}
+          </div>
+        </section>
+      )}
       
       {/* Recent Growth - Real sessions */}
       <section className="px-5 pb-6 relative z-10 bg-background">
