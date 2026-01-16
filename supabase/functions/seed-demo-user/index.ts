@@ -92,11 +92,13 @@ Deno.serve(async (req) => {
     }
 
     // Step 3: Create plants (3 plants at different stages)
+    // The active plant is the one with most recent updated_at - set stage 4 as the "active" one
     console.log("Creating plants...");
+    const now = new Date();
     const plantsData = [
-      { user_id: userId, current_stage: 7 }, // Fully grown (fruit)
-      { user_id: userId, current_stage: 6 }, // Flower stage
-      { user_id: userId, current_stage: 4 }, // Mid-growth (leafy plant)
+      { user_id: userId, current_stage: 7, updated_at: new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000).toISOString() }, // Fully grown - older
+      { user_id: userId, current_stage: 6, updated_at: new Date(now.getTime() - 20 * 24 * 60 * 60 * 1000).toISOString() }, // Flower - older
+      { user_id: userId, current_stage: 4, updated_at: new Date().toISOString() }, // Mid-growth - ACTIVE (most recent)
     ];
 
     const { error: plantsError } = await supabaseAdmin.from("plants").insert(plantsData);
@@ -105,121 +107,46 @@ Deno.serve(async (req) => {
     }
 
     // Step 4: Create challenge sessions (8 completed over last 14 days)
+    // IMPORTANT: created_at must match started_at for accurate date-based UI calculations
     console.log("Creating challenge sessions...");
-    const now = new Date();
+    
+    // Helper to create session with matching created_at
+    const makeSession = (
+      challengeIdx: number,
+      daysAgo: number,
+      points: number,
+      xpMult: number,
+      vitalityMult: number,
+      sunlight: number,
+      watering: number,
+      durationSecs: number
+    ) => {
+      const sessionTime = new Date(now.getTime() - daysAgo * 24 * 60 * 60 * 1000);
+      return {
+        user_id: userId,
+        challenge_id: CHALLENGE_IDS[challengeIdx],
+        status: "completed" as const,
+        points_earned: points,
+        xp_multiplier: xpMult,
+        vitality_multiplier: vitalityMult,
+        sunlight_points: sunlight,
+        watering_points: watering,
+        duration_seconds: durationSecs,
+        started_at: sessionTime.toISOString(),
+        ended_at: new Date(sessionTime.getTime() + durationSecs * 1000).toISOString(),
+        created_at: sessionTime.toISOString(), // Match started_at for accurate date calcs
+      };
+    };
+
     const sessionsData = [
-      // Day 1 (today)
-      {
-        user_id: userId,
-        challenge_id: CHALLENGE_IDS[0], // Grocery Unload
-        status: "completed" as const,
-        points_earned: 48,
-        xp_multiplier: 1.2,
-        vitality_multiplier: 1.0,
-        sunlight_points: 15,
-        watering_points: 12,
-        duration_seconds: 285,
-        started_at: new Date(now.getTime() - 1 * 24 * 60 * 60 * 1000).toISOString(),
-        ended_at: new Date(now.getTime() - 1 * 24 * 60 * 60 * 1000 + 285000).toISOString(),
-      },
-      // Day 2
-      {
-        user_id: userId,
-        challenge_id: CHALLENGE_IDS[1], // Kitchen Cleanup
-        status: "completed" as const,
-        points_earned: 55,
-        xp_multiplier: 1.5,
-        vitality_multiplier: 1.1,
-        sunlight_points: 18,
-        watering_points: 14,
-        duration_seconds: 320,
-        started_at: new Date(now.getTime() - 2 * 24 * 60 * 60 * 1000).toISOString(),
-        ended_at: new Date(now.getTime() - 2 * 24 * 60 * 60 * 1000 + 320000).toISOString(),
-      },
-      // Day 3
-      {
-        user_id: userId,
-        challenge_id: CHALLENGE_IDS[2], // Fold Laundry
-        status: "completed" as const,
-        points_earned: 42,
-        xp_multiplier: 1.0,
-        vitality_multiplier: 1.0,
-        sunlight_points: 12,
-        watering_points: 10,
-        duration_seconds: 260,
-        started_at: new Date(now.getTime() - 3 * 24 * 60 * 60 * 1000).toISOString(),
-        ended_at: new Date(now.getTime() - 3 * 24 * 60 * 60 * 1000 + 260000).toISOString(),
-      },
-      // Day 4
-      {
-        user_id: userId,
-        challenge_id: CHALLENGE_IDS[3], // Reset Table
-        status: "completed" as const,
-        points_earned: 35,
-        xp_multiplier: 1.0,
-        vitality_multiplier: 1.0,
-        sunlight_points: 10,
-        watering_points: 8,
-        duration_seconds: 180,
-        started_at: new Date(now.getTime() - 5 * 24 * 60 * 60 * 1000).toISOString(),
-        ended_at: new Date(now.getTime() - 5 * 24 * 60 * 60 * 1000 + 180000).toISOString(),
-      },
-      // Day 6
-      {
-        user_id: userId,
-        challenge_id: CHALLENGE_IDS[4], // Sort Recycling
-        status: "completed" as const,
-        points_earned: 38,
-        xp_multiplier: 1.2,
-        vitality_multiplier: 1.0,
-        sunlight_points: 11,
-        watering_points: 9,
-        duration_seconds: 220,
-        started_at: new Date(now.getTime() - 6 * 24 * 60 * 60 * 1000).toISOString(),
-        ended_at: new Date(now.getTime() - 6 * 24 * 60 * 60 * 1000 + 220000).toISOString(),
-      },
-      // Day 8
-      {
-        user_id: userId,
-        challenge_id: CHALLENGE_IDS[5], // Make the Bed
-        status: "completed" as const,
-        points_earned: 28,
-        xp_multiplier: 1.0,
-        vitality_multiplier: 1.0,
-        sunlight_points: 8,
-        watering_points: 6,
-        duration_seconds: 150,
-        started_at: new Date(now.getTime() - 8 * 24 * 60 * 60 * 1000).toISOString(),
-        ended_at: new Date(now.getTime() - 8 * 24 * 60 * 60 * 1000 + 150000).toISOString(),
-      },
-      // Day 10
-      {
-        user_id: userId,
-        challenge_id: CHALLENGE_IDS[6], // Handle Fragile Items
-        status: "completed" as const,
-        points_earned: 52,
-        xp_multiplier: 1.3,
-        vitality_multiplier: 1.2,
-        sunlight_points: 16,
-        watering_points: 13,
-        duration_seconds: 300,
-        started_at: new Date(now.getTime() - 10 * 24 * 60 * 60 * 1000).toISOString(),
-        ended_at: new Date(now.getTime() - 10 * 24 * 60 * 60 * 1000 + 300000).toISOString(),
-      },
-      // Day 12
-      {
-        user_id: userId,
-        challenge_id: CHALLENGE_IDS[7], // Fill Dishwasher
-        status: "completed" as const,
-        points_earned: 45,
-        xp_multiplier: 1.1,
-        vitality_multiplier: 1.0,
-        sunlight_points: 14,
-        watering_points: 11,
-        duration_seconds: 270,
-        started_at: new Date(now.getTime() - 12 * 24 * 60 * 60 * 1000).toISOString(),
-        ended_at: new Date(now.getTime() - 12 * 24 * 60 * 60 * 1000 + 270000).toISOString(),
-      },
+      makeSession(0, 1, 48, 1.2, 1.0, 15, 12, 285),  // Yesterday - Grocery Unload
+      makeSession(1, 2, 55, 1.5, 1.1, 18, 14, 320),  // 2 days ago - Kitchen Cleanup  
+      makeSession(2, 3, 42, 1.0, 1.0, 12, 10, 260),  // 3 days ago - Fold Laundry
+      makeSession(3, 5, 35, 1.0, 1.0, 10, 8, 180),   // 5 days ago - Reset Table
+      makeSession(4, 6, 38, 1.2, 1.0, 11, 9, 220),   // 6 days ago - Sort Recycling
+      makeSession(5, 8, 28, 1.0, 1.0, 8, 6, 150),    // 8 days ago - Make the Bed
+      makeSession(6, 10, 52, 1.3, 1.2, 16, 13, 300), // 10 days ago - Handle Fragile
+      makeSession(7, 12, 45, 1.1, 1.0, 14, 11, 270), // 12 days ago - Fill Dishwasher
     ];
 
     const { error: sessionsError } = await supabaseAdmin.from("challenge_sessions").insert(sessionsData);
@@ -236,27 +163,28 @@ Deno.serve(async (req) => {
     const weekEnd = new Date(weekStart);
     weekEnd.setDate(weekEnd.getDate() + 6); // End of week (Saturday)
 
+    // IMPORTANT: highlights and patterns are JSONB - pass as objects, NOT JSON.stringify
     const insightsData = {
       user_id: userId,
       week_start: weekStart.toISOString().split("T")[0],
       week_end: weekEnd.toISOString().split("T")[0],
       headline: "Your best week yet! 🌱",
-      highlights: JSON.stringify([
-        "Completed 8 challenges across different categories",
-        "Earned 343 total points with great consistency",
-        "Kitchen tasks are your sweet spot—keep it up!",
-        "Your 1.5x multiplier on Kitchen Cleanup was impressive",
-      ]),
-      patterns: JSON.stringify({
+      highlights: [
+        { id: "h1", title: "8 Challenges", description: "Completed 8 challenges across different categories", icon: "trophy", accent: "emerald" },
+        { id: "h2", title: "343 Points", description: "Earned 343 total points with great consistency", icon: "star", accent: "amber" },
+        { id: "h3", title: "Kitchen Pro", description: "Kitchen tasks are your sweet spot—keep it up!", icon: "chef-hat", accent: "sky" },
+        { id: "h4", title: "1.5x Multiplier", description: "Your 1.5x multiplier on Kitchen Cleanup was impressive", icon: "zap", accent: "violet" },
+      ],
+      patterns: {
         movement: [
-          { title: "Morning momentum", description: "You tend to complete challenges earlier in the day", icon: "sunrise" },
-          { title: "Steady rhythm", description: "Consistent 4-5 minute sessions show focused effort", icon: "activity" },
+          { id: "m1", title: "Morning momentum", description: "You tend to complete challenges earlier in the day", icon: "sunrise", isNew: true },
+          { id: "m2", title: "Steady rhythm", description: "Consistent 4-5 minute sessions show focused effort", icon: "activity" },
         ],
         handling: [
-          { title: "Kitchen confidence", description: "Your kitchen tasks show the most precision", icon: "chef-hat" },
-          { title: "Gentle precision", description: "Fragile items handled with care and attention", icon: "heart" },
+          { id: "h1", title: "Kitchen confidence", description: "Your kitchen tasks show the most precision", icon: "chef-hat", isNew: true },
+          { id: "h2", title: "Gentle precision", description: "Fragile items handled with care and attention", icon: "heart" },
         ],
-      }),
+      },
     };
 
     const { error: insightsError } = await supabaseAdmin.from("insights_weekly").insert(insightsData);

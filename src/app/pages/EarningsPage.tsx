@@ -11,7 +11,7 @@ import plantDay7 from "@/assets/plants/day-7-fruit.png";
 import { Droplets, Sun, Sparkles, Leaf, Loader2, Clock, ChevronRight } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useAuth } from "@/contexts/AuthContext";
-import { useAppData, ChallengeSession } from "@/contexts/AppDataContext";
+import { useAppData, ChallengeSession, isSessionCompleted, getSessionActivityDate } from "@/contexts/AppDataContext";
 
 const GROWTH_STAGES = [
   { day: 0, label: "No Plant", image: plantDay1, color: "text-muted-foreground" },
@@ -29,14 +29,14 @@ const getPlantStageInfo = (stage: number) => {
   return GROWTH_STAGES[clampedStage];
 };
 
-// Helper to check if date is today
+// Helper to check if date is today (uses activity date)
 const isToday = (dateStr: string) => {
   const date = new Date(dateStr);
   const today = new Date();
   return date.toDateString() === today.toDateString();
 };
 
-// Helper to check if date is this week
+// Helper to check if date is this week (uses activity date)
 const isThisWeek = (dateStr: string) => {
   const date = new Date(dateStr);
   const today = new Date();
@@ -48,16 +48,16 @@ const isThisWeek = (dateStr: string) => {
   return date >= weekStart && date < weekEnd;
 };
 
-// Helper to calculate day streak from sessions
+// Helper to calculate day streak from sessions (using shared completion + activity date)
 const calculateDayStreak = (sessions: ChallengeSession[]): number => {
   if (sessions.length === 0) return 0;
   
-  const completedSessions = sessions.filter(s => s.status === "completed" || s.status === "submitted");
+  const completedSessions = sessions.filter(s => isSessionCompleted(s.status));
   if (completedSessions.length === 0) return 0;
   
-  // Get unique dates with activity (sorted newest first)
+  // Get unique dates with activity (sorted newest first) - use started_at as activity date
   const uniqueDates = [...new Set(
-    completedSessions.map(s => new Date(s.created_at).toDateString())
+    completedSessions.map(s => new Date(getSessionActivityDate(s)).toDateString())
   )].sort((a, b) => new Date(b).getTime() - new Date(a).getTime());
   
   if (uniqueDates.length === 0) return 0;
@@ -133,15 +133,15 @@ export function EarningsPage() {
     );
   }
 
-  // Calculate real stats from sessions
-  const completedSessions = sessions.filter(s => s.status === "completed" || s.status === "submitted");
+  // Calculate real stats from sessions using shared completion criteria + activity date
+  const completedSessions = sessions.filter(s => isSessionCompleted(s.status));
   
-  // Today's stats
-  const todaySessions = completedSessions.filter(s => isToday(s.created_at));
+  // Today's stats (use activity date = started_at)
+  const todaySessions = completedSessions.filter(s => isToday(getSessionActivityDate(s)));
   const todayPoints = todaySessions.reduce((acc, s) => acc + (s.points_earned || 0), 0);
   
-  // This week's stats
-  const weekSessions = completedSessions.filter(s => isThisWeek(s.created_at));
+  // This week's stats (use activity date = started_at)
+  const weekSessions = completedSessions.filter(s => isThisWeek(getSessionActivityDate(s)));
   const weekWatering = weekSessions.reduce((acc, s) => acc + (s.watering_points || 0), 0);
   const weekSunlight = weekSessions.reduce((acc, s) => acc + (s.sunlight_points || 0), 0);
   const weekCompleted = weekSessions.length;
