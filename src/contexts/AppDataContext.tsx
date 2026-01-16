@@ -3,8 +3,23 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "./AuthContext";
 
 // =============================================
-// Types
+// Types & Helpers
 // =============================================
+
+/**
+ * EVOLUTION PROGRESS SOURCE OF TRUTH:
+ * - Active plant: Selected as the most recently updated `plants` row for the user
+ * - Completion criteria: A session is "completed" if status === "completed" || "submitted"
+ * - Progress is USER-SCOPED (challenge_sessions has no plant_id)
+ */
+
+/** Shared helper: determines if a session counts as "completed" for progress */
+export const isSessionCompleted = (status: string): boolean => 
+  status === "completed" || status === "submitted";
+
+/** Shared helper: gets the activity timestamp from a session for date-based calculations */
+export const getSessionActivityDate = (session: { started_at: string; ended_at?: string | null; created_at: string }): string =>
+  session.started_at || session.ended_at || session.created_at;
 
 export interface Plant {
   id: string;
@@ -118,9 +133,9 @@ export function AppDataProvider({ children }: { children: React.ReactNode }) {
   const [currentWeekInsight, setCurrentWeekInsight] = useState<WeeklyInsight | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // Calculate stats from sessions
+  // Calculate stats from sessions using shared completion criteria
   const stats = React.useMemo(() => {
-    const completedSessions = sessions.filter(s => s.status === "completed");
+    const completedSessions = sessions.filter(s => isSessionCompleted(s.status));
     
     return {
       totalCompleted: completedSessions.length,
@@ -156,11 +171,13 @@ export function AppDataProvider({ children }: { children: React.ReactNode }) {
         setChallenges(catalogData as ChallengeFromCatalog[]);
       }
 
-      // Fetch user's plant
+      // Fetch user's plant - select the most recently updated one to handle multiple plants
       const { data: plantData } = await supabase
         .from("plants")
         .select("*")
         .eq("user_id", user.id)
+        .order("updated_at", { ascending: false })
+        .limit(1)
         .maybeSingle();
 
       setPlant(plantData as Plant | null);
