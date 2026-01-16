@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "./AuthContext";
+import { toast } from "sonner";
 
 // =============================================
 // Types & Helpers
@@ -22,7 +23,7 @@ export const getSessionActivityDate = (session: { started_at: string; ended_at?:
   session.started_at || session.ended_at || session.created_at;
 
 /**
- * Shared helper: maps completed challenge count  current plant stage.
+ * Shared helper: maps completed challenge count to current plant stage.
  *  - 0 completions => stage 0
  *  - 1..7 completions => stage 1..7
  *  - 8th completion starts a new plant cycle => stage 1
@@ -37,6 +38,18 @@ export interface Plant {
   id: string;
   user_id: string;
   current_stage: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface Wallet {
+  id: string;
+  user_id: string;
+  available_balance_cents: number;
+  pending_balance_cents: number;
+  lifetime_earned_cents: number;
+  first_reward_claimed: boolean;
+  first_reward_amount_cents: number;
   created_at: string;
   updated_at: string;
 }
@@ -98,6 +111,9 @@ export interface WeeklyInsight {
   created_at: string;
 }
 
+// Reward amount in cents for each completed plant (after first)
+const PLANT_REWARD_CENTS = 500; // $5.00 per plant
+
 // =============================================
 // Context
 // =============================================
@@ -105,6 +121,7 @@ export interface WeeklyInsight {
 interface AppDataContextType {
   // Data
   plant: Plant | null;
+  wallet: Wallet | null;
   challenges: ChallengeFromCatalog[];
   sessions: ChallengeSession[];
   currentWeekInsight: WeeklyInsight | null;
@@ -117,6 +134,7 @@ interface AppDataContextType {
     longestStreak: number;
     totalWatering: number;
     totalSunlight: number;
+    completedPlantCount: number;
   };
   
   // Loading states
@@ -128,6 +146,7 @@ interface AppDataContextType {
   updatePlantStage: (stage: number) => Promise<void>;
   startChallengeSession: (challengeId: string) => Promise<ChallengeSession | null>;
   completeChallengeSession: (sessionId: string, points: number, watering: number, sunlight: number) => Promise<void>;
+  claimFirstReward: () => Promise<boolean>;
 }
 
 const AppDataContext = createContext<AppDataContextType | undefined>(undefined);
@@ -140,6 +159,7 @@ export function AppDataProvider({ children }: { children: React.ReactNode }) {
   const { user, loading: authLoading } = useAuth();
   
   const [plant, setPlant] = useState<Plant | null>(null);
+  const [wallet, setWallet] = useState<Wallet | null>(null);
   const [challenges, setChallenges] = useState<ChallengeFromCatalog[]>([]);
   const [sessions, setSessions] = useState<ChallengeSession[]>([]);
   const [currentWeekInsight, setCurrentWeekInsight] = useState<WeeklyInsight | null>(null);
@@ -148,6 +168,7 @@ export function AppDataProvider({ children }: { children: React.ReactNode }) {
   // Calculate stats from sessions using shared completion criteria
   const stats = React.useMemo(() => {
     const completedSessions = sessions.filter(s => isSessionCompleted(s.status));
+    const completedPlantCount = Math.floor(completedSessions.length / 7);
     
     return {
       totalCompleted: completedSessions.length,
@@ -156,6 +177,7 @@ export function AppDataProvider({ children }: { children: React.ReactNode }) {
       longestStreak: plant?.current_stage || 0, // TODO: Track historical streaks
       totalWatering: completedSessions.reduce((acc, s) => acc + (s.watering_points || 0), 0),
       totalSunlight: completedSessions.reduce((acc, s) => acc + (s.sunlight_points || 0), 0),
+      completedPlantCount,
     };
   }, [sessions, plant]);
 
@@ -163,6 +185,7 @@ export function AppDataProvider({ children }: { children: React.ReactNode }) {
   const fetchData = async () => {
     if (!user) {
       setPlant(null);
+      setWallet(null);
       setSessions([]);
       setCurrentWeekInsight(null);
       setLoading(false);
@@ -193,6 +216,25 @@ export function AppDataProvider({ children }: { children: React.ReactNode }) {
         .maybeSingle();
 
       setPlant(plantData as Plant | null);
+
+      // Fetch user's wallet (or create if doesn't exist)
+      let { data: walletData } = await supabase
+        .from("wallets")
+        .select("*")
+        .eq("user_id", user.id)
+        .maybeSingle();
+
+      // Create wallet if it doesn't exist (for existing users before migration)
+      if (!walletData) {
+        const { data: newWallet } = await supabase
+          .from("wallets")
+          .insert({ user_id: user.id })
+          .select()
+          .single();
+        walletData = newWallet;
+      }
+
+      setWallet(walletData as Wallet | null);
 
       // Fetch user's challenge sessions with challenge data
       const { data: sessionData } = await supabase
@@ -339,14 +381,74 @@ export function AppDataProvider({ children }: { children: React.ReactNode }) {
       .eq("id", sessionId);
 
     if (!error) {
-      setSessions(prev => 
-        prev.map(s => 
-          s.id === sessionId 
-            ? { ...s, status: "completed" as const, points_earned: points, watering_points: watering, sunlight_points: sunlight }
-            : s
-        )
+      // Update local sessions
+      const updatedSessions = sessions.map(s => 
+        s.id === sessionId 
+          ? { ...s, status: "completed" as const, points_earned: points, watering_points: watering, sunlight_points: sunlight }
+          : s
       );
+      setSessions(updatedSessions);
+
+      // Check if this completion finishes a plant (every 7th challenge)
+      const completedCount = updatedSessions.filter(s => isSessionCompleted(s.status)).length;
+      const justFinishedPlant = completedCount > 0 && completedCount % 7 === 0;
+
+      // If plant just finished AND first reward already claimed, auto-add earnings
+      if (justFinishedPlant && wallet?.first_reward_claimed) {
+        const newBalance = (wallet.available_balance_cents || 0) + PLANT_REWARD_CENTS;
+        const newLifetime = (wallet.lifetime_earned_cents || 0) + PLANT_REWARD_CENTS;
+
+        const { error: walletError } = await supabase
+          .from("wallets")
+          .update({
+            available_balance_cents: newBalance,
+            lifetime_earned_cents: newLifetime,
+          })
+          .eq("id", wallet.id);
+
+        if (!walletError) {
+          setWallet({
+            ...wallet,
+            available_balance_cents: newBalance,
+            lifetime_earned_cents: newLifetime,
+          });
+          toast.success(`Plant fully grown 🌱 +$${(PLANT_REWARD_CENTS / 100).toFixed(2)} added to your balance`);
+        }
+      }
     }
+  };
+
+  // Claim first reward
+  const claimFirstReward = async (): Promise<boolean> => {
+    if (!user || !wallet || wallet.first_reward_claimed) return false;
+
+    const rewardAmount = wallet.first_reward_amount_cents || 1500;
+    const newBalance = (wallet.available_balance_cents || 0) + rewardAmount;
+    const newLifetime = (wallet.lifetime_earned_cents || 0) + rewardAmount;
+
+    const { error } = await supabase
+      .from("wallets")
+      .update({
+        first_reward_claimed: true,
+        available_balance_cents: newBalance,
+        lifetime_earned_cents: newLifetime,
+      })
+      .eq("id", wallet.id);
+
+    if (error) {
+      console.error("Error claiming first reward:", error);
+      return false;
+    }
+
+    setWallet({
+      ...wallet,
+      first_reward_claimed: true,
+      available_balance_cents: newBalance,
+      lifetime_earned_cents: newLifetime,
+    });
+
+    toast.success(`$${(rewardAmount / 100).toFixed(2)} added to your balance`);
+    return true;
   };
 
   // Refresh data
@@ -365,6 +467,7 @@ export function AppDataProvider({ children }: { children: React.ReactNode }) {
     <AppDataContext.Provider
       value={{
         plant,
+        wallet,
         challenges,
         sessions,
         currentWeekInsight,
@@ -375,6 +478,7 @@ export function AppDataProvider({ children }: { children: React.ReactNode }) {
         updatePlantStage,
         startChallengeSession,
         completeChallengeSession,
+        claimFirstReward,
       }}
     >
       {children}

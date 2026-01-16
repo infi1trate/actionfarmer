@@ -202,6 +202,42 @@ export type Database = {
         }
         Relationships: []
       }
+      wallets: {
+        Row: {
+          available_balance_cents: number
+          created_at: string
+          first_reward_amount_cents: number
+          first_reward_claimed: boolean
+          id: string
+          lifetime_earned_cents: number
+          pending_balance_cents: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          available_balance_cents?: number
+          created_at?: string
+          first_reward_amount_cents?: number
+          first_reward_claimed?: boolean
+          id?: string
+          lifetime_earned_cents?: number
+          pending_balance_cents?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          available_balance_cents?: number
+          created_at?: string
+          first_reward_amount_cents?: number
+          first_reward_claimed?: boolean
+          id?: string
+          lifetime_earned_cents?: number
+          pending_balance_cents?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
