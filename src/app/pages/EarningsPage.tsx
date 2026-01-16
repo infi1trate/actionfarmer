@@ -393,6 +393,69 @@ export function EarningsPage() {
         </div>
       </section>
       
+      {/* Garden Collection - show if user has completed plants */}
+      {(() => {
+        const completedPlantCount = Math.floor(totalCompleted / 7);
+        if (completedPlantCount === 0) return null;
+        
+        return (
+          <section className="px-5 pb-6 relative z-10 bg-background">
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-2">
+                <Sparkles className="h-4 w-4 text-amber-500" />
+                <h3 className="text-sm font-semibold text-foreground">Your Garden</h3>
+              </div>
+              <button 
+                onClick={() => navigate("/app/garden")}
+                className="text-xs text-primary font-medium hover:underline flex items-center gap-0.5"
+              >
+                View all <ChevronRight className="h-3 w-3" />
+              </button>
+            </div>
+            
+            <div 
+              onClick={() => navigate("/app/garden")}
+              className="rounded-2xl bg-gradient-to-br from-emerald-500/10 via-lime-500/5 to-amber-500/5 border border-emerald-500/20 p-4 cursor-pointer hover:border-emerald-500/40 transition-colors"
+            >
+              <div className="flex items-center gap-4">
+                {/* Plant thumbnails - show up to 3 */}
+                <div className="flex -space-x-3">
+                  {Array.from({ length: Math.min(completedPlantCount, 3) }).map((_, i) => (
+                    <div 
+                      key={i}
+                      className="w-12 h-12 rounded-full bg-white/80 border-2 border-white shadow-sm flex items-center justify-center overflow-hidden"
+                    >
+                      <img 
+                        src={plantDay7} 
+                        alt="Collected plant" 
+                        className="w-10 h-10 object-contain"
+                      />
+                    </div>
+                  ))}
+                  {completedPlantCount > 3 && (
+                    <div className="w-12 h-12 rounded-full bg-emerald-500/20 border-2 border-white shadow-sm flex items-center justify-center">
+                      <span className="text-xs font-semibold text-emerald-700">+{completedPlantCount - 3}</span>
+                    </div>
+                  )}
+                </div>
+                
+                {/* Text */}
+                <div className="flex-1">
+                  <p className="text-sm font-semibold text-foreground">
+                    {completedPlantCount} plant{completedPlantCount !== 1 ? 's' : ''} collected
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    Each represents a completed 7-day streak
+                  </p>
+                </div>
+                
+                <ChevronRight className="h-5 w-5 text-muted-foreground" />
+              </div>
+            </div>
+          </section>
+        );
+      })()}
+      
       {/* Recent Growth - Real sessions */}
       <section className="px-5 pb-6 relative z-10 bg-background">
         <div className="flex items-center justify-between mb-3">
