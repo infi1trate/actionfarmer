@@ -9,12 +9,9 @@ import {
   Sparkles,
   Gift,
   ChevronRight,
-  Users,
 } from "lucide-react";
-import { 
-  FloatingSeed, 
-  AmbientTicker 
-} from "@/components/ui/editorial-hero-header";
+import { FloatingSeed } from "@/components/ui/editorial-hero-header";
+import { CommunityActivityTicker } from "@/components/ui/community-activity-ticker";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useAuth } from "@/contexts/AuthContext";
 import { useAppData, ChallengeFromCatalog } from "@/contexts/AppDataContext";
@@ -57,13 +54,6 @@ function getGreeting() {
   if (hour < 17) return "Good afternoon";
   return "Good evening";
 }
-
-// Community activity messages (clearly labeled as community, not user's activity)
-const communityActivityMessages = [
-  "Community: Someone completed Kitchen Cleanup",
-  "Community: A garden grew to stage 5",
-  "Community: Someone unlocked their daily bonus",
-];
 
 export function HomePage() {
   const navigate = useNavigate();
@@ -214,12 +204,15 @@ export function HomePage() {
           )}
 
         </div>
-
-        {/* Community Activity Ticker - Bottom */}
-        <div className="absolute bottom-4 left-0 right-0 z-10">
-          <AmbientTicker messages={communityActivityMessages} />
-        </div>
       </header>
+
+      {/* ==========================================
+          COMMUNITY ACTIVITY TICKER - Between hero and content
+          Horizontal scrolling, ambient, social feel
+          ========================================== */}
+      <div className="-mt-4 relative z-20 pb-2">
+        <CommunityActivityTicker />
+      </div>
 
       {/* ==========================================
           TODAY - Featured challenge, editorial feel
