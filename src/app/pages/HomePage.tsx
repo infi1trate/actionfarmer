@@ -235,14 +235,6 @@ export function HomePage() {
             </div>
           )}
 
-          {/* Show collection count if they've completed plants */}
-          {fullPlantsCompleted > 0 && (
-            <div className="mt-1 px-2.5 py-0.5 rounded-full bg-white/50 backdrop-blur-sm">
-              <span className="text-[10px] text-muted-foreground">
-                {fullPlantsCompleted} plant{fullPlantsCompleted !== 1 ? "s" : ""} in your garden
-              </span>
-            </div>
-          )}
 
         </div>
       </header>
