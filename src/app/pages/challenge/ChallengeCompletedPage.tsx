@@ -217,17 +217,17 @@ export const ChallengeCompletedPage = () => {
         <Button 
           className="w-full h-14 text-lg font-semibold rounded-2xl shadow-lg shadow-primary/25"
           onClick={handleContinue}
+          rightIcon={<ArrowRight className="h-5 w-5" />}
         >
           Continue
-          <ArrowRight className="h-5 w-5 ml-2" />
         </Button>
         
         <Button 
           variant="ghost"
           className="w-full h-11 text-muted-foreground hover:text-foreground"
           onClick={handleViewEarnings}
+          leftIcon={<Wallet className="h-4 w-4" />}
         >
-          <Wallet className="h-4 w-4 mr-2" />
           View Earnings
         </Button>
       </div>

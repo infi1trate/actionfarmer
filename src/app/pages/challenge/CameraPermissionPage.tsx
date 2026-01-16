@@ -80,18 +80,10 @@ export const CameraPermissionPage = () => {
             className="w-full h-14 text-lg font-semibold rounded-2xl shadow-lg shadow-primary/25"
             onClick={handleAllowCamera}
             disabled={isRequesting}
+            loading={isRequesting}
+            leftIcon={!isRequesting ? <Camera className="h-5 w-5" /> : undefined}
           >
-            {isRequesting ? (
-              <div className="flex items-center gap-2">
-                <div className="w-5 h-5 border-2 border-primary-foreground border-t-transparent rounded-full animate-spin" />
-                <span>Requesting access...</span>
-              </div>
-            ) : (
-              <>
-                <Camera className="h-5 w-5 mr-2" />
-                Allow Camera
-              </>
-            )}
+            {isRequesting ? "Requesting access..." : "Allow Camera"}
           </Button>
           
           <Button 
