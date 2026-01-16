@@ -10,7 +10,6 @@ import plantDay6 from "@/assets/plants/day-6-flower.png";
 import plantDay7 from "@/assets/plants/day-7-fruit.png";
 import { Droplets, Sun, Sparkles, Leaf, Clock, ChevronRight, Wallet, Gift, X, ArrowUpRight } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
-import { ProgressRing } from "@/components/ui/progress-ring";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import { useAppData, ChallengeSession, isSessionCompleted, getSessionActivityDate } from "@/contexts/AppDataContext";
@@ -327,27 +326,17 @@ export function EarningsPage() {
           </div>
         </div>
         
-        {/* Plant hero with progress gauge */}
-        <div className="relative z-10 px-5 -mt-12 flex flex-col items-center justify-center" style={{ height: '42vh', minHeight: '280px', maxHeight: '380px' }}>
-          {/* Progress ring wrapping the plant */}
-          <div className="relative">
-            <ProgressRing 
-              value={currentStage} 
-              max={7} 
-              size="xl" 
-              variant="success"
-              className="absolute -inset-6 z-10"
+        {/* Plant hero */}
+        <div className="relative z-10 px-5 -mt-6 flex flex-col items-center justify-end" style={{ height: '48vh', minHeight: '340px', maxHeight: '440px' }}>
+          <div className="animate-sway origin-bottom relative z-20">
+            <img 
+              src={stageInfo.image} 
+              alt={stageInfo.label} 
+              className="object-contain" 
+              style={{ height: '380px', filter: 'drop-shadow(0 12px 24px rgba(0,0,0,0.25))' }} 
             />
-            <div className="animate-sway origin-bottom relative z-20">
-              <img 
-                src={stageInfo.image} 
-                alt={stageInfo.label} 
-                className="object-contain" 
-                style={{ height: '280px', filter: 'drop-shadow(0 12px 24px rgba(0,0,0,0.25))' }} 
-              />
-            </div>
           </div>
-          <div className="mt-3 z-20">
+          <div className="-mt-2 mb-4 z-20">
             <div className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/70 backdrop-blur-sm border border-white/50 shadow-sm">
               <span className="text-sm">🌱</span>
               <span className="text-xs font-medium text-foreground/90">
