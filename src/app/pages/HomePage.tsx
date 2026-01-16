@@ -179,7 +179,7 @@ export function HomePage() {
         </div>
 
         {/* Floating Hero Element - Seed for new users, Water Droplet for growing gardens */}
-        <div className="absolute inset-0 flex flex-col items-center justify-center pt-6 z-10">
+        <div className="absolute inset-0 flex flex-col items-center justify-center pt-2 z-10">
           {hasPlant ? (
             <FloatingWaterDroplet
               size="lg"
@@ -195,15 +195,15 @@ export function HomePage() {
           
           {/* CTA pill below seed - different text based on plant status */}
           <button
-            onClick={handleSeedTap}
-            className="mt-4 px-5 py-2 rounded-full bg-primary text-primary-foreground font-medium text-sm shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
+            onClick={() => navigate("/app/challenges")}
+            className="mt-1 px-5 py-2 rounded-full bg-primary text-primary-foreground font-medium text-sm shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
           >
             {hasPlant ? "🌱 Start today's challenge" : "🌱 Plant your first seed"}
           </button>
 
           {/* Status chip for returning users */}
           {hasPlant && challengesForNextStage > 0 && (
-            <div className="mt-2 px-3 py-1 rounded-full bg-white/70 backdrop-blur-sm border border-white/50 shadow-sm">
+            <div className="mt-1.5 px-3 py-1 rounded-full bg-white/70 backdrop-blur-sm border border-white/50 shadow-sm">
               <span className="text-[11px] font-medium text-foreground/80">
                 {challengesForNextStage} challenge{challengesForNextStage !== 1 ? "s" : ""} to evolve
               </span>
