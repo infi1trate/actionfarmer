@@ -496,7 +496,7 @@ const ChallengesPage = () => {
         <p className="text-[10px] font-semibold text-primary uppercase tracking-widest mb-2">
           This Week
         </p>
-        <h1 className="text-2xl md:text-3xl font-bold text-foreground tracking-tight mb-1">
+        <h1 className="text-3xl sm:text-4xl font-bold text-foreground tracking-tight mb-1">
           Challenges
         </h1>
         <p className="text-sm text-muted-foreground leading-relaxed max-w-[280px]">

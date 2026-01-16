@@ -93,7 +93,7 @@ export function EditorialHeroHeader({
             {eyebrow}
           </p>
         )}
-        <h1 className="text-2xl md:text-3xl font-bold text-foreground tracking-tight mb-1">
+        <h1 className="text-3xl sm:text-4xl font-bold text-foreground tracking-tight mb-1">
           {title}
         </h1>
         {subhead && (

@@ -80,7 +80,7 @@ export function InsightsPage() {
               Weekly Garden Recap
             </p>
             
-            <h1 className="text-[32px] md:text-[42px] font-bold text-foreground tracking-tight leading-[1.1] mb-4">
+            <h1 className="text-3xl sm:text-4xl font-bold text-foreground tracking-tight leading-[1.1] mb-4">
               Insights
             </h1>
             
