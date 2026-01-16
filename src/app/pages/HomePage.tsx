@@ -79,9 +79,25 @@ export function HomePage() {
   const featuredChallenge = challenges[0];
   const secondaryChallenges = challenges.slice(1, 3);
 
+  // Find the easiest challenge for new users
+  const easiestChallenge = React.useMemo(() => {
+    const difficultyOrder = { easy: 0, medium: 1, hard: 2 };
+    return [...challenges].sort((a, b) => 
+      (difficultyOrder[a.difficulty as Difficulty] || 0) - (difficultyOrder[b.difficulty as Difficulty] || 0)
+    )[0];
+  }, [challenges]);
+
   const handleSeedTap = () => {
     if (featuredChallenge) {
       navigate(`/challenge/${featuredChallenge.id}/brief`);
+    } else {
+      navigate("/challenges");
+    }
+  };
+
+  const handlePlantFirstSeed = () => {
+    if (easiestChallenge) {
+      navigate(`/challenge/${easiestChallenge.id}/brief`);
     } else {
       navigate("/challenges");
     }
@@ -174,6 +190,7 @@ export function HomePage() {
 
         {/* Floating Hero Element - Seed for new users, Water Droplet for growing gardens */}
         <div className="absolute inset-0 flex flex-col items-center justify-center pt-2 z-10">
+          {/* Find easiest challenge for new users */}
           {hasPlant ? (
             <FloatingWaterDroplet
               size="lg"
@@ -189,8 +206,8 @@ export function HomePage() {
           
           {/* CTA pill below seed - different text based on plant status */}
           <button
-            onClick={() => navigate("/challenges")}
-            className="mt-1 px-5 py-2 rounded-full bg-primary text-primary-foreground font-medium text-sm shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
+            onClick={hasPlant ? handleSeedTap : handlePlantFirstSeed}
+            className="mt-2 px-7 py-3 rounded-full bg-primary text-primary-foreground font-semibold text-base shadow-xl shadow-primary/30 hover:shadow-2xl hover:shadow-primary/40 hover:scale-[1.03] active:scale-[0.97] transition-all duration-300 ring-2 ring-primary/20 ring-offset-2 ring-offset-background"
           >
             {hasPlant ? "🌱 Start today's challenge" : "🌱 Plant your first seed"}
           </button>
