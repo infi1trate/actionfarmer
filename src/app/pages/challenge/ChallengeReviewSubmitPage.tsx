@@ -14,6 +14,7 @@ import {
   Loader2,
 } from "lucide-react";
 import { challengeData } from "./ChallengeBriefPage";
+import { useAppData } from "@/contexts/AppDataContext";
 
 type Difficulty = "easy" | "medium" | "hard";
 
@@ -28,6 +29,7 @@ export const ChallengeReviewSubmitPage = () => {
   const { id } = useParams<{ id: string }>();
   const location = useLocation();
   const videoRef = React.useRef<HTMLVideoElement>(null);
+  const { startChallengeSession, challenges, createPlant, plant } = useAppData();
   
   const challenge = challengeData[id || "1"] || challengeData["1"];
   const diffConfig = difficultyConfig[challenge.difficulty];
@@ -64,19 +66,43 @@ export const ChallengeReviewSubmitPage = () => {
   const handleSubmit = async () => {
     setIsSubmitting(true);
     
-    // Simulate submission delay
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    // Clean up recorded video URL
-    if (recordedVideoUrl) {
-      URL.revokeObjectURL(recordedVideoUrl);
+    try {
+      // Find the catalog challenge by matching the static ID to the database challenges
+      const catalogChallenge = challenges.find(c => c.title === challenge.name);
+      
+      if (catalogChallenge) {
+        // Create plant if user doesn't have one
+        if (!plant) {
+          await createPlant();
+        }
+        
+        // Start a challenge session in the database
+        const session = await startChallengeSession(catalogChallenge.id);
+        
+        // Clean up recorded video URL
+        if (recordedVideoUrl) {
+          URL.revokeObjectURL(recordedVideoUrl);
+        }
+        
+        // Navigate to complete screen with session ID
+        navigate(`/challenge/${challenge.id}/complete`, { 
+          replace: true,
+          state: { note, sessionId: session?.id, challengeId: catalogChallenge.id }
+        });
+      } else {
+        // Fallback if challenge not found in catalog
+        if (recordedVideoUrl) {
+          URL.revokeObjectURL(recordedVideoUrl);
+        }
+        navigate(`/challenge/${challenge.id}/complete`, { 
+          replace: true,
+          state: { note }
+        });
+      }
+    } catch (error) {
+      console.error("Error submitting challenge:", error);
+      setIsSubmitting(false);
     }
-    
-    // Navigate to complete screen
-    navigate(`/challenge/${challenge.id}/complete`, { 
-      replace: true,
-      state: { note }
-    });
   };
 
   return (

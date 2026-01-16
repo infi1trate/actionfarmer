@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { 
@@ -10,16 +10,55 @@ import {
 } from "lucide-react";
 import { challengeData } from "./ChallengeBriefPage";
 import seedImage from "@/assets/home-seed.png";
+import { useAppData } from "@/contexts/AppDataContext";
 
 export const ChallengeCompletedPage = () => {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
+  const location = useLocation();
+  const { completeChallengeSession, updatePlantStage, plant, sessions, refreshData } = useAppData();
   
   const challenge = challengeData[id || "1"] || challengeData["1"];
+  
+  // Get session info from navigation state
+  const { sessionId, challengeId } = (location.state as { sessionId?: string; challengeId?: string; note?: string }) || {};
   
   // Animated state for flourish effect
   const [showFlourish, setShowFlourish] = React.useState(false);
   const [showContent, setShowContent] = React.useState(false);
+  const [hasCompleted, setHasCompleted] = React.useState(false);
+
+  // Complete the session when page loads
+  React.useEffect(() => {
+    const completeSession = async () => {
+      if (sessionId && !hasCompleted) {
+        setHasCompleted(true);
+        
+        // Calculate points based on challenge
+        const xpReward = challenge.xpReward || 50;
+        const wateringPoints = Math.floor(xpReward * 0.4);
+        const sunlightPoints = Math.floor(xpReward * 0.6);
+        
+        // Complete the session in database
+        await completeChallengeSession(sessionId, xpReward, wateringPoints, sunlightPoints);
+        
+        // Update plant stage (evolve after certain number of challenges)
+        const currentStage = plant?.current_stage || 0;
+        const completedCount = sessions.filter(s => s.status === "completed" || s.status === "submitted").length + 1;
+        
+        // Simple evolution: every 2 challenges = 1 stage, max stage 7
+        const newStage = Math.min(7, Math.floor(completedCount / 2) + 1);
+        if (newStage > currentStage) {
+          await updatePlantStage(newStage);
+        }
+        
+        // Refresh data to get updated state
+        await refreshData();
+      }
+    };
+    
+    completeSession();
+  }, [sessionId, hasCompleted, completeChallengeSession, updatePlantStage, plant, sessions, refreshData, challenge.xpReward]);
 
   React.useEffect(() => {
     // Stagger animations
@@ -40,9 +79,11 @@ export const ChallengeCompletedPage = () => {
     navigate("/app/earnings");
   };
 
-  // Mock progress - in real app, this would come from user state
-  const challengesToEvolve = 2;
-  const currentProgress = 1;
+  // Calculate real progress from sessions
+  const completedCount = sessions.filter(s => s.status === "completed" || s.status === "submitted").length + (sessionId ? 1 : 0);
+  const currentStage = plant?.current_stage || (completedCount > 0 ? 1 : 0);
+  const challengesForNextStage = currentStage >= 7 ? 0 : ((currentStage + 1) * 2) - completedCount;
+  const progressToNextStage = currentStage >= 7 ? 1 : completedCount / ((currentStage + 1) * 2);
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
@@ -141,17 +182,20 @@ export const ChallengeCompletedPage = () => {
               <div className="flex items-center justify-between mb-2">
                 <span className="text-sm text-muted-foreground">Evolution progress</span>
                 <span className="text-sm font-medium text-foreground">
-                  {currentProgress} / {challengesToEvolve}
+                  {currentStage >= 7 ? "Max!" : `Stage ${currentStage}`}
                 </span>
               </div>
               <div className="h-2 rounded-full bg-muted overflow-hidden">
                 <div 
                   className="h-full rounded-full bg-gradient-to-r from-success to-primary transition-all duration-1000 ease-out"
-                  style={{ width: `${(currentProgress / challengesToEvolve) * 100}%` }}
+                  style={{ width: `${Math.min(progressToNextStage * 100, 100)}%` }}
                 />
               </div>
               <p className="text-xs text-muted-foreground mt-2 text-center">
-                {challengesToEvolve - currentProgress} more {challengesToEvolve - currentProgress === 1 ? 'challenge' : 'challenges'} to evolve your plant
+                {currentStage >= 7 
+                  ? "Your plant is fully evolved!" 
+                  : `${challengesForNextStage} more ${challengesForNextStage === 1 ? 'challenge' : 'challenges'} to evolve your plant`
+                }
               </p>
             </div>
           </div>

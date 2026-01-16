@@ -106,7 +106,7 @@ export function InsightsPage() {
             </h2>
             
             <p className="text-sm text-muted-foreground leading-relaxed max-w-xs mx-auto mb-8">
-              Complete 5 challenges to unlock your first weekly garden recap with personalized patterns and insights.
+              Complete {UNLOCK_THRESHOLD - progress} more {UNLOCK_THRESHOLD - progress === 1 ? 'challenge' : 'challenges'} to unlock your first weekly garden recap with personalized patterns and insights.
             </p>
 
             {/* Progress meter */}
@@ -121,11 +121,12 @@ export function InsightsPage() {
                   style={{ width: `${progressPercent}%` }} 
                 />
               </div>
-              {progress > 0 && (
-                <p className="text-xs text-muted-foreground mt-2">
-                  {UNLOCK_THRESHOLD - progress} more to go!
-                </p>
-              )}
+              <p className="text-xs text-muted-foreground mt-2">
+                {progress === 0 
+                  ? "Complete your first challenge to start!" 
+                  : `${UNLOCK_THRESHOLD - progress} more to go!`
+                }
+              </p>
             </div>
 
             {/* Primary CTA */}
