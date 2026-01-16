@@ -170,12 +170,6 @@ export function HomePage() {
           <h1 className="text-3xl font-bold text-foreground tracking-tight mb-1">
             {userName}
           </h1>
-          <p className="text-sm text-muted-foreground leading-relaxed max-w-[280px]">
-            {hasPlant 
-              ? "Your garden is growing. Keep it going."
-              : "Plant something small today. We'll help it grow."
-            }
-          </p>
         </div>
 
         {/* Floating Hero Element - Seed for new users, Water Droplet for growing gardens */}
