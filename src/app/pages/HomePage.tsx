@@ -69,11 +69,9 @@ export function HomePage() {
   const hasPlant = plant !== null && plant.current_stage >= 1;
   const currentStage = plant?.current_stage || 0;
   
-  // Calculate challenges needed to evolve (simple formula: next stage requires 2 more challenges)
-  const completedCount = stats.totalCompleted;
-  const challengesForNextStage = hasPlant 
-    ? Math.max(0, (currentStage + 1) * 2 - completedCount) 
-    : 0;
+  // Countdown to FULL plant (7 stages / 7 images)
+  const challengesForNextStage = hasPlant ? Math.max(0, 7 - currentStage) : 0;
+
 
   // Pick featured and secondary challenges from catalog
   const featuredChallenge = challenges[0];

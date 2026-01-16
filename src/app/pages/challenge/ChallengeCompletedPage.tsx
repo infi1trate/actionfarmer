@@ -44,19 +44,16 @@ export const ChallengeCompletedPage = () => {
         // Complete the session in database
         await completeChallengeSession(sessionId, xpReward, wateringPoints, sunlightPoints);
         
-        // Calculate new stage based on TOTAL completed sessions (including this one)
-        // Count already completed + the one we just completed
-        const alreadyCompleted = sessions.filter(s => 
-          (s.status === "completed" || s.status === "submitted") && s.id !== sessionId
+        // Update plant stage (7 challenges to full plant, then cycle restarts)
+        const alreadyCompleted = sessions.filter(
+          (s) => (s.status === "completed" || s.status === "submitted") && s.id !== sessionId
         ).length;
-        const completedCount = alreadyCompleted + 1; // +1 for current session
-        
-        // Simple evolution: every 2 challenges = 1 stage, max stage 7
-        const currentStage = plant?.current_stage || 0;
-        const newStage = Math.min(7, Math.floor(completedCount / 2) + 1);
-        
-        if (newStage > currentStage) {
-          await updatePlantStage(newStage);
+        const completedCount = alreadyCompleted + 1; // include the session we just completed
+
+        const derivedStage = completedCount <= 0 ? 0 : ((completedCount - 1) % 7) + 1;
+
+        if (plant && derivedStage !== plant.current_stage) {
+          await updatePlantStage(derivedStage);
         }
         
         // Refresh data to get updated state

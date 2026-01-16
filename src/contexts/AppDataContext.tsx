@@ -14,12 +14,24 @@ import { useAuth } from "./AuthContext";
  */
 
 /** Shared helper: determines if a session counts as "completed" for progress */
-export const isSessionCompleted = (status: string): boolean => 
+export const isSessionCompleted = (status: string): boolean =>
   status === "completed" || status === "submitted";
 
 /** Shared helper: gets the activity timestamp from a session for date-based calculations */
 export const getSessionActivityDate = (session: { started_at: string; ended_at?: string | null; created_at: string }): string =>
   session.started_at || session.ended_at || session.created_at;
+
+/**
+ * Shared helper: maps completed challenge count  current plant stage.
+ *  - 0 completions => stage 0
+ *  - 1..7 completions => stage 1..7
+ *  - 8th completion starts a new plant cycle => stage 1
+ */
+export const getPlantStageFromCompletedCount = (completedCount: number): number => {
+  if (completedCount <= 0) return 0;
+  return ((completedCount - 1) % 7) + 1;
+};
+
 
 export interface Plant {
   id: string;
@@ -194,6 +206,24 @@ export function AppDataProvider({ children }: { children: React.ReactNode }) {
 
       if (sessionData) {
         setSessions(sessionData as ChallengeSession[]);
+
+        // Keep plant stage synced to progress (7 challenges => full plant)
+        // If stage drifts (older logic), correct it here so UI images match.
+        if (plantData) {
+          const completedCount = (sessionData as ChallengeSession[]).filter(s => isSessionCompleted(s.status)).length;
+          const derivedStage = getPlantStageFromCompletedCount(completedCount);
+
+          if (typeof (plantData as any).current_stage === "number" && (plantData as any).current_stage !== derivedStage) {
+            const { error: plantSyncError } = await supabase
+              .from("plants")
+              .update({ current_stage: derivedStage })
+              .eq("id", (plantData as any).id);
+
+            if (!plantSyncError) {
+              setPlant({ ...(plantData as Plant), current_stage: derivedStage });
+            }
+          }
+        }
       }
 
       // Fetch current week's insight
