@@ -442,12 +442,11 @@ export function InsightsPage() {
           <p className="text-primary/40 text-2xl mb-4 font-serif italic">"</p>
           
           <p className="text-[17px] md:text-lg text-foreground/85 leading-[1.8] tracking-wide font-light mb-5">
-            Your garden thrived on steady care this week.
+            {currentWeekInsight?.headline || "Your garden grew through steady care this week."}
           </p>
           
           <p className="text-[15px] md:text-base text-muted-foreground leading-[1.9] tracking-wide font-light">
-            Each challenge you completed added a little more growth — not through big leaps, 
-            but through small, consistent moments of showing up. That's how gardens flourish. 🌱
+            You completed {sessions.filter(s => s.status === "completed" || s.status === "submitted").length} challenge{sessions.filter(s => s.status === "completed" || s.status === "submitted").length !== 1 ? "s" : ""} this week—each one adding a little more growth to your garden journey. 🌱
           </p>
         </div>
       </section>

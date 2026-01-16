@@ -278,12 +278,12 @@ export function HomePage() {
               </div>
             </div>
             
-            {/* Bonus badge - show for medium/hard challenges */}
-            {featuredChallenge.difficulty !== "easy" && (
+            {/* Bonus badge - show XP multiplier for medium/hard challenges */}
+            {featuredChallenge.difficulty !== "easy" && featuredChallenge.xp_base > 20 && (
               <div className="absolute top-3 left-3 z-10">
                 <div className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-primary/90 backdrop-blur-md text-primary-foreground text-xs shadow-lg shadow-primary/30">
                   <Star className="h-3 w-3 fill-current" />
-                  <span className="font-semibold">2x XP</span>
+                  <span className="font-semibold">+{featuredChallenge.xp_base} XP</span>
                 </div>
               </div>
             )}
