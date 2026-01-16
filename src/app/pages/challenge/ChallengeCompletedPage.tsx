@@ -84,10 +84,11 @@ export const ChallengeCompletedPage = () => {
   };
 
   // Calculate real progress from sessions
-  const completedCount = sessions.filter(s => s.status === "completed" || s.status === "submitted").length + (sessionId ? 1 : 0);
-  const currentStage = plant?.current_stage || (completedCount > 0 ? 1 : 0);
-  const challengesForNextStage = currentStage >= 7 ? 0 : ((currentStage + 1) * 2) - completedCount;
-  const progressToNextStage = currentStage >= 7 ? 1 : completedCount / ((currentStage + 1) * 2);
+  // Plant stages: 1-7 where each challenge advances the stage by 1
+  // Stage 7 is the max (fully evolved plant)
+  const currentStage = plant?.current_stage || 1;
+  const challengesToMaxStage = currentStage >= 7 ? 0 : 7 - currentStage;
+  const progressToMax = currentStage / 7;
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
@@ -192,13 +193,13 @@ export const ChallengeCompletedPage = () => {
               <div className="h-2 rounded-full bg-muted overflow-hidden">
                 <div 
                   className="h-full rounded-full bg-gradient-to-r from-success to-primary transition-all duration-1000 ease-out"
-                  style={{ width: `${Math.min(progressToNextStage * 100, 100)}%` }}
+                  style={{ width: `${Math.min(progressToMax * 100, 100)}%` }}
                 />
               </div>
               <p className="text-xs text-muted-foreground mt-2 text-center">
                 {currentStage >= 7 
                   ? "Your plant is fully evolved!" 
-                  : `${challengesForNextStage} more ${challengesForNextStage === 1 ? 'challenge' : 'challenges'} to evolve your plant`
+                  : `${challengesToMaxStage} more ${challengesToMaxStage === 1 ? 'challenge' : 'challenges'} to evolve your plant`
                 }
               </p>
             </div>
