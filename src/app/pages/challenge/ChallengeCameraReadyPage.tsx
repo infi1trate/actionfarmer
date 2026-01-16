@@ -197,8 +197,8 @@ export const ChallengeCameraReadyPage = () => {
             <Button 
               className="w-full h-14 text-lg font-semibold rounded-2xl shadow-lg shadow-primary/25"
               onClick={handleStartRecording}
+              leftIcon={<Play className="h-5 w-5 fill-current" />}
             >
-              <Play className="h-5 w-5 mr-2 fill-current" />
               Start Recording
             </Button>
           </div>

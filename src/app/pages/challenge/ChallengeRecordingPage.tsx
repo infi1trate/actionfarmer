@@ -203,8 +203,8 @@ export const ChallengeRecordingPage = () => {
           <Button 
             className="h-14 px-8 text-lg font-semibold rounded-full shadow-lg shadow-primary/30"
             onClick={handleFinishRecording}
+            leftIcon={<Square className="h-4 w-4 fill-current" />}
           >
-            <Square className="h-4 w-4 mr-2 fill-current" />
             Finish Recording
           </Button>
         </div>
@@ -260,8 +260,8 @@ export const ChallengeRecordingPage = () => {
             <Button 
               className="px-8"
               onClick={handlePauseResume}
+              leftIcon={<Play className="h-4 w-4" />}
             >
-              <Play className="h-4 w-4 mr-2" />
               Resume
             </Button>
           </div>

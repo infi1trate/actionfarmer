@@ -11,7 +11,6 @@ import {
   Zap,
   Sparkles,
   Sprout,
-  Loader2,
 } from "lucide-react";
 import { challengeData } from "./ChallengeBriefPage";
 import { useAppData } from "@/contexts/AppDataContext";
@@ -215,18 +214,10 @@ export const ChallengeReviewSubmitPage = () => {
             className="w-full h-14 text-lg font-semibold rounded-2xl shadow-lg shadow-primary/25"
             onClick={handleSubmit}
             disabled={isSubmitting}
+            loading={isSubmitting}
+            leftIcon={!isSubmitting ? <Send className="h-5 w-5" /> : undefined}
           >
-            {isSubmitting ? (
-              <div className="flex items-center gap-2">
-                <Loader2 className="h-5 w-5 animate-spin" />
-                <span>Submitting...</span>
-              </div>
-            ) : (
-              <>
-                <Send className="h-5 w-5 mr-2" />
-                Submit
-              </>
-            )}
+            {isSubmitting ? "Submitting..." : "Submit"}
           </Button>
           
           <Button 
@@ -234,8 +225,8 @@ export const ChallengeReviewSubmitPage = () => {
             className="w-full h-11 text-muted-foreground hover:text-foreground"
             onClick={handleRetake}
             disabled={isSubmitting}
+            leftIcon={<RotateCcw className="h-4 w-4" />}
           >
-            <RotateCcw className="h-4 w-4 mr-2" />
             Retake
           </Button>
         </div>
