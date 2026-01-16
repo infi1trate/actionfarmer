@@ -8,7 +8,7 @@ import {
   Plus,
   CreditCard,
   Building2,
-  Bitcoin
+  Sprout,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Card } from "@/components/ui/card";
@@ -19,78 +19,75 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { EmptyState } from "@/components/ui/empty-state";
 import { Separator } from "@/components/ui/separator";
-
-// Mock data
-const balanceData = {
-  available: 127.45,
-  pending: 12.30,
-  lifetime: 892.75,
-};
-
-const recentTransactions = [
-  {
-    id: 1,
-    type: "earning",
-    title: "Device uptime reward",
-    amount: "+$0.42",
-    date: "Today, 2:34 PM",
-    status: "completed",
-  },
-  {
-    id: 2,
-    type: "earning",
-    title: "Peak hours bonus",
-    amount: "+$1.20",
-    date: "Today, 8:00 AM",
-    status: "completed",
-  },
-  {
-    id: 3,
-    type: "withdrawal",
-    title: "Withdrawal to Bank",
-    amount: "-$50.00",
-    date: "Jan 10, 2025",
-    status: "completed",
-  },
-  {
-    id: 4,
-    type: "earning",
-    title: "Mission reward",
-    amount: "+$5.00",
-    date: "Jan 9, 2025",
-    status: "completed",
-  },
-  {
-    id: 5,
-    type: "earning",
-    title: "Network contribution",
-    amount: "+$3.15",
-    date: "Jan 8, 2025",
-    status: "pending",
-  },
-];
-
-const paymentMethods = [
-  {
-    id: 1,
-    type: "bank",
-    name: "Bank Account",
-    details: "••••4582",
-    icon: Building2,
-    isDefault: true,
-  },
-  {
-    id: 2,
-    type: "card",
-    name: "Debit Card",
-    details: "••••7823",
-    icon: CreditCard,
-    isDefault: false,
-  },
-];
+import { Skeleton } from "@/components/ui/skeleton";
+import { useAuth } from "@/contexts/AuthContext";
+import { useAppData } from "@/contexts/AppDataContext";
 
 export function WalletPage() {
   const navigate = useNavigate();
+  const { loading: authLoading } = useAuth();
+  const { sessions, stats, loading: dataLoading } = useAppData();
+
+  const isLoading = authLoading || dataLoading;
+
+  // Compute balance data from real sessions
+  const balanceData = React.useMemo(() => {
+    const completedSessions = sessions.filter(s => s.status === "completed");
+    const pendingSessions = sessions.filter(s => s.status === "submitted");
+    
+    // Each point = $0.01 for demo purposes
+    const available = completedSessions.reduce((acc, s) => acc + (s.points_earned || 0), 0) * 0.01;
+    const pending = pendingSessions.reduce((acc, s) => acc + (s.points_earned || 0), 0) * 0.01;
+    const lifetime = available + pending;
+    
+    return { available, pending, lifetime };
+  }, [sessions]);
+
+  // Build transactions from sessions
+  const recentTransactions = React.useMemo(() => {
+    return sessions.slice(0, 10).map(session => ({
+      id: session.id,
+      type: "earning" as const,
+      title: session.challenge?.title || "Challenge completed",
+      amount: `+$${((session.points_earned || 0) * 0.01).toFixed(2)}`,
+      date: new Date(session.created_at).toLocaleDateString("en-US", { 
+        month: "short", 
+        day: "numeric",
+        year: "numeric"
+      }),
+      status: session.status === "completed" ? "completed" : "pending",
+    }));
+  }, [sessions]);
+
+  // Payment methods - empty for new users
+  const paymentMethods: Array<{
+    id: number;
+    type: string;
+    name: string;
+    details: string;
+    icon: typeof Building2;
+    isDefault: boolean;
+  }> = [];
+
+  if (isLoading) {
+    return (
+      <div className="pb-4">
+        <section className="px-4 pt-4">
+          <Skeleton className="h-40 w-full rounded-xl" />
+        </section>
+        <section className="px-4 mt-4">
+          <div className="grid grid-cols-2 gap-3">
+            <Skeleton className="h-12 w-full rounded-lg" />
+            <Skeleton className="h-12 w-full rounded-lg" />
+          </div>
+        </section>
+        <section className="px-4 mt-6">
+          <Skeleton className="h-10 w-full rounded-lg mb-4" />
+          <Skeleton className="h-32 w-full rounded-xl" />
+        </section>
+      </div>
+    );
+  }
 
   return (
     <div className="pb-4">
@@ -134,6 +131,7 @@ export function WalletPage() {
             size="lg" 
             className="w-full"
             onClick={() => navigate("/app/wallet/withdraw")}
+            disabled={balanceData.available < 10}
           >
             <ArrowUpRight className="w-5 h-5 mr-2" />
             Withdraw
@@ -148,6 +146,11 @@ export function WalletPage() {
             Add Method
           </Button>
         </div>
+        {balanceData.available < 10 && balanceData.available > 0 && (
+          <p className="text-xs text-muted-foreground text-center mt-2">
+            Minimum withdrawal: $10.00
+          </p>
+        )}
       </section>
 
       {/* Tabs: Transactions & Payment Methods */}
@@ -187,8 +190,9 @@ export function WalletPage() {
               </List>
             ) : (
               <EmptyState
-                title="No transactions yet"
-                description="Your earnings and withdrawals will appear here"
+                icon={Sprout}
+                title="No earnings yet"
+                description="Complete challenges to start earning. Your transactions will appear here."
                 variant="default"
                 size="sm"
               />

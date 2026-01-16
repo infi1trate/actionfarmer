@@ -1,8 +1,6 @@
 import * as React from "react";
 import { 
   User, 
-  Wifi, 
-  Bell, 
   Shield, 
   HelpCircle, 
   LogOut,
@@ -10,13 +8,14 @@ import {
   Smartphone,
   FileText,
   Mail,
-  Loader2,
+  Bell,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import { Skeleton } from "@/components/ui/skeleton";
 import { StreakBadge } from "@/components/ui/streak-indicator";
 import { 
   SettingsGroup, 
@@ -26,15 +25,47 @@ import {
 } from "@/components/shells";
 import { useAuth } from "@/contexts/AuthContext";
 import { useAppData } from "@/contexts/AppDataContext";
+import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
 export function ProfilePage() {
   const navigate = useNavigate();
-  const { profile, signOut, loading: authLoading } = useAuth();
+  const { user, profile, signOut, loading: authLoading } = useAuth();
   const { plant, stats, loading: dataLoading } = useAppData();
   
   const [darkMode, setDarkMode] = React.useState(false);
   const [notifications, setNotifications] = React.useState(true);
+
+  // Load notification preference
+  React.useEffect(() => {
+    if (user) {
+      supabase
+        .from("profiles")
+        .select("push_notifications_enabled")
+        .eq("user_id", user.id)
+        .single()
+        .then(({ data }) => {
+          if (data) {
+            setNotifications(data.push_notifications_enabled ?? true);
+          }
+        });
+    }
+  }, [user]);
+
+  const handleNotificationsChange = async (checked: boolean) => {
+    setNotifications(checked);
+    if (!user) return;
+
+    const { error } = await supabase
+      .from("profiles")
+      .update({ push_notifications_enabled: checked })
+      .eq("user_id", user.id);
+
+    if (error) {
+      toast.error("Failed to update preference");
+      setNotifications(!checked);
+    }
+  };
 
   const handleSignOut = async () => {
     await signOut();
@@ -42,11 +73,34 @@ export function ProfilePage() {
     navigate("/");
   };
 
-  // Loading state
-  if (authLoading || dataLoading) {
+  const isLoading = authLoading || dataLoading;
+
+  // Loading state with skeletons
+  if (isLoading) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      <div className="pb-4">
+        <section className="px-4 pt-4">
+          <Card className="p-5">
+            <div className="flex items-center gap-4">
+              <Skeleton className="w-16 h-16 rounded-full" />
+              <div className="flex-1 space-y-2">
+                <Skeleton className="h-5 w-24" />
+                <Skeleton className="h-4 w-32" />
+                <Skeleton className="h-4 w-40" />
+              </div>
+            </div>
+          </Card>
+        </section>
+        <div className="mt-6 space-y-6 px-4">
+          <div className="space-y-2">
+            <Skeleton className="h-4 w-16" />
+            <Skeleton className="h-24 w-full rounded-xl" />
+          </div>
+          <div className="space-y-2">
+            <Skeleton className="h-4 w-20" />
+            <Skeleton className="h-24 w-full rounded-xl" />
+          </div>
+        </div>
       </div>
     );
   }
@@ -80,7 +134,7 @@ export function ProfilePage() {
                   <StreakBadge count={currentStreak} variant="fire" size="sm" />
                 )}
                 <span className="text-xs text-muted-foreground">
-                  {stats.totalCompleted} challenges completed
+                  {stats.totalCompleted} challenge{stats.totalCompleted !== 1 ? "s" : ""} completed
                 </span>
               </div>
             </div>
@@ -97,14 +151,14 @@ export function ProfilePage() {
               label="Edit Profile"
               icon={User}
               iconBg="bg-info/10"
-              onClick={() => navigate("/app/profile/edit")}
+              onClick={() => navigate("/app/settings/profile")}
             />
             <Separator />
             <SettingsLinkRow
               label="Security"
               icon={Shield}
               iconBg="bg-warning/10"
-              onClick={() => navigate("/app/profile/security")}
+              onClick={() => navigate("/app/settings/security")}
             />
           </Card>
         </SettingsGroup>
@@ -118,7 +172,7 @@ export function ProfilePage() {
               iconBg="bg-brand-yellow/10"
               description="Get notified about earnings and missions"
               checked={notifications}
-              onCheckedChange={setNotifications}
+              onCheckedChange={handleNotificationsChange}
             />
             <Separator />
             <SettingsToggleRow

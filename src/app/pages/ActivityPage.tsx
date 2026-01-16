@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Target, Gift, Star, Zap, Clock, ChevronRight } from "lucide-react";
+import { Target, Gift, Star, Zap, Clock, ChevronRight, Sprout } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MissionCard } from "@/components/ui/mission-card";
@@ -7,116 +7,117 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { EmptyState } from "@/components/ui/empty-state";
-
-// Mock data
-const dailyMissions = [
-  {
-    id: 1,
-    title: "Stay Online 24 Hours",
-    description: "Keep at least one device connected for a full day",
-    icon: "zap" as const,
-    progress: 18,
-    progressMax: 24,
-    reward: 50,
-    timeRemaining: "6h left",
-  },
-  {
-    id: 2,
-    title: "Peak Hours Bonus",
-    description: "Be online during peak demand (2PM - 8PM)",
-    icon: "star" as const,
-    progress: 4,
-    progressMax: 6,
-    reward: 30,
-    timeRemaining: "2h left",
-  },
-  {
-    id: 3,
-    title: "Network Stability",
-    description: "Maintain 99% uptime across all devices",
-    icon: "target" as const,
-    progress: 100,
-    progressMax: 100,
-    reward: 75,
-    completed: true,
-  },
-];
-
-const weeklyMissions = [
-  {
-    id: 4,
-    title: "Weekly Champion",
-    description: "Earn 500 XP this week to claim the champion bonus",
-    icon: "star" as const,
-    progress: 320,
-    progressMax: 500,
-    reward: 200,
-    timeRemaining: "3 days left",
-  },
-  {
-    id: 5,
-    title: "Refer 2 Friends",
-    description: "Invite friends to join the network and earn together",
-    icon: "gift" as const,
-    progress: 1,
-    progressMax: 2,
-    reward: 500,
-  },
-];
-
-const specialMissions = [
-  {
-    id: 6,
-    title: "First Payout",
-    description: "Complete your first withdrawal",
-    icon: "gift" as const,
-    progress: 0,
-    progressMax: 1,
-    reward: 100,
-  },
-  {
-    id: 7,
-    title: "Device Master",
-    description: "Connect 5 devices to the network",
-    icon: "zap" as const,
-    progress: 3,
-    progressMax: 5,
-    reward: 250,
-    locked: true,
-    lockedMessage: "Connect 3 devices first",
-  },
-];
-
-const completedMissions = [
-  {
-    id: 101,
-    title: "Welcome Bonus",
-    description: "Complete account setup",
-    icon: "gift" as const,
-    progress: 1,
-    progressMax: 1,
-    reward: 50,
-    completed: true,
-  },
-  {
-    id: 102,
-    title: "First Device",
-    description: "Connect your first device",
-    icon: "zap" as const,
-    progress: 1,
-    progressMax: 1,
-    reward: 100,
-    completed: true,
-  },
-];
+import { Skeleton } from "@/components/ui/skeleton";
+import { useAuth } from "@/contexts/AuthContext";
+import { useAppData } from "@/contexts/AppDataContext";
 
 export function ActivityPage() {
   const navigate = useNavigate();
-  
+  const { loading: authLoading } = useAuth();
+  const { sessions, stats, loading: dataLoading } = useAppData();
+
+  const isLoading = authLoading || dataLoading;
+
+  // Compute weekly progress from real data
+  const weeklyProgress = React.useMemo(() => {
+    const now = new Date();
+    const weekStart = new Date(now);
+    weekStart.setDate(now.getDate() - now.getDay());
+    weekStart.setHours(0, 0, 0, 0);
+
+    const weekSessions = sessions.filter(s => {
+      const sessionDate = new Date(s.created_at);
+      return sessionDate >= weekStart && (s.status === "completed" || s.status === "submitted");
+    });
+
+    const totalXP = weekSessions.reduce((acc, s) => acc + (s.points_earned || 0), 0);
+    const targetXP = 500;
+
+    return {
+      current: totalXP,
+      target: targetXP,
+      percentage: Math.min(100, Math.round((totalXP / targetXP) * 100)),
+      remaining: Math.max(0, targetXP - totalXP),
+    };
+  }, [sessions]);
+
+  // Build missions from real challenge completion patterns
+  const dailyMissions = React.useMemo(() => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    const todaySessions = sessions.filter(s => {
+      const sessionDate = new Date(s.created_at);
+      sessionDate.setHours(0, 0, 0, 0);
+      return sessionDate.getTime() === today.getTime();
+    });
+
+    return [
+      {
+        id: 1,
+        title: "Complete a Challenge",
+        description: "Finish any challenge today",
+        icon: "target" as const,
+        progress: todaySessions.filter(s => s.status === "completed" || s.status === "submitted").length,
+        progressMax: 1,
+        reward: 20,
+        completed: todaySessions.some(s => s.status === "completed" || s.status === "submitted"),
+      },
+      {
+        id: 2,
+        title: "Earn 50 XP",
+        description: "Accumulate XP from challenges",
+        icon: "star" as const,
+        progress: Math.min(50, todaySessions.reduce((acc, s) => acc + (s.points_earned || 0), 0)),
+        progressMax: 50,
+        reward: 10,
+        completed: todaySessions.reduce((acc, s) => acc + (s.points_earned || 0), 0) >= 50,
+      },
+    ];
+  }, [sessions]);
+
+  const weeklyMissions = React.useMemo(() => {
+    return [
+      {
+        id: 4,
+        title: "Weekly Champion",
+        description: "Earn 500 XP this week",
+        icon: "star" as const,
+        progress: weeklyProgress.current,
+        progressMax: weeklyProgress.target,
+        reward: 100,
+        timeRemaining: "Resets Sunday",
+        completed: weeklyProgress.current >= weeklyProgress.target,
+      },
+    ];
+  }, [weeklyProgress]);
+
+  // Completed missions from this week
+  const completedMissions = React.useMemo(() => {
+    const allMissions = [...dailyMissions, ...weeklyMissions];
+    return allMissions.filter(m => m.completed);
+  }, [dailyMissions, weeklyMissions]);
+
   const handleMissionClick = (missionId: number) => {
-    // In a real app, this would open mission details or claim rewards
-    console.log("Mission clicked:", missionId);
+    navigate("/challenges");
   };
+
+  if (isLoading) {
+    return (
+      <div className="pb-4">
+        <section className="px-4 pt-4">
+          <Skeleton className="h-24 w-full rounded-xl" />
+        </section>
+        <section className="px-4 mt-4">
+          <Skeleton className="h-10 w-full rounded-lg mb-4" />
+          <div className="space-y-3">
+            <Skeleton className="h-24 w-full rounded-xl" />
+            <Skeleton className="h-24 w-full rounded-xl" />
+          </div>
+        </section>
+      </div>
+    );
+  }
 
   return (
     <div className="pb-4">
@@ -128,11 +129,13 @@ export function ActivityPage() {
               <Clock className="w-4 h-4 text-muted-foreground" />
               <span className="text-sm text-muted-foreground">Weekly Progress</span>
             </div>
-            <Badge variant="secondary">320/500 XP</Badge>
+            <Badge variant="secondary">{weeklyProgress.current}/{weeklyProgress.target} XP</Badge>
           </div>
-          <Progress value={64} variant="brand" className="h-2" />
+          <Progress value={weeklyProgress.percentage} variant="brand" className="h-2" />
           <p className="text-xs text-muted-foreground mt-2">
-            Earn 180 more XP to unlock the weekly bonus
+            {weeklyProgress.remaining > 0 
+              ? `Earn ${weeklyProgress.remaining} more XP to complete the weekly goal`
+              : "🎉 Weekly goal complete!"}
           </p>
         </Card>
       </section>
@@ -143,26 +146,34 @@ export function ActivityPage() {
           <TabsList className="w-full">
             <TabsTrigger value="daily" className="flex-1">Daily</TabsTrigger>
             <TabsTrigger value="weekly" className="flex-1">Weekly</TabsTrigger>
-            <TabsTrigger value="special" className="flex-1">Special</TabsTrigger>
             <TabsTrigger value="completed" className="flex-1">Done</TabsTrigger>
           </TabsList>
 
           <TabsContent value="daily" className="mt-4 space-y-3">
-            {dailyMissions.map((mission) => (
-              <MissionCard
-                key={mission.id}
-                title={mission.title}
-                description={mission.description}
-                icon={mission.icon}
-                progress={mission.progress}
-                progressMax={mission.progressMax}
-                reward={mission.reward}
-                timeRemaining={mission.timeRemaining}
-                completed={mission.completed}
-                onCtaClick={() => handleMissionClick(mission.id)}
-                ctaLabel={mission.completed ? "Claim" : "View"}
+            {dailyMissions.length > 0 ? (
+              dailyMissions.map((mission) => (
+                <MissionCard
+                  key={mission.id}
+                  title={mission.title}
+                  description={mission.description}
+                  icon={mission.icon}
+                  progress={mission.progress}
+                  progressMax={mission.progressMax}
+                  reward={mission.reward}
+                  completed={mission.completed}
+                  onCtaClick={() => handleMissionClick(mission.id)}
+                  ctaLabel={mission.completed ? "Complete" : "Start"}
+                />
+              ))
+            ) : (
+              <EmptyState
+                icon={Target}
+                title="No daily missions"
+                description="Check back tomorrow for new missions"
+                variant="default"
+                size="sm"
               />
-            ))}
+            )}
           </TabsContent>
 
           <TabsContent value="weekly" className="mt-4 space-y-3">
@@ -176,25 +187,10 @@ export function ActivityPage() {
                 progressMax={mission.progressMax}
                 reward={mission.reward}
                 timeRemaining={mission.timeRemaining}
+                completed={mission.completed}
                 variant="highlighted"
                 onCtaClick={() => handleMissionClick(mission.id)}
-              />
-            ))}
-          </TabsContent>
-
-          <TabsContent value="special" className="mt-4 space-y-3">
-            {specialMissions.map((mission) => (
-              <MissionCard
-                key={mission.id}
-                title={mission.title}
-                description={mission.description}
-                icon={mission.icon}
-                progress={mission.progress}
-                progressMax={mission.progressMax}
-                reward={mission.reward}
-                locked={mission.locked}
-                lockedMessage={mission.lockedMessage}
-                onCtaClick={mission.locked ? undefined : () => handleMissionClick(mission.id)}
+                ctaLabel={mission.completed ? "Complete" : "View"}
               />
             ))}
           </TabsContent>
@@ -215,6 +211,7 @@ export function ActivityPage() {
               ))
             ) : (
               <EmptyState
+                icon={Sprout}
                 title="No completed missions"
                 description="Complete missions to see them here"
                 variant="default"
