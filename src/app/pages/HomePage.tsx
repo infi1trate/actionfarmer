@@ -10,7 +10,7 @@ import {
   Gift,
   ChevronRight,
 } from "lucide-react";
-import { FloatingSeed } from "@/components/ui/editorial-hero-header";
+import { FloatingSeed, FloatingWaterDroplet } from "@/components/ui/editorial-hero-header";
 import { CommunityActivityTicker } from "@/components/ui/community-activity-ticker";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useAuth } from "@/contexts/AuthContext";
@@ -178,13 +178,20 @@ export function HomePage() {
           </p>
         </div>
 
-        {/* Floating Seed - Centered with 6-8s drift */}
+        {/* Floating Hero Element - Seed for new users, Water Droplet for growing gardens */}
         <div className="absolute inset-0 flex flex-col items-center justify-center pt-6 z-10">
-          <FloatingSeed
-            src={homeSeed}
-            size="lg"
-            onClick={handleSeedTap}
-          />
+          {hasPlant ? (
+            <FloatingWaterDroplet
+              size="lg"
+              onClick={handleSeedTap}
+            />
+          ) : (
+            <FloatingSeed
+              src={homeSeed}
+              size="lg"
+              onClick={handleSeedTap}
+            />
+          )}
           
           {/* CTA pill below seed - different text based on plant status */}
           <button
