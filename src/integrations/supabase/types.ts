@@ -148,6 +148,36 @@ export type Database = {
         }
         Relationships: []
       }
+      payout_requests: {
+        Row: {
+          amount_cents: number
+          created_at: string
+          id: string
+          status: Database["public"]["Enums"]["payout_request_status"]
+          stripe_transfer_id: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          amount_cents: number
+          created_at?: string
+          id?: string
+          status?: Database["public"]["Enums"]["payout_request_status"]
+          stripe_transfer_id?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          amount_cents?: number
+          created_at?: string
+          id?: string
+          status?: Database["public"]["Enums"]["payout_request_status"]
+          stripe_transfer_id?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       plants: {
         Row: {
           created_at: string
@@ -178,7 +208,10 @@ export type Database = {
           created_at: string
           first_name: string
           id: string
+          payouts_enabled: boolean
           push_notifications_enabled: boolean
+          stripe_account_id: string | null
+          stripe_onboarding_status: Database["public"]["Enums"]["stripe_onboarding_status"]
           updated_at: string
           user_id: string
         }
@@ -187,7 +220,10 @@ export type Database = {
           created_at?: string
           first_name: string
           id?: string
+          payouts_enabled?: boolean
           push_notifications_enabled?: boolean
+          stripe_account_id?: string | null
+          stripe_onboarding_status?: Database["public"]["Enums"]["stripe_onboarding_status"]
           updated_at?: string
           user_id: string
         }
@@ -196,7 +232,10 @@ export type Database = {
           created_at?: string
           first_name?: string
           id?: string
+          payouts_enabled?: boolean
           push_notifications_enabled?: boolean
+          stripe_account_id?: string | null
+          stripe_onboarding_status?: Database["public"]["Enums"]["stripe_onboarding_status"]
           updated_at?: string
           user_id?: string
         }
@@ -247,6 +286,13 @@ export type Database = {
     }
     Enums: {
       challenge_status: "started" | "submitted" | "completed"
+      payout_request_status:
+        | "requested"
+        | "processing"
+        | "paid"
+        | "failed"
+        | "canceled"
+      stripe_onboarding_status: "not_connected" | "pending" | "enabled"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -375,6 +421,14 @@ export const Constants = {
   public: {
     Enums: {
       challenge_status: ["started", "submitted", "completed"],
+      payout_request_status: [
+        "requested",
+        "processing",
+        "paid",
+        "failed",
+        "canceled",
+      ],
+      stripe_onboarding_status: ["not_connected", "pending", "enabled"],
     },
   },
 } as const
