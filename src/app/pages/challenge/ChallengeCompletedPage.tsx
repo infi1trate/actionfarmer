@@ -9,8 +9,24 @@ import {
   Wallet,
 } from "lucide-react";
 import { challengeData } from "./ChallengeBriefPage";
-import seedImage from "@/assets/home-seed.png";
+import plantDay1 from "@/assets/plants/day-1-seed.png";
+import plantDay2 from "@/assets/plants/day-2-sprout.png";
+import plantDay3 from "@/assets/plants/day-3-small-plant.png";
+import plantDay4 from "@/assets/plants/day-4-leafy-plant.png";
+import plantDay5 from "@/assets/plants/day-5-bud.png";
+import plantDay6 from "@/assets/plants/day-6-flower.png";
+import plantDay7 from "@/assets/plants/day-7-fruit.png";
 import { useAppData } from "@/contexts/AppDataContext";
+
+const stageImages: Record<number, string> = {
+  1: plantDay1,
+  2: plantDay2,
+  3: plantDay3,
+  4: plantDay4,
+  5: plantDay5,
+  6: plantDay6,
+  7: plantDay7,
+};
 
 export const ChallengeCompletedPage = () => {
   const navigate = useNavigate();
@@ -89,6 +105,7 @@ export const ChallengeCompletedPage = () => {
   const currentStage = plant?.current_stage || 1;
   const challengesToMaxStage = currentStage >= 7 ? 0 : 7 - currentStage;
   const progressToMax = currentStage / 7;
+  const plantImage = stageImages[Math.min(Math.max(currentStage, 1), 7)] || plantDay1;
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
@@ -106,9 +123,9 @@ export const ChallengeCompletedPage = () => {
             `}
           >
             <img 
-              src={seedImage} 
-              alt="Growing plant" 
-              className="w-20 h-20 object-contain"
+              src={plantImage}
+              alt={`Plant stage ${currentStage}`}
+              className="w-24 h-24 object-contain"
               onError={(e) => {
                 e.currentTarget.style.display = 'none';
               }}
