@@ -369,7 +369,7 @@ export function AppDataProvider({ children }: { children: React.ReactNode }) {
   ) => {
     if (!user) return;
 
-    const { error } = await supabase
+    const { data: completedSession, error } = await supabase
       .from("challenge_sessions")
       .update({
         status: "completed",
@@ -378,19 +378,45 @@ export function AppDataProvider({ children }: { children: React.ReactNode }) {
         watering_points: watering,
         sunlight_points: sunlight,
       })
-      .eq("id", sessionId);
+      .eq("id", sessionId)
+      .select(`
+        *,
+        challenge:challenges_catalog(*)
+      `)
+      .single();
 
     if (!error) {
-      // Update local sessions
-      const updatedSessions = sessions.map(s => 
-        s.id === sessionId 
-          ? { ...s, status: "completed" as const, points_earned: points, watering_points: watering, sunlight_points: sunlight }
-          : s
-      );
+      const completed = completedSession as ChallengeSession;
+
+      // Update local sessions, including the just-created session even if React state
+      // had not yet included it when this completion call started.
+      const updatedSessions = sessions.some(s => s.id === sessionId)
+        ? sessions.map(s => s.id === sessionId ? completed : s)
+        : [completed, ...sessions];
       setSessions(updatedSessions);
 
-      // Check if this completion finishes a plant (every 7th challenge)
       const completedCount = updatedSessions.filter(s => isSessionCompleted(s.status)).length;
+      const derivedStage = getPlantStageFromCompletedCount(completedCount);
+
+      if (derivedStage > 0) {
+        if (plant) {
+          setPlant({ ...plant, current_stage: derivedStage });
+        } else {
+          const { data: syncedPlant } = await supabase
+            .from("plants")
+            .select("*")
+            .eq("user_id", user.id)
+            .order("updated_at", { ascending: false })
+            .limit(1)
+            .maybeSingle();
+
+          if (syncedPlant) {
+            setPlant(syncedPlant as Plant);
+          }
+        }
+      }
+
+      // Check if this completion finishes a plant (every 7th challenge)
       const justFinishedPlant = completedCount > 0 && completedCount % 7 === 0;
 
       // If plant just finished AND first reward already claimed, auto-add earnings
