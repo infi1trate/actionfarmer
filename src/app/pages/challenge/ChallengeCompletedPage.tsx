@@ -32,7 +32,7 @@ export const ChallengeCompletedPage = () => {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const location = useLocation();
-  const { completeChallengeSession, updatePlantStage, plant, sessions, refreshData } = useAppData();
+  const { challenges, completeChallengeSession, startChallengeSession, updatePlantStage, createPlant, plant, sessions, refreshData } = useAppData();
   
   const challenge = challengeData[id || "1"] || challengeData["1"];
   
@@ -47,38 +47,66 @@ export const ChallengeCompletedPage = () => {
   const [showContent, setShowContent] = React.useState(false);
   const [hasCompleted, setHasCompleted] = React.useState(false);
 
+  const findCatalogChallengeId = React.useCallback(() => {
+    const matchingChallenge = challenges.find(c =>
+      c.title.toLowerCase().includes(challenge.name.toLowerCase().split(" ")[0]) ||
+      challenge.name.toLowerCase().includes(c.title.toLowerCase().split(" ")[0])
+    );
+
+    return matchingChallenge?.id || challenges[0]?.id;
+  }, [challenge.name, challenges]);
+
   // Complete the session when page loads
   React.useEffect(() => {
     const completeSession = async () => {
-      if (sessionId && !hasCompleted) {
-        setHasCompleted(true);
-        
-        // Calculate points based on challenge
-        const wateringPoints = Math.floor(xpReward * 0.4);
-        const sunlightPoints = Math.floor(xpReward * 0.6);
-        
+      if (hasCompleted || challenges.length === 0) {
+        return;
+      }
+
+      setHasCompleted(true);
+
+      if (!plant) {
+        await createPlant();
+      }
+
+      // Calculate points based on challenge
+      const wateringPoints = Math.floor(xpReward * 0.4);
+      const sunlightPoints = Math.floor(xpReward * 0.6);
+
+      let activeSessionId = sessionId;
+
+      // Some routes can land here directly (for example timer-only completion)
+      // without a session from the review submit page. Create one so growth records.
+      if (!activeSessionId) {
+        const catalogChallengeId = challengeId || findCatalogChallengeId();
+        if (catalogChallengeId) {
+          const session = await startChallengeSession(catalogChallengeId);
+          activeSessionId = session?.id;
+        }
+      }
+
+      if (activeSessionId) {
         // Complete the session in database
-        await completeChallengeSession(sessionId, xpReward, wateringPoints, sunlightPoints);
-        
-        // Update plant stage (7 challenges to full plant, then cycle restarts)
+        await completeChallengeSession(activeSessionId, xpReward, wateringPoints, sunlightPoints);
+
+        // Update plant stage optimistically (7 challenges to full plant, then cycle restarts)
         const alreadyCompleted = sessions.filter(
-          (s) => (s.status === "completed" || s.status === "submitted") && s.id !== sessionId
+          (s) => (s.status === "completed" || s.status === "submitted") && s.id !== activeSessionId
         ).length;
         const completedCount = alreadyCompleted + 1; // include the session we just completed
-
         const derivedStage = completedCount <= 0 ? 0 : ((completedCount - 1) % 7) + 1;
 
         if (plant && derivedStage !== plant.current_stage) {
           await updatePlantStage(derivedStage);
         }
-        
-        // Refresh data to get updated state
-        await refreshData();
       }
+
+      // Refresh data to get updated state
+      await refreshData();
     };
     
     completeSession();
-  }, [sessionId, hasCompleted, completeChallengeSession, updatePlantStage, plant, sessions, refreshData, xpReward]);
+  }, [challengeId, challenges.length, completeChallengeSession, createPlant, findCatalogChallengeId, hasCompleted, plant, refreshData, sessionId, sessions, startChallengeSession, updatePlantStage, xpReward]);
 
   React.useEffect(() => {
     // Stagger animations
