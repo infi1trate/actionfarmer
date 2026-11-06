@@ -1,0 +1,2 @@
+## Navigation
+- Root and former authentication gate routes redirect to `/app`; keep existing session handling and backend access protections intact so removing entry screens does not grant access to private data.

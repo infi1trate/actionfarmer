@@ -3,7 +3,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ThemeProvider } from "next-themes";
 import { ReducedMotionProvider } from "@/hooks/use-reduced-motion";
 import { ChallengeTransitionProvider } from "@/contexts/ChallengeTransitionContext";
@@ -44,17 +44,10 @@ const LeaderboardPage = lazy(() => import("./app/pages/LeaderboardPage"));
 const GardenPage = lazy(() => import("./app/pages/GardenPage").then(m => ({ default: m.GardenPage })));
 
 // Lazy load Onboarding Pages
-const SplashPage = lazy(() => import("./app/pages/onboarding/SplashPage").then(m => ({ default: m.SplashPage })));
 const ExplainPage = lazy(() => import("./app/pages/onboarding/ExplainPage").then(m => ({ default: m.ExplainPage })));
 const ChallengesExplainPage = lazy(() => import("./app/pages/onboarding/ChallengesExplainPage").then(m => ({ default: m.ChallengesExplainPage })));
 const TrustPage = lazy(() => import("./app/pages/onboarding/TrustPage").then(m => ({ default: m.TrustPage })));
-const SignupPage = lazy(() => import("./app/pages/onboarding/SignupPage").then(m => ({ default: m.SignupPage })));
 const ReadyPage = lazy(() => import("./app/pages/onboarding/ReadyPage").then(m => ({ default: m.ReadyPage })));
-
-// Lazy load Auth Pages
-const CreateAccountPage = lazy(() => import("./app/pages/auth/CreateAccountPage").then(m => ({ default: m.CreateAccountPage })));
-const VerifyEmailPage = lazy(() => import("./app/pages/auth/VerifyEmailPage").then(m => ({ default: m.VerifyEmailPage })));
-const SignInPage = lazy(() => import("./app/pages/auth/SignInPage").then(m => ({ default: m.SignInPage })));
 
 // Lazy load Session Pages
 const SessionCompletedPage = lazy(() => import("./app/pages/session/SessionCompletedPage").then(m => ({ default: m.SessionCompletedPage })));
@@ -91,20 +84,20 @@ const App = () => (
               <BrowserRouter>
                 <Suspense fallback={<PageLoader />}>
                   <Routes>
-                  {/* Splash Screen */}
-                  <Route path="/" element={<SplashPage />} />
+                  {/* Open the app directly without a login gate. */}
+                  <Route path="/" element={<Navigate to="/app" replace />} />
                   
                   {/* Onboarding Flow */}
                   <Route path="/onboarding/explain" element={<ExplainPage />} />
                   <Route path="/onboarding/challenges" element={<ChallengesExplainPage />} />
                   <Route path="/onboarding/trust" element={<TrustPage />} />
-                  <Route path="/onboarding/signup" element={<SignupPage />} />
+                  <Route path="/onboarding/signup" element={<Navigate to="/app" replace />} />
                   <Route path="/onboarding/ready" element={<ReadyPage />} />
                   
-                  {/* Auth Flow */}
-                  <Route path="/auth/create-account" element={<CreateAccountPage />} />
-                  <Route path="/auth/verify-email" element={<VerifyEmailPage />} />
-                  <Route path="/auth/sign-in" element={<SignInPage />} />
+                  {/* Keep former login links working without showing gate screens. */}
+                  <Route path="/auth/create-account" element={<Navigate to="/app" replace />} />
+                  <Route path="/auth/verify-email" element={<Navigate to="/app" replace />} />
+                  <Route path="/auth/sign-in" element={<Navigate to="/app" replace />} />
                   
                   {/* Ambient Mode */}
                   <Route path="/ambient" element={<AmbientModePage />} />
